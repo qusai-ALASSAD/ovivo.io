@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { LeadMagnet } from '@/components/lead-magnet';
-import { FloatingCTA } from '@/components/floating-cta';
 import { SalesChatWidget } from '@/components/sales-chat-widget';
 import { ChatProvider } from '@/lib/chat-context';
 import { Toaster } from 'sonner';
@@ -41,7 +40,6 @@ export default function RootLayout({
           <main className="min-h-screen pt-20">{children}</main>
           <Footer />
           <LeadMagnet />
-          <FloatingCTA />
           <SalesChatWidget />
           <Toaster position="bottom-right" theme="dark" />
         </ChatProvider>
