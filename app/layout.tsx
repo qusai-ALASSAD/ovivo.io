@@ -4,6 +4,7 @@ import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { LeadMagnet } from '@/components/lead-magnet';
 import { FloatingCTA } from '@/components/floating-cta';
+import { SalesChatWidget } from '@/components/sales-chat-widget';
 import { Toaster } from 'sonner';
 
 export const metadata: Metadata = {
@@ -39,6 +40,7 @@ export default function RootLayout({
         <Footer />
         <LeadMagnet />
         <FloatingCTA />
+        <SalesChatWidget />
         <Toaster position="bottom-right" theme="dark" />
       </body>
     </html>

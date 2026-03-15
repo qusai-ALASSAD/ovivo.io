@@ -30,7 +30,7 @@ export function FloatingCTA() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0, y: 100 }}
           transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-          className="fixed bottom-8 right-8 z-50"
+          className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 sm:left-auto sm:translate-x-0 sm:bottom-8 sm:right-28"
         >
           <Link href={`${prefix}/demo`}>
             <Button
