@@ -9,72 +9,73 @@ import { SectionHeader } from '@/components/section-header';
 
 const posts = [
   {
-    slug: 'restaurant-automation-guide',
-    title: 'Wie Restaurants KI-Automation nutzen, um Tische zu füllen — 2025',
-    excerpt: 'Entdecken Sie, wie vorausschauende Restaurantbesitzer KI-Chatbots und Automation einsetzen, um Reservierungen um 40 % zu steigern — ohne zusätzliches Personal.',
-    category: 'Automation',
-    date: '20.01.2025',
-    readTime: '8 Min. Lesezeit',
-    image: 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=800',
+    slug: 'wordpress-business-automation',
+    title: 'How to Automate Your WordPress Business in 2024',
+    excerpt: 'Learn how to set up powerful automation workflows for your WordPress site to save time and increase conversions.',
+    category: 'WordPress',
+    date: '2024-02-15',
+    readTime: '8 min read',
+    image: 'https://images.pexels.com/photos/270404/pexels-photo-270404.jpeg?auto=compress&cs=tinysrgb&w=800',
   },
   {
-    slug: 'whatsapp-business-automation',
-    title: 'WhatsApp Business Automation: Der vollständige Leitfaden für Dienstleister',
-    excerpt: 'Erfahren Sie, wie Sie automatisierte WhatsApp-Sequenzen einrichten, die jeden Lead nachfassen, Buchungen bestätigen und Bewertungen automatisch anfragen.',
-    category: 'WhatsApp',
-    date: '15.01.2025',
-    readTime: '10 Min. Lesezeit',
-    image: 'https://images.pexels.com/photos/607812/pexels-photo-607812.jpeg?auto=compress&cs=tinysrgb&w=800',
+    slug: 'shopify-marketing-strategies',
+    title: '10 Proven Shopify Marketing Strategies That Drive Sales',
+    excerpt: 'Discover the marketing tactics that top Shopify stores use to generate consistent revenue and build loyal customers.',
+    category: 'Shopify',
+    date: '2024-02-12',
+    readTime: '12 min read',
+    image: 'https://images.pexels.com/photos/3944405/pexels-photo-3944405.jpeg?auto=compress&cs=tinysrgb&w=800',
   },
   {
-    slug: 'ai-chatbot-for-local-business',
-    title: '5 Wege, wie ein KI-Chatbot Ihr lokales Unternehmen transformiert',
-    excerpt: 'Von FAQ-Beantwortung bis zur 24/7-Terminbuchung — so nutzen lokale Unternehmen KI, um mit größeren Marken zu konkurrieren.',
-    category: 'KI-Chatbot',
-    date: '10.01.2025',
-    readTime: '7 Min. Lesezeit',
-    image: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800',
-  },
-  {
-    slug: 'crm-for-small-business',
-    title: 'CRM für kleine Unternehmen: Welches System passt zu Ihnen 2025?',
-    excerpt: 'Eine klare Übersicht der besten CRM-Systeme für kleine Unternehmen — mit ehrlichen Vor- und Nachteilen für jede Option.',
-    category: 'CRM',
-    date: '05.01.2025',
-    readTime: '12 Min. Lesezeit',
-    image: 'https://images.pexels.com/photos/1591062/pexels-photo-1591062.jpeg?auto=compress&cs=tinysrgb&w=800',
-  },
-  {
-    slug: 'google-ads-for-restaurants',
-    title: 'Google Ads für Restaurants: Mehr Buchungen ohne Budgetverschwendung',
-    excerpt: 'Ein praxisnaher Leitfaden für profitable Google Ads-Kampagnen für Restaurants, Cafés und Lebensmittelbetriebe mit kleinem Budget.',
+    slug: 'facebook-ads-guide-2024',
+    title: 'The Complete Facebook Ads Guide for Small Businesses',
+    excerpt: 'Master Facebook advertising with this comprehensive guide covering targeting, creatives, budgets, and optimization.',
     category: 'Ads',
-    date: '20.12.2024',
-    readTime: '9 Min. Lesezeit',
+    date: '2024-02-08',
+    readTime: '15 min read',
     image: 'https://images.pexels.com/photos/267401/pexels-photo-267401.jpeg?auto=compress&cs=tinysrgb&w=800',
   },
   {
-    slug: 'branding-for-service-businesses',
-    title: 'Warum Ihre Marke Kunden verliert — und wie Sie das beheben',
-    excerpt: 'Eine professionelle Marke schafft Vertrauen, bevor ein Wort gesprochen wird. So bauen Sie eine Marke auf, die Besucher in treue Kunden verwandelt.',
-    category: 'Branding',
-    date: '15.12.2024',
-    readTime: '11 Min. Lesezeit',
-    image: 'https://images.pexels.com/photos/3944405/pexels-photo-3944405.jpeg?auto=compress&cs=tinysrgb&w=800',
+    slug: 'email-marketing-automation',
+    title: 'Email Marketing Automation: From Setup to Conversion',
+    excerpt: 'Build email sequences that nurture leads automatically and convert them into paying customers on autopilot.',
+    category: 'Automation',
+    date: '2024-02-05',
+    readTime: '10 min read',
+    image: 'https://images.pexels.com/photos/1591062/pexels-photo-1591062.jpeg?auto=compress&cs=tinysrgb&w=800',
+  },
+  {
+    slug: 'ai-tools-business-growth',
+    title: '5 AI Tools Every Business Should Use in 2024',
+    excerpt: 'Discover the essential AI tools that can transform your business operations, marketing, and customer service.',
+    category: 'AI Tools',
+    date: '2024-02-01',
+    readTime: '7 min read',
+    image: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800',
+  },
+  {
+    slug: 'local-seo-small-business',
+    title: 'Local SEO: The Ultimate Guide for Small Businesses',
+    excerpt: 'Rank higher in local search results and attract more customers from your area with these proven SEO strategies.',
+    category: 'SEO',
+    date: '2024-01-28',
+    readTime: '11 min read',
+    image: 'https://images.pexels.com/photos/590020/pexels-photo-590020.jpeg?auto=compress&cs=tinysrgb&w=800',
   },
 ];
 
-const categories = ['Alle', 'Automation', 'WhatsApp', 'KI-Chatbot', 'CRM', 'Ads', 'Branding'];
+const categories = ['All', 'WordPress', 'Shopify', 'Ads', 'Automation', 'AI Tools', 'SEO'];
 
 export default function BlogPage() {
-  const [activeCategory, setActiveCategory] = useState('Alle');
+  const [activeCategory, setActiveCategory] = useState('All');
 
-  const filtered = activeCategory === 'Alle'
+  const filtered = activeCategory === 'All'
     ? posts
     : posts.filter((p) => p.category === activeCategory);
 
   return (
     <div className="flex flex-col">
+      {/* Hero */}
       <section className="relative overflow-hidden px-4 py-24 sm:px-6 lg:px-8">
         <div className="pointer-events-none absolute inset-0 -z-10">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[500px] w-[800px] rounded-full bg-blue-500/8 blur-[120px]" />
@@ -83,14 +84,15 @@ export default function BlogPage() {
           <RevealSection>
             <SectionHeader
               badge="Blog"
-              title="Wachstum & Automation"
+              title="Business Growth"
               titleGradient="Insights"
-              subtitle="Praxisnahe Leitfäden, Strategien und Fallstudien, die Ihnen helfen, Ihr Unternehmen mit KI und Automation zu skalieren."
+              subtitle="Tips, guides, and strategies to help you grow your business faster."
             />
           </RevealSection>
         </div>
       </section>
 
+      {/* Category Filter */}
       <section className="px-4 pb-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-wrap gap-2 justify-center">
@@ -111,6 +113,7 @@ export default function BlogPage() {
         </div>
       </section>
 
+      {/* Posts */}
       <section className="px-4 pb-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <StaggerContainer className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -144,7 +147,7 @@ export default function BlogPage() {
                       <div className="flex items-center justify-between text-sm mt-auto">
                         <span className="text-gray-600">{post.date}</span>
                         <span className="flex items-center gap-1 text-blue-400 font-medium group-hover:gap-2 transition-all">
-                          Weiterlesen
+                          Read More
                           <ArrowRight className="h-4 w-4" />
                         </span>
                       </div>

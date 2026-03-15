@@ -5,8 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Sparkles, Zap, Bot, Globe, ChartBar as BarChart3, Mail, Palette, ChevronDown, MessageSquare } from 'lucide-react';
-import { useChatWidget } from '@/lib/chat-context';
+import { Menu, X, Sparkles, Zap, Bot, Globe, ChartBar as BarChart3, Mail, Palette, ChevronDown } from 'lucide-react';
 
 function useLanguage() {
   const pathname = usePathname();
@@ -42,7 +41,6 @@ export function Navbar() {
   const servicesRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
   const { isEn, prefix, langSwitch } = useLanguage();
-  const { open: openChat } = useChatWidget();
 
   const backgroundColor = useTransform(
     scrollY,
@@ -57,6 +55,7 @@ export function Navbar() {
         { label: 'Home', href: '/en' },
         { label: 'Services', href: '/en/services' },
         { label: 'Pricing', href: '/en/pricing' },
+        { label: 'Demo', href: '/en/demo' },
         { label: 'About', href: '/en/about' },
         { label: 'Contact', href: '/en/contact' },
       ]
@@ -64,11 +63,10 @@ export function Navbar() {
         { label: 'Startseite', href: '/' },
         { label: 'Leistungen', href: '/services' },
         { label: 'Preise', href: '/pricing' },
+        { label: 'Demo', href: '/demo' },
         { label: 'Über uns', href: '/about' },
         { label: 'Kontakt', href: '/contact' },
       ];
-
-  const demoLabel = isEn ? 'Demo' : 'Demo';
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -185,28 +183,12 @@ export function Navbar() {
               </AnimatePresence>
             </motion.div>
 
-            {/* Demo chat button */}
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 2 * 0.07 }}
-            >
-              <button
-                onClick={openChat}
-                className="relative flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors group"
-              >
-                <MessageSquare className="h-3.5 w-3.5" />
-                {demoLabel}
-                <span className="absolute -bottom-0.5 left-3 right-3 h-0.5 w-0 bg-blue-500 transition-all duration-300 group-hover:w-[calc(100%-24px)]" />
-              </button>
-            </motion.div>
-
             {navLinks.slice(2).map((link, index) => (
               <motion.div
                 key={link.label}
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: (index + 3) * 0.07 }}
+                transition={{ duration: 0.5, delay: (index + 2) * 0.07 }}
               >
                 <Link href={link.href} className="relative px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:text-white group">
                   {link.label}
@@ -307,15 +289,6 @@ export function Navbar() {
                   </div>
                 )}
               </div>
-
-              {/* Mobile Demo chat button */}
-              <button
-                onClick={() => { openChat(); setMobileMenuOpen(false); }}
-                className="w-full flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-base font-medium text-blue-400 hover:bg-blue-500/10 hover:text-blue-300 transition-colors"
-              >
-                <MessageSquare className="h-4 w-4" />
-                {demoLabel}
-              </button>
 
               {navLinks.slice(2).map((link) => (
                 <Link
