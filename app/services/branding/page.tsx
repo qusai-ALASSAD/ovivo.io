@@ -53,124 +53,124 @@ export default function BrandingPage() {
   return (
     <ServicePageLayout
       lang="de"
-      badge="Brand Identity + Social Content"
-      heroTitle="Look Premium."
-      heroGradient="Get Noticed."
-      heroSubtitle="We create a complete visual identity and a 30-day content system that positions your brand as the go-to authority in your market — and keeps it that way."
+      badge="Markenidentität + Social-Media-Content"
+      heroTitle="Premium wirken."
+      heroGradient="Wahrgenommen werden."
+      heroSubtitle="Wir entwickeln eine vollständige visuelle Identität und ein 30-Tage-Content-System, das Ihre Marke als führende Autorität in Ihrem Markt positioniert — und das dauerhaft."
       heroImage={heroImage}
-      whyTitle="Why Brand Identity Is Your Most Valuable Asset"
+      whyTitle="Warum Markenidentität Ihr wertvollstes Asset ist"
       whyItems={[
-        { icon: Palette, title: 'First Impressions Win', desc: 'Customers decide in 0.05 seconds whether to trust your brand. Premium design makes that decision easy.' },
-        { icon: TrendingUp, title: 'Premium Positioning = Higher Prices', desc: 'A professional brand commands higher prices and attracts better clients who don\'t haggle.' },
-        { icon: Star, title: 'Consistency Builds Trust', desc: 'Consistent branding across all channels increases revenue by up to 23% according to Forbes.' },
-        { icon: Users, title: 'Content That Converts', desc: '30 days of pre-planned, on-brand social content that builds your audience and drives inquiries.' },
+        { icon: Palette, title: 'Erster Eindruck entscheidet', desc: 'Kunden entscheiden in 0,05 Sekunden, ob sie Ihrer Marke vertrauen. Premium-Design macht diese Entscheidung leicht.' },
+        { icon: TrendingUp, title: 'Premium-Positionierung = höhere Preise', desc: 'Eine professionelle Marke rechtfertigt höhere Preise und zieht bessere Kunden an, die nicht feilschen.' },
+        { icon: Star, title: 'Konsistenz baut Vertrauen auf', desc: 'Konsistente Markenführung über alle Kanäle steigert den Umsatz laut Forbes um bis zu 23 %.' },
+        { icon: Users, title: 'Content, der konvertiert', desc: '30 Tage vorgeplantem, markenkonforme Social-Media-Content, der Ihre Reichweite aufbaut und Anfragen generiert.' },
       ]}
       beforeAfter={[
-        { before: 'Inconsistent visuals that look unprofessional', after: 'Cohesive brand identity that commands respect' },
-        { before: 'No idea what to post on social media', after: 'Full 30-day content calendar ready to execute' },
-        { before: 'Competing on price because brand looks generic', after: 'Premium positioning that justifies higher prices' },
-        { before: 'DIY logo that doesn\'t represent the business', after: 'Professional identity that attracts your ideal client' },
+        { before: 'Inkonsistente Optik, die unprofessionell wirkt', after: 'Kohärente Markenidentität, die Respekt einflößt' },
+        { before: 'Keine Ahnung, was auf Social Media posten', after: 'Vollständiger 30-Tage-Content-Kalender zur Umsetzung bereit' },
+        { before: 'Preiswettbewerb, weil die Marke generisch aussieht', after: 'Premium-Positionierung, die höhere Preise rechtfertigt' },
+        { before: 'DIY-Logo, das das Unternehmen nicht repräsentiert', after: 'Professionelle Identität, die den idealen Kunden anzieht' },
       ]}
       deliverables={[
         {
-          category: 'Logo & Identity',
-          items: ['Primary logo (3 variations)', 'Colour palette (primary + secondary)', 'Typography system (2 fonts)', 'Brand pattern or texture', 'Brand style guide PDF'],
+          category: 'Logo & Identität',
+          items: ['Primärlogo (3 Varianten)', 'Farbpalette (primär + sekundär)', 'Typografiesystem (2 Schriften)', 'Markenmuster oder -textur', 'Brand-Style-Guide PDF'],
         },
         {
-          category: 'Business Assets',
-          items: ['Business card design', 'Email signature template', 'Letterhead & invoice template', 'Presentation template', 'Digital banner set'],
+          category: 'Business-Assets',
+          items: ['Visitenkartendesign', 'E-Mail-Signatur-Template', 'Briefkopf & Rechnungsvorlage', 'Präsentationsvorlage', 'Digitales Banner-Set'],
         },
         {
           category: 'Social Media',
-          items: ['Profile photo & cover design for 3 platforms', 'Story highlight covers (12 icons)', 'Post template designs (5 formats)', 'Bio & caption tone-of-voice guide'],
+          items: ['Profilfoto & Cover-Design für 3 Plattformen', 'Story-Highlight-Cover (12 Icons)', 'Post-Template-Designs (5 Formate)', 'Bio & Caption-Tonalitätsleitfaden'],
         },
         {
-          category: 'Content Calendar',
-          items: ['30-day content plan', 'Caption writing for 30 posts', 'Hashtag strategy per platform', 'Best-time-to-post schedule', 'Content pillar framework'],
+          category: 'Content-Kalender',
+          items: ['30-Tage-Content-Plan', 'Caption-Texterstellung für 30 Posts', 'Hashtag-Strategie pro Plattform', 'Beste-Posting-Zeit-Zeitplan', 'Content-Säulen-Framework'],
         },
         {
-          category: 'Photography Direction',
-          items: ['Mood board for brand photography', 'Shot list for DIY or professional shoot', 'Editing style guide & presets', 'Image sourcing guide (stock)'],
+          category: 'Fotografie-Direktion',
+          items: ['Moodboard für Markenfotografie', 'Shot-List für DIY oder professionelles Shooting', 'Bearbeitungsstil-Leitfaden & Presets', 'Bildquellen-Leitfaden (Stock)'],
         },
         {
-          category: 'Brand Guidelines',
-          items: ['Do\'s and don\'ts document', 'Logo usage rules', 'Brand voice & tone guide', 'Social media posting guidelines'],
+          category: 'Brand-Guidelines',
+          items: ["Dos & Don'ts Dokument", 'Logo-Nutzungsregeln', 'Markenstimme & Tonalitätsleitfaden', 'Social-Media-Posting-Richtlinien'],
         },
       ]}
       useCases={[
-        { industry: 'Restaurants', icon: '🍽️', example: 'Premium menu design, food photography direction, and a content calendar featuring dishes, stories, and promotions.' },
-        { industry: 'Cleaning Companies', icon: '🧹', example: 'Professional identity that differentiates from competitors, with content showcasing before/after results and team profiles.' },
-        { industry: 'Hair Salons', icon: '✂️', example: 'Luxury visual identity with before/after content, stylist spotlights, and promotional campaign templates.' },
-        { industry: 'Clinics', icon: '🏥', example: 'Trust-building brand identity with patient education content, team introductions, and treatment result posts.' },
-        { industry: 'E-Commerce', icon: '🛍️', example: 'Product photography direction, unboxing content templates, and a 30-day launch content calendar.' },
+        { industry: 'Restaurants', icon: '🍽️', example: 'Premium-Menüdesign, Speisefotografie-Direktion und Content-Kalender mit Gerichten, Geschichten und Aktionen.' },
+        { industry: 'Reinigungsunternehmen', icon: '🧹', example: 'Professionelle Identität, die sich von Wettbewerbern abhebt, mit Content der Vorher/Nachher-Ergebnisse und Teamprofile zeigt.' },
+        { industry: 'Friseursalons', icon: '✂️', example: 'Luxuriöse visuelle Identität mit Vorher/Nachher-Content, Stylist-Spotlights und Werbekampagnen-Templates.' },
+        { industry: 'Kliniken', icon: '🏥', example: 'Vertrauensaufbauende Markenidentität mit Patientenedukations-Content, Team-Vorstellungen und Behandlungsergebnis-Posts.' },
+        { industry: 'E-Commerce', icon: '🛍️', example: 'Produktfotografie-Direktion, Unboxing-Content-Templates und ein 30-Tage-Launch-Content-Kalender.' },
       ]}
       process={[
-        { step: '01', title: 'Discovery', desc: 'We run a brand discovery session to understand your values, audience, competitors, and positioning goals.' },
-        { step: '02', title: 'Concept', desc: 'We present 2 brand direction concepts — moodboard, colour direction, and logo concepts — for your feedback.' },
-        { step: '03', title: 'Design', desc: 'Full identity system developed: logo, colours, fonts, templates, and all digital assets.' },
-        { step: '04', title: 'Content Plan', desc: '30-day content calendar written, formatted, and delivered with instructions for implementation.' },
-        { step: '05', title: 'Handover', desc: 'All files delivered in every format. Full brand guide provided. Training on how to maintain consistency.' },
+        { step: '01', title: 'Discovery', desc: 'Wir führen eine Marken-Discovery-Session durch, um Ihre Werte, Zielgruppe, Wettbewerber und Positionierungsziele zu verstehen.' },
+        { step: '02', title: 'Konzept', desc: 'Wir präsentieren 2 Markenrichtungskonzepte — Moodboard, Farbrichtung und Logo-Konzepte — für Ihr Feedback.' },
+        { step: '03', title: 'Design', desc: 'Vollständiges Identitätssystem entwickelt: Logo, Farben, Schriften, Templates und alle digitalen Assets.' },
+        { step: '04', title: 'Content-Plan', desc: '30-Tage-Content-Kalender geschrieben, formatiert und mit Umsetzungsanweisungen geliefert.' },
+        { step: '05', title: 'Übergabe', desc: 'Alle Dateien in jedem Format geliefert. Vollständiger Brand-Guide bereitgestellt. Schulung zur Konsistenzerhaltung.' },
       ]}
       packages={[
         {
-          name: 'Brand Starter',
-          price: 'from €1,500',
-          timeline: 'Delivery in 10 days',
+          name: 'Marke Starter',
+          price: 'ab €1.500',
+          timeline: 'Lieferung in 10 Tagen',
           badge: 'Starter',
           badgeClass: 'bg-white/10 text-gray-300 border-white/20',
           deliverables: [
-            'Logo design (2 variations)',
-            'Brand colour palette & fonts',
-            'Brand style guide',
-            'Social media profile assets',
-            '2-week content calendar',
+            'Logo-Design (2 Varianten)',
+            'Marken-Farbpalette & Schriften',
+            'Brand-Style-Guide',
+            'Social-Media-Profil-Assets',
+            '2-Wochen-Content-Kalender',
           ],
         },
         {
-          name: 'Brand Growth',
-          price: 'from €3,000',
-          timeline: 'Delivery in 14 days',
-          badge: 'Most Popular',
+          name: 'Marke Growth',
+          price: 'ab €3.000',
+          timeline: 'Lieferung in 14 Tagen',
+          badge: 'Beliebteste Wahl',
           badgeClass: 'bg-amber-500 text-white border-transparent',
           highlighted: true,
           deliverables: [
-            'Everything in Starter',
-            'Full identity system (all assets)',
-            'Business card + stationery',
-            'Social media post templates (5)',
-            '30-day content calendar',
-            'Caption writing for 30 posts',
-            'Brand voice guide',
+            'Alles aus Starter',
+            'Vollständiges Identitätssystem (alle Assets)',
+            'Visitenkarte + Geschäftspapier',
+            'Social-Media-Post-Templates (5)',
+            '30-Tage-Content-Kalender',
+            'Caption-Texterstellung für 30 Posts',
+            'Markenstimme-Leitfaden',
           ],
         },
         {
-          name: 'Brand Scale',
-          price: 'from €5,500',
-          timeline: 'Delivery in 21 days',
+          name: 'Marke Scale',
+          price: 'ab €5.500',
+          timeline: 'Lieferung in 21 Tagen',
           badge: 'Premium',
           badgeClass: 'bg-rose-500/20 text-rose-400 border-rose-500/30',
           deliverables: [
-            'Everything in Growth',
-            'Photography direction & moodboard',
-            'Full presentation template',
-            'Packaging design (if applicable)',
-            '90-day content calendar',
-            'Monthly content creation support',
-            'Brand ambassador guidelines',
+            'Alles aus Growth',
+            'Fotografie-Direktion & Moodboard',
+            'Vollständige Präsentationsvorlage',
+            'Verpackungsdesign (falls zutreffend)',
+            '90-Tage-Content-Kalender',
+            'Monatlicher Content-Erstellungs-Support',
+            'Markenbotschafter-Richtlinien',
           ],
         },
       ]}
       faqs={[
-        { q: 'How many logo revisions are included?', a: 'All packages include unlimited revisions on the chosen direction. We present 2 concepts and refine your selected one until you\'re completely happy.' },
-        { q: 'Do you write the social media captions?', a: 'Yes. The Growth and Scale packages include professionally written captions for every post in your content calendar, aligned with your brand voice.' },
-        { q: 'What file formats are delivered?', a: 'You receive all files in AI, EPS, SVG, PDF, PNG, and JPEG formats. Everything is print-ready and web-ready.' },
-        { q: 'Can you refresh an existing brand?', a: 'Absolutely. We offer brand refresh services where we modernise your existing identity while keeping the recognition you\'ve built. Prices are similar to new brand builds.' },
-        { q: 'Do you also manage social media posting?', a: 'The content calendar gives you everything you need to post yourself. For ongoing social media management (posting + engagement), we offer monthly retainer packages as an add-on.' },
+        { q: 'Wie viele Logo-Überarbeitungen sind inklusive?', a: 'Alle Pakete beinhalten unbegrenzte Überarbeitungen der gewählten Richtung. Wir präsentieren 2 Konzepte und verfeinern Ihr ausgewähltes, bis Sie vollständig zufrieden sind.' },
+        { q: 'Schreiben Sie die Social-Media-Captions?', a: 'Ja. Die Growth- und Scale-Pakete beinhalten professionell geschriebene Captions für jeden Post in Ihrem Content-Kalender, abgestimmt auf Ihre Markenstimme.' },
+        { q: 'Welche Dateiformate werden geliefert?', a: 'Sie erhalten alle Dateien in AI, EPS, SVG, PDF, PNG und JPEG. Alles ist druck- und webfertig.' },
+        { q: 'Können Sie eine bestehende Marke auffrischen?', a: 'Absolut. Wir bieten Markenauffrischungs-Services an, bei denen wir Ihre bestehende Identität modernisieren, während wir den aufgebauten Wiedererkennungswert erhalten. Preise sind ähnlich wie bei neuen Marken.' },
+        { q: 'Verwalten Sie auch das Social-Media-Posting?', a: 'Der Content-Kalender gibt Ihnen alles, was Sie brauchen, um selbst zu posten. Für laufendes Social-Media-Management (Posting + Engagement) bieten wir monatliche Retainer-Pakete als Add-on an.' },
       ]}
       relatedServices={[
-        { href: '/services/funnels', label: 'Website + Funnel Build' },
+        { href: '/services/funnels', label: 'Website + Funnel-Aufbau' },
         { href: '/services/ads', label: 'Ads & Performance Marketing' },
-        { href: '/services/crm-email', label: 'CRM + Email Sequences' },
+        { href: '/services/crm-email', label: 'CRM + E-Mail-Sequenzen' },
       ]}
     />
   );

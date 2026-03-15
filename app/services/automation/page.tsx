@@ -13,11 +13,11 @@ const heroImage = (
     <p className="text-xs font-bold uppercase tracking-widest text-blue-400 mb-6">Live Automation Flow</p>
     <div className="space-y-3">
       {[
-        { icon: Users, label: 'Lead submits form', status: 'complete', color: 'text-blue-400', bg: 'bg-blue-500/15 border-blue-500/20' },
-        { icon: Zap, label: 'Instantly added to CRM', status: 'complete', color: 'text-emerald-400', bg: 'bg-emerald-500/15 border-emerald-500/20' },
-        { icon: Mail, label: 'Welcome email sent', status: 'complete', color: 'text-emerald-400', bg: 'bg-emerald-500/15 border-emerald-500/20' },
-        { icon: Calendar, label: 'Booking reminder sent', status: 'active', color: 'text-orange-400', bg: 'bg-orange-500/15 border-orange-500/20' },
-        { icon: Star, label: 'Review request (Day 7)', status: 'pending', color: 'text-gray-500', bg: 'bg-white/5 border-white/10' },
+        { icon: Users, label: 'Lead sendet Formular', status: 'complete', color: 'text-blue-400', bg: 'bg-blue-500/15 border-blue-500/20' },
+        { icon: Zap, label: 'Sofort ins CRM eingetragen', status: 'complete', color: 'text-emerald-400', bg: 'bg-emerald-500/15 border-emerald-500/20' },
+        { icon: Mail, label: 'Willkommens-E-Mail versendet', status: 'complete', color: 'text-emerald-400', bg: 'bg-emerald-500/15 border-emerald-500/20' },
+        { icon: Calendar, label: 'Buchungserinnerung gesendet', status: 'active', color: 'text-orange-400', bg: 'bg-orange-500/15 border-orange-500/20' },
+        { icon: Star, label: 'Bewertungsanfrage (Tag 7)', status: 'pending', color: 'text-gray-500', bg: 'bg-white/5 border-white/10' },
       ].map((step, i) => {
         const Icon = step.icon;
         return (
@@ -27,9 +27,9 @@ const heroImage = (
             </div>
             <div className="flex-1 flex items-center justify-between">
               <span className={`text-sm font-medium ${step.status === 'pending' ? 'text-gray-600' : 'text-gray-200'}`}>{step.label}</span>
-              {step.status === 'complete' && <span className="text-[10px] text-emerald-400 font-bold">DONE</span>}
-              {step.status === 'active' && <span className="text-[10px] text-orange-400 font-bold animate-pulse">LIVE</span>}
-              {step.status === 'pending' && <span className="text-[10px] text-gray-600 font-bold">SOON</span>}
+              {step.status === 'complete' && <span className="text-[10px] text-emerald-400 font-bold">FERTIG</span>}
+              {step.status === 'active' && <span className="text-[10px] text-orange-400 font-bold animate-pulse">AKTIV</span>}
+              {step.status === 'pending' && <span className="text-[10px] text-gray-600 font-bold">BALD</span>}
             </div>
           </div>
         );
@@ -38,17 +38,17 @@ const heroImage = (
     <div className="mt-6 pt-5 border-t border-white/10 flex items-center gap-3">
       <div className="flex-1 text-center">
         <div className="text-2xl font-bold text-white">47</div>
-        <div className="text-xs text-gray-500">leads today</div>
+        <div className="text-xs text-gray-500">Leads heute</div>
       </div>
       <div className="w-px h-8 bg-white/10" />
       <div className="flex-1 text-center">
         <div className="text-2xl font-bold text-emerald-400">100%</div>
-        <div className="text-xs text-gray-500">followed up</div>
+        <div className="text-xs text-gray-500">nachgefasst</div>
       </div>
       <div className="w-px h-8 bg-white/10" />
       <div className="flex-1 text-center">
         <div className="text-2xl font-bold text-blue-400">0</div>
-        <div className="text-xs text-gray-500">manual tasks</div>
+        <div className="text-xs text-gray-500">manuelle Aufgaben</div>
       </div>
     </div>
   </div>
@@ -58,22 +58,22 @@ const diagramSection = (
   <div>
     <RevealSection className="text-center mb-14">
       <SectionHeader
-        badge="How It Works"
-        title="Your Automation"
-        titleGradient="Flow Visualised"
-        subtitle="Every step is automated. Every lead is captured. Every follow-up is sent — without you touching a thing."
+        badge="So funktioniert es"
+        title="Ihr Automation-"
+        titleGradient="Ablauf visualisiert"
+        subtitle="Jeder Schritt ist automatisiert. Jeder Lead wird erfasst. Jede Nachfass-Aktion wird ausgelöst — ohne manuellen Aufwand."
       />
     </RevealSection>
     <RevealSection>
       <div className="relative overflow-x-auto">
         <div className="flex items-center gap-2 min-w-max mx-auto max-w-5xl px-4">
           {[
-            { icon: Users, label: 'Lead Arrives', sublabel: 'Form, ad, or referral', color: 'text-blue-400', bg: 'bg-blue-500/15 border-blue-500/20' },
-            { icon: Zap, label: 'CRM Entry', sublabel: 'Auto-tagged & scored', color: 'text-blue-400', bg: 'bg-blue-500/15 border-blue-500/20' },
-            { icon: Mail, label: 'Email Sent', sublabel: 'Personalised welcome', color: 'text-emerald-400', bg: 'bg-emerald-500/15 border-emerald-500/20' },
-            { icon: Calendar, label: 'Booking Flow', sublabel: 'Calendar link sent', color: 'text-orange-400', bg: 'bg-orange-500/15 border-orange-500/20' },
-            { icon: TrendingUp, label: 'Follow-Up', sublabel: 'Day 2, 5, 10 sequences', color: 'text-cyan-400', bg: 'bg-cyan-500/15 border-cyan-500/20' },
-            { icon: Star, label: 'Review Request', sublabel: 'Auto-sent after service', color: 'text-amber-400', bg: 'bg-amber-500/15 border-amber-500/20' },
+            { icon: Users, label: 'Lead kommt rein', sublabel: 'Formular, Anzeige oder Empfehlung', color: 'text-blue-400', bg: 'bg-blue-500/15 border-blue-500/20' },
+            { icon: Zap, label: 'CRM-Eintrag', sublabel: 'Automatisch getaggt & bewertet', color: 'text-blue-400', bg: 'bg-blue-500/15 border-blue-500/20' },
+            { icon: Mail, label: 'E-Mail gesendet', sublabel: 'Personalisierte Begrüßung', color: 'text-emerald-400', bg: 'bg-emerald-500/15 border-emerald-500/20' },
+            { icon: Calendar, label: 'Buchungsflow', sublabel: 'Kalender-Link gesendet', color: 'text-orange-400', bg: 'bg-orange-500/15 border-orange-500/20' },
+            { icon: TrendingUp, label: 'Nachfassen', sublabel: 'Tag 2, 5, 10 Sequenzen', color: 'text-cyan-400', bg: 'bg-cyan-500/15 border-cyan-500/20' },
+            { icon: Star, label: 'Bewertungsanfrage', sublabel: 'Automatisch nach Service', color: 'text-amber-400', bg: 'bg-amber-500/15 border-amber-500/20' },
           ].map((node, i, arr) => {
             const Icon = node.icon;
             return (
@@ -98,10 +98,10 @@ const diagramSection = (
     <RevealSection>
       <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4 max-w-5xl mx-auto">
         {[
-          { icon: ShoppingCart, title: 'Abandoned Cart Flow', desc: 'Automatically follow up with shoppers who left without buying.' },
-          { icon: Calendar, title: 'Appointment Booking', desc: 'Automate reminders, confirmations, and no-show follow-ups.' },
-          { icon: Mail, title: 'WhatsApp / Email', desc: 'Multi-channel sequences that meet customers where they are.' },
-          { icon: Star, title: 'Google Review Requests', desc: 'Trigger review requests after every completed service.' },
+          { icon: ShoppingCart, title: 'Verlassener Warenkorb', desc: 'Automatisch Kunden nachfassen, die ohne Kauf abgebrochen haben.' },
+          { icon: Calendar, title: 'Terminbuchung', desc: 'Erinnerungen, Bestätigungen und Nachfass-Aktionen bei Nichterscheinen automatisieren.' },
+          { icon: Mail, title: 'WhatsApp / E-Mail', desc: 'Mehrkanalige Sequenzen, die Kunden dort erreichen, wo sie sind.' },
+          { icon: Star, title: 'Google-Bewertungsanfragen', desc: 'Bewertungsanfragen nach jedem abgeschlossenen Service automatisch auslösen.' },
         ].map((ex) => {
           const Icon = ex.icon;
           return (
@@ -121,124 +121,124 @@ export default function AutomationPage() {
   return (
     <ServicePageLayout
       lang="de"
-      badge="Automation Systems"
-      heroTitle="Stop Doing Tasks."
-      heroGradient="Start Scaling."
-      heroSubtitle="We build custom automation systems that capture every lead, follow up instantly, and convert prospects into customers — completely on autopilot."
+      badge="Automation Systeme"
+      heroTitle="Schluss mit manuellen Aufgaben."
+      heroGradient="Jetzt skalieren."
+      heroSubtitle="Wir bauen individuelle Automation-Systeme, die jeden Lead erfassen, sofort nachfassen und Interessenten in Kunden verwandeln — vollautomatisch."
       heroImage={heroImage}
-      whyTitle="Why Your Business Needs Automation"
+      whyTitle="Warum Ihr Unternehmen Automation braucht"
       whyItems={[
-        { icon: Clock, title: 'Save 20+ Hours/Week', desc: 'Eliminate repetitive manual tasks and reclaim time for high-value work.' },
-        { icon: Users, title: 'Zero Missed Leads', desc: 'Every lead is captured, tagged, and followed up — even at 2am on a Sunday.' },
-        { icon: TrendingUp, title: 'Better Customer Experience', desc: 'Instant responses and personalised touchpoints make clients feel valued.' },
-        { icon: Mail, title: 'Consistent Follow-Up', desc: 'Multi-step sequences that nurture every lead until they buy or opt out.' },
+        { icon: Clock, title: '20+ Stunden/Woche sparen', desc: 'Wiederkehrende manuelle Aufgaben eliminieren und Zeit für wertschöpfende Arbeit gewinnen.' },
+        { icon: Users, title: 'Kein Lead geht verloren', desc: 'Jeder Lead wird erfasst, getaggt und nachgefasst — auch um 2 Uhr nachts am Sonntag.' },
+        { icon: TrendingUp, title: 'Besseres Kundenerlebnis', desc: 'Sofortige Antworten und personalisierte Kontaktpunkte lassen Kunden sich wertgeschätzt fühlen.' },
+        { icon: Mail, title: 'Konsequentes Nachfassen', desc: 'Mehrstufige Sequenzen, die jeden Lead pflegen, bis er kauft oder sich abmeldet.' },
       ]}
       beforeAfter={[
-        { before: 'Leads fall through the cracks', after: 'Every lead is captured and tagged automatically' },
-        { before: 'Hours spent on manual follow-ups', after: 'Sequences run 24/7 without human input' },
-        { before: 'Inconsistent customer communication', after: 'Every client gets the same premium experience' },
-        { before: 'No-shows and forgotten bookings', after: 'Automated reminders reduce no-shows by 60%' },
+        { before: 'Leads gehen durch die Lappen', after: 'Jeder Lead wird automatisch erfasst und getaggt' },
+        { before: 'Stunden für manuelle Nachfass-Aktionen', after: 'Sequenzen laufen 24/7 ohne menschlichen Eingriff' },
+        { before: 'Inkonsistente Kundenkommunikation', after: 'Jeder Kunde erhält dasselbe professionelle Erlebnis' },
+        { before: 'Nichterscheinen und vergessene Buchungen', after: 'Automatische Erinnerungen reduzieren Nichterscheinen um 60 %' },
       ]}
       deliverables={[
         {
-          category: 'Lead Capture',
-          items: ['Form to CRM integration', 'Lead scoring & tagging', 'Instant notification setup', 'Source tracking & attribution'],
+          category: 'Lead-Erfassung',
+          items: ['Formular-zu-CRM-Integration', 'Lead-Bewertung & Tagging', 'Sofortbenachrichtigung einrichten', 'Quellenverfolgung & Attribution'],
         },
         {
-          category: 'Email & Messaging',
-          items: ['Welcome email sequence', 'Multi-step nurture flows (5–7 emails)', 'WhatsApp follow-up integration', 'Re-engagement campaigns'],
+          category: 'E-Mail & Messaging',
+          items: ['Willkommens-E-Mail-Sequenz', 'Mehrstufige Nurture-Flows (5–7 E-Mails)', 'WhatsApp-Nachfass-Integration', 'Reaktivierungskampagnen'],
         },
         {
-          category: 'Booking & Scheduling',
-          items: ['Calendar integration & automation', 'Appointment confirmation flows', 'Reminder sequences (24h, 1h)', 'No-show follow-up automation'],
+          category: 'Buchung & Terminplanung',
+          items: ['Kalender-Integration & Automation', 'Terminbestätigungs-Flows', 'Erinnerungssequenzen (24h, 1h)', 'Nachfass-Automation bei Nichterscheinen'],
         },
         {
-          category: 'Post-Sale',
-          items: ['Review request automation', 'Upsell/cross-sell triggers', 'Referral request flows', 'Loyalty & re-booking campaigns'],
+          category: 'Nach dem Kauf',
+          items: ['Bewertungsanfragen automatisieren', 'Upsell-/Cross-Sell-Trigger', 'Empfehlungsanfrage-Flows', 'Treue- & Wiederbucher-Kampagnen'],
         },
         {
           category: 'E-Commerce',
-          items: ['Abandoned cart recovery', 'Order confirmation sequences', 'Shipping update automation', 'Post-purchase review requests'],
+          items: ['Warenkorbabbruch-Rückgewinnung', 'Bestellbestätigungssequenzen', 'Versandstatus-Automation', 'Kaufnachfolge-Bewertungsanfragen'],
         },
         {
           category: 'Reporting & Monitoring',
-          items: ['Automation performance dashboard', 'Open/click rate tracking', 'Conversion funnel reporting', '30-day support & optimisation'],
+          items: ['Automation-Performance-Dashboard', 'Öffnungs-/Klickrate-Tracking', 'Konversionstrichter-Reporting', '30 Tage Support & Optimierung'],
         },
       ]}
       useCases={[
-        { industry: 'Restaurants', icon: '🍽️', example: 'Auto-confirm reservations, send menu links, and request Google reviews after every visit.' },
-        { industry: 'Cleaning Companies', icon: '🧹', example: 'Automated quotes, booking confirmations, and recurring appointment reminders.' },
-        { industry: 'Hair Salons', icon: '✂️', example: 'Appointment reminders, rebooking flows, and loyalty reward triggers after every 5th visit.' },
-        { industry: 'Clinics', icon: '🏥', example: 'Patient intake forms, appointment reminders, and post-visit follow-up sequences.' },
-        { industry: 'E-Commerce', icon: '🛍️', example: 'Abandoned cart flows, order updates, review requests, and upsell sequences.' },
+        { industry: 'Restaurants', icon: '🍽️', example: 'Reservierungen automatisch bestätigen, Menülinks senden und nach jedem Besuch Google-Bewertungen anfragen.' },
+        { industry: 'Reinigungsunternehmen', icon: '🧹', example: 'Automatische Angebote, Buchungsbestätigungen und Erinnerungen für wiederkehrende Termine.' },
+        { industry: 'Friseursalons', icon: '✂️', example: 'Terminerinnerungen, Wiederbuchungs-Flows und Treueprogramm-Trigger nach jedem 5. Besuch.' },
+        { industry: 'Kliniken', icon: '🏥', example: 'Patientenaufnahmeformulare, Terminerinnerungen und Nachsorge-Sequenzen nach dem Besuch.' },
+        { industry: 'E-Commerce', icon: '🛍️', example: 'Warenkorbabbruch-Flows, Bestellupdates, Bewertungsanfragen und Upsell-Sequenzen.' },
       ]}
       process={[
-        { step: '01', title: 'Discovery Call', desc: 'We map your current workflow and identify every manual touchpoint we can automate.' },
-        { step: '02', title: 'Flow Design', desc: 'We design the full automation architecture and get your sign-off before building.' },
-        { step: '03', title: 'Build & Connect', desc: 'We build all flows, connect your tools, and write every email and message.' },
-        { step: '04', title: 'Test & Launch', desc: 'We test every trigger, every flow, and every edge case before going live.' },
-        { step: '05', title: 'Optimise', desc: 'Monthly check-ins to review open rates, conversion data, and improve performance.' },
+        { step: '01', title: 'Erstgespräch', desc: 'Wir analysieren Ihren aktuellen Workflow und identifizieren jeden manuellen Schritt, den wir automatisieren können.' },
+        { step: '02', title: 'Flow-Design', desc: 'Wir entwerfen die gesamte Automation-Architektur und holen Ihre Freigabe ein, bevor wir bauen.' },
+        { step: '03', title: 'Aufbau & Verbindung', desc: 'Wir bauen alle Flows, verbinden Ihre Tools und schreiben jede E-Mail und Nachricht.' },
+        { step: '04', title: 'Test & Launch', desc: 'Wir testen jeden Trigger, jeden Flow und jeden Grenzfall, bevor wir live gehen.' },
+        { step: '05', title: 'Optimierung', desc: 'Monatliche Check-ins zur Überprüfung von Öffnungsraten, Konversionsdaten und Leistungsverbesserung.' },
       ]}
       packages={[
         {
           name: 'Automation Starter',
-          price: 'from €1,500',
-          timeline: 'Delivery in 7 days',
+          price: 'ab €1.500',
+          timeline: 'Lieferung in 7 Tagen',
           badge: 'Starter',
           badgeClass: 'bg-white/10 text-gray-300 border-white/20',
           deliverables: [
-            'Lead capture to CRM integration',
-            '3-step welcome email sequence',
-            'Appointment confirmation flow',
-            'Basic reminder automation',
-            '30-day support',
+            'Lead-Erfassung zu CRM-Integration',
+            '3-stufige Willkommens-E-Mail-Sequenz',
+            'Terminbestätigungs-Flow',
+            'Basis-Erinnerungsautomation',
+            '30 Tage Support',
           ],
         },
         {
           name: 'Automation Growth',
-          price: 'from €3,000',
-          timeline: 'Delivery in 10 days',
-          badge: 'Most Popular',
+          price: 'ab €3.000',
+          timeline: 'Lieferung in 10 Tagen',
+          badge: 'Beliebteste Wahl',
           badgeClass: 'bg-blue-500 text-white border-transparent',
           highlighted: true,
           deliverables: [
-            'Everything in Starter',
-            'Multi-channel sequences (email + WhatsApp)',
-            '7-step nurture flow',
-            'Abandoned cart / re-booking automation',
-            'Review request automation',
-            'Google Analytics integration',
-            '60-day support & optimisation',
+            'Alles aus Starter',
+            'Mehrkanalige Sequenzen (E-Mail + WhatsApp)',
+            '7-stufiger Nurture-Flow',
+            'Warenkorb-/Wiederbuchungs-Automation',
+            'Bewertungsanfragen-Automation',
+            'Google Analytics Integration',
+            '60 Tage Support & Optimierung',
           ],
         },
         {
           name: 'Automation Scale',
-          price: 'from €5,000',
-          timeline: 'Delivery in 14 days',
-          badge: 'Full System',
+          price: 'ab €5.000',
+          timeline: 'Lieferung in 14 Tagen',
+          badge: 'Komplettsystem',
           badgeClass: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
           deliverables: [
-            'Everything in Growth',
-            'Full funnel automation (10+ flows)',
-            'Advanced segmentation & personalisation',
-            'CRM pipeline automation',
-            'Upsell & referral sequences',
-            'Monthly performance reporting',
-            '90-day dedicated support',
+            'Alles aus Growth',
+            'Vollständige Funnel-Automation (10+ Flows)',
+            'Fortgeschrittene Segmentierung & Personalisierung',
+            'CRM-Pipeline-Automation',
+            'Upsell- & Empfehlungssequenzen',
+            'Monatliches Performance-Reporting',
+            '90 Tage dedizierter Support',
           ],
         },
       ]}
       faqs={[
-        { q: 'What tools do you use for automation?', a: 'We work with Make.com, Zapier, GoHighLevel, Klaviyo, ActiveCampaign, and more — whichever best fits your existing stack and budget.' },
-        { q: 'Do I need a CRM to get started?', a: 'No. If you don\'t have a CRM yet, we\'ll recommend and set one up as part of the project. This is included in all packages.' },
-        { q: 'Can you automate WhatsApp messages?', a: 'Yes, we integrate with WhatsApp Business API via platforms like Twilio or 360dialog to send automated, personalised messages.' },
-        { q: 'How long before the automations go live?', a: 'Starter systems are live within 7 days. Full-scale systems go live within 14 days, with testing and optimisation included.' },
-        { q: 'What if something breaks after launch?', a: 'All packages include post-launch support ranging from 30 to 90 days. We monitor, fix, and optimise every automation flow.' },
+        { q: 'Welche Tools verwenden Sie für die Automation?', a: 'Wir arbeiten mit Make.com, Zapier, GoHighLevel, Klaviyo, ActiveCampaign und mehr — was am besten zu Ihrem bestehenden System und Budget passt.' },
+        { q: 'Brauche ich bereits ein CRM?', a: 'Nein. Falls Sie noch kein CRM haben, empfehlen wir eines und richten es als Teil des Projekts ein. Dies ist in allen Paketen enthalten.' },
+        { q: 'Können Sie WhatsApp-Nachrichten automatisieren?', a: 'Ja, wir integrieren die WhatsApp Business API über Plattformen wie Twilio oder 360dialog für automatisierte, personalisierte Nachrichten.' },
+        { q: 'Wann gehen die Automationen live?', a: 'Starter-Systeme sind innerhalb von 7 Tagen live. Vollständige Systeme gehen innerhalb von 14 Tagen live, inklusive Tests und Optimierung.' },
+        { q: 'Was passiert, wenn nach dem Launch etwas nicht funktioniert?', a: 'Alle Pakete beinhalten Support nach dem Launch von 30 bis 90 Tagen. Wir überwachen, beheben und optimieren jeden Automation-Flow.' },
       ]}
       relatedServices={[
-        { href: '/services/crm-email', label: 'CRM + Email Sequences' },
-        { href: '/services/ai-chatbot', label: 'AI Chatbot' },
-        { href: '/services/funnels', label: 'Website + Funnel Build' },
+        { href: '/services/crm-email', label: 'CRM + E-Mail-Sequenzen' },
+        { href: '/services/ai-chatbot', label: 'KI-Chatbot' },
+        { href: '/services/funnels', label: 'Website + Funnel-Aufbau' },
         { href: '/services/ads', label: 'Ads & Performance Marketing' },
       ]}
       extraSection={diagramSection}
