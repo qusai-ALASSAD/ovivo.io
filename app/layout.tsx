@@ -5,6 +5,7 @@ import { Footer } from '@/components/footer';
 import { LeadMagnet } from '@/components/lead-magnet';
 import { FloatingCTA } from '@/components/floating-cta';
 import { SalesChatWidget } from '@/components/sales-chat-widget';
+import { ChatProvider } from '@/lib/chat-context';
 import { Toaster } from 'sonner';
 
 export const metadata: Metadata = {
@@ -35,13 +36,15 @@ export default function RootLayout({
   return (
     <html lang="de">
       <body style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif' }}>
-        <Navbar />
-        <main className="min-h-screen pt-20">{children}</main>
-        <Footer />
-        <LeadMagnet />
-        <FloatingCTA />
-        <SalesChatWidget />
-        <Toaster position="bottom-right" theme="dark" />
+        <ChatProvider>
+          <Navbar />
+          <main className="min-h-screen pt-20">{children}</main>
+          <Footer />
+          <LeadMagnet />
+          <FloatingCTA />
+          <SalesChatWidget />
+          <Toaster position="bottom-right" theme="dark" />
+        </ChatProvider>
       </body>
     </html>
   );

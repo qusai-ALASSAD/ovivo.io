@@ -4,21 +4,12 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, X, Send, Loader as Loader2, Bot } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import { useChatWidget } from '@/lib/chat-context';
 
 interface Message {
   role: 'assistant' | 'user';
   content: string;
 }
-
-const OPENING_MESSAGE: Message = {
-  role: 'assistant',
-  content: 'Hallo! Ich bin der Ovivo KI-Assistent. Welche Art von Unternehmen haben Sie?',
-};
-
-const OPENING_MESSAGE_EN: Message = {
-  role: 'assistant',
-  content: 'Hello! I\'m the Ovivo AI assistant. What type of business do you have?',
-};
 
 function extractLead(text: string): { name: string; company: string; email: string; phone: string } | null {
   try {
@@ -36,7 +27,7 @@ function stripLeadJson(text: string): string {
 }
 
 export function SalesChatWidget() {
-  const [open, setOpen] = useState(false);
+  const { isOpen, toggle, close } = useChatWidget();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -47,45 +38,53 @@ export function SalesChatWidget() {
   const pathname = usePathname();
   const isEn = pathname?.startsWith('/en') ?? false;
 
-  const openingMessage = isEn ? OPENING_MESSAGE_EN : OPENING_MESSAGE;
+  const openingMessage: Message = {
+    role: 'assistant',
+    content: isEn
+      ? "Hello! I'm the Ovivo AI assistant. What type of business do you have?"
+      : 'Hallo! Ich bin der Ovivo KI-Assistent. Welche Art von Unternehmen haben Sie?',
+  };
 
   useEffect(() => {
-    if (open && messages.length === 0) {
+    if (isOpen && messages.length === 0) {
       setMessages([openingMessage]);
     }
-  }, [open]);
+  }, [isOpen]);
 
   useEffect(() => {
-    if (!open && messages.length > 1) {
+    if (!isOpen && messages.length > 1) {
       setUnread(true);
     }
-  }, [messages.length, open]);
+  }, [messages.length, isOpen]);
 
   useEffect(() => {
-    if (open) setUnread(false);
-  }, [open]);
+    if (isOpen) setUnread(false);
+  }, [isOpen]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, loading]);
 
   useEffect(() => {
-    if (open) {
+    if (isOpen) {
       setTimeout(() => inputRef.current?.focus(), 300);
     }
-  }, [open]);
+  }, [isOpen]);
 
-  const saveLead = useCallback(async (lead: { name: string; company: string; email: string; phone: string }) => {
-    if (leadSaved) return;
-    setLeadSaved(true);
-    try {
-      await fetch('/api/leads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...lead, message: '', source: 'sales_chat' }),
-      });
-    } catch {}
-  }, [leadSaved]);
+  const saveLead = useCallback(
+    async (lead: { name: string; company: string; email: string; phone: string }) => {
+      if (leadSaved) return;
+      setLeadSaved(true);
+      try {
+        await fetch('/api/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...lead, message: '', source: 'sales_chat' }),
+        });
+      } catch {}
+    },
+    [leadSaved]
+  );
 
   const sendMessage = useCallback(async () => {
     const text = input.trim();
@@ -101,11 +100,7 @@ export function SalesChatWidget() {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: updatedMessages,
-          mode: 'sales',
-          plan: 'free',
-        }),
+        body: JSON.stringify({ messages: updatedMessages, mode: 'sales', plan: 'free' }),
       });
 
       if (!res.ok || !res.body) throw new Error('API error');
@@ -114,8 +109,7 @@ export function SalesChatWidget() {
       const decoder = new TextDecoder();
       let assistantText = '';
 
-      const assistantMessage: Message = { role: 'assistant', content: '' };
-      setMessages((prev) => [...prev, assistantMessage]);
+      setMessages((prev) => [...prev, { role: 'assistant', content: '' }]);
 
       while (true) {
         const { done, value } = await reader.read();
@@ -143,7 +137,12 @@ export function SalesChatWidget() {
     } catch {
       setMessages((prev) => [
         ...prev,
-        { role: 'assistant', content: isEn ? 'Sorry, something went wrong. Please try again.' : 'Entschuldigung, etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.' },
+        {
+          role: 'assistant',
+          content: isEn
+            ? 'Sorry, something went wrong. Please try again.'
+            : 'Entschuldigung, etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.',
+        },
       ]);
     } finally {
       setLoading(false);
@@ -160,7 +159,7 @@ export function SalesChatWidget() {
   return (
     <>
       <AnimatePresence>
-        {open && (
+        {isOpen && (
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -178,12 +177,12 @@ export function SalesChatWidget() {
                   <p className="text-sm font-semibold text-white leading-tight">Ovivo KI-Assistent</p>
                   <div className="flex items-center gap-1.5">
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <p className="text-xs text-blue-100">{isEn ? 'Online' : 'Online'}</p>
+                    <p className="text-xs text-blue-100">Online</p>
                   </div>
                 </div>
               </div>
               <button
-                onClick={() => setOpen(false)}
+                onClick={close}
                 className="flex h-7 w-7 items-center justify-center rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors"
               >
                 <X className="h-4 w-4" />
@@ -194,7 +193,7 @@ export function SalesChatWidget() {
               {messages.map((msg, i) => (
                 <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div
-                    className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
+                    className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed whitespace-pre-line ${
                       msg.role === 'user'
                         ? 'bg-blue-600 text-white rounded-br-sm'
                         : 'bg-white/8 text-gray-100 rounded-bl-sm border border-white/10'
@@ -208,9 +207,13 @@ export function SalesChatWidget() {
                 <div className="flex justify-start">
                   <div className="bg-white/8 border border-white/10 rounded-2xl rounded-bl-sm px-4 py-3">
                     <div className="flex gap-1.5">
-                      <span className="h-1.5 w-1.5 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <span className="h-1.5 w-1.5 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <span className="h-1.5 w-1.5 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+                      {[0, 1, 2].map((i) => (
+                        <span
+                          key={i}
+                          className="h-1.5 w-1.5 rounded-full bg-gray-400 animate-bounce"
+                          style={{ animationDelay: `${i * 150}ms` }}
+                        />
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -248,22 +251,34 @@ export function SalesChatWidget() {
       </AnimatePresence>
 
       <motion.button
-        onClick={() => setOpen((prev) => !prev)}
+        onClick={toggle}
         className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-blue-700 shadow-2xl shadow-blue-500/40 hover:shadow-blue-500/60 hover:scale-105 active:scale-95 transition-all"
         whileTap={{ scale: 0.9 }}
       >
         <AnimatePresence mode="wait">
-          {open ? (
-            <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
+          {isOpen ? (
+            <motion.div
+              key="close"
+              initial={{ rotate: -90, opacity: 0 }}
+              animate={{ rotate: 0, opacity: 1 }}
+              exit={{ rotate: 90, opacity: 0 }}
+              transition={{ duration: 0.15 }}
+            >
               <X className="h-6 w-6 text-white" />
             </motion.div>
           ) : (
-            <motion.div key="open" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
+            <motion.div
+              key="open"
+              initial={{ rotate: 90, opacity: 0 }}
+              animate={{ rotate: 0, opacity: 1 }}
+              exit={{ rotate: -90, opacity: 0 }}
+              transition={{ duration: 0.15 }}
+            >
               <MessageSquare className="h-6 w-6 text-white" />
             </motion.div>
           )}
         </AnimatePresence>
-        {unread && !open && (
+        {unread && !isOpen && (
           <span className="absolute top-0.5 right-0.5 h-3 w-3 rounded-full bg-red-500 border-2 border-[#0f1117] animate-pulse" />
         )}
       </motion.button>
