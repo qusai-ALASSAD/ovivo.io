@@ -1,38 +1,19 @@
 'use client';
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import {
-  Bot, Send, User, Sparkles, ArrowRight, CircleCheck as CheckCircle,
-  Phone, Mail, MessageSquare, Loader as Loader2,
+  Bot, ArrowRight, CircleCheck as CheckCircle,
+  Phone, Mail, MessageSquare, Sparkles, Zap, Shield, Clock,
 } from 'lucide-react';
-import { GlassCard, RevealSection } from '@/components/ui/motion';
+import { GlassCard, RevealSection, StaggerContainer, StaggerItem } from '@/components/ui/motion';
 import { SectionHeader } from '@/components/section-header';
+import { useChatWidget } from '@/lib/chat-context';
 import type { Lang } from '@/lib/i18n';
-
-interface Message {
-  role: 'user' | 'assistant';
-  content: string;
-}
-
-function extractLead(text: string): { name: string; company: string; email: string; phone: string } | null {
-  try {
-    const match = text.match(/\{"lead"\s*:\s*\{[^}]+\}\s*\}/);
-    if (match) {
-      const parsed = JSON.parse(match[0]);
-      return parsed.lead ?? null;
-    }
-  } catch {}
-  return null;
-}
-
-function stripLeadJson(text: string): string {
-  return text.replace(/\{"lead"\s*:\s*\{[^}]+\}\s*\}/g, '').trim();
-}
 
 const t = {
   de: {
@@ -40,10 +21,15 @@ const t = {
     title: 'Testen Sie unseren',
     titleGradient: 'KI-Assistenten',
     subtitle: 'Sprechen Sie direkt mit unserem KI-Assistenten und erfahren Sie, wie wir Ihren Betrieb automatisieren können.',
-    chatTitle: 'Ovivo KI-Assistent',
-    chatSub: 'Fragen Sie mich alles über KI-Automation',
-    online: 'Online',
-    placeholder: 'Stellen Sie eine Frage...',
+    ctaTitle: 'Jetzt mit dem KI-Assistenten chatten',
+    ctaSub: 'Unser Assistent ist live und bereit. Stellen Sie jetzt Ihre erste Frage.',
+    ctaBtn: 'Chat starten',
+    features: [
+      { icon: Zap, label: 'Sofortige Antworten', desc: 'Keine Wartezeit — der Assistent antwortet in Echtzeit.' },
+      { icon: Bot, label: 'KI-gestützt', desc: 'Trainiert auf Ihre Branche und Ihren Anwendungsfall.' },
+      { icon: Shield, label: 'DSGVO-konform', desc: 'Ihre Daten sind sicher und werden nicht weitergegeben.' },
+      { icon: Clock, label: '24/7 verfügbar', desc: 'Immer erreichbar — auch nachts und am Wochenende.' },
+    ],
     leadTitle: 'Kostenlose Beratung anfragen',
     leadSub: 'Hinterlassen Sie Ihre Kontaktdaten — wir melden uns innerhalb von 24 Stunden.',
     nameLabel: 'Ihr Name',
@@ -65,10 +51,15 @@ const t = {
     title: 'Try our',
     titleGradient: 'AI Assistant',
     subtitle: 'Chat directly with our AI assistant and discover how we can automate your business.',
-    chatTitle: 'Ovivo AI Assistant',
-    chatSub: 'Ask me anything about AI automation',
-    online: 'Online',
-    placeholder: 'Ask a question...',
+    ctaTitle: 'Chat with the AI Assistant Now',
+    ctaSub: 'Our assistant is live and ready. Ask your first question right now.',
+    ctaBtn: 'Start Chat',
+    features: [
+      { icon: Zap, label: 'Instant Replies', desc: 'No waiting — the assistant responds in real time.' },
+      { icon: Bot, label: 'AI-Powered', desc: 'Trained on your industry and use case.' },
+      { icon: Shield, label: 'GDPR Compliant', desc: 'Your data is secure and never shared.' },
+      { icon: Clock, label: '24/7 Available', desc: 'Always reachable — nights and weekends included.' },
+    ],
     leadTitle: 'Request Free Consultation',
     leadSub: "Leave your contact details — we'll get back to you within 24 hours.",
     nameLabel: 'Your Name',
@@ -94,19 +85,7 @@ interface Props {
 export function DemoPage({ lang }: Props) {
   const tx = t[lang];
   const prefix = lang === 'en' ? '/en' : '';
-
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: 'assistant',
-      content:
-        lang === 'de'
-          ? 'Hallo! Ich bin der Ovivo KI-Assistent. Welche Art von Unternehmen haben Sie?'
-          : "Hello! I'm the Ovivo AI assistant. What type of business do you have?",
-    },
-  ]);
-  const [input, setInput] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [leadSaved, setLeadSaved] = useState(false);
+  const { open } = useChatWidget();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -114,94 +93,6 @@ export function DemoPage({ lang }: Props) {
   const [message, setMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, loading]);
-
-  const saveLead = useCallback(
-    async (lead: { name: string; company: string; email: string; phone: string }) => {
-      if (leadSaved) return;
-      setLeadSaved(true);
-      try {
-        await fetch('/api/leads', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ...lead, message: '', source: 'demo_chat' }),
-        });
-      } catch {}
-    },
-    [leadSaved]
-  );
-
-  const sendMessage = useCallback(
-    async (text?: string) => {
-      const msg = (text ?? input).trim();
-      if (!msg || loading) return;
-
-      const userMessage: Message = { role: 'user', content: msg };
-      const updatedMessages = [...messages, userMessage];
-      setMessages(updatedMessages);
-      setInput('');
-      setLoading(true);
-
-      try {
-        const res = await fetch('/api/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ messages: updatedMessages, mode: 'sales', plan: 'free' }),
-        });
-
-        if (!res.ok || !res.body) throw new Error('API error');
-
-        const reader = res.body.getReader();
-        const decoder = new TextDecoder();
-        let assistantText = '';
-
-        setMessages((prev) => [...prev, { role: 'assistant', content: '' }]);
-
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          assistantText += decoder.decode(value, { stream: true });
-          setMessages((prev) => {
-            const next = [...prev];
-            next[next.length - 1] = { role: 'assistant', content: assistantText };
-            return next;
-          });
-        }
-
-        const lead = extractLead(assistantText);
-        if (lead && lead.email) {
-          saveLead(lead);
-          const clean = stripLeadJson(assistantText);
-          if (clean) {
-            setMessages((prev) => {
-              const next = [...prev];
-              next[next.length - 1] = { role: 'assistant', content: clean };
-              return next;
-            });
-          }
-        }
-      } catch {
-        setMessages((prev) => [
-          ...prev,
-          {
-            role: 'assistant',
-            content:
-              lang === 'de'
-                ? 'Entschuldigung, etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.'
-                : 'Sorry, something went wrong. Please try again.',
-          },
-        ]);
-      } finally {
-        setLoading(false);
-      }
-    },
-    [input, loading, messages, saveLead, lang]
-  );
 
   async function handleLeadSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -237,100 +128,39 @@ export function DemoPage({ lang }: Props) {
           </RevealSection>
 
           <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
-            {/* Chat */}
-            <GlassCard className="flex flex-col h-[600px] overflow-hidden p-0">
-              <div className="flex items-center gap-3 px-5 py-4 border-b border-white/10 bg-white/[0.03]">
-                <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-blue-800">
-                  <Bot className="h-5 w-5 text-white" />
-                  <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-emerald-400 border-2 border-[#0a0e1a]" />
+            {/* Chat CTA */}
+            <div className="space-y-6">
+              <GlassCard className="p-8 flex flex-col items-center text-center">
+                <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-blue-800 mb-6 shadow-[0_0_40px_rgba(59,130,246,0.3)]">
+                  <Bot className="h-10 w-10 text-white" />
+                  <span className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-emerald-400 border-2 border-[#0a0e1a]" />
                 </div>
-                <div>
-                  <p className="text-sm font-bold text-white">{tx.chatTitle}</p>
-                  <p className="text-xs text-gray-500">{tx.chatSub}</p>
-                </div>
-                <div className="ml-auto flex items-center gap-1.5">
-                  <div className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-xs text-emerald-400 font-semibold">{tx.online}</span>
-                </div>
-              </div>
-
-              <div className="flex-1 overflow-y-auto p-5 space-y-4">
-                {messages.map((msg, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
-                  >
-                    <div
-                      className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full ${
-                        msg.role === 'assistant'
-                          ? 'bg-blue-500/20 border border-blue-500/30'
-                          : 'bg-white/10 border border-white/10'
-                      }`}
-                    >
-                      {msg.role === 'assistant' ? (
-                        <Bot className="h-4 w-4 text-blue-400" />
-                      ) : (
-                        <User className="h-4 w-4 text-gray-400" />
-                      )}
-                    </div>
-                    <div
-                      className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-line ${
-                        msg.role === 'assistant'
-                          ? 'bg-white/5 border border-white/10 text-gray-300'
-                          : 'bg-blue-500 text-white'
-                      }`}
-                    >
-                      {msg.content}
-                    </div>
-                  </motion.div>
-                ))}
-                {loading && messages[messages.length - 1]?.role !== 'assistant' && (
-                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex gap-3">
-                    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-blue-500/20 border border-blue-500/30">
-                      <Bot className="h-4 w-4 text-blue-400" />
-                    </div>
-                    <div className="bg-white/5 border border-white/10 rounded-2xl px-4 py-3 flex items-center gap-1">
-                      {[0, 1, 2].map((i) => (
-                        <motion.div
-                          key={i}
-                          className="h-1.5 w-1.5 rounded-full bg-gray-400"
-                          animate={{ opacity: [0.3, 1, 0.3] }}
-                          transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }}
-                        />
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-                <div ref={messagesEndRef} />
-              </div>
-
-              <div className="px-5 pb-5 pt-3 border-t border-white/10">
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    sendMessage();
-                  }}
-                  className="flex gap-2"
+                <h3 className="text-xl font-bold text-white mb-2">{tx.ctaTitle}</h3>
+                <p className="text-sm text-gray-400 mb-8 max-w-sm">{tx.ctaSub}</p>
+                <Button
+                  onClick={open}
+                  className="bg-blue-500 hover:bg-blue-400 text-white font-semibold px-8 py-5 text-base w-full max-w-xs transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)]"
                 >
-                  <Input
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    placeholder={tx.placeholder}
-                    className="flex-1 bg-white/5 border-white/10 text-white placeholder-gray-600 focus:border-blue-500/50"
-                  />
-                  <Button
-                    type="submit"
-                    disabled={!input.trim() || loading}
-                    className="bg-blue-500 hover:bg-blue-400 text-white px-3 disabled:opacity-40"
-                  >
-                    {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-                  </Button>
-                </form>
-              </div>
-            </GlassCard>
+                  {tx.ctaBtn}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </GlassCard>
+
+              <StaggerContainer className="grid grid-cols-2 gap-3">
+                {tx.features.map((feature) => {
+                  const Icon = feature.icon;
+                  return (
+                    <StaggerItem key={feature.label}>
+                      <GlassCard className="p-4">
+                        <Icon className="h-5 w-5 text-blue-400 mb-2" />
+                        <p className="text-sm font-semibold text-white mb-1">{feature.label}</p>
+                        <p className="text-xs text-gray-500 leading-relaxed">{feature.desc}</p>
+                      </GlassCard>
+                    </StaggerItem>
+                  );
+                })}
+              </StaggerContainer>
+            </div>
 
             {/* Lead Form */}
             <div className="space-y-6">
