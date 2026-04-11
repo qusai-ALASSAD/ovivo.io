@@ -10,6 +10,7 @@ import {
 import { GlassCard, RevealSection, StaggerContainer, StaggerItem } from '@/components/ui/motion';
 import { SectionHeader } from '@/components/section-header';
 import type { Lang } from '@/lib/i18n';
+import { isRTL } from '@/lib/i18n';
 
 const servicesData = {
   de: {
@@ -156,6 +157,78 @@ const servicesData = {
       btn: 'Request free consultation',
     },
   },
+  ar: {
+    hero: {
+      badge: 'أتمتة بالذكاء الاصطناعي لأعمالك',
+      title: 'أتمتة لكل',
+      titleGradient: 'قطاع',
+      sub: 'أتمتة ذكاء اصطناعي مخصصة للمطاعم والمقاهي وشركات الخدمات — مبنية خصيصاً لقطاعك.',
+    },
+    services: [
+      {
+        id: 'restaurants',
+        icon: Utensils,
+        color: 'text-orange-400',
+        bg: 'bg-orange-500/10 border-orange-500/20',
+        title: 'أتمتة ذكاء اصطناعي للمطاعم',
+        sub: 'حجوزات أكثر. جهد أقل. ضيوف أسعد.',
+        desc: 'تعاني المطاعم يومياً من خطوط الهاتف المشغولة وطلبات الحجز الفائتة والإدارة اليدوية المرهقة. يؤتمت نظامنا الذكي جميع تواصلك مع الضيوف — من الاستفسار الأول حتى التقييم.',
+        features: [
+          { icon: Calendar, label: 'حجوزات الطاولات', desc: 'تأكيد الحجز تلقائياً على مدار الساعة — حتى عندما يكون المطعم مغلقاً.' },
+          { icon: Phone, label: 'أتمتة واتساب', desc: 'يتلقى الضيوف ردوداً فورية على واتساب: أوقات العمل، القائمة، التوفر.' },
+          { icon: Megaphone, label: 'الترويج للفعاليات', desc: 'ترويج تلقائي للعروض والفعاليات والتخفيضات الموسمية للعملاء الدائمين.' },
+          { icon: MessageSquare, label: 'تواصل مع العملاء', desc: 'مساعد الذكاء الاصطناعي يرد على جميع الاستفسارات باحترافية — 24/7.' },
+          { icon: Mail, label: 'المتابعة والتقييمات', desc: 'رسائل متابعة تلقائية وطلبات تقييم بعد كل زيارة.' },
+          { icon: Users, label: 'إدارة الولاء', desc: 'نظام CRM مع رعاية العملاء التلقائية وتهاني أعياد الميلاد والعروض المخصصة.' },
+        ],
+        results: ['90% من الحجوزات مؤكدة تلقائياً', 'توفير ساعتين يومياً', '+35% تقييمات أكثر عبر الإنترنت'],
+        cta: 'استشارة مجانية للمطاعم',
+      },
+      {
+        id: 'cafes',
+        icon: Coffee,
+        color: 'text-amber-400',
+        bg: 'bg-amber-500/10 border-amber-500/20',
+        title: 'أتمتة ذكاء اصطناعي للمقاهي',
+        sub: 'عملاء دائمون أكثر. طلبات أكثر. ضغط أقل.',
+        desc: 'تعتمد المقاهي على العملاء الدائمين والعمليات السلسة. تساعدك أنظمتنا الذكية على الإجابة الفورية على استفسارات العملاء وأتمتة الطلبات والاحتفاظ بالعملاء على المدى البعيد.',
+        features: [
+          { icon: MessageSquare, label: 'الإجابة على أسئلة القائمة', desc: 'يجيب مساعد الذكاء الاصطناعي فوراً على جميع أسئلة الأطباق ومسببات الحساسية والأسعار.' },
+          { icon: ShoppingBag, label: 'أتمتة الطلبات', desc: 'إدارة الطلبات المسبقة والاستلام تلقائياً وتأكيدها.' },
+          { icon: Users, label: 'ولاء العملاء', desc: 'برامج ولاء تلقائية وعروض مخصصة وتذكيرات للعملاء الدائمين.' },
+          { icon: Megaphone, label: 'الترويج لعروض اليوم', desc: 'رسائل واتساب تلقائية لعروض اليوم والتخصصات الموسمية.' },
+          { icon: Mail, label: 'النشرة الإخبارية والمتابعة', desc: 'حملات بريد إلكتروني مؤتمتة للفعاليات والمنتجات الجديدة والعروض.' },
+          { icon: Calendar, label: 'الفعاليات والورش', desc: 'إدارة تلقائية لحجوزات ورش العمل والدورات وحفلات خاصة.' },
+        ],
+        results: ['85% من الأسئلة تُجاب بدون جهد يدوي', 'الاحتفاظ بالعملاء تحسّن 40%', 'الطلبات المسبقة مؤكدة تلقائياً'],
+        cta: 'استشارة مجانية للمقاهي',
+      },
+      {
+        id: 'services',
+        icon: Briefcase,
+        color: 'text-blue-400',
+        bg: 'bg-blue-500/10 border-blue-500/20',
+        title: 'أتمتة ذكاء اصطناعي لشركات الخدمات',
+        sub: 'استفسارات أكثر. عملاء أكثر. إيرادات أعلى.',
+        desc: 'سواء كنت صالون تجميل أو صالة لياقة أو عيادة طبية أو حرفياً — كل شركة خدمات تخسر عملاء محتملين يومياً بسبب بطء الاستجابة. تضمن أنظمتنا الذكية ألا يفوتك أي عميل.',
+        features: [
+          { icon: Target, label: 'توليد العملاء المحتملين', desc: 'يلتقط الذكاء الاصطناعي ويؤهل جميع المهتمين تلقائياً — على مدار الساعة.' },
+          { icon: Calendar, label: 'حجز المواعيد', desc: 'حجز مواعيد أونلاين تلقائي مع التأكيد والتذكير والمتابعة.' },
+          { icon: Phone, label: 'دعم واتساب', desc: 'ردود فورية على جميع الاستفسارات عبر واتساب — بدون موظفين.' },
+          { icon: Zap, label: 'تكامل CRM', desc: 'جميع بيانات العملاء محفوظة تلقائياً ومحدّثة في نظام CRM الخاص بك.' },
+          { icon: Mail, label: 'متابعة تلقائية', desc: 'رسائل متابعة منتظمة وعروض للعملاء الحاليين.' },
+          { icon: Users, label: 'رعاية العملاء', desc: 'رسائل أعياد ميلاد تلقائية وتذكيرات وتواصل مخصص.' },
+        ],
+        results: ['لا مزيد من الاستفسارات الفائتة', 'أوقات استجابة أسرع بنسبة 60%', '+45% حجوزات أكثر'],
+        cta: 'استشارة مجانية لشركات الخدمات',
+      },
+    ],
+    cta: {
+      title: 'أي حل يناسبك؟',
+      sub: 'احجز استشارة مجانية — نحلل أعمالك ونوصي باستراتيجية الأتمتة المثلى.',
+      btn: 'اطلب استشارة مجانية',
+    },
+  },
 };
 
 interface Props {
@@ -163,11 +236,12 @@ interface Props {
 }
 
 export function ServicesPage({ lang }: Props) {
-  const t = servicesData[lang];
-  const prefix = lang === 'en' ? '/en' : '';
+  const t = servicesData[lang] ?? servicesData['de'];
+  const rtl = isRTL(lang);
+  const prefix = lang === 'en' ? '/en' : lang === 'ar' ? '/ar' : '';
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" dir={rtl ? 'rtl' : 'ltr'}>
       {/* Hero */}
       <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8">
         <div className="pointer-events-none absolute inset-0 -z-10">
@@ -217,7 +291,7 @@ export function ServicesPage({ lang }: Props) {
                       <Link href={`${prefix}/contact`}>
                         <Button className="bg-blue-500 hover:bg-blue-400 text-white font-semibold transition-all duration-300 hover:shadow-[0_0_24px_rgba(59,130,246,0.5)]">
                           {service.cta}
-                          <ArrowRight className="ml-2 h-4 w-4" />
+                          <ArrowRight className={`ml-2 h-4 w-4 ${rtl ? 'rotate-180 mr-2 ml-0' : ''}`} />
                         </Button>
                       </Link>
                     </div>

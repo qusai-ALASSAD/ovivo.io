@@ -9,6 +9,7 @@ import {
 import { GlassCard, RevealSection, StaggerContainer, StaggerItem } from '@/components/ui/motion';
 import { SectionHeader } from '@/components/section-header';
 import type { Lang } from '@/lib/i18n';
+import { isRTL } from '@/lib/i18n';
 
 const t = {
   de: {
@@ -169,6 +170,85 @@ const t = {
     ctaTitle: 'Ready to get started?',
     ctaSub: 'Free consultation — we\'ll find the right package for your business.',
   },
+  ar: {
+    badge: 'الباقات والأسعار',
+    title: 'شفافية.',
+    titleGradient: 'قوة حقيقية.',
+    sub: 'ثلاث باقات لكل احتياج — إعداد لمرة واحدة + دعم شهري. السعر النهائي يعتمد على حجم العمل ومتطلباته.',
+    setupLabel: 'الإعداد',
+    monthlyLabel: 'شهرياً',
+    ctaBtn: 'اطلب استشارة مجانية',
+    disclaimer: 'السعر النهائي يعتمد على حجم الشركة ومتطلبات الأتمتة.',
+    trustBadges: [
+      { icon: ShieldCheck, label: 'متوافق مع حماية البيانات' },
+      { icon: MessageSquare, label: 'استشارة مجانية' },
+      { icon: Clock, label: 'إعداد خلال 5–14 يوماً' },
+      { icon: Repeat, label: 'إلغاء شهري' },
+    ],
+    packages: [
+      {
+        id: 'starter',
+        name: 'الباقة الأساسية',
+        setup: 'من €1,200',
+        monthly: 'من €120 / شهر',
+        badge: null,
+        highlighted: false,
+        color: 'gray',
+        ideal: 'مثالية للأعمال الفردية والمبتدئين',
+        features: ['روبوت ذكاء اصطناعي للاستفسارات', 'إعداد أتمتة بسيط', 'نظام التقاط العملاء المحتملين', 'تكامل واتساب', 'لوحة تحكم بسيطة', 'دعم أساسي'],
+        notIncluded: ['نظام الحجز', 'تكامل CRM', 'أتمتة التسويق'],
+      },
+      {
+        id: 'business',
+        name: 'باقة الأعمال',
+        setup: 'من €2,200',
+        monthly: 'من €220 / شهر',
+        badge: 'الأكثر طلباً',
+        highlighted: true,
+        color: 'blue',
+        ideal: 'مثالية للمطاعم والمقاهي وشركات الخدمات',
+        features: ['روبوت ذكاء اصطناعي متقدم', 'أتمتة واتساب', 'نظام حجز وحجوزات', 'تكامل CRM', 'متابعة تلقائية مع العملاء', 'لوحة تحليلات', 'دعم ذو أولوية'],
+        notIncluded: ['أتمتة التسويق'],
+      },
+      {
+        id: 'full',
+        name: 'أتمتة كاملة + تسويق',
+        setup: 'من €3,200',
+        monthly: 'من €450 / شهر',
+        badge: 'أقصى أداء',
+        highlighted: false,
+        color: 'orange',
+        ideal: 'مثالية للأعمال المتنامية والسلاسل',
+        features: ['نظام أتمتة ذكاء اصطناعي كامل', 'مساعد ذكي للموقع', 'أتمتة واتساب', 'نظام حجز وحجوزات', 'نظام CRM', 'أتمتة التسويق', 'قاعدة بيانات العملاء', 'تحسين شهري', 'دعم تقني', 'إدارة تسويق اختيارية'],
+        notIncluded: [],
+      },
+    ],
+    comparison: {
+      title: 'مقارنة المميزات',
+      features: [
+        { label: 'روبوت الذكاء الاصطناعي', starter: true, business: true, full: true },
+        { label: 'تكامل واتساب', starter: true, business: true, full: true },
+        { label: 'التقاط العملاء المحتملين', starter: true, business: true, full: true },
+        { label: 'نظام الحجز', starter: false, business: true, full: true },
+        { label: 'تكامل CRM', starter: false, business: true, full: true },
+        { label: 'لوحة التحليلات', starter: false, business: true, full: true },
+        { label: 'أتمتة واتساب', starter: false, business: true, full: true },
+        { label: 'أتمتة التسويق', starter: false, business: false, full: true },
+        { label: 'تحسين شهري', starter: false, business: false, full: true },
+        { label: 'قاعدة بيانات العملاء', starter: false, business: false, full: true },
+      ],
+    },
+    faqTitle: 'أسئلة شائعة حول الأسعار',
+    faqs: [
+      { q: 'ما الذي يتضمنه رسم الإعداد؟', a: 'يشمل رسم الإعداد التنفيذ الكامل لجميع الأنظمة، والإعداد التقني، والتكوين الفردي لعملك، وتدريب فريقك.' },
+      { q: 'ما الذي يتضمنه الدعم الشهري؟', a: 'يتضمن الدعم الشهري الصيانة والتحديثات والدعم التقني، وحسب الباقة، تحسينات منتظمة لنظامك.' },
+      { q: 'هل يمكنني الترقية؟', a: 'نعم، في أي وقت. يمكنك ترقية باقتك في أي وقت. نحن نتقاضى فقط الفرق.' },
+      { q: 'هل هناك عقد حد أدنى؟', a: 'رسم الإعداد لمرة واحدة. الدعم الشهري قابل للإلغاء شهرياً — بدون حد أدنى.' },
+      { q: 'ماذا لو لم أكن راضياً؟', a: 'نحن نقف وراء عملنا. إذا لم يعمل النظام كما تم الاتفاق، نراجعه مجاناً.' },
+    ],
+    ctaTitle: 'هل أنت مستعد للبدء؟',
+    ctaSub: 'استشارة مجانية — سنجد الباقة المناسبة لعملك.',
+  },
 };
 
 const planColors = {
@@ -197,11 +277,12 @@ interface Props {
 }
 
 export function PricingPage({ lang }: Props) {
-  const tx = t[lang];
-  const prefix = lang === 'en' ? '/en' : '';
+  const tx = (t as Record<string, typeof t['de']>)[lang] ?? t['de'];
+  const rtl = isRTL(lang);
+  const prefix = lang === 'en' ? '/en' : lang === 'ar' ? '/ar' : '';
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" dir={rtl ? 'rtl' : 'ltr'}>
       <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8">
         <div className="pointer-events-none absolute inset-0 -z-10">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[500px] w-[800px] rounded-full bg-blue-500/8 blur-[120px]" />
@@ -310,7 +391,7 @@ export function PricingPage({ lang }: Props) {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-white/10 bg-white/[0.03]">
-                      <th className="text-left px-6 py-4 text-sm font-semibold text-gray-400">{lang === 'de' ? 'Funktion' : 'Feature'}</th>
+                      <th className="text-left px-6 py-4 text-sm font-semibold text-gray-400">{lang === 'de' ? 'Funktion' : lang === 'ar' ? 'الميزة' : 'Feature'}</th>
                       <th className="px-4 py-4 text-sm font-semibold text-gray-300 text-center">Starter</th>
                       <th className="px-4 py-4 text-sm font-bold text-blue-400 text-center">Business</th>
                       <th className="px-4 py-4 text-sm font-semibold text-gray-300 text-center">Full</th>

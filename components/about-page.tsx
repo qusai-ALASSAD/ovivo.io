@@ -7,6 +7,7 @@ import { ArrowRight, Zap, Shield, Users, TrendingUp, Heart, Target } from 'lucid
 import { GlassCard, RevealSection, StaggerContainer, StaggerItem } from '@/components/ui/motion';
 import { SectionHeader } from '@/components/section-header';
 import type { Lang } from '@/lib/i18n';
+import { isRTL } from '@/lib/i18n';
 
 const t = {
   de: {
@@ -14,23 +15,23 @@ const t = {
       badge: 'Über Ovivo',
       title: 'Wir automatisieren',
       titleGradient: 'Ihren Betrieb',
-      sub: 'Ovivo hilft Unternehmen, ihre Kundenkommunikation, Reservierungen und Marketing mit KI und Automatisierung zu optimieren — sodass Sie sich auf das konzentrieren können, was Sie am besten können.',
+      sub: 'Ovivo wurde gegründet, weil wir täglich sahen, wie gute Unternehmen Kunden verlieren — nicht wegen schlechter Qualität, sondern wegen verpasster Anfragen und fehlender Erreichbarkeit. Wir haben die Lösung gebaut.',
     },
     story: {
       badge: 'Unsere Geschichte',
       title: 'Warum Ovivo',
       titleGradient: 'entstanden ist',
       p1: 'Wir haben beobachtet, wie Restaurants, Cafés und Servicebetriebe täglich Kunden verlieren — nicht wegen schlechter Qualität, sondern wegen fehlender Erreichbarkeit und langsamer Reaktionszeiten.',
-      p2: 'Telefonleitungen besetzt, WhatsApp-Nachrichten ohne Antwort, Reservierungsanfragen die zu spät bearbeitet werden. Diese Probleme kosten echtes Geld. Und sie haben alle eine Lösung: Automation.',
-      p3: 'Ovivo wurde gegründet, um genau diese Lücke zu schließen. Wir bauen KI-Systeme, die 24/7 für Ihr Unternehmen arbeiten — professionell, zuverlässig und vollautomatisch.',
+      p2: 'Telefonleitungen besetzt, WhatsApp-Nachrichten ohne Antwort, Reservierungsanfragen die zu spät bearbeitet werden — diese Probleme kosten echtes Geld. Und sie haben alle eine Lösung: Automation.',
+      p3: 'Ovivo wurde gegründet, um genau diese Lücke zu schließen. Wir bauen KI-Systeme, die 24/7 für Ihr Unternehmen arbeiten — professionell, zuverlässig und vollautomatisch. Das Ergebnis: Mehr Umsatz, weniger Stress.',
     },
     mission: {
       badge: 'Mission & Werte',
       title: 'Was uns',
       titleGradient: 'antreibt',
       values: [
-        { icon: Zap, title: 'Effizienz durch Automation', desc: 'Wir glauben, dass manuelle, repetitive Aufgaben von KI übernommen werden sollten — damit Menschen sich auf kreative und strategische Arbeit konzentrieren können.', color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/20' },
-        { icon: Heart, title: 'Ehrliche Partnerschaft', desc: 'Wir verkaufen keine Versprechen. Wir bauen Systeme, die messbare Ergebnisse liefern — und stehen langfristig an Ihrer Seite.', color: 'text-rose-400', bg: 'bg-rose-500/10 border-rose-500/20' },
+        { icon: Zap, title: 'Effizienz durch Automation', desc: 'Manuelle, repetitive Aufgaben sollten von KI übernommen werden — damit Menschen sich auf kreative und strategische Arbeit konzentrieren können.', color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/20' },
+        { icon: Heart, title: 'Ehrliche Partnerschaft', desc: 'Wir verkaufen keine leeren Versprechen. Wir bauen Systeme, die messbare Ergebnisse liefern — und stehen langfristig an Ihrer Seite.', color: 'text-rose-400', bg: 'bg-rose-500/10 border-rose-500/20' },
         { icon: Shield, title: 'Datenschutz first', desc: 'Alle unsere Systeme sind DSGVO-konform. Ihre Kundendaten und die Daten Ihrer Kunden sind bei uns sicher.', color: 'text-emerald-400', bg: 'bg-emerald-500/10 border-emerald-500/20' },
       ],
     },
@@ -40,9 +41,9 @@ const t = {
       titleGradient: 'unterscheidet',
       items: [
         { icon: Target, title: 'Branchenfokus', desc: 'Wir arbeiten ausschließlich mit Gastronomie und Servicebetrieben — unsere Lösungen sind tief auf Ihre Bedürfnisse optimiert.' },
-        { icon: Users, title: 'Persönlicher Service', desc: 'Kein anonymes Ticket-System. Sie haben einen festen Ansprechpartner, der Ihr Business kennt.' },
-        { icon: TrendingUp, title: 'Messbare Ergebnisse', desc: 'Wir tracken alle wichtigen KPIs und zeigen Ihnen genau, welchen ROI unsere Systeme liefern.' },
-        { icon: Zap, title: 'Schnelle Umsetzung', desc: 'Von der Beratung bis zum laufenden System in 5–14 Tagen. Kein langer Procurement-Prozess.' },
+        { icon: Users, title: 'Persönlicher Service', desc: 'Kein anonymes Ticket-System. Sie haben einen festen Ansprechpartner, der Ihr Business kennt und für Sie da ist.' },
+        { icon: TrendingUp, title: 'Messbare Ergebnisse', desc: 'Wir tracken alle wichtigen KPIs und zeigen Ihnen genau, welchen ROI unsere Systeme liefern — transparent und nachvollziehbar.' },
+        { icon: Zap, title: 'Schnelle Umsetzung', desc: 'Von der Beratung bis zum laufenden System in 5–14 Tagen. Kein langer Procurement-Prozess, kein IT-Aufwand für Sie.' },
       ],
     },
     stats: [
@@ -53,7 +54,7 @@ const t = {
     ],
     cta: {
       title: 'Bereit für den nächsten Schritt?',
-      sub: 'Buchen Sie eine kostenlose Beratung und erfahren Sie, wie wir Ihren Betrieb automatisieren können.',
+      sub: 'Buchen Sie eine kostenlose Beratung — wir analysieren Ihren Betrieb und zeigen Ihnen konkret, wie viel Umsatzpotenzial Sie gerade verschenken.',
       btn: 'Kostenlose Beratung anfragen',
     },
   },
@@ -62,24 +63,24 @@ const t = {
       badge: 'About Ovivo',
       title: 'We automate',
       titleGradient: 'your business',
-      sub: 'Ovivo helps businesses optimize their customer communication, reservations, and marketing with AI and automation — so you can focus on what you do best.',
+      sub: 'Ovivo was founded because we watched great businesses lose customers daily — not from poor quality, but from missed inquiries and unavailability. We built the solution.',
     },
     story: {
       badge: 'Our Story',
       title: 'Why Ovivo',
       titleGradient: 'was founded',
-      p1: 'We observed how restaurants, cafés, and service businesses lose customers every day — not because of poor quality, but because of unavailability and slow response times.',
-      p2: 'Busy phone lines, unanswered WhatsApp messages, reservation requests processed too late. These problems cost real money. And they all have one solution: automation.',
-      p3: 'Ovivo was founded to close exactly this gap. We build AI systems that work for your business 24/7 — professionally, reliably, and fully automatically.',
+      p1: 'We watched restaurants, cafés, and service businesses lose customers every day — not because of poor quality, but because of unavailability and slow response times.',
+      p2: "Busy phone lines, unanswered WhatsApp messages, reservation requests processed too late — these problems cost real money. And they all have one solution: automation.",
+      p3: 'Ovivo was founded to close exactly this gap. We build AI systems that work for your business 24/7 — professionally, reliably, and fully automatically. The result: more revenue, less stress.',
     },
     mission: {
       badge: 'Mission & Values',
       title: 'What drives',
       titleGradient: 'us',
       values: [
-        { icon: Zap, title: 'Efficiency Through Automation', desc: 'We believe manual, repetitive tasks should be handled by AI — so people can focus on creative and strategic work.', color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/20' },
-        { icon: Heart, title: 'Honest Partnership', desc: "We don't sell promises. We build systems that deliver measurable results — and stand by your side long-term.", color: 'text-rose-400', bg: 'bg-rose-500/10 border-rose-500/20' },
-        { icon: Shield, title: 'Privacy First', desc: 'All our systems are GDPR-compliant. Your customer data and your customers\' data is safe with us.', color: 'text-emerald-400', bg: 'bg-emerald-500/10 border-emerald-500/20' },
+        { icon: Zap, title: 'Efficiency Through Automation', desc: 'Manual, repetitive tasks should be handled by AI — so people can focus on creative and strategic work.', color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/20' },
+        { icon: Heart, title: 'Honest Partnership', desc: "We don't sell empty promises. We build systems that deliver measurable results — and stand by your side long-term.", color: 'text-rose-400', bg: 'bg-rose-500/10 border-rose-500/20' },
+        { icon: Shield, title: 'Privacy First', desc: "All our systems are GDPR-compliant. Your data and your customers' data is safe with us.", color: 'text-emerald-400', bg: 'bg-emerald-500/10 border-emerald-500/20' },
       ],
     },
     why: {
@@ -87,10 +88,10 @@ const t = {
       title: 'What sets',
       titleGradient: 'us apart',
       items: [
-        { icon: Target, title: 'Industry Focus', desc: 'We work exclusively with hospitality and service businesses — our solutions are deeply optimized for your needs.' },
-        { icon: Users, title: 'Personal Service', desc: 'No anonymous ticket system. You have a dedicated contact person who knows your business.' },
-        { icon: TrendingUp, title: 'Measurable Results', desc: 'We track all key KPIs and show you exactly what ROI our systems deliver.' },
-        { icon: Zap, title: 'Fast Implementation', desc: 'From consultation to live system in 5–14 days. No lengthy procurement process.' },
+        { icon: Target, title: 'Industry Focus', desc: 'We work exclusively with hospitality and service businesses — our solutions are deeply optimized for your specific needs.' },
+        { icon: Users, title: 'Personal Service', desc: 'No anonymous ticket system. You have a dedicated contact person who knows your business and is always there for you.' },
+        { icon: TrendingUp, title: 'Measurable Results', desc: 'We track all key KPIs and show you exactly what ROI our systems deliver — transparent and verifiable.' },
+        { icon: Zap, title: 'Fast Implementation', desc: 'From consultation to live system in 5–14 days. No lengthy procurement process, no IT effort required from you.' },
       ],
     },
     stats: [
@@ -101,8 +102,56 @@ const t = {
     ],
     cta: {
       title: 'Ready for the next step?',
-      sub: 'Book a free consultation and find out how we can automate your business.',
+      sub: 'Book a free consultation — we analyze your business and show you exactly how much revenue potential you are currently leaving behind.',
       btn: 'Request free consultation',
+    },
+  },
+  ar: {
+    hero: {
+      badge: 'من نحن',
+      title: 'نحن نؤتمت',
+      titleGradient: 'أعمالك',
+      sub: 'تأسس أوفيفو لأننا رأينا كيف تخسر شركات رائعة عملاءها يومياً — ليس بسبب ضعف الجودة، بل بسبب الاستفسارات الفائتة وعدم التوفر. بنينا الحل.',
+    },
+    story: {
+      badge: 'قصتنا',
+      title: 'لماذا تأسس',
+      titleGradient: 'أوفيفو',
+      p1: 'رأينا كيف تخسر المطاعم والمقاهي وشركات الخدمات عملاءها يومياً — ليس بسبب ضعف الجودة، بل بسبب عدم التوفر وبطء الاستجابة.',
+      p2: 'خطوط هاتف مشغولة، رسائل واتساب بلا رد، طلبات حجز تُعالج متأخرة — هذه المشاكل تكلف أموالاً حقيقية. وكلها لها حل واحد: الأتمتة.',
+      p3: 'تأسس أوفيفو لسد هذه الفجوة تحديداً. نبني أنظمة ذكاء اصطناعي تعمل لصالح أعمالك 24/7 — باحترافية وموثوقية وبشكل كامل تلقائي. النتيجة: مزيد من الإيرادات، أقل توتر.',
+    },
+    mission: {
+      badge: 'مهمتنا وقيمنا',
+      title: 'ما الذي',
+      titleGradient: 'يحركنا',
+      values: [
+        { icon: Zap, title: 'الكفاءة عبر الأتمتة', desc: 'المهام اليدوية المتكررة يجب أن يتولاها الذكاء الاصطناعي — حتى يتفرغ الناس للعمل الإبداعي والاستراتيجي.', color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/20' },
+        { icon: Heart, title: 'شراكة صادقة', desc: 'نحن لا نبيع وعوداً فارغة. نبني أنظمة تحقق نتائج قابلة للقياس — ونقف إلى جانبك على المدى البعيد.', color: 'text-rose-400', bg: 'bg-rose-500/10 border-rose-500/20' },
+        { icon: Shield, title: 'الخصوصية أولاً', desc: 'جميع أنظمتنا متوافقة مع لوائح حماية البيانات. بياناتك وبيانات عملائك في أمان تام معنا.', color: 'text-emerald-400', bg: 'bg-emerald-500/10 border-emerald-500/20' },
+      ],
+    },
+    why: {
+      badge: 'لماذا أوفيفو',
+      title: 'ما الذي',
+      titleGradient: 'يميزنا',
+      items: [
+        { icon: Target, title: 'تركيز على القطاع', desc: 'نعمل حصرياً مع المطاعم وشركات الخدمات — حلولنا محسّنة بعمق لاحتياجاتك الخاصة.' },
+        { icon: Users, title: 'خدمة شخصية', desc: 'لا نظام تذاكر مجهول. لديك متخصص مخصص يعرف أعمالك وهو دائماً في خدمتك.' },
+        { icon: TrendingUp, title: 'نتائج قابلة للقياس', desc: 'نتتبع جميع مؤشرات الأداء الرئيسية ونريك بالضبط ما يحققه نظامنا من عائد استثمار — بشفافية وإثبات.' },
+        { icon: Zap, title: 'تنفيذ سريع', desc: 'من الاستشارة إلى النظام الحي في 5–14 يوماً. لا عملية شراء طويلة، لا جهد تقني مطلوب منك.' },
+      ],
+    },
+    stats: [
+      { value: '+200', label: 'شركة تم أتمتتها' },
+      { value: '94%', label: 'استفسارات تُجاب تلقائياً' },
+      { value: '+35%', label: 'متوسط زيادة الإيرادات' },
+      { value: '5–14', label: 'يوماً حتى التشغيل الحي' },
+    ],
+    cta: {
+      title: 'هل أنت مستعد للخطوة التالية؟',
+      sub: 'احجز استشارة مجانية — نحلل أعمالك ونريك بالضبط كم من الإيرادات تتركها وراءك الآن.',
+      btn: 'اطلب استشارة مجانية',
     },
   },
 };
@@ -113,10 +162,32 @@ interface Props {
 
 export function AboutPage({ lang }: Props) {
   const tx = t[lang];
-  const prefix = lang === 'en' ? '/en' : '';
+  const rtl = isRTL(lang);
+  const prefix = lang === 'en' ? '/en' : lang === 'ar' ? '/ar' : '';
+
+  const caseStudies = lang === 'ar'
+    ? [
+        { icon: '🍽️', label: 'مطعم بيلا فيستا، ميونخ', result: '90% حجوزات مؤتمتة' },
+        { icon: '☕', label: 'كافيه آم زيه، هامبورغ', result: '+40% احتفاظ بالعملاء' },
+        { icon: '💇', label: 'صالون إليز، برلين', result: '+45% حجوزات أكثر' },
+        { icon: '🏋️', label: 'فيت لايف ستوديو، فرانكفورت', result: '-60% جهد يدوي' },
+      ]
+    : lang === 'en'
+    ? [
+        { icon: '🍽️', label: 'Restaurant Bella Vista, Munich', result: '90% reservations automated' },
+        { icon: '☕', label: 'Café am See, Hamburg', result: '+40% customer retention' },
+        { icon: '💇', label: 'Salon Elise, Berlin', result: '+45% more bookings' },
+        { icon: '🏋️', label: 'FitLife Studio, Frankfurt', result: '-60% manual effort' },
+      ]
+    : [
+        { icon: '🍽️', label: 'Restaurant Bella Vista, München', result: '90% Reservierungen automatisiert' },
+        { icon: '☕', label: 'Café am See, Hamburg', result: '+40% Stammkundenbindung' },
+        { icon: '💇', label: 'Salon Elise, Berlin', result: '+45% mehr Buchungen' },
+        { icon: '🏋️', label: 'FitLife Studio, Frankfurt', result: '-60% manueller Aufwand' },
+      ];
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" dir={rtl ? 'rtl' : 'ltr'}>
       {/* Hero */}
       <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8">
         <div className="pointer-events-none absolute inset-0 -z-10">
@@ -170,12 +241,7 @@ export function AboutPage({ lang }: Props) {
             <RevealSection>
               <GlassCard className="p-8">
                 <div className="space-y-5">
-                  {[
-                    { icon: '🍽️', label: lang === 'de' ? 'Restaurant Bella Vista, München' : 'Restaurant Bella Vista, Munich', result: lang === 'de' ? '90% Reservierungen automatisiert' : '90% reservations automated' },
-                    { icon: '☕', label: lang === 'de' ? 'Café am See, Hamburg' : 'Café am See, Hamburg', result: lang === 'de' ? '+40% Stammkundenbindung' : '+40% customer retention' },
-                    { icon: '💇', label: lang === 'de' ? 'Salon Elise, Berlin' : 'Salon Elise, Berlin', result: lang === 'de' ? '+45% mehr Buchungen' : '+45% more bookings' },
-                    { icon: '🏋️', label: lang === 'de' ? 'FitLife Studio, Frankfurt' : 'FitLife Studio, Frankfurt', result: lang === 'de' ? '-60% manueller Aufwand' : '-60% manual effort' },
-                  ].map((item) => (
+                  {caseStudies.map((item) => (
                     <div key={item.label} className="flex items-center gap-4 border-b border-white/5 pb-5 last:border-0 last:pb-0">
                       <span className="text-2xl">{item.icon}</span>
                       <div className="flex-1">
@@ -252,7 +318,7 @@ export function AboutPage({ lang }: Props) {
                 <Button size="lg" className="group bg-blue-500 hover:bg-blue-400 text-white px-8 py-6 text-base font-semibold transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)]">
                   <span className="flex items-center gap-2">
                     {tx.cta.btn}
-                    <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+                    <ArrowRight className={`h-5 w-5 transition-transform group-hover:translate-x-1 ${rtl ? 'rotate-180' : ''}`} />
                   </span>
                 </Button>
               </Link>

@@ -9,6 +9,7 @@ import { ArrowRight, CircleCheck as CheckCircle, Mail, Phone, MessageSquare, Map
 import { GlassCard, RevealSection, StaggerContainer, StaggerItem } from '@/components/ui/motion';
 import { SectionHeader } from '@/components/section-header';
 import type { Lang } from '@/lib/i18n';
+import { isRTL } from '@/lib/i18n';
 
 const t = {
   de: {
@@ -87,6 +88,44 @@ const t = {
       { q: 'Is there a minimum contract period?', a: 'Monthly support is cancelable monthly. We trust the quality of our work.' },
     ],
   },
+  ar: {
+    badge: 'تواصل معنا',
+    title: 'دعنا نتحدث',
+    titleGradient: 'عن مشروعك',
+    sub: 'املأ النموذج أو تواصل معنا مباشرة — سنرد عليك خلال 24 ساعة.',
+    formTitle: 'اطلب استشارة مجانية',
+    formSub: 'بدون التزام. مجاناً. رد خلال 24 ساعة.',
+    nameLabel: 'اسمك',
+    emailLabel: 'البريد الإلكتروني',
+    phoneLabel: 'الهاتف (اختياري)',
+    companyLabel: 'الشركة والقطاع',
+    messageLabel: 'ما الذي تريد أتمتته؟',
+    namePlaceholder: 'محمد أحمد',
+    emailPlaceholder: 'mohammed@restaurant.com',
+    phonePlaceholder: '+49 176 56565322',
+    companyPlaceholder: 'مطعم بيلا فيستا — ضيافة',
+    messagePlaceholder: 'ندير مطعماً بـ 80 مقعداً ونريد أتمتة الحجوزات واستفسارات واتساب والاحتفاظ بالعملاء...',
+    submitBtn: 'إرسال الطلب',
+    successTitle: 'تم إرسال الطلب!',
+    successMsg: 'شكراً لك! سنتواصل معك خلال 24 ساعة عبر البريد الإلكتروني أو الهاتف.',
+    trust: ['متوافق مع حماية البيانات', 'مجاني وبدون التزام', 'رد خلال 24 ساعة'],
+    contactTitle: 'تواصل مباشر',
+    whatsappLabel: 'واتساب',
+    whatsappDesc: 'راسلنا مباشرة على واتساب — أسرع وقت استجابة.',
+    whatsappBtn: 'فتح واتساب',
+    emailAddr: 'hello@ovivo.io',
+    emailDesc: 'للاستفسارات التفصيلية والوثائق.',
+    phoneDesc: 'الاثنين–الجمعة، 9 صباحاً–6 مساءً',
+    location: 'هامبورغ، ألمانيا',
+    responseTime: 'رد خلال 24 ساعة',
+    responseDesc: 'نرد على جميع الاستفسارات خلال 24 ساعة.',
+    faqTitle: 'الأسئلة الشائعة',
+    faqs: [
+      { q: 'ماذا يحدث بعد طلبي؟', a: 'سنتواصل معك خلال 24 ساعة ونجدول مكالمة مجانية لمدة 30 دقيقة لتحليل أعمالك.' },
+      { q: 'هل أحتاج إلى معرفة تقنية؟', a: 'لا. نحن نتولى جميع الجوانب التقنية. تحتاج فقط أن تعرف ما تريد أتمتته.' },
+      { q: 'هل هناك حد أدنى لمدة العقد؟', a: 'الدعم الشهري قابل للإلغاء شهرياً. نثق بجودة عملنا.' },
+    ],
+  },
 };
 
 interface Props {
@@ -94,7 +133,8 @@ interface Props {
 }
 
 export function ContactPage({ lang }: Props) {
-  const tx = t[lang];
+  const tx = t[lang] ?? t['de'];
+  const rtl = isRTL(lang);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -121,7 +161,7 @@ export function ContactPage({ lang }: Props) {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" dir={rtl ? 'rtl' : 'ltr'}>
       <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8">
         <div className="pointer-events-none absolute inset-0 -z-10">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[500px] w-[800px] rounded-full bg-blue-500/8 blur-[120px]" />
@@ -182,7 +222,7 @@ export function ContactPage({ lang }: Props) {
                           {submitting ? (
                             <span className="flex items-center gap-2">
                               <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full" />
-                              {lang === 'de' ? 'Wird gesendet...' : 'Sending...'}
+                              {lang === 'de' ? 'Wird gesendet...' : lang === 'ar' ? 'جارٍ الإرسال...' : 'Sending...'}
                             </span>
                           ) : (
                             <span className="flex items-center gap-2">

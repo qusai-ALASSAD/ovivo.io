@@ -165,6 +165,33 @@ const t = {
     viewPackages: 'View packages',
     trust: ['GDPR compliant', 'Free & no obligation', 'Reply within 24h'],
   },
+  ar: {
+    badge: 'عرض مباشر',
+    title: 'جرّب',
+    titleGradient: 'مساعدنا الذكي',
+    subtitle: 'تحدث مباشرة مع مساعدنا الذكي واكتشف كيف يمكننا أتمتة أعمالك.',
+    chatTitle: 'مساعد أوفيفو الذكي',
+    chatSub: 'اسألني أي شيء عن الأتمتة',
+    online: 'متصل',
+    placeholder: 'اطرح سؤالاً...',
+    send: 'إرسال',
+    quickLabel: 'أسئلة سريعة:',
+    leadTitle: 'اطلب استشارة مجانية',
+    leadSub: 'اترك بياناتك — سنتواصل معك خلال 24 ساعة.',
+    nameLabel: 'اسمك',
+    emailLabel: 'البريد الإلكتروني',
+    companyLabel: 'الشركة / القطاع',
+    messageLabel: 'ما الذي تريد أتمتته؟',
+    namePlaceholder: 'محمد أحمد',
+    emailPlaceholder: 'mohammed@example.com',
+    companyPlaceholder: 'مطعم بيلا فيستا',
+    messagePlaceholder: 'أدير مطعماً وأريد أتمتة الحجوزات...',
+    submitBtn: 'اطلب استشارة مجانية',
+    successTitle: 'تم الإرسال!',
+    successMsg: 'سنتواصل معك خلال 24 ساعة. في هذه الأثناء، تصفح باقاتنا.',
+    viewPackages: 'عرض الباقات',
+    trust: ['متوافق مع حماية البيانات', 'مجاني وبدون التزام', 'رد خلال 24 ساعة'],
+  },
 };
 
 interface Props {
@@ -172,13 +199,15 @@ interface Props {
 }
 
 export function DemoPage({ lang }: Props) {
-  const tx = t[lang];
-  const prefix = lang === 'en' ? '/en' : '';
+  const tx = (t as Record<string, typeof t['de']>)[lang] ?? t['de'];
+  const prefix = lang === 'en' ? '/en' : lang === 'ar' ? '/ar' : '';
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
       content: lang === 'de'
         ? 'Hallo! Ich bin der KI-Assistent von Ovivo. Ich helfe Ihnen dabei, mehr über unsere Automation-Lösungen zu erfahren. Für welche Branche oder welches Thema interessieren Sie sich?'
+        : lang === 'ar'
+        ? 'مرحباً! أنا مساعد أوفيفو الذكي. أنا هنا لمساعدتك على معرفة المزيد عن حلول الأتمتة لدينا. بأي قطاع أو موضوع تهتم؟'
         : "Hello! I'm Ovivo's AI assistant. I'm here to help you learn about our automation solutions. What industry or topic are you interested in?",
     },
   ]);
@@ -198,13 +227,14 @@ export function DemoPage({ lang }: Props) {
 
   function getResponse(userMsg: string): string {
     const lower = userMsg.toLowerCase();
-    const responses = demoResponses[lang];
+    const responseLang = lang === 'ar' ? 'en' : lang;
+    const responses = demoResponses[responseLang];
     for (const item of responses) {
       if (item.triggers.some((t) => lower.includes(t))) {
         return item.response;
       }
     }
-    return defaultResponses[lang];
+    return (defaultResponses as Record<string, string>)[lang] ?? defaultResponses['en'];
   }
 
   async function sendMessage(text: string) {
@@ -320,7 +350,7 @@ export function DemoPage({ lang }: Props) {
               <div className="px-5 py-2 border-t border-white/5">
                 <p className="text-[10px] text-gray-600 uppercase tracking-wider mb-2">{tx.quickLabel}</p>
                 <div className="flex flex-wrap gap-1.5">
-                  {quickPrompts[lang].map((p) => (
+                  {(quickPrompts[lang === 'ar' ? 'en' : lang] ?? quickPrompts['en']).map((p) => (
                     <button
                       key={p}
                       onClick={() => sendMessage(p)}
@@ -441,7 +471,7 @@ export function DemoPage({ lang }: Props) {
                                 transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
                                 className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full"
                               />
-                              {lang === 'de' ? 'Wird gesendet...' : 'Sending...'}
+                              {lang === 'de' ? 'Wird gesendet...' : lang === 'ar' ? 'جارٍ الإرسال...' : 'Sending...'}
                             </span>
                           ) : (
                             <span className="flex items-center gap-2">
@@ -467,9 +497,9 @@ export function DemoPage({ lang }: Props) {
               {/* Contact options */}
               <div className="grid grid-cols-3 gap-3">
                 {[
-                  { icon: Phone, label: lang === 'de' ? 'Anrufen' : 'Call', href: 'tel:+4917656565322', color: 'text-emerald-400' },
+                  { icon: Phone, label: lang === 'de' ? 'Anrufen' : lang === 'ar' ? 'اتصل' : 'Call', href: 'tel:+4917656565322', color: 'text-emerald-400' },
                   { icon: MessageSquare, label: 'WhatsApp', href: 'https://wa.me/4917656565322', color: 'text-emerald-400' },
-                  { icon: Mail, label: lang === 'de' ? 'E-Mail' : 'Email', href: 'mailto:hello@ovivo.io', color: 'text-blue-400' },
+                  { icon: Mail, label: lang === 'de' ? 'E-Mail' : lang === 'ar' ? 'بريد' : 'Email', href: 'mailto:hello@ovivo.io', color: 'text-blue-400' },
                 ].map((item) => {
                   const Icon = item.icon;
                   return (

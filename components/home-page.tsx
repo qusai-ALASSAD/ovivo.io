@@ -9,7 +9,7 @@ import { Sparkles, Zap, ArrowRight, CircleCheck as CheckCircle, Star, ChevronLef
 import { GlassCard, RevealSection, StaggerContainer, StaggerItem } from '@/components/ui/motion';
 import { SectionHeader } from '@/components/section-header';
 import type { Lang } from '@/lib/i18n';
-import { content } from '@/lib/i18n';
+import { content, isRTL } from '@/lib/i18n';
 
 const solutionIcons = [Bot, Phone, Target, Calendar, Mail, Database];
 const solutionColors = [
@@ -40,6 +40,11 @@ const heroMetrics = {
     { label: 'Less manual work', value: '-70%', color: 'text-blue-400' },
     { label: 'More bookings & reservations', value: '+3x', color: 'text-orange-400' },
   ],
+  ar: [
+    { label: 'من الاستفسارات تُجاب تلقائياً', value: '94%', color: 'text-emerald-400' },
+    { label: 'تقليل العمل اليدوي', value: '-70%', color: 'text-blue-400' },
+    { label: 'ضعف الحجوزات والمواعيد', value: '+3x', color: 'text-orange-400' },
+  ],
 };
 
 const industries = {
@@ -63,6 +68,16 @@ const industries = {
     { icon: '🛒', label: 'Retail' },
     { icon: '🏨', label: 'Hotels & Accommodation' },
   ],
+  ar: [
+    { icon: '🍽️', label: 'المطاعم والضيافة' },
+    { icon: '☕', label: 'المقاهي والمخابز' },
+    { icon: '💇', label: 'الصالونات والتجميل' },
+    { icon: '🏋️', label: 'صالات اللياقة' },
+    { icon: '🏥', label: 'العيادات الطبية' },
+    { icon: '🏠', label: 'الخدمات والحرف' },
+    { icon: '🛒', label: 'تجارة التجزئة' },
+    { icon: '🏨', label: 'الفنادق والإقامة' },
+  ],
 };
 
 const testimonials = {
@@ -75,6 +90,11 @@ const testimonials = {
     { quote: 'Since we got the AI chatbot, 90% of table reservations are confirmed automatically. We save 2 hours every day — and guests love it.', name: 'Thomas K.', role: 'Restaurant Owner, Munich' },
     { quote: 'WhatsApp now runs fully automatically. Orders, questions, reminders — all without staff. Our revenue grew by 35% in 3 months.', name: 'Sabrina M.', role: 'Café Owner, Hamburg' },
     { quote: 'The CRM system completely changed how we handle customer relationships. Regular customers are contacted automatically, reviews come in by themselves.', name: 'Michael R.', role: 'Hair Salon Owner, Berlin' },
+  ],
+  ar: [
+    { quote: 'منذ تركيب روبوت الذكاء الاصطناعي، تأكد 90% من حجوزات الطاولات تلقائياً. نوفر ساعتين يومياً — والضيوف سعداء جداً.', name: 'توماس ك.', role: 'صاحب مطعم، ميونخ' },
+    { quote: 'واتساب يعمل الآن بشكل تلقائي كامل. الطلبات، الاستفسارات، التذكيرات — كلها دون موظفين. إيراداتنا ارتفعت 35% في 3 أشهر.', name: 'سابرينا م.', role: 'صاحبة مقهى، هامبورغ' },
+    { quote: 'نظام CRM غيّر طريقة تعاملنا مع العملاء كلياً. العملاء الدائمون يُتابَعون تلقائياً والتقييمات تأتي من تلقاء نفسها.', name: 'مايكل ر.', role: 'صاحب صالون تجميل، برلين' },
   ],
 };
 
@@ -95,6 +115,14 @@ const faqs = {
     { q: 'Can I cancel monthly?', a: 'Yes, monthly support is cancelable on a monthly basis. The one-time setup fee is non-refundable.' },
     { q: 'What happens after the consultation?', a: "After the free consultation, you'll receive a concrete proposal. If you agree, we start implementation within 48 hours." },
   ],
+  ar: [
+    { q: 'ما القطاعات التي يخدمها أوفيفو؟', a: 'أوفيفو مصمم خصيصاً للمطاعم والمقاهي والبارات، وشركات الخدمات (صالونات التجميل، اللياقة البدنية)، ومقدمي الخدمات المحليين — في أي مكان تحدث فيه استفسارات وحجوزات يومية.' },
+    { q: 'كم من الوقت يستغرق الإعداد؟', a: 'حسب الباقة، يستغرق التنفيذ الكامل 5–14 يوم عمل. نتولى كل شيء — من الإعداد التقني إلى تدريب فريقك.' },
+    { q: 'هل أحتاج إلى معرفة تقنية؟', a: 'لا. نحن نتولى جميع الجوانب التقنية. ستحصل على نظام جاهز للاستخدام يمكنك تشغيله دون أي معرفة تقنية.' },
+    { q: 'ما المقصود بالدعم الشهري؟', a: 'يشمل الدعم الشهري الصيانة والتحديثات والدعم التقني والتحسينات الشهرية لنظامك.' },
+    { q: 'هل يمكنني الإلغاء شهرياً؟', a: 'نعم، يمكن إلغاء الاشتراك الشهري في أي وقت. رسوم الإعداد لمرة واحدة غير قابلة للاسترداد.' },
+    { q: 'ماذا يحدث بعد الاستشارة؟', a: 'بعد الاستشارة المجانية، ستحصل على عرض محدد. إذا وافقت، نبدأ التنفيذ خلال 48 ساعة.' },
+  ],
 };
 
 const stats = {
@@ -110,6 +138,12 @@ const stats = {
     { icon: TrendingUp, value: '+35%', label: 'Average revenue increase' },
     { icon: ShieldCheck, value: '98%', label: 'Customer satisfaction' },
   ],
+  ar: [
+    { icon: Users, value: '+200', label: 'شركة نخدمها' },
+    { icon: Clock, value: '24/7', label: 'متاح دائماً' },
+    { icon: TrendingUp, value: '+35%', label: 'متوسط زيادة الإيرادات' },
+    { icon: ShieldCheck, value: '98%', label: 'رضا العملاء' },
+  ],
 };
 
 const stepIcons = [Phone, Bot, Database, Zap];
@@ -120,8 +154,9 @@ interface Props {
 
 export function HomePage({ lang }: Props) {
   const t = content[lang];
+  const rtl = isRTL(lang);
   const [testimonialIndex, setTestimonialIndex] = useState(0);
-  const prefix = lang === 'en' ? '/en' : '';
+  const prefix = lang === 'en' ? '/en' : lang === 'ar' ? '/ar' : '';
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -130,8 +165,139 @@ export function HomePage({ lang }: Props) {
     return () => clearInterval(timer);
   }, [lang]);
 
+  const liveLabel = lang === 'de' ? 'Automation live — Restaurant Bella Vista' : lang === 'ar' ? 'أتمتة مباشرة — مطعم بيلا فيستا' : 'Live automation — Restaurant Bella Vista';
+  const activeLabel = lang === 'de' ? 'Aktiv' : lang === 'ar' ? 'نشط' : 'Active';
+  const automatedLabel = lang === 'de' ? 'Heute: 47 Aktionen automatisiert' : lang === 'ar' ? 'اليوم: 47 إجراء آلي' : 'Today: 47 actions automated';
+  const noManualLabel = lang === 'de' ? '0 manuelle Eingriffe' : lang === 'ar' ? '0 تدخل يدوي' : '0 manual interventions';
+  const businessesLabel = lang === 'de' ? '200+ Betriebe aktiv' : lang === 'ar' ? '+200 شركة نشطة' : '200+ businesses active';
+  const setupLabel = lang === 'de' ? 'Setup in 5–14 Tagen' : lang === 'ar' ? 'تشغيل في 5–14 يوماً' : 'Setup in 5–14 days';
+
+  const chatItems = lang === 'ar'
+    ? [
+        { icon: MessageSquare, label: 'واتساب', msg: 'طاولة لـ 4 أشخاص الجمعة الساعة 7 مساءً؟', reply: 'تم التأكيد تلقائياً ✓', time: '09:12', color: 'text-emerald-400', dot: 'bg-emerald-400' },
+        { icon: Calendar, label: 'حجز', msg: 'تم استلام حجز إلكتروني', reply: 'أضيف للتقويم + أُرسل التأكيد', time: '09:14', color: 'text-blue-400', dot: 'bg-blue-400' },
+        { icon: Bot, label: 'روبوت', msg: 'هل لديكم خيارات نباتية؟', reply: 'ردّ الذكاء الاصطناعي + أُرسل رابط القائمة', time: '09:18', color: 'text-orange-400', dot: 'bg-orange-400' },
+        { icon: Mail, label: 'متابعة', msg: 'طلب تقييم (بعد يومين من الزيارة)', reply: 'أُرسل تلقائياً لـ 12 ضيف', time: '09:30', color: 'text-rose-400', dot: 'bg-rose-400' },
+      ]
+    : lang === 'en'
+    ? [
+        { icon: MessageSquare, label: 'WhatsApp', msg: 'Table for 4 on Friday at 7pm?', reply: 'Auto confirmed ✓', time: '09:12', color: 'text-emerald-400', dot: 'bg-emerald-400' },
+        { icon: Calendar, label: 'Booking', msg: 'Online reservation received', reply: 'Added to calendar + confirmation sent', time: '09:14', color: 'text-blue-400', dot: 'bg-blue-400' },
+        { icon: Bot, label: 'Chatbot', msg: 'Do you have vegan options?', reply: 'AI replied + menu link sent', time: '09:18', color: 'text-orange-400', dot: 'bg-orange-400' },
+        { icon: Mail, label: 'Follow-up', msg: 'Review request (2 days after visit)', reply: 'Automatically sent to 12 guests', time: '09:30', color: 'text-rose-400', dot: 'bg-rose-400' },
+      ]
+    : [
+        { icon: MessageSquare, label: 'WhatsApp', msg: 'Tisch für 4 Personen am Freitag 19 Uhr?', reply: 'Automatisch bestätigt ✓', time: '09:12', color: 'text-emerald-400', dot: 'bg-emerald-400' },
+        { icon: Calendar, label: 'Buchung', msg: 'Online-Reservierung eingegangen', reply: 'In Kalender eingetragen + Bestätigung gesendet', time: '09:14', color: 'text-blue-400', dot: 'bg-blue-400' },
+        { icon: Bot, label: 'Chatbot', msg: 'Haben Sie vegane Optionen?', reply: 'KI hat geantwortet + Menülink gesendet', time: '09:18', color: 'text-orange-400', dot: 'bg-orange-400' },
+        { icon: Mail, label: 'Follow-up', msg: 'Bewertungsanfrage (2 Tage nach Besuch)', reply: 'Automatisch an 12 Gäste gesendet', time: '09:30', color: 'text-rose-400', dot: 'bg-rose-400' },
+      ];
+
+  const pricingBadge = lang === 'de' ? 'Pakete & Preise' : lang === 'ar' ? 'الباقات والأسعار' : 'Packages & Pricing';
+  const pricingTitle = lang === 'de' ? 'Transparent.' : lang === 'ar' ? 'شفاف.' : 'Transparent.';
+  const pricingGradient = lang === 'de' ? 'Leistungsstark.' : lang === 'ar' ? 'قوي.' : 'Powerful.';
+  const pricingSub = lang === 'de' ? 'Drei Pakete für jeden Bedarf — einmaliger Setup + monatliche Betreuung.' : lang === 'ar' ? 'ثلاث باقات لكل احتياج — إعداد لمرة واحدة + رعاية شهرية.' : 'Three packages for every need — one-time setup + monthly support.';
+  const monthlyLabel = lang === 'de' ? 'Monatlich' : lang === 'ar' ? 'شهرياً' : 'Monthly';
+  const consultationBtn = lang === 'de' ? 'Kostenlose Beratung anfragen' : lang === 'ar' ? 'اطلب استشارة مجانية' : 'Request free consultation';
+  const priceNote = lang === 'de' ? 'Endpreis abhängig von Betriebsgröße und Automatisierungsumfang.' : lang === 'ar' ? 'السعر النهائي يعتمد على حجم الشركة ونطاق الأتمتة.' : 'Final price depends on business size and automation requirements.';
+  const testimonialsLabel = lang === 'de' ? 'Kundenstimmen' : lang === 'ar' ? 'آراء العملاء' : 'Testimonials';
+  const whatBusinessesSay = lang === 'de' ? 'Was Betriebe sagen' : lang === 'ar' ? 'ما يقوله عملاؤنا' : 'What our clients say';
+  const aboutOvivo = lang === 'de' ? 'über Ovivo' : lang === 'ar' ? 'عن أوفيفو' : 'about Ovivo';
+  const faqBadge = lang === 'de' ? 'Häufige Fragen' : lang === 'ar' ? 'الأسئلة الشائعة' : 'Frequently Asked Questions';
+  const industriesLabel = lang === 'de' ? 'Für diese Branchen bauen wir KI-Automation' : lang === 'ar' ? 'القطاعات التي نبني لها الأتمتة الذكية' : 'Industries we build AI automation for';
+
+  const plans = lang === 'ar'
+    ? [
+        {
+          name: 'الباقة الأساسية',
+          setup: 'من €1,200',
+          monthly: 'من €120 / شهر',
+          badge: null,
+          highlighted: false,
+          features: ['روبوت دردشة ذكي', 'التقاط العملاء', 'تكامل واتساب', 'دعم أساسي'],
+          ideal: 'مثالي لصاحب العمل الفردي',
+        },
+        {
+          name: 'باقة الأعمال',
+          setup: 'من €2,200',
+          monthly: 'من €220 / شهر',
+          badge: 'الأكثر طلباً',
+          highlighted: true,
+          features: ['روبوت دردشة متطور', 'أتمتة واتساب', 'نظام حجز', 'تكامل CRM', 'دعم مميز'],
+          ideal: 'مثالي للمطاعم والمقاهي',
+        },
+        {
+          name: 'أتمتة كاملة + تسويق',
+          setup: 'من €3,200',
+          monthly: 'من €450 / شهر',
+          badge: 'أقصى أداء',
+          highlighted: false,
+          features: ['نظام ذكاء اصطناعي متكامل', 'أتمتة التسويق', 'نظام CRM', 'تحسين شهري', 'دعم تقني'],
+          ideal: 'مثالي للشركات النامية',
+        },
+      ]
+    : lang === 'en'
+    ? [
+        {
+          name: 'Starter Automation',
+          setup: 'from €1,200',
+          monthly: 'from €120 / mo',
+          badge: null,
+          highlighted: false,
+          features: ['AI Chatbot', 'Lead Capture', 'WhatsApp Integration', 'Basic Support'],
+          ideal: 'Ideal for sole traders',
+        },
+        {
+          name: 'Business Automation',
+          setup: 'from €2,200',
+          monthly: 'from €220 / mo',
+          badge: 'Most Popular',
+          highlighted: true,
+          features: ['Advanced AI Chatbot', 'WhatsApp Automation', 'Booking System', 'CRM Integration', 'Priority Support'],
+          ideal: 'Ideal for restaurants & cafés',
+        },
+        {
+          name: 'Full Automation + Marketing',
+          setup: 'from €3,200',
+          monthly: 'from €450 / mo',
+          badge: 'Maximum Power',
+          highlighted: false,
+          features: ['Complete AI System', 'Marketing Automation', 'CRM System', 'Monthly Optimization', 'Technical Support'],
+          ideal: 'Ideal for growing businesses',
+        },
+      ]
+    : [
+        {
+          name: 'Starter Automation',
+          setup: 'ab €1.200',
+          monthly: 'ab €120 / Monat',
+          badge: null,
+          highlighted: false,
+          features: ['KI-Chatbot', 'Lead Capture', 'WhatsApp Integration', 'Basis-Support'],
+          ideal: 'Ideal für Einzelbetriebe',
+        },
+        {
+          name: 'Business Automation',
+          setup: 'ab €2.200',
+          monthly: 'ab €220 / Monat',
+          badge: 'Beliebtestes Paket',
+          highlighted: true,
+          features: ['Erweiterter KI-Chatbot', 'WhatsApp Automation', 'Buchungssystem', 'CRM Integration', 'Priority Support'],
+          ideal: 'Ideal für Restaurants & Cafés',
+        },
+        {
+          name: 'Full Automation + Marketing',
+          setup: 'ab €3.200',
+          monthly: 'ab €450 / Monat',
+          badge: 'Maximale Leistung',
+          highlighted: false,
+          features: ['Komplettes KI-System', 'Marketing Automation', 'CRM-System', 'Monatliche Optimierung', 'Technischer Support'],
+          ideal: 'Ideal für wachsende Betriebe',
+        },
+      ];
+
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" dir={rtl ? 'rtl' : 'ltr'}>
       {/* Hero */}
       <section className="relative overflow-hidden px-4 py-24 sm:px-6 lg:px-8 lg:py-36">
         <div className="pointer-events-none absolute inset-0 -z-10">
@@ -141,12 +307,12 @@ export function HomePage({ lang }: Props) {
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
             <motion.div
-              initial={{ opacity: 0, x: -40 }}
+              initial={{ opacity: 0, x: rtl ? 40 : -40 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7, ease: [0.21, 1.11, 0.81, 0.99] }}
             >
               <span className="inline-flex items-center rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-blue-400 mb-6">
-                <Sparkles className="mr-2 h-3 w-3" />
+                <Sparkles className="mr-2 h-3 w-3 rtl:ml-2 rtl:mr-0" />
                 {t.hero.badge}
               </span>
               <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl leading-tight">
@@ -161,7 +327,7 @@ export function HomePage({ lang }: Props) {
                   <Button size="lg" className="group relative overflow-hidden bg-blue-500 hover:bg-blue-400 text-white px-8 py-6 text-base font-semibold transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)]">
                     <span className="relative z-10 flex items-center gap-2">
                       {t.hero.cta}
-                      <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+                      <ArrowRight className={`h-5 w-5 transition-transform group-hover:translate-x-1 ${rtl ? 'rotate-180' : ''}`} />
                     </span>
                     <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                   </Button>
@@ -175,7 +341,7 @@ export function HomePage({ lang }: Props) {
               <div className="mt-8 flex flex-wrap gap-5 text-sm text-gray-500">
                 {t.hero.trust.map((text) => (
                   <div key={text} className="flex items-center gap-1.5">
-                    <CheckCircle className="h-4 w-4 text-emerald-500" />
+                    <CheckCircle className="h-4 w-4 text-emerald-500 flex-shrink-0" />
                     {text}
                   </div>
                 ))}
@@ -184,7 +350,7 @@ export function HomePage({ lang }: Props) {
 
             {/* Hero Visual */}
             <motion.div
-              initial={{ opacity: 0, x: 40 }}
+              initial={{ opacity: 0, x: rtl ? -40 : 40 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7, delay: 0.15, ease: [0.21, 1.11, 0.81, 0.99] }}
               className="relative"
@@ -194,20 +360,15 @@ export function HomePage({ lang }: Props) {
                   <div className="flex items-center gap-2">
                     <div className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
                     <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                      {lang === 'de' ? 'Automation live — Restaurant Bella Vista' : 'Live automation — Restaurant Bella Vista'}
+                      {liveLabel}
                     </span>
                   </div>
                   <span className="text-[10px] text-emerald-400 font-bold border border-emerald-500/30 bg-emerald-500/10 rounded-full px-2 py-0.5">
-                    {lang === 'de' ? 'Aktiv' : 'Active'}
+                    {activeLabel}
                   </span>
                 </div>
-                <div className="p-5 space-y-3">
-                  {[
-                    { icon: MessageSquare, label: 'WhatsApp', msg: lang === 'de' ? 'Tisch für 4 Personen am Freitag 19 Uhr?' : 'Table for 4 on Friday at 7pm?', reply: lang === 'de' ? 'Automatisch bestätigt ✓' : 'Auto confirmed ✓', time: '09:12', color: 'text-emerald-400', dot: 'bg-emerald-400' },
-                    { icon: Calendar, label: lang === 'de' ? 'Buchung' : 'Booking', msg: lang === 'de' ? 'Online-Reservierung eingegangen' : 'Online reservation received', reply: lang === 'de' ? 'In Kalender eingetragen + Bestätigung gesendet' : 'Added to calendar + confirmation sent', time: '09:14', color: 'text-blue-400', dot: 'bg-blue-400' },
-                    { icon: Bot, label: 'Chatbot', msg: lang === 'de' ? 'Haben Sie vegane Optionen?' : 'Do you have vegan options?', reply: lang === 'de' ? 'KI hat geantwortet + Menülink gesendet' : 'AI replied + menu link sent', time: '09:18', color: 'text-orange-400', dot: 'bg-orange-400' },
-                    { icon: Mail, label: 'Follow-up', msg: lang === 'de' ? 'Bewertungsanfrage (2 Tage nach Besuch)' : 'Review request (2 days after visit)', reply: lang === 'de' ? 'Automatisch an 12 Gäste gesendet' : 'Automatically sent to 12 guests', time: '09:30', color: 'text-rose-400', dot: 'bg-rose-400' },
-                  ].map((item) => {
+                <div className="p-5 space-y-3" dir={rtl ? 'rtl' : 'ltr'}>
+                  {chatItems.map((item) => {
                     const Icon = item.icon;
                     return (
                       <div key={item.label} className="glass rounded-xl p-3.5 border-white/10">
@@ -219,14 +380,14 @@ export function HomePage({ lang }: Props) {
                           </div>
                           <span className="text-[10px] text-gray-600">{item.time}</span>
                         </div>
-                        <p className="text-xs text-gray-400 ml-5 mb-0.5">{item.msg}</p>
-                        <p className="text-xs text-gray-600 ml-5">{item.reply}</p>
+                        <p className="text-xs text-gray-400 ms-5 mb-0.5">{item.msg}</p>
+                        <p className="text-xs text-gray-600 ms-5">{item.reply}</p>
                       </div>
                     );
                   })}
                   <div className="pt-1 flex items-center justify-between text-[11px] text-gray-600 px-1">
-                    <span>{lang === 'de' ? 'Heute: 47 Aktionen automatisiert' : 'Today: 47 actions automated'}</span>
-                    <span className="text-emerald-500 font-semibold">{lang === 'de' ? '0 manuelle Eingriffe' : '0 manual interventions'}</span>
+                    <span>{automatedLabel}</span>
+                    <span className="text-emerald-500 font-semibold">{noManualLabel}</span>
                   </div>
                 </div>
               </div>
@@ -236,7 +397,7 @@ export function HomePage({ lang }: Props) {
                 className="absolute -top-4 -right-4 glass rounded-xl px-3 py-2 text-xs font-semibold text-emerald-400 border-emerald-500/30 shadow-lg hidden sm:flex items-center gap-1.5"
               >
                 <div className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                {lang === 'de' ? '200+ Betriebe aktiv' : '200+ businesses active'}
+                {businessesLabel}
               </motion.div>
               <motion.div
                 animate={{ y: [0, 8, 0] }}
@@ -244,7 +405,7 @@ export function HomePage({ lang }: Props) {
                 className="absolute -bottom-4 -left-4 glass rounded-xl px-3 py-2 text-xs font-semibold text-blue-400 border-blue-500/30 shadow-lg hidden sm:flex items-center gap-1.5"
               >
                 <Zap className="h-3 w-3" />
-                {lang === 'de' ? 'Setup in 5–14 Tagen' : 'Setup in 5–14 days'}
+                {setupLabel}
               </motion.div>
             </motion.div>
           </div>
@@ -270,7 +431,7 @@ export function HomePage({ lang }: Props) {
       <section className="border-y border-white/5 bg-white/[0.02] px-4 py-10 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-600 mb-7">
-            {lang === 'de' ? 'Für diese Branchen bauen wir KI-Automation' : 'Industries we build AI automation for'}
+            {industriesLabel}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
             {industries[lang].map((ind) => (
@@ -383,7 +544,7 @@ export function HomePage({ lang }: Props) {
                 <StaggerItem key={item.title}>
                   <div className="text-center relative">
                     {i < 3 && (
-                      <div className="hidden lg:block absolute top-8 left-[60%] w-[80%] h-px bg-gradient-to-r from-white/20 to-transparent" />
+                      <div className={`hidden lg:block absolute top-8 ${rtl ? 'right-[60%]' : 'left-[60%]'} w-[80%] h-px bg-gradient-to-r from-white/20 to-transparent`} />
                     )}
                     <div className="relative inline-flex h-16 w-16 items-center justify-center rounded-2xl glass border-blue-500/20 mb-6">
                       <Icon className="h-7 w-7 text-blue-400" />
@@ -406,49 +567,15 @@ export function HomePage({ lang }: Props) {
         <div className="mx-auto max-w-7xl">
           <RevealSection className="text-center mb-14">
             <SectionHeader
-              badge={lang === 'de' ? 'Pakete & Preise' : 'Packages & Pricing'}
-              title={lang === 'de' ? 'Transparent.' : 'Transparent.'}
-              titleGradient={lang === 'de' ? 'Leistungsstark.' : 'Powerful.'}
-              subtitle={lang === 'de' ? 'Drei Pakete für jeden Bedarf — einmaliger Setup + monatliche Betreuung.' : 'Three packages for every need — one-time setup + monthly support.'}
+              badge={pricingBadge}
+              title={pricingTitle}
+              titleGradient={pricingGradient}
+              subtitle={pricingSub}
             />
           </RevealSection>
 
           <StaggerContainer className="grid gap-6 sm:grid-cols-3">
-            {[
-              {
-                name: lang === 'de' ? 'Starter Automation' : 'Starter Automation',
-                setup: lang === 'de' ? 'ab €1.200' : 'from €1,200',
-                monthly: lang === 'de' ? 'ab €120 / Monat' : 'from €120 / mo',
-                badge: null,
-                highlighted: false,
-                features: lang === 'de'
-                  ? ['KI-Chatbot', 'Lead Capture', 'WhatsApp Integration', 'Basis-Support']
-                  : ['AI Chatbot', 'Lead Capture', 'WhatsApp Integration', 'Basic Support'],
-                ideal: lang === 'de' ? 'Ideal für Einzelbetriebe' : 'Ideal for sole traders',
-              },
-              {
-                name: lang === 'de' ? 'Business Automation' : 'Business Automation',
-                setup: lang === 'de' ? 'ab €2.200' : 'from €2,200',
-                monthly: lang === 'de' ? 'ab €220 / Monat' : 'from €220 / mo',
-                badge: lang === 'de' ? 'Beliebtestes Paket' : 'Most Popular',
-                highlighted: true,
-                features: lang === 'de'
-                  ? ['Erweiterter KI-Chatbot', 'WhatsApp Automation', 'Buchungssystem', 'CRM Integration', 'Priority Support']
-                  : ['Advanced AI Chatbot', 'WhatsApp Automation', 'Booking System', 'CRM Integration', 'Priority Support'],
-                ideal: lang === 'de' ? 'Ideal für Restaurants & Cafés' : 'Ideal for restaurants & cafés',
-              },
-              {
-                name: lang === 'de' ? 'Full Automation + Marketing' : 'Full Automation + Marketing',
-                setup: lang === 'de' ? 'ab €3.200' : 'from €3,200',
-                monthly: lang === 'de' ? 'ab €450 / Monat' : 'from €450 / mo',
-                badge: lang === 'de' ? 'Maximale Leistung' : 'Maximum Power',
-                highlighted: false,
-                features: lang === 'de'
-                  ? ['Komplettes KI-System', 'Marketing Automation', 'CRM-System', 'Monatliche Optimierung', 'Technischer Support']
-                  : ['Complete AI System', 'Marketing Automation', 'CRM System', 'Monthly Optimization', 'Technical Support'],
-                ideal: lang === 'de' ? 'Ideal für wachsende Betriebe' : 'Ideal for growing businesses',
-              },
-            ].map((plan) => (
+            {plans.map((plan) => (
               <StaggerItem key={plan.name}>
                 <motion.div
                   whileHover={{ y: -6 }}
@@ -479,7 +606,7 @@ export function HomePage({ lang }: Props) {
                     </div>
                     <div className="h-px bg-white/10" />
                     <div className="flex items-baseline justify-between">
-                      <span className="text-xs text-gray-500 uppercase tracking-wider font-semibold">{lang === 'de' ? 'Monatlich' : 'Monthly'}</span>
+                      <span className="text-xs text-gray-500 uppercase tracking-wider font-semibold">{monthlyLabel}</span>
                       <span className={`text-base font-bold ${plan.highlighted ? 'text-blue-400' : 'text-gray-300'}`}>{plan.monthly}</span>
                     </div>
                   </div>
@@ -494,8 +621,8 @@ export function HomePage({ lang }: Props) {
                   <p className="text-xs text-gray-600 mb-5 italic">{plan.ideal}</p>
                   <Link href={`${prefix}/contact`}>
                     <Button className={`w-full font-semibold transition-all duration-300 py-5 ${plan.highlighted ? 'bg-blue-500 hover:bg-blue-400 text-white hover:shadow-[0_0_24px_rgba(59,130,246,0.5)]' : 'bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20'}`}>
-                      {lang === 'de' ? 'Kostenlose Beratung anfragen' : 'Request free consultation'}
-                      <ArrowRight className="ml-2 h-4 w-4" />
+                      {consultationBtn}
+                      <ArrowRight className={`ml-2 h-4 w-4 ${rtl ? 'rotate-180 mr-2 ml-0' : ''}`} />
                     </Button>
                   </Link>
                 </motion.div>
@@ -504,9 +631,7 @@ export function HomePage({ lang }: Props) {
           </StaggerContainer>
 
           <RevealSection className="mt-8 text-center">
-            <p className="text-sm text-gray-500 italic">
-              {lang === 'de' ? 'Endpreis abhängig von Betriebsgröße und Automatisierungsumfang.' : 'Final price depends on business size and automation requirements.'}
-            </p>
+            <p className="text-sm text-gray-500 italic">{priceNote}</p>
           </RevealSection>
         </div>
       </section>
@@ -516,18 +641,18 @@ export function HomePage({ lang }: Props) {
         <div className="mx-auto max-w-7xl">
           <RevealSection className="text-center mb-14">
             <SectionHeader
-              badge={lang === 'de' ? 'Kundenstimmen' : 'Testimonials'}
-              title={lang === 'de' ? 'Was Betriebe sagen' : 'What businesses say'}
-              titleGradient={lang === 'de' ? 'über Ovivo' : 'about Ovivo'}
+              badge={testimonialsLabel}
+              title={whatBusinessesSay}
+              titleGradient={aboutOvivo}
             />
           </RevealSection>
           <div className="relative max-w-3xl mx-auto">
             <AnimatePresence mode="wait">
               <motion.div
                 key={testimonialIndex}
-                initial={{ opacity: 0, x: 30 }}
+                initial={{ opacity: 0, x: rtl ? -30 : 30 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -30 }}
+                exit={{ opacity: 0, x: rtl ? 30 : -30 }}
                 transition={{ duration: 0.4, ease: 'easeOut' }}
               >
                 <GlassCard className="p-10 text-center">
@@ -577,7 +702,7 @@ export function HomePage({ lang }: Props) {
       <section className="px-4 py-20 sm:px-6 lg:px-8 bg-white/[0.02] border-y border-white/5">
         <div className="mx-auto max-w-3xl">
           <RevealSection className="text-center mb-14">
-            <SectionHeader badge="FAQ" title={lang === 'de' ? 'Häufige' : 'Frequently'} titleGradient={lang === 'de' ? 'Fragen' : 'Asked Questions'} />
+            <SectionHeader badge="FAQ" title={faqBadge} titleGradient="" />
           </RevealSection>
           <RevealSection>
             <div className="glass rounded-2xl overflow-hidden divide-y divide-white/5">
@@ -613,7 +738,7 @@ export function HomePage({ lang }: Props) {
                   <Button size="lg" className="group relative overflow-hidden bg-blue-500 hover:bg-blue-400 text-white px-8 py-6 text-base font-semibold transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)]">
                     <span className="relative z-10 flex items-center gap-2">
                       {t.cta.btn}
-                      <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+                      <ArrowRight className={`h-5 w-5 transition-transform group-hover:translate-x-1 ${rtl ? 'rotate-180' : ''}`} />
                     </span>
                     <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                   </Button>
