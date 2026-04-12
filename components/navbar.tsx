@@ -96,12 +96,9 @@ export function Navbar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const ctaLabel = isEn ? 'Free Consultation' : isAr ? 'احجز استشارتك' : 'Kostenlose Beratung';
+  const ctaLabel = isEn ? 'Free Consultation' : isAr ? 'استشارة مجانية' : 'Kostenlose Beratung';
   const servicesLabel = isEn ? 'Services' : isAr ? 'الخدمات' : 'Leistungen';
   const servicesOverview = isEn ? 'All Services' : isAr ? 'جميع الخدمات' : 'Alle Leistungen';
-
-  const langSwitchDE = isEn ? '/' : isAr ? '/' : '/en';
-  const langSwitchEN = isEn ? '/ar' : isAr ? '/en' : '/en';
 
   return (
     <motion.nav
@@ -221,17 +218,21 @@ export function Navbar() {
             transition={{ duration: 0.5 }}
             className={`hidden md:flex items-center ${isAr ? 'space-x-reverse space-x-3' : 'space-x-3'}`}
           >
-            <Link href={langSwitchDE} className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full glass border border-white/10 hover:border-white/20 text-xs font-bold text-gray-400 hover:text-white transition-all">
-              DE
-            </Link>
-            <Link href={langSwitchEN} className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full glass border border-white/10 hover:border-white/20 text-xs font-bold text-gray-400 hover:text-white transition-all">
-              {isEn ? 'AR' : isAr ? 'EN' : 'EN'}
-            </Link>
             {!isAr && (
-              <Link href="/ar" className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full glass border border-white/10 hover:border-white/20 text-xs font-bold text-gray-400 hover:text-white transition-all">
+              <Link href="/ar" className="px-2.5 py-1.5 rounded-full glass border border-white/10 hover:border-white/20 text-xs font-bold text-gray-400 hover:text-white transition-all">
                 AR
               </Link>
             )}
+            {!isEn && (
+              <Link href="/en" className="px-2.5 py-1.5 rounded-full glass border border-white/10 hover:border-white/20 text-xs font-bold text-gray-400 hover:text-white transition-all">
+                EN
+              </Link>
+            )}
+            {isEn || isAr ? (
+              <Link href="/" className="px-2.5 py-1.5 rounded-full glass border border-white/10 hover:border-white/20 text-xs font-bold text-gray-400 hover:text-white transition-all">
+                DE
+              </Link>
+            ) : null}
             <Link href={`${prefix}/consultation`}>
               <Button className="bg-blue-500 hover:bg-blue-400 text-white border-0 shadow-lg hover:shadow-blue-500/40 transition-all duration-300 font-semibold">
                 {ctaLabel}
