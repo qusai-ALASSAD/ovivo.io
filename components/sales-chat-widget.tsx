@@ -10,7 +10,7 @@ interface Message {
   content: string;
 }
 
-const OPENING_MESSAGE: Message = {
+const OPENING_MESSAGE_DE: Message = {
   role: 'assistant',
   content: 'Hallo! Ich bin Ihr KI-Berater bei Ovivo.\n\nKurze Frage: Was kostet Sie gerade die meiste Zeit — manuelle Buchungen, unbeantwortete Anfragen, oder zu wenig Kundenbindung?',
 };
@@ -18,6 +18,11 @@ const OPENING_MESSAGE: Message = {
 const OPENING_MESSAGE_EN: Message = {
   role: 'assistant',
   content: "Hi! I'm your AI advisor at Ovivo.\n\nQuick question: what's eating the most of your time right now — manual bookings, unanswered inquiries, or customer retention?",
+};
+
+const OPENING_MESSAGE_AR: Message = {
+  role: 'assistant',
+  content: 'مرحباً! أنا مستشارك الذكي في Ovivo.\n\nسؤال سريع: ما الذي يستهلك معظم وقتك الآن — الحجوزات اليدوية، الاستفسارات غير المُجاب عليها، أم ضعف ولاء العملاء؟',
 };
 
 function extractLead(text: string): { name: string; company: string; email: string; phone: string } | null {
@@ -46,8 +51,19 @@ export function SalesChatWidget() {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const pathname = usePathname();
   const isEn = pathname?.startsWith('/en') ?? false;
+  const isAr = pathname?.startsWith('/ar') ?? false;
+  const rtl = isAr;
 
-  const openingMessage = isEn ? OPENING_MESSAGE_EN : OPENING_MESSAGE;
+  const openingMessage = isEn ? OPENING_MESSAGE_EN : isAr ? OPENING_MESSAGE_AR : OPENING_MESSAGE_DE;
+
+  const widgetLabel = isEn ? 'AI Advisor' : isAr ? 'المستشار الذكي' : 'KI-Berater';
+  const placeholderText = isEn ? 'Type a message...' : isAr ? 'اكتب رسالة...' : 'Nachricht eingeben...';
+  const headerTitle = isEn ? 'Ovivo AI Assistant' : isAr ? 'مساعد Ovivo الذكي' : 'Ovivo KI-Assistent';
+  const errorMsg = isEn
+    ? 'Sorry, something went wrong. Please try again.'
+    : isAr
+    ? 'عذراً، حدث خطأ ما. يرجى المحاولة مجدداً.'
+    : 'Entschuldigung, etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.';
 
   useEffect(() => {
     if (open && messages.length === 0) {
@@ -143,12 +159,12 @@ export function SalesChatWidget() {
     } catch {
       setMessages((prev) => [
         ...prev,
-        { role: 'assistant', content: isEn ? 'Sorry, something went wrong. Please try again.' : 'Entschuldigung, etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.' },
+        { role: 'assistant', content: errorMsg },
       ]);
     } finally {
       setLoading(false);
     }
-  }, [input, loading, messages, saveLead, isEn]);
+  }, [input, loading, messages, saveLead, errorMsg]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -166,19 +182,20 @@ export function SalesChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed bottom-24 right-6 z-50 w-[360px] max-w-[calc(100vw-24px)] flex flex-col rounded-2xl overflow-hidden shadow-2xl border border-white/10"
-            style={{ height: '480px' }}
+            className="fixed bottom-24 right-6 z-50 w-[380px] max-w-[calc(100vw-24px)] flex flex-col rounded-2xl overflow-hidden shadow-2xl border border-white/10"
+            style={{ height: '500px' }}
+            dir={rtl ? 'rtl' : 'ltr'}
           >
-            <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 flex-shrink-0">
-              <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20">
-                  <Bot className="h-4 w-4 text-white" />
+            <div className={`flex items-center justify-between px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 flex-shrink-0 ${rtl ? 'flex-row-reverse' : ''}`}>
+              <div className={`flex items-center gap-3 ${rtl ? 'flex-row-reverse' : ''}`}>
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/20">
+                  <Bot className="h-5 w-5 text-white" />
                 </div>
-                <div>
-                  <p className="text-sm font-semibold text-white leading-tight">Ovivo KI-Assistent</p>
-                  <div className="flex items-center gap-1.5">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <p className="text-xs text-blue-100">{isEn ? 'Online' : 'Online'}</p>
+                <div className={rtl ? 'text-right' : ''}>
+                  <p className="text-sm font-semibold text-white leading-tight">{headerTitle}</p>
+                  <div className={`flex items-center gap-1.5 ${rtl ? 'flex-row-reverse justify-end' : ''}`}>
+                    <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <p className="text-xs text-blue-100">Online</p>
                   </div>
                 </div>
               </div>
@@ -192,25 +209,26 @@ export function SalesChatWidget() {
 
             <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-[#0f1117]">
               {messages.map((msg, i) => (
-                <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                <div key={i} className={`flex ${msg.role === 'user' ? (rtl ? 'justify-start' : 'justify-end') : (rtl ? 'justify-end' : 'justify-start')}`}>
                   <div
-                    className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
+                    className={`max-w-[82%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
                       msg.role === 'user'
-                        ? 'bg-blue-600 text-white rounded-br-sm'
-                        : 'bg-white/8 text-gray-100 rounded-bl-sm border border-white/10'
+                        ? `bg-blue-600 text-white ${rtl ? 'rounded-bl-sm' : 'rounded-br-sm'}`
+                        : `bg-white/8 text-gray-100 ${rtl ? 'rounded-br-sm' : 'rounded-bl-sm'} border border-white/10`
                     }`}
+                    style={{ direction: rtl ? 'rtl' : 'ltr', textAlign: rtl ? 'right' : 'left' }}
                   >
                     {msg.content}
                   </div>
                 </div>
               ))}
               {loading && messages[messages.length - 1]?.role !== 'assistant' && (
-                <div className="flex justify-start">
+                <div className={`flex ${rtl ? 'justify-end' : 'justify-start'}`}>
                   <div className="bg-white/8 border border-white/10 rounded-2xl rounded-bl-sm px-4 py-3">
                     <div className="flex gap-1.5">
-                      <span className="h-1.5 w-1.5 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <span className="h-1.5 w-1.5 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <span className="h-1.5 w-1.5 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+                      <span className="h-2 w-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '0ms' }} />
+                      <span className="h-2 w-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '150ms' }} />
+                      <span className="h-2 w-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '300ms' }} />
                     </div>
                   </div>
                 </div>
@@ -219,15 +237,16 @@ export function SalesChatWidget() {
             </div>
 
             <div className="px-3 py-3 bg-[#0f1117] border-t border-white/10 flex-shrink-0">
-              <div className="flex items-end gap-2 bg-white/5 rounded-xl border border-white/10 px-3 py-2">
+              <div className={`flex items-end gap-2 bg-white/5 rounded-xl border border-white/10 px-3 py-2 ${rtl ? 'flex-row-reverse' : ''}`}>
                 <textarea
                   ref={inputRef}
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder={isEn ? 'Type a message...' : 'Nachricht eingeben...'}
+                  placeholder={placeholderText}
                   rows={1}
-                  className="flex-1 bg-transparent text-sm text-white placeholder:text-gray-500 resize-none outline-none leading-relaxed max-h-24 overflow-y-auto"
+                  dir={rtl ? 'rtl' : 'ltr'}
+                  className="flex-1 bg-transparent text-sm text-white placeholder:text-gray-400 resize-none outline-none leading-relaxed max-h-24 overflow-y-auto"
                   style={{ scrollbarWidth: 'none' }}
                 />
                 <button
@@ -238,7 +257,7 @@ export function SalesChatWidget() {
                   {loading ? (
                     <Loader2 className="h-3.5 w-3.5 animate-spin" />
                   ) : (
-                    <Send className="h-3.5 w-3.5" />
+                    <Send className={`h-3.5 w-3.5 ${rtl ? 'rotate-180' : ''}`} />
                   )}
                 </button>
               </div>
@@ -256,7 +275,7 @@ export function SalesChatWidget() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.15 }}
-            className="fixed bottom-6 right-6 z-50 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 border border-white/20 hover:bg-white/15 active:scale-95 transition-all shadow-lg"
+            className="fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 border border-white/20 hover:bg-white/15 active:scale-95 transition-all shadow-lg"
           >
             <X className="h-5 w-5 text-white" />
           </motion.button>
@@ -268,14 +287,19 @@ export function SalesChatWidget() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 12 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 rounded-full bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-3 shadow-2xl shadow-blue-500/40 hover:shadow-blue-500/60 hover:from-blue-500 hover:to-blue-600 active:scale-95 transition-all"
+            className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 rounded-full bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-3.5 shadow-2xl shadow-blue-500/40 hover:shadow-blue-500/60 hover:from-blue-500 hover:to-blue-600 active:scale-95 transition-all"
           >
-            <Sparkles className="h-4 w-4 text-white flex-shrink-0" />
+            <motion.div
+              animate={{ rotate: [0, 15, -15, 10, -10, 0] }}
+              transition={{ duration: 3, repeat: Infinity, repeatDelay: 4, ease: 'easeInOut' }}
+            >
+              <Sparkles className="h-4 w-4 text-white flex-shrink-0" />
+            </motion.div>
             <span className="text-sm font-semibold text-white whitespace-nowrap">
-              {isEn ? 'AI Advisor' : 'KI-Berater'}
+              {widgetLabel}
             </span>
             {unread && (
-              <span className="h-2 w-2 rounded-full bg-red-400 flex-shrink-0" />
+              <span className="h-2.5 w-2.5 rounded-full bg-red-400 flex-shrink-0" />
             )}
           </motion.button>
         )}
