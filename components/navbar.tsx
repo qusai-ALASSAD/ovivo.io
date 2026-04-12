@@ -65,7 +65,6 @@ export function Navbar() {
         { label: 'Services', href: '/en/services' },
         { label: 'Pricing', href: '/en/pricing' },
         { label: 'About', href: '/en/about' },
-        { label: 'Free Consultation', href: '/en/consultation', highlight: true },
       ]
     : isAr
     ? [
@@ -73,14 +72,12 @@ export function Navbar() {
         { label: 'الخدمات', href: '/ar/services' },
         { label: 'الأسعار', href: '/ar/pricing' },
         { label: 'من نحن', href: '/ar/about' },
-        { label: 'استشارة مجانية', href: '/ar/consultation', highlight: true },
       ]
     : [
         { label: 'Startseite', href: '/' },
         { label: 'Leistungen', href: '/services' },
         { label: 'Preise', href: '/pricing' },
         { label: 'Über uns', href: '/about' },
-        { label: 'Kostenlose Beratung', href: '/consultation', highlight: true },
       ];
 
   useEffect(() => {
@@ -216,20 +213,6 @@ export function Navbar() {
               </motion.div>
             ))}
 
-            {/* Consultation highlight link */}
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.28 }}
-            >
-              <Link
-                href={navLinks[4].href}
-                className="relative px-3 py-2 text-sm font-semibold text-blue-400 hover:text-blue-300 transition-colors group"
-              >
-                {navLinks[4].label}
-                <span className="absolute -bottom-0.5 left-3 right-3 h-0.5 w-0 bg-blue-400 transition-all duration-300 group-hover:w-[calc(100%-24px)]" />
-              </Link>
-            </motion.div>
           </div>
 
           {/* CTA Buttons + Lang Switcher */}
@@ -339,14 +322,6 @@ export function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              <Link
-                href={navLinks[4].href}
-                className="block rounded-lg px-3 py-2.5 text-base font-semibold text-blue-400 hover:bg-blue-500/10 hover:text-blue-300 transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {navLinks[4].label}
-              </Link>
-
               <div className="flex flex-col space-y-2 pt-4 border-t border-white/10">
                 <div className="flex gap-2">
                   <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex-1">
