@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, X, Send, Loader as Loader2, Bot } from 'lucide-react';
+import { X, Send, Loader as Loader2, Bot, Sparkles } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 interface Message {
@@ -12,12 +12,12 @@ interface Message {
 
 const OPENING_MESSAGE: Message = {
   role: 'assistant',
-  content: 'Hallo! Ich bin der Ovivo KI-Assistent. Welche Art von Unternehmen haben Sie?',
+  content: 'Hallo! Ich bin Ihr KI-Berater bei Ovivo.\n\nKurze Frage: Was kostet Sie gerade die meiste Zeit — manuelle Buchungen, unbeantwortete Anfragen, oder zu wenig Kundenbindung?',
 };
 
 const OPENING_MESSAGE_EN: Message = {
   role: 'assistant',
-  content: 'Hello! I\'m the Ovivo AI assistant. What type of business do you have?',
+  content: "Hi! I'm your AI advisor at Ovivo.\n\nQuick question: what's eating the most of your time right now — manual bookings, unanswered inquiries, or customer retention?",
 };
 
 function extractLead(text: string): { name: string; company: string; email: string; phone: string } | null {
@@ -247,26 +247,39 @@ export function SalesChatWidget() {
         )}
       </AnimatePresence>
 
-      <motion.button
-        onClick={() => setOpen((prev) => !prev)}
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-blue-700 shadow-2xl shadow-blue-500/40 hover:shadow-blue-500/60 hover:scale-105 active:scale-95 transition-all"
-        whileTap={{ scale: 0.9 }}
-      >
-        <AnimatePresence mode="wait">
-          {open ? (
-            <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
-              <X className="h-6 w-6 text-white" />
-            </motion.div>
-          ) : (
-            <motion.div key="open" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
-              <MessageSquare className="h-6 w-6 text-white" />
-            </motion.div>
-          )}
-        </AnimatePresence>
-        {unread && !open && (
-          <span className="absolute top-0.5 right-0.5 h-3 w-3 rounded-full bg-red-500 border-2 border-[#0f1117] animate-pulse" />
+      <AnimatePresence mode="wait">
+        {open ? (
+          <motion.button
+            key="close-btn"
+            onClick={() => setOpen(false)}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.15 }}
+            className="fixed bottom-6 right-6 z-50 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 border border-white/20 hover:bg-white/15 active:scale-95 transition-all shadow-lg"
+          >
+            <X className="h-5 w-5 text-white" />
+          </motion.button>
+        ) : (
+          <motion.button
+            key="open-btn"
+            onClick={() => setOpen(true)}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 12 }}
+            transition={{ duration: 0.2 }}
+            className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 rounded-full bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-3 shadow-2xl shadow-blue-500/40 hover:shadow-blue-500/60 hover:from-blue-500 hover:to-blue-600 active:scale-95 transition-all"
+          >
+            <Sparkles className="h-4 w-4 text-white flex-shrink-0" />
+            <span className="text-sm font-semibold text-white whitespace-nowrap">
+              {isEn ? 'AI Advisor' : 'KI-Berater'}
+            </span>
+            {unread && (
+              <span className="h-2 w-2 rounded-full bg-red-400 flex-shrink-0" />
+            )}
+          </motion.button>
         )}
-      </motion.button>
+      </AnimatePresence>
     </>
   );
 }

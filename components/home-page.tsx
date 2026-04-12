@@ -198,7 +198,7 @@ export function HomePage({ lang }: Props) {
   const pricingGradient = lang === 'de' ? 'Leistungsstark.' : lang === 'ar' ? 'قوي.' : 'Powerful.';
   const pricingSub = lang === 'de' ? 'Drei Pakete für jeden Bedarf — einmaliger Setup + monatliche Betreuung.' : lang === 'ar' ? 'ثلاث باقات لكل احتياج — إعداد لمرة واحدة + رعاية شهرية.' : 'Three packages for every need — one-time setup + monthly support.';
   const monthlyLabel = lang === 'de' ? 'Monatlich' : lang === 'ar' ? 'شهرياً' : 'Monthly';
-  const consultationBtn = lang === 'de' ? 'Kostenlose Beratung anfragen' : lang === 'ar' ? 'اطلب استشارة مجانية' : 'Request free consultation';
+  const consultationBtn = lang === 'de' ? 'Paket anfragen' : lang === 'ar' ? 'اطلب هذه الباقة' : 'Request this plan';
   const priceNote = lang === 'de' ? 'Endpreis abhängig von Betriebsgröße und Automatisierungsumfang.' : lang === 'ar' ? 'السعر النهائي يعتمد على حجم الشركة ونطاق الأتمتة.' : 'Final price depends on business size and automation requirements.';
   const testimonialsLabel = lang === 'de' ? 'Kundenstimmen' : lang === 'ar' ? 'آراء العملاء' : 'Testimonials';
   const whatBusinessesSay = lang === 'de' ? 'Was Betriebe sagen' : lang === 'ar' ? 'ما يقوله عملاؤنا' : 'What our clients say';
@@ -332,7 +332,7 @@ export function HomePage({ lang }: Props) {
                     <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                   </Button>
                 </Link>
-                <Link href={`${prefix}/demo`}>
+                <Link href={`${prefix}/services`}>
                   <Button size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/5 hover:border-white/30 px-8 py-6 text-base">
                     {t.hero.ctaSecondary}
                   </Button>
