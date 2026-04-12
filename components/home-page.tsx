@@ -8,6 +8,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Sparkles, Zap, ArrowRight, CircleCheck as CheckCircle, Star, ChevronLeft, ChevronRight, Bot, Target, ChartBar as BarChart3, Users, Clock, TrendingUp, MessageSquare, Mail, Calendar, Phone, Settings, CircleAlert as AlertCircle, Circle as XCircle, ShieldCheck, Repeat, Database } from 'lucide-react';
 import { GlassCard, RevealSection, StaggerContainer, StaggerItem } from '@/components/ui/motion';
 import { SectionHeader } from '@/components/section-header';
+import { AutomationFlowSection } from '@/components/automation-flow-section';
 import type { Lang } from '@/lib/i18n';
 import { content, isRTL } from '@/lib/i18n';
 
@@ -505,6 +506,9 @@ export function HomePage({ lang }: Props) {
           </StaggerContainer>
         </div>
       </section>
+
+      {/* Automation Flow Section */}
+      <AutomationFlowSection lang={lang} />
 
       {/* Stats */}
       <section className="px-4 py-14 sm:px-6 lg:px-8 border-b border-white/5">
