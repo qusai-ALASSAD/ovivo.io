@@ -332,7 +332,7 @@ export function HomePage({ lang }: Props) {
                     <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                   </Button>
                 </Link>
-                <Link href="#pakete">
+                <Link href={`${prefix}/demo`}>
                   <Button size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/5 hover:border-white/30 px-8 py-6 text-base">
                     {t.hero.ctaSecondary}
                   </Button>

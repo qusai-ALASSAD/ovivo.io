@@ -26,8 +26,8 @@ export const content = {
       headline1: 'Ihr Betrieb läuft.',
       headline2: 'Auch wenn Sie schlafen.',
       sub: 'Ovivo automatisiert Reservierungen, Kundenanfragen und Marketing mit KI — sodass Sie täglich Stunden sparen und bis zu 35% mehr Umsatz erzielen. Ohne Mehraufwand. Ohne IT-Kenntnisse.',
-      cta: 'Jetzt kostenlos beraten lassen',
-      ctaSecondary: 'Pakete & Preise ansehen',
+      cta: 'Automation starten — kostenlos',
+      ctaSecondary: 'Live-Demo ansehen',
       trust: ['Kein IT-Wissen nötig', 'Live in 5–14 Tagen', 'Monatlich kündbar'],
     },
     problems: {
@@ -120,8 +120,8 @@ export const content = {
       headline1: 'Your business runs.',
       headline2: 'Even while you sleep.',
       sub: 'Ovivo automates reservations, customer inquiries, and marketing with AI — saving you hours every day and driving up to 35% more revenue. No extra staff. No IT knowledge required.',
-      cta: 'Get Free Consultation',
-      ctaSecondary: 'View Packages & Pricing',
+      cta: 'Start Automating — It\'s Free',
+      ctaSecondary: 'Watch Live Demo',
       trust: ['No IT knowledge needed', 'Live in 5–14 days', 'Cancel anytime'],
     },
     problems: {
@@ -214,8 +214,8 @@ export const content = {
       headline1: 'عملك يعمل بلا توقف.',
       headline2: 'حتى وأنت نائم.',
       sub: 'أوفيفو يؤتمت الحجوزات واستفسارات العملاء والتسويق بالذكاء الاصطناعي — يوفر لك ساعات يومياً ويرفع إيراداتك حتى 35%. دون موظفين إضافيين. دون أي خبرة تقنية.',
-      cta: 'احصل على استشارة مجانية',
-      ctaSecondary: 'اكتشف باقاتنا',
+      cta: 'ابدأ الأتمتة — مجاناً',
+      ctaSecondary: 'شاهد العرض المباشر',
       trust: ['لا حاجة لخبرة تقنية', 'تشغيل خلال 5–14 يوماً', 'إلغاء في أي وقت'],
     },
     problems: {
