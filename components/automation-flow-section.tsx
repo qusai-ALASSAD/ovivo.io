@@ -342,80 +342,67 @@ export function AutomationFlowSection({ lang }: Props) {
             <LiveIndicator lang={lang} />
           </div>
 
-          {/* Steps row */}
-          <div className="px-6 pt-8 pb-6 overflow-x-auto">
-            <div className="flex items-start gap-0 min-w-max mx-auto" style={{ direction: 'ltr' }}>
+          {/* Steps grid */}
+          <div className="px-6 pt-8 pb-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               {steps.map((step, i) => {
                 const Icon = step.icon;
+                const isLastInRow = (i + 1) % 3 === 0;
                 return (
-                  <div key={step.id} className="flex items-center">
+                  <motion.div
+                    key={step.id}
+                    className="relative flex items-center gap-4 rounded-xl border p-4"
+                    style={{
+                      borderColor: step.color + '25',
+                      backgroundColor: step.color + '08',
+                    }}
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.08, duration: 0.45 }}
+                    whileHover={{ scale: 1.02 }}
+                  >
                     <motion.div
-                      className="flex flex-col items-center gap-3 w-[100px] sm:w-[120px]"
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: i * 0.1, duration: 0.5 }}
+                      className="relative flex-shrink-0 flex h-12 w-12 items-center justify-center rounded-xl border-2"
+                      style={{
+                        borderColor: step.color + '60',
+                        backgroundColor: step.color + '15',
+                      }}
+                      animate={{
+                        boxShadow: [
+                          `0 0 0px ${step.glow}`,
+                          `0 0 16px ${step.glow}`,
+                          `0 0 0px ${step.glow}`,
+                        ],
+                      }}
+                      transition={{
+                        duration: 2.2,
+                        repeat: Infinity,
+                        delay: i * 0.35,
+                        ease: 'easeInOut',
+                      }}
                     >
-                      <motion.div
-                        className="relative flex h-14 w-14 items-center justify-center rounded-2xl border-2"
-                        style={{
-                          borderColor: step.color + '60',
-                          backgroundColor: step.color + '15',
-                        }}
-                        whileHover={{
-                          boxShadow: `0 0 30px ${step.glow}`,
-                          scale: 1.08,
-                          borderColor: step.color,
-                        }}
-                        animate={{
-                          boxShadow: [
-                            `0 0 0px ${step.glow}`,
-                            `0 0 18px ${step.glow}`,
-                            `0 0 0px ${step.glow}`,
-                          ],
-                        }}
-                        transition={{
-                          boxShadow: {
-                            duration: 2.2,
-                            repeat: Infinity,
-                            delay: i * 0.4,
-                            ease: 'easeInOut',
-                          },
-                          scale: { duration: 0.2 },
-                        }}
+                      <Icon className="h-5 w-5" style={{ color: step.color }} />
+                      <span
+                        className="absolute -top-2 -right-2 h-5 w-5 rounded-full text-[9px] font-bold text-white flex items-center justify-center"
+                        style={{ backgroundColor: step.color }}
                       >
-                        <Icon className="h-6 w-6" style={{ color: step.color }} />
-                        <span
-                          className="absolute -top-2 -right-2 h-5 w-5 rounded-full text-[9px] font-bold text-white flex items-center justify-center"
-                          style={{ backgroundColor: step.color }}
-                        >
-                          {i + 1}
-                        </span>
-                      </motion.div>
-                      <div className="text-center">
-                        <p className="text-xs font-bold text-white leading-snug">{step.label}</p>
-                        <p className="text-[10px] text-gray-500 mt-0.5 leading-snug">{step.sub}</p>
-                      </div>
+                        {i + 1}
+                      </span>
                     </motion.div>
-
-                    {i < steps.length - 1 && (
-                      <div className="relative flex items-center justify-center w-10 sm:w-14 flex-shrink-0 mb-8">
-                        <div className="w-full h-px bg-white/10" />
-                        <motion.div
-                          className="absolute w-full h-px origin-left"
-                          style={{ backgroundColor: step.color }}
-                          initial={{ scaleX: 0 }}
-                          whileInView={{ scaleX: 1 }}
-                          viewport={{ once: true }}
-                          transition={{ delay: i * 0.25 + 0.6, duration: 0.4, ease: 'easeOut' }}
-                        />
-                        <ArrowRight
-                          className="absolute h-3.5 w-3.5 opacity-50"
-                          style={{ color: step.color }}
-                        />
+                    <div className="min-w-0">
+                      <p className="text-sm font-bold text-white leading-snug">{step.label}</p>
+                      <p className="text-[11px] text-gray-500 mt-0.5 leading-snug">{step.sub}</p>
+                    </div>
+                    {!isLastInRow && i < steps.length - 1 && (
+                      <div
+                        className="hidden sm:block absolute -right-2 top-1/2 -translate-y-1/2 z-10"
+                        style={{ color: step.color }}
+                      >
+                        <ArrowRight className="h-4 w-4 opacity-40" />
                       </div>
                     )}
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>
