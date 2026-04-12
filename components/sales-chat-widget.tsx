@@ -53,6 +53,7 @@ export function SalesChatWidget() {
   const isEn = pathname?.startsWith('/en') ?? false;
   const isAr = pathname?.startsWith('/ar') ?? false;
   const rtl = isAr;
+  const isConsultationPage = pathname?.includes('/consultation') ?? false;
 
   const openingMessage = isEn ? OPENING_MESSAGE_EN : isAr ? OPENING_MESSAGE_AR : OPENING_MESSAGE_DE;
 
@@ -172,6 +173,8 @@ export function SalesChatWidget() {
       sendMessage();
     }
   };
+
+  if (isConsultationPage) return null;
 
   return (
     <>

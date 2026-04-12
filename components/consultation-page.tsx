@@ -97,38 +97,42 @@ const aiResponses = {
 const aiResponsesAR = [
   {
     triggers: ['مرحبا', 'مرحباً', 'السلام', 'هلا', 'أهلا', 'أهلاً', 'ابدأ', 'ابدا'],
-    response: 'أهلاً بك! أنا مستشارك الذكي في أوفيفو — هنا لأفهم عملك وأريك تحديداً كيف يمكن للأتمتة أن ترفع إيراداتك.\n\nأخبرني: ما أكبر تحدٍّ يواجهك الآن — كثرة الاستفسارات اليدوية؟ حجوزات فائتة؟ أم تريد معرفة المزيد عن حلولنا؟',
+    response: 'أهلاً! سعيد بوجودك هنا.\n\nأنا هنا عشان أفهم وضعك وأشوف معك إذا كان في حل فعلي يناسب عملك — مو مجرد كلام نظري.\n\nخبرني: وين تحس إنك بتضيع أكثر وقت أو فلوس الآن؟ الحجوزات؟ الردود على العملاء؟ أو شيء ثاني؟',
   },
   {
     triggers: ['مطعم', 'مطاعم', 'مقهى', 'مقاهي', 'كافيه', 'كافيهات', 'فندق', 'ضيافة'],
-    response: 'قطاع المطاعم هو تخصصنا الأول — وكل حجز فائت يعني خسارة حقيقية.\n\nما نطبقه للمطاعم:\n✓ حجز الطاولات تلقائياً (24/7 — حتى في منتصف الليل)\n✓ أتمتة واتساب للتواصل مع الضيوف\n✓ تذكيرات تلقائية لتقليل الغياب\n✓ طلبات تقييم بعد الزيارة تُرسل تلقائياً\n\nأحد مطاعمنا وفّر ساعتين يومياً وحقق 35% نمواً في الإيرادات. كم عدد طاولاتك وكيف تصلك الحجوزات حالياً؟',
+    response: 'المطاعم والمقاهي هي الشريحة اللي نعرفها أكثر من غيرها.\n\nالمشكلة اللي نشوفها دايماً: الحجوزات تيجي من كل مكان — واتساب، انستقرام، هاتف — وما في نظام يجمعها. والموظف يضيع وقته يرد على نفس الأسئلة كل يوم.\n\nاللي نسويه للمطاعم:\n✓ حجز الطاولات تلقائي 24/7 — حتى بعد الدوام\n✓ تذكيرات للعملاء قبل الحجز عشان تقل حالات الغياب\n✓ ردود واتساب فورية على الأسئلة الشائعة\n✓ رسائل متابعة بعد الزيارة وطلب التقييم\n\nواحد من عملائنا وفّر أكثر من ساعتين يومياً ورفع إيراداته 35% في أول ثلاثة أشهر.\n\nعندك كم طاولة؟ وكيف تيجيك الحجوزات الحين؟',
   },
   {
     triggers: ['صالون', 'تجميل', 'حلاق', 'مساج', 'سبا', 'لياقة', 'جيم'],
-    response: 'قطاع الجمال واللياقة — نظام المواعيد وولاء العملاء هما كل شيء فيه.\n\nما نعده لك:\n✓ حجز مواعيد أونلاين يعمل على مدار الساعة\n✓ تذكيرات تلقائية (تقليل الغياب بنسبة 45%)\n✓ متابعة بعد الموعد + طلب تقييم\n✓ واتساب للردود السريعة وإعادة الجدولة\n\nعملاؤنا يرون 45% أقل غياب وحجوزات جديدة أكثر بكثير. كم موعداً تستقبل أسبوعياً؟',
+    response: 'صالونات التجميل واللياقة — المشكلة الكبيرة فيها دايماً هي الغياب المفاجئ والحجوزات اليدوية.\n\nاللي نعمله:\n✓ نظام حجز أونلاين يشتغل حتى وأنت نايم\n✓ تذكيرات تلقائية للعميل قبل الموعد — تقلل الغياب بشكل واضح\n✓ رسائل متابعة بعد الجلسة وطلب تقييم\n✓ ردود واتساب فورية على الاستفسارات\n\nعملاؤنا يشهدون انخفاضاً واضحاً في الغياب وزيادة في الحجوزات المتكررة.\n\nكم موعد تستقبل أسبوعياً تقريباً؟',
   },
   {
     triggers: ['سعر', 'تكلفة', 'كم', 'أسعار', 'باقة', 'باقات', 'عرض'],
-    response: 'نحن شفافون تماماً في الأسعار:\n\n🔹 الباقة الأساسية — من €1,200 إعداد + €120/شهر\nروبوت دردشة ذكي، التقاط العملاء، تكامل واتساب\nمثالي للمشاريع الصغيرة\n\n🔷 باقة الأعمال — من €2,200 إعداد + €220/شهر\nروبوت متطور، نظام حجز، إدارة علاقات العملاء، متابعة تلقائية\nللشركات التي تريد حلاً شاملاً\n\n🔶 الأتمتة الكاملة — من €3,200 إعداد + €450/شهر\nنظام ذكاء اصطناعي متكامل + أتمتة تسويق\nللشركات ذات الحجم العالي والطموح الكبير\n\nالسعر الدقيق يعتمد على حجم عملك. في استشارة مجانية، أريك أي باقة تناسبك وتحقق لك أفضل عائد.',
+    response: 'خلني أكون صريح معك من البداية في موضوع الأسعار:\n\n🔹 باقة البداية — من €1,200 إعداد + €120 شهرياً\nمناسبة لمن يريد يبدأ بخطوة واحدة: شات ذكي، تسجيل عملاء محتملين، وتكامل واتساب\n\n🔷 باقة الأعمال — من €2,200 إعداد + €220 شهرياً\nالأكثر طلباً: شات متطور + نظام حجز + إدارة عملاء + متابعة تلقائية\n\n🔶 الأتمتة الكاملة — من €3,200 إعداد + €450 شهرياً\nللي عنده حجم عمل كبير ويريد نظام شامل من الألف للياء\n\nالسعر الدقيق يختلف حسب حجم عملك واحتياجاتك الفعلية. في الاستشارة المجانية، أريك بالضبط أي خيار يناسبك وكيف ترجع تكلفته خلال فترة قصيرة.',
   },
   {
     triggers: ['مدة', 'وقت', 'متى', 'سرعة', 'إعداد', 'تشغيل'],
-    response: 'أسرع مما تتوقع:\n\n• الباقة الأساسية: 5–7 أيام عمل\n• باقة الأعمال: 7–10 أيام عمل\n• الأتمتة الكاملة: 10–14 يوم عمل\n\nلا تحتاج لفعل أي شيء بنفسك — نحن نتولى الإعداد الكامل، التكامل، والتدريب. بعد الإطلاق نبقى معك للدعم والتحسين المستمر.\n\nمتى تريد البدء؟',
+    response: 'كثير من عملائنا يتفاجأون من السرعة:\n\n• باقة البداية: جاهزة خلال 5–7 أيام عمل\n• باقة الأعمال: جاهزة خلال 7–10 أيام\n• الأتمتة الكاملة: جاهزة خلال 10–14 يوم\n\nأنت ما تحتاج تسوي شيء من ناحيتك — نحن نتكفل بكل شيء من الإعداد والتكامل وحتى التدريب. وبعد الإطلاق نفضل معك للدعم والتحسين المستمر.\n\nمتى تبي تبدأ؟',
   },
   {
     triggers: ['واتساب', 'whatsapp', 'رسائل', 'تواصل'],
-    response: 'واتساب هو أقوى قناة نستخدمها — لأن عملاءك يستخدمونه يومياً أصلاً.\n\nما نعده:\n✓ ردود تلقائية على الأسئلة الشائعة (24/7)\n✓ تأكيدات الحجز والتذكيرات\n✓ رسائل جماعية للعروض والفعاليات\n✓ تأهيل العملاء المحتملين مباشرة في المحادثة\n\nكل شيء آمن ومتوافق مع أنظمة الخصوصية، وتلقائي بالكامل. هل لديك حساب واتساب بزنس حالياً؟',
+    response: 'واتساب هو أقوى أداة في ترسانتنا — والسبب بسيط: عملاءك موجودين فيه أصلاً.\n\nاللي نعده لك:\n✓ ردود تلقائية على الأسئلة الشائعة — 24 ساعة، 7 أيام\n✓ تأكيدات وتذكيرات الحجز\n✓ رسائل جماعية للعروض والمناسبات\n✓ تأهيل العملاء الجدد مباشرة من المحادثة\n\nكل شيء آمن ومتوافق مع أنظمة الخصوصية. هل عندك حساب واتساب بزنس حالياً؟',
   },
   {
-    triggers: ['استشارة', 'تواصل', 'موعد', 'كلام', 'اتصال', 'محادثة'],
-    response: 'بكل سرور! استشارة 30 دقيقة مجانية هي أفضل خطوة أولى.\n\nفيها نحلل عملك، نريك بالضبط ما تخسره حالياً، ونضع خطة أتمتة مخصصة لك — بدون أي ضغط للبيع.\n\nاملأ النموذج على الجانب وسيتواصل معك أحد خبرائنا خلال 24 ساعة.',
+    triggers: ['استشارة', 'تواصل', 'موعد', 'كلام', 'اتصال', 'محادثة', 'اتحدث', 'أتكلم'],
+    response: 'بكل سرور — هذا بالضبط اللي أنا هنا من أجله.\n\nفي الاستشارة، نجلس سوا 30 دقيقة، نحلل وضعك الحالي، ونحدد أين في الهدر الفعلي، ونقدر لك عائد الاستثمار بأرقام واضحة — بدون مبالغة وبدون ضغط.\n\nاملأ النموذج على الجانب وسيتواصل معك خبير من فريقنا خلال 24 ساعة.',
+  },
+  {
+    triggers: ['يميز', 'يختلف', 'غيره', 'خاص', 'مميز', 'فرق'],
+    response: 'سؤال مهم — وأنا أقدّره.\n\nالفرق الرئيسي: معظم الشركات تبيعك أداة وتتركك تشغّلها بنفسك. نحن نشتغل معك من البداية للنهاية — من الإعداد وحتى ما تصير الأتمتة جزءاً طبيعياً من يومك.\n\nوبما إننا متخصصون في قطاعات المطاعم والخدمات تحديداً، ما نبدأ من الصفر — عندنا أنظمة جاهزة تثبت نفسها في عملك بسرعة.\n\nهل عندك سؤال محدد عن آلية العمل؟',
   },
 ];
 
 const defaultResponses = {
   de: 'Gute Frage! Für eine präzise Antwort, die wirklich auf Ihren Betrieb passt, empfehle ich ein kurzes Gespräch. Ich kann Ihnen dann gezielt zeigen, was in Ihrer Situation den größten Unterschied macht. Haben Sie noch weitere Fragen?',
   en: "Great question! For a precise answer that truly fits your business, I recommend a quick call. I can then show you specifically what makes the biggest difference in your situation. Do you have any other questions?",
-  ar: 'سؤال رائع! للحصول على إجابة دقيقة تناسب وضعك تحديداً، أنصحك بمحادثة قصيرة مع أحد خبرائنا. هل تريد حجز استشارة مجانية الآن؟',
+  ar: 'سؤال كويس — وما عندي إجابة واحدة تصلح للجميع. كل عمل وضعه مختلف، ولازم نفهم وضعك أولاً قبل ما نقترح عليك أي شيء. تقدر تكتب لي أكثر عن نشاطك؟ أو اسألني عن موضوع محدد.',
 };
 
 const quickPrompts = {
@@ -145,10 +149,10 @@ const quickPrompts = {
     'What makes Ovivo different?',
   ],
   ar: [
-    'ما تكلفة الأتمتة؟',
-    'كم يستغرق الإعداد؟',
-    'مناسب للمطاعم؟',
-    'ما الذي يميز أوفيفو؟',
+    'كم تكلفة الباقات؟',
+    'كم وقت الإعداد؟',
+    'هل يناسب مطعمي؟',
+    'وش يميزكم عن غيركم؟',
   ],
 };
 
@@ -302,7 +306,7 @@ export function ConsultationPage({ lang }: Props) {
       content: lang === 'de'
         ? 'Guten Tag! Ich bin Ihr persönlicher KI-Berater bei Ovivo.\n\nErzählen Sie mir kurz von Ihrem Betrieb — was machen Sie, und was kostet Sie aktuell die meiste Zeit oder den meisten Umsatz?'
         : lang === 'ar'
-        ? 'مرحباً! أنا مستشارك الشخصي الذكي في أوفيفو.\n\nأخبرني باختصار عن عملك — ماذا تفعل، وما الذي يأخذ منك أكثر وقت أو يكلفك أكثر إيراد؟'
+        ? 'أهلاً، سعيد بوجودك!\n\nأنا هنا أساعدك تشوف إذا كانت الأتمتة تناسب عملك فعلاً — وإذا كانت تناسب، كيف تستفيد منها بأقل تعقيد ممكن.\n\nخبرني: شو نوع عملك؟ وما أكبر شيء يأخذ منك وقت أو يسبب لك ضغط يومياً؟'
         : "Hello! I'm your personal AI advisor at Ovivo.\n\nTell me briefly about your business — what do you do, and what's currently costing you the most time or revenue?",
     },
   ]);
@@ -393,7 +397,7 @@ export function ConsultationPage({ lang }: Props) {
                 {t.headline}{' '}
                 <span className="text-gradient">{t.headlineGradient}</span>
               </h1>
-              <p className="mx-auto max-w-2xl text-lg text-gray-400 leading-relaxed">
+              <p className="mx-auto max-w-2xl text-lg text-gray-300 leading-relaxed">
                 {t.sub}
               </p>
             </motion.div>
@@ -414,7 +418,7 @@ export function ConsultationPage({ lang }: Props) {
                   </div>
                   <div className={rtl ? 'text-right' : ''}>
                     <p className="text-sm font-bold text-white">{t.chatTitle}</p>
-                    <p className="text-xs text-gray-500">{t.chatSub}</p>
+                    <p className="text-xs text-gray-400">{t.chatSub}</p>
                   </div>
                   <div className={`${rtl ? 'mr-auto' : 'ml-auto'} flex items-center gap-1.5`}>
                     <div className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
@@ -437,7 +441,7 @@ export function ConsultationPage({ lang }: Props) {
                           : <User className="h-4 w-4 text-gray-400" />
                         }
                       </div>
-                      <div className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-line ${msg.role === 'assistant' ? 'bg-white/5 border border-white/10 text-gray-300' : 'bg-blue-500 text-white'} ${rtl ? 'text-right' : ''}`}>
+                      <div className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-line ${msg.role === 'assistant' ? 'bg-white/5 border border-white/10 text-gray-100' : 'bg-blue-500 text-white'} ${rtl ? 'text-right' : ''}`}>
                         {msg.content}
                       </div>
                     </motion.div>
@@ -467,7 +471,7 @@ export function ConsultationPage({ lang }: Props) {
                 </div>
 
                 <div className="px-5 py-2.5 border-t border-white/5">
-                  <p className="text-[10px] text-gray-600 uppercase tracking-wider mb-2">{t.quickLabel}</p>
+                  <p className="text-xs text-gray-400 uppercase tracking-wider mb-2">{t.quickLabel}</p>
                   <div className="flex flex-wrap gap-1.5">
                     {prompts.map((p) => (
                       <button
@@ -546,14 +550,14 @@ export function ConsultationPage({ lang }: Props) {
                         </div>
                         <div>
                           <h3 className="text-lg font-bold text-white leading-tight">{t.formTitle}</h3>
-                          <p className="text-xs text-gray-500 mt-0.5">{t.formSub}</p>
+                          <p className="text-xs text-gray-400 mt-0.5">{t.formSub}</p>
                         </div>
                       </div>
 
                       <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="grid grid-cols-2 gap-4">
                           <div>
-                            <label className={`block text-xs font-semibold text-gray-400 mb-1.5 ${rtl ? 'text-right' : ''}`}>{t.nameLabel}</label>
+                            <label className={`block text-xs font-semibold text-gray-300 mb-1.5 ${rtl ? 'text-right' : ''}`}>{t.nameLabel}</label>
                             <Input
                               value={name}
                               onChange={(e) => setName(e.target.value)}
@@ -563,7 +567,7 @@ export function ConsultationPage({ lang }: Props) {
                             />
                           </div>
                           <div>
-                            <label className={`block text-xs font-semibold text-gray-400 mb-1.5 ${rtl ? 'text-right' : ''}`}>{t.phoneLabel}</label>
+                            <label className={`block text-xs font-semibold text-gray-300 mb-1.5 ${rtl ? 'text-right' : ''}`}>{t.phoneLabel}</label>
                             <Input
                               value={phone}
                               onChange={(e) => setPhone(e.target.value)}
@@ -633,7 +637,7 @@ export function ConsultationPage({ lang }: Props) {
 
                       <div className={`mt-4 flex flex-wrap gap-3 ${rtl ? 'justify-end' : 'justify-center'}`}>
                         {t.trust.map((item) => (
-                          <div key={item} className="flex items-center gap-1.5 text-xs text-gray-500">
+                          <div key={item} className="flex items-center gap-1.5 text-xs text-gray-400">
                             <CheckCircle className="h-3.5 w-3.5 text-emerald-500 flex-shrink-0" />
                             {item}
                           </div>
@@ -646,7 +650,7 @@ export function ConsultationPage({ lang }: Props) {
 
               {/* Direct contact */}
               <div>
-                <p className={`text-xs text-gray-600 uppercase tracking-widest mb-3 ${rtl ? 'text-right' : ''}`}>{t.contactDirect}</p>
+                <p className={`text-xs text-gray-400 uppercase tracking-widest mb-3 ${rtl ? 'text-right' : ''}`}>{t.contactDirect}</p>
                 <div className="grid grid-cols-3 gap-3">
                   {[
                     { icon: Phone, label: lang === 'de' ? 'Anrufen' : lang === 'ar' ? 'اتصل' : 'Call', href: 'tel:+4917656565322', color: 'text-emerald-400' },
@@ -678,7 +682,7 @@ export function ConsultationPage({ lang }: Props) {
       <section className="py-16 px-4 sm:px-6 lg:px-8 border-t border-white/5">
         <div className="mx-auto max-w-7xl">
           <RevealSection>
-            <p className={`text-xs font-semibold uppercase tracking-widest text-gray-600 mb-8 ${rtl ? 'text-right' : 'text-center'}`}>
+            <p className={`text-xs font-semibold uppercase tracking-widest text-gray-400 mb-8 ${rtl ? 'text-right' : 'text-center'}`}>
               {t.statsTitle}
             </p>
             <StaggerContainer className="grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -686,7 +690,7 @@ export function ConsultationPage({ lang }: Props) {
                 <StaggerItem key={stat.label}>
                   <GlassCard className={`p-6 text-center hover:border-white/20 transition-all`}>
                     <p className="text-3xl font-extrabold text-gradient mb-1.5">{stat.value}</p>
-                    <p className="text-xs text-gray-500 leading-snug">{stat.label}</p>
+                    <p className="text-xs text-gray-400 leading-snug">{stat.label}</p>
                   </GlassCard>
                 </StaggerItem>
               ))}
@@ -719,20 +723,20 @@ export function ConsultationPage({ lang }: Props) {
                     <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-blue-500/10 border border-blue-500/20 text-xs font-bold text-blue-400">
                       {i + 1}
                     </div>
-                    <p className={`text-gray-300 text-sm leading-relaxed ${rtl ? 'text-right' : ''}`}>{benefit}</p>
+                    <p className={`text-gray-200 text-sm leading-relaxed ${rtl ? 'text-right' : ''}`}>{benefit}</p>
                   </motion.div>
                 ))}
               </div>
               <div className="mt-8 pt-6 border-t border-white/10 flex items-center gap-3 flex-wrap">
-                <div className="flex items-center gap-2 text-xs text-gray-500">
+                <div className="flex items-center gap-2 text-xs text-gray-400">
                   <Shield className="h-3.5 w-3.5 text-emerald-500" />
                   {lang === 'de' ? 'DSGVO-konform' : lang === 'ar' ? 'متوافق مع حماية البيانات' : 'GDPR compliant'}
                 </div>
-                <div className="flex items-center gap-2 text-xs text-gray-500">
+                <div className="flex items-center gap-2 text-xs text-gray-400">
                   <Clock className="h-3.5 w-3.5 text-blue-400" />
                   {lang === 'de' ? 'Antwort in 24h' : lang === 'ar' ? 'رد خلال 24 ساعة' : 'Response in 24h'}
                 </div>
-                <div className="flex items-center gap-2 text-xs text-gray-500">
+                <div className="flex items-center gap-2 text-xs text-gray-400">
                   <Zap className="h-3.5 w-3.5 text-amber-400" />
                   {lang === 'de' ? 'Live in 5–14 Tagen' : lang === 'ar' ? 'تشغيل خلال 5–14 يوماً' : 'Live in 5–14 days'}
                 </div>
