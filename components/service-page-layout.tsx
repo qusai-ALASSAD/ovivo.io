@@ -43,7 +43,7 @@ export interface ServiceFaq {
 }
 
 export interface ServicePageProps {
-  lang?: 'de' | 'en';
+  lang?: 'de' | 'en' | 'ar';
   badge: string;
   heroTitle: string;
   heroGradient: string;
@@ -79,10 +79,39 @@ export function ServicePageLayout({
   relatedServices,
   extraSection,
 }: ServicePageProps) {
-  const prefix = lang === 'en' ? '/en' : '';
-  const sPrefix = lang === 'en' ? '/en/services' : '/services';
+  const prefix = lang === 'en' ? '/en' : lang === 'ar' ? '/ar' : '';
+  const sPrefix = lang === 'en' ? '/en/services' : lang === 'ar' ? '/ar/services' : '/services';
 
-  const t = lang === 'en' ? {
+  const t = lang === 'ar' ? {
+    services: 'الخدمات',
+    whyItMatters: 'لماذا هذا مهم',
+    withoutService: 'بدون هذه الخدمة',
+    withService: 'مع هذه الخدمة',
+    deliverablesBadge: 'ما تحصل عليه',
+    deliverablesTitle: 'كل ما',
+    deliverablesGradient: 'تحصل عليه',
+    deliverablesSubtitle: 'كل شيء مشمول — بدون تكاليف خفية.',
+    useCasesBadge: 'حالات الاستخدام',
+    useCasesTitle: 'يناسب',
+    useCasesGradient: 'كل القطاعات',
+    useCasesSubtitle: 'نتائج مثبتة في مختلف أنواع الأعمال.',
+    processBadge: 'العملية',
+    processTitle: 'كيف',
+    processGradient: 'نعمل معاً',
+    processSubtitle: 'عملية منظمة من 5 خطوات من البداية حتى النتائج.',
+    packagesBadge: 'الباقات',
+    packagesTitle: 'اختر',
+    packagesGradient: 'باقتك',
+    packagesSubtitle: 'باقات مصممة لتناسب مرحلتك وطموحاتك.',
+    faqBadge: 'أسئلة شائعة',
+    faqTitle: 'الأسئلة',
+    faqGradient: 'المتكررة',
+    relatedLabel: 'خدمات ذات صلة',
+    requestQuote: 'اطلب عرض سعر',
+    bookCall: 'احجز مكالمة',
+    applyNow: 'ابدأ الآن',
+    strategyCall: 'احجز استشارة مجانية',
+  } : lang === 'en' ? {
     services: 'Services',
     whyItMatters: 'Why It Matters',
     withoutService: 'Without This Service',
@@ -143,7 +172,7 @@ export function ServicePageLayout({
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
       {/* Hero */}
       <section className="relative overflow-hidden px-4 py-24 sm:px-6 lg:px-8">
         <div className="pointer-events-none absolute inset-0 -z-10">
