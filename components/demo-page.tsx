@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -194,6 +195,124 @@ const t = {
   },
 };
 
+function AutomationFlowVisual() {
+  const nodes = [
+    { id: 'trigger', x: 80, y: 130, label: 'Trigger', color: '#3b82f6', icon: '⚡' },
+    { id: 'ai', x: 260, y: 60, label: 'AI', color: '#06b6d4', icon: '🤖' },
+    { id: 'crm', x: 260, y: 200, label: 'CRM', color: '#10b981', icon: '📊' },
+    { id: 'whatsapp', x: 440, y: 60, label: 'WhatsApp', color: '#22c55e', icon: '💬' },
+    { id: 'email', x: 440, y: 200, label: 'Email', color: '#f59e0b', icon: '✉️' },
+    { id: 'calendar', x: 600, y: 130, label: 'Calendar', color: '#ec4899', icon: '📅' },
+  ];
+
+  const edges = [
+    { from: 'trigger', to: 'ai' },
+    { from: 'trigger', to: 'crm' },
+    { from: 'ai', to: 'whatsapp' },
+    { from: 'crm', to: 'email' },
+    { from: 'whatsapp', to: 'calendar' },
+    { from: 'email', to: 'calendar' },
+  ];
+
+  const nodeMap: Record<string, typeof nodes[0]> = {};
+  nodes.forEach((n) => { nodeMap[n.id] = n; });
+
+  const particles = edges.map((edge, i) => ({
+    id: i,
+    from: nodeMap[edge.from],
+    to: nodeMap[edge.to],
+    delay: i * 0.4,
+  }));
+
+  return (
+    <div className="relative w-full overflow-hidden rounded-2xl border border-white/10 bg-[#0d1117]" style={{ height: 280 }}>
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-transparent to-cyan-900/10" />
+      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 700 280" preserveAspectRatio="xMidYMid meet">
+        {edges.map((edge, i) => {
+          const from = nodeMap[edge.from];
+          const to = nodeMap[edge.to];
+          return (
+            <line
+              key={i}
+              x1={from.x} y1={from.y}
+              x2={to.x} y2={to.y}
+              stroke="rgba(255,255,255,0.08)"
+              strokeWidth="1.5"
+              strokeDasharray="4 4"
+            />
+          );
+        })}
+        {particles.map((p) => {
+          const dx = p.to.x - p.from.x;
+          const dy = p.to.y - p.from.y;
+          return (
+            <motion.circle
+              key={p.id}
+              r="3"
+              fill={p.from.color}
+              filter={`drop-shadow(0 0 4px ${p.from.color})`}
+              initial={{ cx: p.from.x, cy: p.from.y, opacity: 0 }}
+              animate={{
+                cx: [p.from.x, p.from.x + dx * 0.5, p.to.x],
+                cy: [p.from.y, p.from.y + dy * 0.5, p.to.y],
+                opacity: [0, 1, 0],
+              }}
+              transition={{
+                duration: 1.8,
+                repeat: Infinity,
+                delay: p.delay,
+                ease: 'easeInOut',
+              }}
+            />
+          );
+        })}
+      </svg>
+
+      {nodes.map((node) => (
+        <motion.div
+          key={node.id}
+          className="absolute flex flex-col items-center gap-1"
+          style={{ left: node.x - 28, top: node.y - 28 }}
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.1, duration: 0.4 }}
+        >
+          <motion.div
+            className="flex h-14 w-14 items-center justify-center rounded-2xl border-2 text-xl font-bold shadow-lg"
+            style={{
+              borderColor: node.color + '60',
+              backgroundColor: node.color + '18',
+              boxShadow: `0 0 18px ${node.color}30`,
+            }}
+            animate={{
+              boxShadow: [
+                `0 0 10px ${node.color}20`,
+                `0 0 24px ${node.color}50`,
+                `0 0 10px ${node.color}20`,
+              ],
+            }}
+            transition={{ duration: 2.5, repeat: Infinity, delay: Math.random() * 1.5 }}
+          >
+            <span>{node.icon}</span>
+          </motion.div>
+          <span className="text-[10px] font-semibold text-gray-400 tracking-wide">{node.label}</span>
+        </motion.div>
+      ))}
+
+      <div className="absolute bottom-3 left-0 right-0 flex justify-center">
+        <div className="flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1">
+          <motion.div
+            className="h-1.5 w-1.5 rounded-full bg-emerald-400"
+            animate={{ opacity: [1, 0.3, 1] }}
+            transition={{ duration: 1.2, repeat: Infinity }}
+          />
+          <span className="text-[10px] font-semibold text-emerald-400 tracking-wider uppercase">Automation Running</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 interface Props {
   lang: Lang;
 }
@@ -385,8 +504,9 @@ export function DemoPage({ lang }: Props) {
               </div>
             </GlassCard>
 
-            {/* Lead Form */}
+            {/* Right Column */}
             <div className="space-y-6">
+              <AutomationFlowVisual />
               <GlassCard className="p-8">
                 <AnimatePresence mode="wait">
                   {submitted ? (
