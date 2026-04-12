@@ -456,21 +456,6 @@ export function ServicePageLayout({
         </div>
       </section>
 
-      {/* Sticky CTA */}
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 hidden md:block">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2, duration: 0.5 }}
-        >
-          <Link href={`${prefix}/consultation`}>
-            <Button className="bg-blue-500 hover:bg-blue-400 text-white px-6 py-3 shadow-[0_0_30px_rgba(59,130,246,0.4)] transition-all duration-300 hover:shadow-[0_0_50px_rgba(59,130,246,0.6)] rounded-full">
-              {t.strategyCall}
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </Link>
-        </motion.div>
-      </div>
     </div>
   );
 }
