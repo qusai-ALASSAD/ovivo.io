@@ -344,7 +344,104 @@ export function AutomationFlowSection({ lang }: Props) {
 
           {/* Steps grid */}
           <div className="px-6 pt-8 pb-6">
-            <div className="grid grid-cols-3 gap-x-0 gap-y-0">
+            {/* Mobile: single column vertical flow */}
+            <div className="flex flex-col sm:hidden gap-0">
+              {steps.map((step, i) => {
+                const Icon = step.icon;
+                const isLastStep = i === steps.length - 1;
+                const PULSE_DURATION = 1.8;
+                const stepDelay = i * PULSE_DURATION * 0.55;
+                return (
+                  <div key={step.id} className="flex flex-col items-stretch">
+                    <motion.div
+                      className="relative flex items-center gap-4 rounded-xl border p-4"
+                      style={{
+                        borderColor: step.color + '30',
+                        backgroundColor: step.color + '0a',
+                      }}
+                      initial={{ opacity: 0, x: -16 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.07, duration: 0.4 }}
+                    >
+                      <motion.div
+                        className="relative flex-shrink-0 flex h-12 w-12 items-center justify-center rounded-xl border-2"
+                        style={{
+                          borderColor: step.color + '60',
+                          backgroundColor: step.color + '15',
+                        }}
+                        animate={{
+                          boxShadow: [
+                            `0 0 0px ${step.glow}`,
+                            `0 0 20px ${step.glow}`,
+                            `0 0 0px ${step.glow}`,
+                          ],
+                        }}
+                        transition={{
+                          duration: PULSE_DURATION,
+                          repeat: Infinity,
+                          delay: stepDelay,
+                          ease: 'easeInOut',
+                        }}
+                      >
+                        <Icon className="h-5 w-5" style={{ color: step.color }} />
+                        <span
+                          className="absolute -top-2 -right-2 h-5 w-5 rounded-full text-[9px] font-bold text-white flex items-center justify-center"
+                          style={{ backgroundColor: step.color }}
+                        >
+                          {i + 1}
+                        </span>
+                      </motion.div>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-bold text-white leading-snug">{step.label}</p>
+                        <p className="text-[11px] text-gray-500 mt-0.5 leading-snug">{step.sub}</p>
+                      </div>
+                    </motion.div>
+
+                    {!isLastStep && (
+                      <div className="flex justify-center py-1">
+                        <svg width="16" height="28" viewBox="0 0 16 28" fill="none">
+                          <motion.line
+                            x1="8" y1="0" x2="8" y2="20"
+                            stroke={step.color}
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            initial={{ pathLength: 0, opacity: 0 }}
+                            animate={{ pathLength: [0, 1, 1], opacity: [0, 1, 1] }}
+                            transition={{
+                              duration: PULSE_DURATION,
+                              repeat: Infinity,
+                              delay: stepDelay + PULSE_DURATION * 0.35,
+                              ease: 'easeOut',
+                              times: [0, 0.55, 1],
+                            }}
+                          />
+                          <motion.polyline
+                            points="4,16 8,22 12,16"
+                            stroke={step.color}
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            fill="none"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: [0, 0, 1, 1] }}
+                            transition={{
+                              duration: PULSE_DURATION,
+                              repeat: Infinity,
+                              delay: stepDelay + PULSE_DURATION * 0.35,
+                              times: [0, 0.5, 0.65, 1],
+                            }}
+                          />
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Desktop: 3-column grid */}
+            <div className="hidden sm:grid grid-cols-3 gap-x-0 gap-y-0">
               {steps.map((step, i) => {
                 const Icon = step.icon;
                 const col = i % 3;
@@ -358,7 +455,6 @@ export function AutomationFlowSection({ lang }: Props) {
 
                 return (
                   <div key={step.id} className="contents">
-                    {/* Card */}
                     <motion.div
                       className="relative m-2 flex items-center gap-3 rounded-xl border p-4 overflow-visible"
                       style={{
@@ -404,9 +500,8 @@ export function AutomationFlowSection({ lang }: Props) {
                         <p className="text-[11px] text-gray-500 mt-0.5 leading-snug">{step.sub}</p>
                       </div>
 
-                      {/* Horizontal arrow → to next in same row */}
                       {!isLastInRow && !isLastStep && (
-                        <div className="hidden sm:flex absolute -right-4 top-1/2 -translate-y-1/2 z-20 items-center w-8 overflow-hidden">
+                        <div className="absolute -right-4 top-1/2 -translate-y-1/2 z-20 flex items-center w-8 overflow-hidden">
                           <svg width="32" height="16" viewBox="0 0 32 16" fill="none" className="w-full">
                             <motion.line
                               x1="0" y1="8" x2="24" y2="8"
@@ -443,9 +538,8 @@ export function AutomationFlowSection({ lang }: Props) {
                         </div>
                       )}
 
-                      {/* Down-then-left arrow ↙ at end of row 1 → start of row 2 */}
                       {isLastInRow && !isLastRow && !isLastStep && (
-                        <div className="hidden sm:block absolute -bottom-6 right-0 z-20 w-full">
+                        <div className="absolute -bottom-6 right-0 z-20 w-full">
                           <svg width="100%" height="24" viewBox="0 0 200 24" preserveAspectRatio="none" fill="none">
                             <motion.path
                               d="M 190 0 L 190 16 L 10 16"
