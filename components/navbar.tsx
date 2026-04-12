@@ -38,8 +38,8 @@ const serviceLinksAR = [
   { href: '/ar/services/ai-chatbot', icon: Bot, label: 'روبوت الدردشة الذكي', color: 'text-emerald-400' },
   { href: '/ar/services/funnels', icon: Globe, label: 'الموقع والقنوات التسويقية', color: 'text-orange-400' },
   { href: '/ar/services/ads', icon: BarChart3, label: 'الإعلانات والتسويق', color: 'text-rose-400' },
-  { href: '/ar/services/crm-email', icon: Mail, label: 'CRM والبريد الإلكتروني', color: 'text-cyan-400' },
-  { href: '/ar/services/branding', icon: Palette, label: 'العلامة التجارية والمحتوى', color: 'text-amber-400' },
+  { href: '/ar/services/crm-email', icon: Mail, label: 'إدارة العملاء والبريد', color: 'text-cyan-400' },
+  { href: '/ar/services/branding', icon: Palette, label: 'الهوية التجارية والمحتوى', color: 'text-amber-400' },
 ];
 
 export function Navbar() {
@@ -96,8 +96,7 @@ export function Navbar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const ctaLabel = isEn ? 'Free Consultation' : isAr ? 'استشارة مجانية' : 'Kostenlose Beratung';
-  const ctaSecondary = isEn ? 'View Packages' : isAr ? 'عرض الباقات' : 'Pakete ansehen';
+  const ctaLabel = isEn ? 'Free Consultation' : isAr ? 'احجز استشارتك' : 'Kostenlose Beratung';
   const servicesLabel = isEn ? 'Services' : isAr ? 'الخدمات' : 'Leistungen';
   const servicesOverview = isEn ? 'All Services' : isAr ? 'جميع الخدمات' : 'Alle Leistungen';
 
@@ -233,13 +232,8 @@ export function Navbar() {
                 AR
               </Link>
             )}
-            <Link href={`${prefix}/pricing`}>
-              <Button variant="outline" className="glass glass-hover border-white/20 text-white hover:text-white text-sm">
-                {ctaSecondary}
-              </Button>
-            </Link>
             <Link href={`${prefix}/consultation`}>
-              <Button className="bg-blue-500 hover:bg-blue-400 text-white border-0 shadow-lg hover:shadow-blue-500/40 transition-all duration-300">
+              <Button className="bg-blue-500 hover:bg-blue-400 text-white border-0 shadow-lg hover:shadow-blue-500/40 transition-all duration-300 font-semibold">
                 {ctaLabel}
               </Button>
             </Link>
@@ -335,13 +329,8 @@ export function Navbar() {
                   </Link>
                 </div>
                 <Link href={`${prefix}/consultation`} onClick={() => setMobileMenuOpen(false)}>
-                  <Button className="w-full bg-blue-500 hover:bg-blue-400 text-white border-0">
+                  <Button className="w-full bg-blue-500 hover:bg-blue-400 text-white border-0 font-semibold">
                     {ctaLabel}
-                  </Button>
-                </Link>
-                <Link href={`${prefix}/pricing`} onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="outline" className="w-full glass border-white/20 text-white hover:text-white">
-                    {ctaSecondary}
                   </Button>
                 </Link>
               </div>
