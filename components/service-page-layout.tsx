@@ -201,7 +201,7 @@ export function ServicePageLayout({
                 {heroSubtitle}
               </p>
               <div className="flex flex-col gap-4 sm:flex-row">
-                <Link href={`${prefix}/contact`}>
+                <Link href={`${prefix}/consultation`}>
                   <Button size="lg" className="group relative overflow-hidden bg-blue-500 hover:bg-blue-400 text-white px-8 py-6 text-base font-semibold transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)]">
                     <span className="relative z-10 flex items-center gap-2">
                       {t.requestQuote}
@@ -210,7 +210,7 @@ export function ServicePageLayout({
                     <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                   </Button>
                 </Link>
-                <Link href={`${prefix}/contact`}>
+                <Link href={`${prefix}/consultation`}>
                   <Button size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/5 hover:border-white/30 px-8 py-6 text-base">
                     {t.bookCall}
                   </Button>
@@ -396,7 +396,7 @@ export function ServicePageLayout({
                         </li>
                       ))}
                     </ul>
-                    <Link href={`${prefix}/contact`}>
+                    <Link href={`${prefix}/consultation`}>
                       <Button className={`w-full font-semibold transition-all duration-300 ${pkg.highlighted ? 'bg-blue-500 hover:bg-blue-400 text-white hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]' : 'bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20'}`}>
                         {t.applyNow}
                         <ArrowRight className="ml-2 h-4 w-4" />
@@ -463,7 +463,7 @@ export function ServicePageLayout({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2, duration: 0.5 }}
         >
-          <Link href={`${prefix}/contact`}>
+          <Link href={`${prefix}/consultation`}>
             <Button className="bg-blue-500 hover:bg-blue-400 text-white px-6 py-3 shadow-[0_0_30px_rgba(59,130,246,0.4)] transition-all duration-300 hover:shadow-[0_0_50px_rgba(59,130,246,0.6)] rounded-full">
               {t.strategyCall}
               <ArrowRight className="ml-2 h-4 w-4" />

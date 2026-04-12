@@ -64,26 +64,23 @@ export function Navbar() {
         { label: 'Home', href: '/en' },
         { label: 'Services', href: '/en/services' },
         { label: 'Pricing', href: '/en/pricing' },
-        { label: 'Demo', href: '/en/demo' },
         { label: 'About', href: '/en/about' },
-        { label: 'Contact', href: '/en/contact' },
+        { label: 'Free Consultation', href: '/en/consultation', highlight: true },
       ]
     : isAr
     ? [
         { label: 'الرئيسية', href: '/ar' },
         { label: 'الخدمات', href: '/ar/services' },
         { label: 'الأسعار', href: '/ar/pricing' },
-        { label: 'عرض توضيحي', href: '/ar/demo' },
         { label: 'من نحن', href: '/ar/about' },
-        { label: 'تواصل معنا', href: '/ar/contact' },
+        { label: 'استشارة مجانية', href: '/ar/consultation', highlight: true },
       ]
     : [
         { label: 'Startseite', href: '/' },
         { label: 'Leistungen', href: '/services' },
         { label: 'Preise', href: '/pricing' },
-        { label: 'Demo', href: '/demo' },
         { label: 'Über uns', href: '/about' },
-        { label: 'Kontakt', href: '/contact' },
+        { label: 'Kostenlose Beratung', href: '/consultation', highlight: true },
       ];
 
   useEffect(() => {
@@ -133,20 +130,18 @@ export function Navbar() {
           </motion.div>
 
           {/* Desktop Nav */}
-          <div className={`hidden md:flex items-baseline ${isAr ? 'space-x-reverse space-x-1' : 'space-x-1'}`}>
-            {navLinks.slice(0, 1).map((link, index) => (
-              <motion.div
-                key={link.label}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.07 }}
-              >
-                <Link href={link.href} className="relative px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:text-white group">
-                  {link.label}
-                  <span className="absolute -bottom-0.5 left-3 right-3 h-0.5 w-0 bg-blue-500 transition-all duration-300 group-hover:w-[calc(100%-24px)]" />
-                </Link>
-              </motion.div>
-            ))}
+          <div className={`hidden md:flex items-center ${isAr ? 'space-x-reverse space-x-1' : 'space-x-1'}`}>
+            {/* Home link */}
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0 }}
+            >
+              <Link href={navLinks[0].href} className="relative px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:text-white group">
+                {navLinks[0].label}
+                <span className="absolute -bottom-0.5 left-3 right-3 h-0.5 w-0 bg-blue-500 transition-all duration-300 group-hover:w-[calc(100%-24px)]" />
+              </Link>
+            </motion.div>
 
             {/* Services Dropdown */}
             <motion.div
@@ -206,7 +201,8 @@ export function Navbar() {
               </AnimatePresence>
             </motion.div>
 
-            {navLinks.slice(2).map((link, index) => (
+            {/* Pricing + About links */}
+            {navLinks.slice(2, 4).map((link, index) => (
               <motion.div
                 key={link.label}
                 initial={{ opacity: 0, y: -10 }}
@@ -219,6 +215,21 @@ export function Navbar() {
                 </Link>
               </motion.div>
             ))}
+
+            {/* Consultation highlight link */}
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.28 }}
+            >
+              <Link
+                href={navLinks[4].href}
+                className="relative px-3 py-2 text-sm font-semibold text-blue-400 hover:text-blue-300 transition-colors group"
+              >
+                {navLinks[4].label}
+                <span className="absolute -bottom-0.5 left-3 right-3 h-0.5 w-0 bg-blue-400 transition-all duration-300 group-hover:w-[calc(100%-24px)]" />
+              </Link>
+            </motion.div>
           </div>
 
           {/* CTA Buttons + Lang Switcher */}
@@ -239,14 +250,14 @@ export function Navbar() {
                 AR
               </Link>
             )}
-            <Link href={`${prefix}/contact`}>
-              <Button className="bg-blue-500 hover:bg-blue-400 text-white border-0 shadow-lg hover:shadow-blue-500/40 transition-all duration-300">
-                {ctaLabel}
+            <Link href={`${prefix}/pricing`}>
+              <Button variant="outline" className="glass glass-hover border-white/20 text-white hover:text-white text-sm">
+                {ctaSecondary}
               </Button>
             </Link>
-            <Link href={`${prefix}/pricing`}>
-              <Button variant="outline" className="glass glass-hover border-white/20 text-white hover:text-white">
-                {ctaSecondary}
+            <Link href={`${prefix}/consultation`}>
+              <Button className="bg-blue-500 hover:bg-blue-400 text-white border-0 shadow-lg hover:shadow-blue-500/40 transition-all duration-300">
+                {ctaLabel}
               </Button>
             </Link>
           </motion.div>
@@ -274,16 +285,13 @@ export function Navbar() {
             dir={isAr ? 'rtl' : 'ltr'}
           >
             <div className="space-y-1 px-4 pb-3 pt-2">
-              {navLinks.slice(0, 1).map((link) => (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  className="block rounded-lg px-3 py-2.5 text-base font-medium text-gray-300 hover:bg-white/10 hover:text-white transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              <Link
+                href={navLinks[0].href}
+                className="block rounded-lg px-3 py-2.5 text-base font-medium text-gray-300 hover:bg-white/10 hover:text-white transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {navLinks[0].label}
+              </Link>
 
               {/* Mobile Services */}
               <div>
@@ -321,7 +329,7 @@ export function Navbar() {
                 )}
               </div>
 
-              {navLinks.slice(2).map((link) => (
+              {navLinks.slice(2, 4).map((link) => (
                 <Link
                   key={link.label}
                   href={link.href}
@@ -331,6 +339,13 @@ export function Navbar() {
                   {link.label}
                 </Link>
               ))}
+              <Link
+                href={navLinks[4].href}
+                className="block rounded-lg px-3 py-2.5 text-base font-semibold text-blue-400 hover:bg-blue-500/10 hover:text-blue-300 transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {navLinks[4].label}
+              </Link>
 
               <div className="flex flex-col space-y-2 pt-4 border-t border-white/10">
                 <div className="flex gap-2">
@@ -344,7 +359,7 @@ export function Navbar() {
                     <Button variant="outline" className="w-full glass border-white/10 text-gray-400 hover:text-white text-xs">AR</Button>
                   </Link>
                 </div>
-                <Link href={`${prefix}/contact`} onClick={() => setMobileMenuOpen(false)}>
+                <Link href={`${prefix}/consultation`} onClick={() => setMobileMenuOpen(false)}>
                   <Button className="w-full bg-blue-500 hover:bg-blue-400 text-white border-0">
                     {ctaLabel}
                   </Button>

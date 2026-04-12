@@ -120,8 +120,7 @@ export function Footer() {
             <h3 className="text-sm font-semibold text-white">{t.company}</h3>
             <ul className="mt-4 space-y-3">
               <li><Link href={`${prefix}/about`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.about}</Link></li>
-              <li><Link href={`${prefix}/demo`} className="text-sm text-gray-400 hover:text-white transition-colors">Demo</Link></li>
-              <li><Link href={`${prefix}/contact`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.contact}</Link></li>
+              <li><Link href={`${prefix}/consultation`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.contact}</Link></li>
               <li><Link href={`${prefix}/privacy`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.privacy}</Link></li>
               <li><Link href={`${prefix}/imprint`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.imprint}</Link></li>
               {showAdmin && (

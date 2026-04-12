@@ -288,7 +288,7 @@ export function ServicesPage({ lang }: Props) {
                     </div>
 
                     <div className="mt-8">
-                      <Link href={`${prefix}/contact`}>
+                      <Link href={`${prefix}/consultation`}>
                         <Button className="bg-blue-500 hover:bg-blue-400 text-white font-semibold transition-all duration-300 hover:shadow-[0_0_24px_rgba(59,130,246,0.5)]">
                           {service.cta}
                           <ArrowRight className={`ml-2 h-4 w-4 ${rtl ? 'rotate-180 mr-2 ml-0' : ''}`} />
@@ -331,7 +331,7 @@ export function ServicesPage({ lang }: Props) {
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
               <h2 className="text-3xl font-bold text-white sm:text-4xl mb-4">{t.cta.title}</h2>
               <p className="text-lg text-gray-400 max-w-xl mx-auto mb-10">{t.cta.sub}</p>
-              <Link href={`${prefix}/contact`}>
+              <Link href={`${prefix}/consultation`}>
                 <Button size="lg" className="group relative overflow-hidden bg-blue-500 hover:bg-blue-400 text-white px-8 py-6 text-base font-semibold transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)]">
                   <span className="relative z-10 flex items-center gap-2">
                     {t.cta.btn}

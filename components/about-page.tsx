@@ -314,7 +314,7 @@ export function AboutPage({ lang }: Props) {
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
               <h2 className="text-3xl font-bold text-white sm:text-4xl mb-4">{tx.cta.title}</h2>
               <p className="text-lg text-gray-400 max-w-xl mx-auto mb-10">{tx.cta.sub}</p>
-              <Link href={`${prefix}/contact`}>
+              <Link href={`${prefix}/consultation`}>
                 <Button size="lg" className="group bg-blue-500 hover:bg-blue-400 text-white px-8 py-6 text-base font-semibold transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)]">
                   <span className="flex items-center gap-2">
                     {tx.cta.btn}
