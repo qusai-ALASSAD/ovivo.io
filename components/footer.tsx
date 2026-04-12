@@ -11,8 +11,11 @@ export function Footer() {
   const [showAdmin, setShowAdmin] = useState(false);
   const pathname = usePathname();
   const isEn = pathname.startsWith('/en');
-  const prefix = isEn ? '/en' : '';
-  const sPrefix = isEn ? '/en/services' : '/services';
+  const isAr = pathname.startsWith('/ar');
+
+  const prefix = isEn ? '/en' : isAr ? '/ar' : '';
+  const sPrefix = isEn ? '/en/services' : isAr ? '/ar/services' : '/services';
+  const rtl = isAr;
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -44,6 +47,28 @@ export function Footer() {
         imprint: 'Imprint',
         copyright: 'All rights reserved.',
       }
+    : isAr
+    ? {
+        desc: 'ذكاء اصطناعي للمطاعم وشركات الخدمات. نؤتمت الحجوزات واستفسارات العملاء والاحتفاظ بهم — بشكل تلقائي كامل.',
+        solutions: 'الحلول',
+        industries: 'القطاعات',
+        company: 'الشركة',
+        pricing: 'الباقات والأسعار',
+        automation: 'أنظمة الأتمتة',
+        chatbot: 'روبوت الدردشة الذكي',
+        crm: 'إدارة العملاء والبريد',
+        funnels: 'الموقع والقنوات التسويقية',
+        restaurants: 'المطاعم والمقاهي',
+        hair: 'الحلاقة والتجميل',
+        fitness: 'اللياقة والعافية',
+        hotels: 'الفنادق والإقامة',
+        trades: 'الحرف والخدمات',
+        about: 'من نحن',
+        contact: 'تواصل معنا',
+        privacy: 'سياسة الخصوصية',
+        imprint: 'بيانات النشر',
+        copyright: 'جميع الحقوق محفوظة.',
+      }
     : {
         desc: 'KI-Automation für Gastronomie & Servicebetriebe. Wir automatisieren Reservierungen, Kundenanfragen und Kundenbindung — vollautomatisch.',
         solutions: 'Lösungen',
@@ -67,18 +92,18 @@ export function Footer() {
       };
 
   return (
-    <footer className="relative border-t border-white/10 glass mt-20">
+    <footer className="relative border-t border-white/10 glass mt-20" dir={rtl ? 'rtl' : 'ltr'}>
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div className="col-span-1">
-            <Link href={prefix || '/'} className="flex items-center space-x-2 group">
+            <Link href={prefix || '/'} className={`flex items-center gap-2 group ${rtl ? 'flex-row-reverse justify-end' : ''}`}>
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-600 to-cyan-500 group-hover:shadow-blue-500/50 transition-all duration-300">
                 <Sparkles className="h-5 w-5 text-white" />
               </div>
               <span className="text-xl font-bold text-gradient">Ovivo</span>
             </Link>
-            <p className="mt-4 text-sm text-gray-400">{t.desc}</p>
-            <div className="mt-6 flex space-x-4">
+            <p className={`mt-4 text-sm text-gray-400 leading-relaxed ${rtl ? 'text-right' : ''}`}>{t.desc}</p>
+            <div className={`mt-6 flex gap-4 ${rtl ? 'flex-row-reverse' : ''}`}>
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
                 <Facebook className="h-5 w-5" />
               </a>
@@ -95,8 +120,8 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-white">{t.solutions}</h3>
-            <ul className="mt-4 space-y-3">
+            <h3 className={`text-sm font-semibold text-white ${rtl ? 'text-right' : ''}`}>{t.solutions}</h3>
+            <ul className={`mt-4 space-y-3 ${rtl ? 'text-right' : ''}`}>
               <li><Link href={`${prefix}/pricing`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.pricing}</Link></li>
               <li><Link href={`${sPrefix}/automation`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.automation}</Link></li>
               <li><Link href={`${sPrefix}/ai-chatbot`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.chatbot}</Link></li>
@@ -106,8 +131,8 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-white">{t.industries}</h3>
-            <ul className="mt-4 space-y-3">
+            <h3 className={`text-sm font-semibold text-white ${rtl ? 'text-right' : ''}`}>{t.industries}</h3>
+            <ul className={`mt-4 space-y-3 ${rtl ? 'text-right' : ''}`}>
               <li><Link href={`${prefix}/services`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.restaurants}</Link></li>
               <li><Link href={`${prefix}/services`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.hair}</Link></li>
               <li><Link href={`${prefix}/services`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.fitness}</Link></li>
@@ -117,8 +142,8 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-white">{t.company}</h3>
-            <ul className="mt-4 space-y-3">
+            <h3 className={`text-sm font-semibold text-white ${rtl ? 'text-right' : ''}`}>{t.company}</h3>
+            <ul className={`mt-4 space-y-3 ${rtl ? 'text-right' : ''}`}>
               <li><Link href={`${prefix}/about`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.about}</Link></li>
               <li><Link href={`${prefix}/consultation`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.contact}</Link></li>
               <li><Link href={`${prefix}/privacy`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.privacy}</Link></li>
