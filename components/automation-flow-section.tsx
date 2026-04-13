@@ -394,17 +394,10 @@ function pointOnRect(ax: number, ay: number, hw: number, hh: number, fromX: numb
 }
 
 function curvePath(sx: number, sy: number, ex: number, ey: number) {
-  const dx = ex - sx; const dy = ey - sy;
-  const len = Math.sqrt(dx*dx + dy*dy);
-  if (len < 1) return `M ${sx} ${sy} L ${ex} ${ey}`;
-  const ux = dx/len; const uy = dy/len;
-  const t = len * 0.45;
-  const perp = 0.22;
-  const c1x = sx + ux*t - uy*len*perp;
-  const c1y = sy + uy*t + ux*len*perp;
-  const c2x = ex - ux*t - uy*len*perp;
-  const c2y = ey - uy*t + ux*len*perp;
-  return `M ${sx} ${sy} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${ex} ${ey}`;
+  const dy = ey - sy;
+  const t = Math.abs(dy) * 0.55;
+  const dirY = dy >= 0 ? 1 : -1;
+  return `M ${sx} ${sy} C ${sx} ${sy + dirY * t}, ${ex} ${ey - dirY * t}, ${ex} ${ey}`;
 }
 
 function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
@@ -441,9 +434,12 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
 
     const agentPaths = nodes.map((n, i) => {
       if (n.r === 0) return '';
-      const start = pointOnCircle(n.x, n.y, n.r, agent.x, agent.y);
-      const end   = pointOnRect(agent.x, agent.y, agent.w/2, agent.h/2, n.x, n.y);
-      return curvePath(start.x, start.y, end.x, end.y);
+      const isRow0 = i < COL;
+      const sx = n.x;
+      const sy = isRow0 ? n.y + n.r : n.y - n.r;
+      const ex = agent.x;
+      const ey = isRow0 ? agent.y - agent.h / 2 : agent.y + agent.h / 2;
+      return curvePath(sx, sy, ex, ey);
     });
 
     const hRow0 = row0Steps.slice(0,-1).map((_, ci) => {
@@ -530,31 +526,43 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
           fill="none"
           style={{ top: 0, left: 0 }}
         >
-          {paths.hRow0.map((seg, ci) => (
-            <motion.line
-              key={`h0-${ci}`}
-              x1={seg.x1} y1={seg.y1} x2={seg.x2} y2={seg.y2}
-              stroke={row0Steps[ci].color}
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              animate={{ opacity: [0.35, 0.9, 0.35] }}
-              transition={{ duration: PULSE, repeat: Infinity, delay: ci * PULSE * 0.4, ease: 'easeInOut' }}
-              style={{ filter: `drop-shadow(0 0 4px ${row0Steps[ci].color})` }}
-            />
-          ))}
+          {paths.hRow0.map((seg, ci) => {
+            const mx = (seg.x1 + seg.x2) / 2;
+            const my = seg.y1 - Math.abs(seg.x2 - seg.x1) * 0.04;
+            const d = `M ${seg.x1} ${seg.y1} Q ${mx} ${my}, ${seg.x2} ${seg.y2}`;
+            return (
+              <motion.path
+                key={`h0-${ci}`}
+                d={d}
+                stroke={row0Steps[ci].color}
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                fill="none"
+                animate={{ opacity: [0.35, 0.9, 0.35] }}
+                transition={{ duration: PULSE, repeat: Infinity, delay: ci * PULSE * 0.4, ease: 'easeInOut' }}
+                style={{ filter: `drop-shadow(0 0 4px ${row0Steps[ci].color})` }}
+              />
+            );
+          })}
 
-          {paths.hRow1.map((seg, ci) => (
-            <motion.line
-              key={`h1-${ci}`}
-              x1={seg.x1} y1={seg.y1} x2={seg.x2} y2={seg.y2}
-              stroke={row1Steps[ci].color}
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              animate={{ opacity: [0.35, 0.9, 0.35] }}
-              transition={{ duration: PULSE, repeat: Infinity, delay: (COL + ci) * PULSE * 0.4, ease: 'easeInOut' }}
-              style={{ filter: `drop-shadow(0 0 4px ${row1Steps[ci].color})` }}
-            />
-          ))}
+          {paths.hRow1.map((seg, ci) => {
+            const mx = (seg.x1 + seg.x2) / 2;
+            const my = seg.y1 + Math.abs(seg.x2 - seg.x1) * 0.04;
+            const d = `M ${seg.x1} ${seg.y1} Q ${mx} ${my}, ${seg.x2} ${seg.y2}`;
+            return (
+              <motion.path
+                key={`h1-${ci}`}
+                d={d}
+                stroke={row1Steps[ci].color}
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                fill="none"
+                animate={{ opacity: [0.35, 0.9, 0.35] }}
+                transition={{ duration: PULSE, repeat: Infinity, delay: (COL + ci) * PULSE * 0.4, ease: 'easeInOut' }}
+                style={{ filter: `drop-shadow(0 0 4px ${row1Steps[ci].color})` }}
+              />
+            );
+          })}
 
           {paths.agentPaths.map((d, i) => (
             <motion.path
