@@ -316,7 +316,7 @@ export interface FlowSectionText {
 
 const PULSE = 1.8;
 
-function AgentNode({ lang }: { lang?: string }) {
+function AgentNode({ lang, circleRef }: { lang?: string; circleRef?: React.RefObject<HTMLDivElement> }) {
   const label = lang === 'ar' ? 'AI Agent' : 'AI Agent';
   const sub = lang === 'ar' ? 'يحلل ويقرر' : lang === 'en' ? 'Thinks & decides' : 'Denkt & entscheidet';
   return (
@@ -328,6 +328,7 @@ function AgentNode({ lang }: { lang?: string }) {
       transition={{ delay: 0.4, duration: 0.5, type: 'spring', stiffness: 200 }}
     >
       <motion.div
+        ref={circleRef}
         className="relative flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-2xl border-2"
         style={{
           borderColor: '#a78bfa90',
@@ -407,13 +408,16 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const circleInnerRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const circleOnlyRefs = useRef<(HTMLDivElement | null)[]>([]);
   const agentRef = useRef<HTMLDivElement>(null);
+  const agentCircleRef = useRef<HTMLDivElement>(null);
   const [paths, setPaths] = useState<ConnPaths | null>(null);
 
   const measure = useCallback(() => {
     if (!containerRef.current || !agentRef.current) return;
     const box = containerRef.current.getBoundingClientRect();
-    const agentBox = agentRef.current.getBoundingClientRect();
+    const agentCircleEl = agentCircleRef.current ?? agentRef.current;
+    const agentBox = agentCircleEl.getBoundingClientRect();
 
     const agent: AgentPos = {
       x: agentBox.left - box.left + agentBox.width / 2,
@@ -422,7 +426,7 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
       h: agentBox.height,
     };
 
-    const nodes: NodePos[] = circleInnerRefs.current.map(el => {
+    const nodes: NodePos[] = circleOnlyRefs.current.map(el => {
       if (!el) return { x: 0, y: 0, r: 0 };
       const b = el.getBoundingClientRect();
       return {
@@ -434,18 +438,14 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
 
     const agentPaths = nodes.map((n, i) => {
       if (n.r === 0) return '';
-      // Connect from node edge to left or right side of agent box
-      const nodeIsLeft = n.x < agent.x;
-      const ex = nodeIsLeft ? agent.x - agent.w / 2 : agent.x + agent.w / 2;
-      const ey = agent.y;
-      const startPt = pointOnCircle(n.x, n.y, n.r, ex, ey);
-      // Curved path: horizontal S-curve
-      const dx = ex - startPt.x;
+      const startPt = pointOnCircle(n.x, n.y, n.r, agent.x, agent.y);
+      const endPt = pointOnRect(agent.x, agent.y, agent.w / 2, agent.h / 2, n.x, n.y);
+      const dx = endPt.x - startPt.x;
       const cp1x = startPt.x + dx * 0.5;
       const cp1y = startPt.y;
-      const cp2x = ex - dx * 0.5;
-      const cp2y = ey;
-      return `M ${startPt.x} ${startPt.y} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${ex} ${ey}`;
+      const cp2x = endPt.x - dx * 0.5;
+      const cp2y = endPt.y;
+      return `M ${startPt.x} ${startPt.y} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${endPt.x} ${endPt.y}`;
     });
 
     const hRow0 = row0Steps.slice(0,-1).map((_, ci) => {
@@ -491,7 +491,10 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
               transition={{ delay: i * 0.08, duration: 0.45 }}
             >
               <motion.div
-                ref={el => { circleInnerRefs.current[i] = el as HTMLDivElement | null; }}
+                ref={el => {
+                  circleInnerRefs.current[i] = el as HTMLDivElement | null;
+                  circleOnlyRefs.current[i] = el as HTMLDivElement | null;
+                }}
                 className="relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full border-2"
                 style={{ borderColor: step.color + '70', backgroundColor: step.color + '12' }}
                 animate={{ boxShadow: [`0 0 0px ${step.glow}`,`0 0 28px ${step.glow}`,`0 0 0px ${step.glow}`] }}
@@ -613,7 +616,7 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
         style={{ top: '50%', transform: 'translate(-50%, -50%)' }}
       >
         <div ref={agentRef}>
-          <AgentNode lang={lang} />
+          <AgentNode lang={lang} circleRef={agentCircleRef} />
         </div>
       </div>
     </div>
