@@ -376,173 +376,188 @@ function AgentNode({ lang }: { lang?: string }) {
 
 function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
   const COL = 3;
-  const rows = Math.ceil(steps.length / COL);
+
+  /*
+   * Layout (6 nodes, 2 rows of 3):
+   *   Row 0: node0 (16.67%)  node1 (50%)  node2 (83.33%)
+   *   Row 1: node3 (16.67%)  node4 (50%)  node5 (83.33%)
+   * Agent sits in the vertical middle between rows.
+   *
+   * We render:
+   *  - Two rows of nodes (no horizontal connectors inside them)
+   *  - One full-width SVG overlay that draws ALL lines (horizontal + turn + agent curves)
+   *  - Agent node absolutely centred between rows
+   *
+   * We use a single relative wrapper so the SVG and agent can be absolute.
+   */
+
+  const nodeXPct = [16.67, 50, 83.33]; // column centres as % of total width
+
+  const row0Steps = steps.slice(0, COL);
+  const row1Steps = steps.slice(COL, COL * 2);
+
+  function renderRow(rowSteps: FlowStep[], rowOffset: number) {
+    return (
+      <div className="flex items-stretch w-full">
+        {rowSteps.map((step, colIdx) => {
+          const i = rowOffset + colIdx;
+          const Icon = step.icon;
+          const delay = i * PULSE * 0.55;
+          return (
+            <motion.div
+              key={step.id}
+              className="flex flex-col items-center gap-2.5 py-5 flex-1"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08, duration: 0.45 }}
+            >
+              <motion.div
+                className="relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full border-2"
+                style={{
+                  borderColor: step.color + '70',
+                  backgroundColor: step.color + '12',
+                }}
+                animate={{
+                  boxShadow: [
+                    `0 0 0px ${step.glow}`,
+                    `0 0 28px ${step.glow}`,
+                    `0 0 0px ${step.glow}`,
+                  ],
+                }}
+                transition={{ duration: PULSE, repeat: Infinity, delay, ease: 'easeInOut' }}
+                whileHover={{ scale: 1.08 }}
+              >
+                <Icon className="h-6 w-6 sm:h-7 sm:w-7" style={{ color: step.color }} />
+                <span
+                  className="absolute -top-1.5 -right-1.5 h-5 w-5 rounded-full text-[9px] font-bold text-white flex items-center justify-center z-10"
+                  style={{ backgroundColor: step.color }}
+                >
+                  {i + 1}
+                </span>
+              </motion.div>
+              <div className="text-center px-1">
+                <p className="text-xs sm:text-sm font-bold text-white leading-snug">{step.label}</p>
+                <p className="text-[10px] sm:text-[11px] text-gray-500 mt-0.5 leading-snug">{step.sub}</p>
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
+    );
+  }
+
+  /* SVG viewBox: 0 0 100 H where H is determined by:
+   *   row height ~110px, gap ~60px, total ~280px
+   * We use a tall viewBox and let SVG scale.
+   * nodeXPct already defined above.
+   * Row 0 node icon centre ~Y=35 (within row), Row 1 node icon centre ~Y=35 from its top.
+   * Row 0 occupies Y 0..110, gap 110..170, Row 1 170..280
+   * Agent Y centre = 140 (midpoint of gap)
+   * Node icon centres:
+   *   Row0: Y=35,  Row1: Y=205  (in 280-unit viewBox)
+   */
+  const VB_H = 280;
+  const ROW0_Y = 35;
+  const ROW1_Y = 245;
+  const AGENT_Y = (ROW0_Y + ROW1_Y) / 2; // 140
+  const AGENT_X = 50;
 
   return (
-    <div className="flex flex-col gap-0">
-      {Array.from({ length: rows }).map((_, rowIdx) => {
-        const rowSteps = steps.slice(rowIdx * COL, rowIdx * COL + COL);
-        const isLastRow = rowIdx === rows - 1;
-        const stepOffset = rowIdx * COL;
-        const isFirstRow = rowIdx === 0;
+    <div className="relative w-full">
+      {/* Row 0 */}
+      {renderRow(row0Steps, 0)}
 
-        return (
-          <div key={rowIdx}>
-            {/* Row of nodes */}
-            <div className="flex items-center w-full">
-              {rowSteps.map((step, colIdx) => {
-                const i = stepOffset + colIdx;
-                const isLastInRow = colIdx === rowSteps.length - 1;
-                const isMiddleInFirstRow = isFirstRow && colIdx === 1;
-                const Icon = step.icon;
-                const delay = i * PULSE * 0.55;
+      {/* Spacer for agent + lines */}
+      <div style={{ height: 60 }} />
 
-                return (
-                  <React.Fragment key={step.id}>
-                    {/* Node */}
-                    <motion.div
-                      className="flex flex-col items-center gap-2.5 py-5 flex-shrink-0"
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: i * 0.08, duration: 0.45 }}
-                    >
-                      <motion.div
-                        className="relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full border-2"
-                        style={{
-                          borderColor: step.color + '70',
-                          backgroundColor: step.color + '12',
-                        }}
-                        animate={{
-                          boxShadow: [
-                            `0 0 0px ${step.glow}`,
-                            `0 0 28px ${step.glow}`,
-                            `0 0 0px ${step.glow}`,
-                          ],
-                        }}
-                        transition={{
-                          duration: PULSE,
-                          repeat: Infinity,
-                          delay,
-                          ease: 'easeInOut',
-                        }}
-                        whileHover={{ scale: 1.08 }}
-                      >
-                        <Icon className="h-6 w-6 sm:h-7 sm:w-7" style={{ color: step.color }} />
-                        <span
-                          className="absolute -top-1.5 -right-1.5 h-5 w-5 rounded-full text-[9px] font-bold text-white flex items-center justify-center z-10"
-                          style={{ backgroundColor: step.color }}
-                        >
-                          {i + 1}
-                        </span>
-                      </motion.div>
-                      <div className="text-center px-1">
-                        <p className="text-xs sm:text-sm font-bold text-white leading-snug">{step.label}</p>
-                        <p className="text-[10px] sm:text-[11px] text-gray-500 mt-0.5 leading-snug">{step.sub}</p>
-                      </div>
-                    </motion.div>
+      {/* Row 1 */}
+      {renderRow(row1Steps, COL)}
 
-                    {/* Horizontal connector — stretches between nodes */}
-                    {!isLastInRow && (
-                      <div className="flex-1 flex flex-col items-center justify-center relative" style={{ marginBottom: '2.5rem' }}>
-                        {isMiddleInFirstRow ? (
-                          /* AI Agent sits above the middle connector in row 1 */
-                          <div className="flex flex-col items-center w-full relative">
-                            {/* Agent node */}
-                            <div className="mb-1">
-                              <AgentNode lang={lang} />
-                            </div>
-                            {/* SVG: two diagonal lines from agent down-left to node center & down-right to node center */}
-                            <svg
-                              width="100%"
-                              height="32"
-                              viewBox="0 0 100 32"
-                              preserveAspectRatio="none"
-                              fill="none"
-                              className="w-full"
-                              style={{ marginTop: -4 }}
-                            >
-                              {/* left diagonal: from center-top to left-bottom */}
-                              <motion.line
-                                x1="50" y1="0" x2="0" y2="32"
-                                stroke="#a78bfa"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                vectorEffect="non-scaling-stroke"
-                                animate={{ opacity: [0.4, 0.9, 0.4] }}
-                                transition={{ duration: PULSE * 0.9, repeat: Infinity, ease: 'easeInOut', delay: PULSE * 0.2 }}
-                                style={{ filter: 'drop-shadow(0 0 4px #a78bfa)' }}
-                              />
-                              {/* right diagonal: from center-top to right-bottom */}
-                              <motion.line
-                                x1="50" y1="0" x2="100" y2="32"
-                                stroke="#a78bfa"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                vectorEffect="non-scaling-stroke"
-                                animate={{ opacity: [0.4, 0.9, 0.4] }}
-                                transition={{ duration: PULSE * 0.9, repeat: Infinity, ease: 'easeInOut', delay: PULSE * 0.35 }}
-                                style={{ filter: 'drop-shadow(0 0 4px #a78bfa)' }}
-                              />
-                            </svg>
-                          </div>
-                        ) : (
-                          <svg width="100%" height="16" viewBox="0 0 100 16" preserveAspectRatio="none" fill="none" className="w-full">
-                            <motion.line
-                              x1="0" y1="8" x2="100" y2="8"
-                              stroke={step.color}
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              vectorEffect="non-scaling-stroke"
-                              animate={{ opacity: [0.5, 1, 0.5] }}
-                              transition={{
-                                duration: PULSE,
-                                repeat: Infinity,
-                                delay: delay + PULSE * 0.3,
-                                ease: 'easeInOut',
-                              }}
-                              style={{ filter: `drop-shadow(0 0 4px ${step.color})` }}
-                            />
-                          </svg>
-                        )}
-                      </div>
-                    )}
-                  </React.Fragment>
-                );
-              })}
-            </div>
+      {/* Full-overlay SVG for all connectors */}
+      <svg
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        viewBox={`0 0 100 ${VB_H}`}
+        preserveAspectRatio="none"
+        fill="none"
+        style={{ top: 0, left: 0 }}
+      >
+        {/* ── Row 0 horizontal connectors ── */}
+        {row0Steps.slice(0, -1).map((step, ci) => {
+          const x1 = nodeXPct[ci];
+          const x2 = nodeXPct[ci + 1];
+          const delay = ci * PULSE * 0.55 + PULSE * 0.3;
+          return (
+            <motion.line
+              key={`h0-${ci}`}
+              x1={x1} y1={ROW0_Y} x2={x2} y2={ROW0_Y}
+              stroke={step.color}
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              vectorEffect="non-scaling-stroke"
+              animate={{ opacity: [0.4, 1, 0.4] }}
+              transition={{ duration: PULSE, repeat: Infinity, delay, ease: 'easeInOut' }}
+              style={{ filter: `drop-shadow(0 0 4px ${step.color})` }}
+            />
+          );
+        })}
 
-            {/* Turn connector: right side down then left, between rows */}
-            {!isLastRow && (() => {
-              const lastStepOfRow = rowSteps[rowSteps.length - 1];
-              const connDelay = (stepOffset + rowSteps.length - 1) * PULSE * 0.55 + PULSE * 0.4;
-              return (
-                <div className="w-full overflow-visible" style={{ height: 48, marginTop: -4, marginBottom: -4 }}>
-                  <svg width="100%" height="48" viewBox="0 0 100 48" preserveAspectRatio="none" fill="none" className="w-full overflow-visible">
-                    <motion.path
-                      d="M 83.33 0 L 83.33 30 L 16.67 30 L 16.67 48"
-                      stroke={lastStepOfRow.color}
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      fill="none"
-                      vectorEffect="non-scaling-stroke"
-                      animate={{ opacity: [0.5, 1, 0.5] }}
-                      transition={{
-                        duration: PULSE,
-                        repeat: Infinity,
-                        delay: connDelay,
-                        ease: 'easeInOut',
-                      }}
-                      style={{ filter: `drop-shadow(0 0 4px ${lastStepOfRow.color})` }}
-                    />
-                  </svg>
-                </div>
-              );
-            })()}
-          </div>
-        );
-      })}
+        {/* ── Row 1 horizontal connectors ── */}
+        {row1Steps.slice(0, -1).map((step, ci) => {
+          const x1 = nodeXPct[ci];
+          const x2 = nodeXPct[ci + 1];
+          const delay = (COL + ci) * PULSE * 0.55 + PULSE * 0.3;
+          return (
+            <motion.line
+              key={`h1-${ci}`}
+              x1={x1} y1={ROW1_Y} x2={x2} y2={ROW1_Y}
+              stroke={step.color}
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              vectorEffect="non-scaling-stroke"
+              animate={{ opacity: [0.4, 1, 0.4] }}
+              transition={{ duration: PULSE, repeat: Infinity, delay, ease: 'easeInOut' }}
+              style={{ filter: `drop-shadow(0 0 4px ${step.color})` }}
+            />
+          );
+        })}
+
+        {/* ── Agent → each of 6 nodes, curved bezier ── */}
+        {steps.map((step, i) => {
+          const col = i % COL;
+          const row = Math.floor(i / COL);
+          const nx = nodeXPct[col];
+          const ny = row === 0 ? ROW0_Y : ROW1_Y;
+          const delay = i * PULSE * 0.18;
+          /* control point: midpoint shifted horizontally toward agent */
+          const mx = (nx + AGENT_X) / 2;
+          const my = (ny + AGENT_Y) / 2;
+          /* bezier: from agent, bend through quadratic-like control */
+          const d = `M ${AGENT_X} ${AGENT_Y} Q ${mx} ${my}, ${nx} ${ny}`;
+          return (
+            <motion.path
+              key={`agent-${step.id}`}
+              d={d}
+              stroke="#a78bfa"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              fill="none"
+              vectorEffect="non-scaling-stroke"
+              animate={{ opacity: [0.2, 0.75, 0.2] }}
+              transition={{ duration: PULSE * 1.1, repeat: Infinity, delay, ease: 'easeInOut' }}
+              style={{ filter: 'drop-shadow(0 0 5px #a78bfa)' }}
+            />
+          );
+        })}
+      </svg>
+
+      {/* AI Agent node — absolute centre */}
+      <div
+        className="absolute left-1/2 -translate-x-1/2 z-20"
+        style={{ top: '50%', transform: 'translate(-50%, -50%)' }}
+      >
+        <AgentNode lang={lang} />
+      </div>
     </div>
   );
 }
