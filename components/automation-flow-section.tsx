@@ -447,34 +447,69 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
     );
   }
 
-  /* SVG viewBox: 0 0 100 H where H is determined by:
-   *   row height ~110px, gap ~60px, total ~280px
-   * We use a tall viewBox and let SVG scale.
-   * nodeXPct already defined above.
-   * Row 0 node icon centre ~Y=35 (within row), Row 1 node icon centre ~Y=35 from its top.
-   * Row 0 occupies Y 0..110, gap 110..170, Row 1 170..280
-   * Agent Y centre = 140 (midpoint of gap)
-   * Node icon centres:
-   *   Row0: Y=35,  Row1: Y=205  (in 280-unit viewBox)
+  /*
+   * ViewBox coordinate system (all values are % of width / arbitrary height units):
+   *
+   * The SVG uses preserveAspectRatio="none" so X=% of width, Y=px-like units.
+   *
+   * We want lines to exit the BOTTOM of row-0 nodes and TOP of row-1 nodes,
+   * and arrive at the TOP/BOTTOM edges of the Agent square — no sharp corners.
+   *
+   * Approach: use cubic bezier C x1 y1, x2 y2, x y
+   *   - departure tangent: pure vertical (same X, offset Y from start)
+   *   - arrival tangent:   pure vertical (same X as end, offset Y toward end)
+   * This produces a smooth S/U curve with no kinks.
+   *
+   * ViewBox: width=100 (percent), height=300 (arbitrary units mapped to actual px by SVG)
+   * Row 0 node icon centres: Y = NODE_R  (top of layout)
+   * Row 1 node icon centres: Y = VB_H - NODE_R
+   * Agent centre: Y = VB_H / 2
+   *
+   * NODE_R = radius of node circle in viewBox units (to start line from edge, not centre)
+   * AGENT_R = radius of agent square in viewBox units
    */
-  const VB_H = 280;
-  const ROW0_Y = 35;
-  const ROW1_Y = 245;
-  const AGENT_Y = (ROW0_Y + ROW1_Y) / 2; // 140
-  const AGENT_X = 50;
+  const VB_H = 300;
+  const NODE_R = 28;   // node circle "radius" in viewbox units — line starts from bottom/top edge
+  const AGENT_R = 14;  // agent square half-size in viewbox units
+
+  const ROW0_CY = NODE_R + 2;          // row-0 icon centre Y
+  const ROW1_CY = VB_H - NODE_R - 2;   // row-1 icon centre Y
+  const AGENT_CY = VB_H / 2;           // agent centre Y
+  const AGENT_CX = 50;                  // agent centre X (middle of width)
+
+  // Line starts from bottom edge of row-0 node
+  const row0EdgeY = ROW0_CY + NODE_R;
+  // Line starts from top edge of row-1 node
+  const row1EdgeY = ROW1_CY - NODE_R;
+  // Agent top/bottom edges
+  const agentTopY = AGENT_CY - AGENT_R;
+  const agentBotY = AGENT_CY + AGENT_R;
+
+  // Cubic bezier: vertical departure + vertical arrival
+  // From (sx,sy) going down/up to (ex,ey): control pts keep same X and stretch vertically
+  function smoothCurve(sx: number, sy: number, ex: number, ey: number) {
+    const dy = Math.abs(ey - sy) * 0.55;
+    const dirS = ey > sy ? 1 : -1;  // departure direction
+    const dirE = ey > sy ? -1 : 1;  // arrival direction
+    const c1x = sx;
+    const c1y = sy + dirS * dy;
+    const c2x = ex;
+    const c2y = ey + dirE * dy;
+    return `M ${sx} ${sy} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${ex} ${ey}`;
+  }
 
   return (
     <div className="relative w-full">
       {/* Row 0 */}
       {renderRow(row0Steps, 0)}
 
-      {/* Spacer for agent + lines */}
-      <div style={{ height: 60 }} />
+      {/* Spacer — gives vertical room for agent node */}
+      <div style={{ height: 64 }} />
 
       {/* Row 1 */}
       {renderRow(row1Steps, COL)}
 
-      {/* Full-overlay SVG for all connectors */}
+      {/* ── Full-overlay SVG: all connectors ── */}
       <svg
         className="absolute inset-0 w-full h-full pointer-events-none"
         viewBox={`0 0 100 ${VB_H}`}
@@ -482,78 +517,81 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
         fill="none"
         style={{ top: 0, left: 0 }}
       >
-        {/* ── Row 0 horizontal connectors ── */}
+        {/* Row 0 horizontal connectors — straight lines between icon centres */}
         {row0Steps.slice(0, -1).map((step, ci) => {
           const x1 = nodeXPct[ci];
           const x2 = nodeXPct[ci + 1];
-          const delay = ci * PULSE * 0.55 + PULSE * 0.3;
           return (
             <motion.line
               key={`h0-${ci}`}
-              x1={x1} y1={ROW0_Y} x2={x2} y2={ROW0_Y}
+              x1={x1} y1={ROW0_CY} x2={x2} y2={ROW0_CY}
               stroke={step.color}
               strokeWidth="1.5"
               strokeLinecap="round"
               vectorEffect="non-scaling-stroke"
-              animate={{ opacity: [0.4, 1, 0.4] }}
-              transition={{ duration: PULSE, repeat: Infinity, delay, ease: 'easeInOut' }}
+              animate={{ opacity: [0.35, 0.9, 0.35] }}
+              transition={{ duration: PULSE, repeat: Infinity, delay: ci * PULSE * 0.4, ease: 'easeInOut' }}
               style={{ filter: `drop-shadow(0 0 4px ${step.color})` }}
             />
           );
         })}
 
-        {/* ── Row 1 horizontal connectors ── */}
+        {/* Row 1 horizontal connectors */}
         {row1Steps.slice(0, -1).map((step, ci) => {
           const x1 = nodeXPct[ci];
           const x2 = nodeXPct[ci + 1];
-          const delay = (COL + ci) * PULSE * 0.55 + PULSE * 0.3;
           return (
             <motion.line
               key={`h1-${ci}`}
-              x1={x1} y1={ROW1_Y} x2={x2} y2={ROW1_Y}
+              x1={x1} y1={ROW1_CY} x2={x2} y2={ROW1_CY}
               stroke={step.color}
               strokeWidth="1.5"
               strokeLinecap="round"
               vectorEffect="non-scaling-stroke"
-              animate={{ opacity: [0.4, 1, 0.4] }}
-              transition={{ duration: PULSE, repeat: Infinity, delay, ease: 'easeInOut' }}
+              animate={{ opacity: [0.35, 0.9, 0.35] }}
+              transition={{ duration: PULSE, repeat: Infinity, delay: (COL + ci) * PULSE * 0.4, ease: 'easeInOut' }}
               style={{ filter: `drop-shadow(0 0 4px ${step.color})` }}
             />
           );
         })}
 
-        {/* ── Agent → each of 6 nodes, curved bezier ── */}
+        {/* Agent curves — one smooth bezier per node, no sharp angles */}
         {steps.map((step, i) => {
           const col = i % COL;
-          const row = Math.floor(i / COL);
+          const isRow0 = i < COL;
           const nx = nodeXPct[col];
-          const ny = row === 0 ? ROW0_Y : ROW1_Y;
-          const delay = i * PULSE * 0.18;
-          /* control point: midpoint shifted horizontally toward agent */
-          const mx = (nx + AGENT_X) / 2;
-          const my = (ny + AGENT_Y) / 2;
-          /* bezier: from agent, bend through quadratic-like control */
-          const d = `M ${AGENT_X} ${AGENT_Y} Q ${mx} ${my}, ${nx} ${ny}`;
+
+          // Start: bottom edge of row-0 node OR top edge of row-1 node
+          const sx = nx;
+          const sy = isRow0 ? row0EdgeY : row1EdgeY;
+
+          // End: top edge of agent (for row-0 nodes) OR bottom edge (for row-1 nodes)
+          const ex = AGENT_CX;
+          const ey = isRow0 ? agentTopY : agentBotY;
+
+          const d = smoothCurve(sx, sy, ex, ey);
+          const delay = i * PULSE * 0.22;
+
           return (
             <motion.path
-              key={`agent-${step.id}`}
+              key={`ac-${step.id}`}
               d={d}
               stroke="#a78bfa"
               strokeWidth="1.5"
               strokeLinecap="round"
               fill="none"
               vectorEffect="non-scaling-stroke"
-              animate={{ opacity: [0.2, 0.75, 0.2] }}
-              transition={{ duration: PULSE * 1.1, repeat: Infinity, delay, ease: 'easeInOut' }}
-              style={{ filter: 'drop-shadow(0 0 5px #a78bfa)' }}
+              animate={{ opacity: [0.15, 0.7, 0.15] }}
+              transition={{ duration: PULSE * 1.2, repeat: Infinity, delay, ease: 'easeInOut' }}
+              style={{ filter: 'drop-shadow(0 0 5px rgba(167,139,250,0.8))' }}
             />
           );
         })}
       </svg>
 
-      {/* AI Agent node — absolute centre */}
+      {/* AI Agent node — absolute centre between rows */}
       <div
-        className="absolute left-1/2 -translate-x-1/2 z-20"
+        className="absolute left-1/2 z-20"
         style={{ top: '50%', transform: 'translate(-50%, -50%)' }}
       >
         <AgentNode lang={lang} />
