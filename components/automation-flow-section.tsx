@@ -470,9 +470,9 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
     return () => ro.disconnect();
   }, [measure]);
 
-  function renderRow(rowSteps: FlowStep[], rowOffset: number) {
+  function renderRow(rowSteps: FlowStep[], rowOffset: number, labelBelow = true) {
     return (
-      <div className="flex items-stretch w-full">
+      <div className="flex items-start w-full">
         {rowSteps.map((step, colIdx) => {
           const i = rowOffset + colIdx;
           const Icon = step.icon;
@@ -480,12 +480,18 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
           return (
             <motion.div
               key={step.id}
-              className="flex flex-col items-center gap-4 py-8 flex-1"
+              className="flex flex-col items-center flex-1"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08, duration: 0.45 }}
             >
+              {!labelBelow && (
+                <div className="text-center px-2 mb-5">
+                  <p className="text-sm sm:text-base font-bold text-white leading-snug">{step.label}</p>
+                  <p className="text-[11px] sm:text-xs text-gray-500 mt-1 leading-snug">{step.sub}</p>
+                </div>
+              )}
               <div ref={el => { circleRefs.current[i] = el; }} className="inline-flex">
                 <motion.div
                   className="relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full border-2"
@@ -503,10 +509,12 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
                   </span>
                 </motion.div>
               </div>
-              <div className="text-center px-2 mt-3">
-                <p className="text-sm sm:text-base font-bold text-white leading-snug">{step.label}</p>
-                <p className="text-[11px] sm:text-xs text-gray-500 mt-1 leading-snug">{step.sub}</p>
-              </div>
+              {labelBelow && (
+                <div className="text-center px-2 mt-5">
+                  <p className="text-sm sm:text-base font-bold text-white leading-snug">{step.label}</p>
+                  <p className="text-[11px] sm:text-xs text-gray-500 mt-1 leading-snug">{step.sub}</p>
+                </div>
+              )}
             </motion.div>
           );
         })}
@@ -516,9 +524,9 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
 
   return (
     <div ref={containerRef} className="relative w-full">
-      <div className="relative" style={{ zIndex: 10 }}>{renderRow(row0Steps, 0)}</div>
-      <div style={{ height: 100 }} />
-      <div className="relative" style={{ zIndex: 10 }}>{renderRow(row1Steps, COL)}</div>
+      <div className="relative" style={{ zIndex: 10 }}>{renderRow(row0Steps, 0, true)}</div>
+      <div style={{ height: 80 }} />
+      <div className="relative" style={{ zIndex: 10 }}>{renderRow(row1Steps, COL, false)}</div>
 
       {paths && (
         <svg
