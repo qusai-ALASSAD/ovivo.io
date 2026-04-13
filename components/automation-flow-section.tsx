@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   UserPlus, Zap, Mail, Calendar, TrendingUp, Star,
-  ShoppingCart, Clock, MessageSquare, ArrowRight,
+  ShoppingCart, Clock, MessageSquare, ArrowRight, Brain,
 } from 'lucide-react';
 import { SectionHeader } from '@/components/section-header';
 import type { Lang } from '@/lib/i18n';
@@ -316,7 +316,65 @@ export interface FlowSectionText {
 
 const PULSE = 1.8;
 
-function NodeGraph({ steps }: { steps: FlowStep[] }) {
+function AgentNode({ lang }: { lang?: string }) {
+  const label = lang === 'ar' ? 'AI Agent' : 'AI Agent';
+  const sub = lang === 'ar' ? 'يحلل ويقرر' : lang === 'en' ? 'Thinks & decides' : 'Denkt & entscheidet';
+  return (
+    <motion.div
+      className="flex flex-col items-center gap-2 z-20"
+      initial={{ opacity: 0, scale: 0.7 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ delay: 0.4, duration: 0.5, type: 'spring', stiffness: 200 }}
+    >
+      <motion.div
+        className="relative flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-2xl border-2"
+        style={{
+          borderColor: '#a78bfa90',
+          background: 'linear-gradient(135deg, #7c3aed18, #a78bfa22)',
+          backdropFilter: 'blur(8px)',
+        }}
+        animate={{
+          boxShadow: [
+            '0 0 0px rgba(167,139,250,0.2)',
+            '0 0 32px rgba(167,139,250,0.6)',
+            '0 0 0px rgba(167,139,250,0.2)',
+          ],
+          rotate: [0, 1, -1, 0],
+        }}
+        transition={{
+          boxShadow: { duration: PULSE * 0.9, repeat: Infinity, ease: 'easeInOut' },
+          rotate: { duration: 3.5, repeat: Infinity, ease: 'easeInOut' },
+        }}
+        whileHover={{ scale: 1.1 }}
+      >
+        <motion.div
+          animate={{ rotate: [0, 360] }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+          className="absolute inset-0 rounded-2xl"
+          style={{
+            background: 'conic-gradient(from 0deg, transparent 60%, rgba(167,139,250,0.4) 80%, transparent 100%)',
+          }}
+        />
+        <Brain className="h-6 w-6 sm:h-7 sm:w-7 relative z-10" style={{ color: '#a78bfa' }} />
+        <motion.span
+          className="absolute -top-1.5 -right-1.5 h-4 w-4 rounded-full flex items-center justify-center z-10"
+          style={{ background: 'linear-gradient(135deg, #7c3aed, #a78bfa)' }}
+          animate={{ scale: [1, 1.3, 1] }}
+          transition={{ duration: 1.2, repeat: Infinity }}
+        >
+          <span className="block h-1.5 w-1.5 rounded-full bg-white" />
+        </motion.span>
+      </motion.div>
+      <div className="text-center">
+        <p className="text-[11px] sm:text-xs font-bold text-white leading-snug">{label}</p>
+        <p className="text-[9px] sm:text-[10px] text-gray-500 leading-snug">{sub}</p>
+      </div>
+    </motion.div>
+  );
+}
+
+function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
   const COL = 3;
   const rows = Math.ceil(steps.length / COL);
 
@@ -326,6 +384,7 @@ function NodeGraph({ steps }: { steps: FlowStep[] }) {
         const rowSteps = steps.slice(rowIdx * COL, rowIdx * COL + COL);
         const isLastRow = rowIdx === rows - 1;
         const stepOffset = rowIdx * COL;
+        const isFirstRow = rowIdx === 0;
 
         return (
           <div key={rowIdx}>
@@ -334,6 +393,7 @@ function NodeGraph({ steps }: { steps: FlowStep[] }) {
               {rowSteps.map((step, colIdx) => {
                 const i = stepOffset + colIdx;
                 const isLastInRow = colIdx === rowSteps.length - 1;
+                const isMiddleInFirstRow = isFirstRow && colIdx === 1;
                 const Icon = step.icon;
                 const delay = i * PULSE * 0.55;
 
@@ -384,24 +444,67 @@ function NodeGraph({ steps }: { steps: FlowStep[] }) {
 
                     {/* Horizontal connector — stretches between nodes */}
                     {!isLastInRow && (
-                      <div className="flex-1 flex items-center" style={{ marginBottom: '2.5rem' }}>
-                        <svg width="100%" height="16" viewBox="0 0 100 16" preserveAspectRatio="none" fill="none" className="w-full">
-                          <motion.line
-                            x1="0" y1="8" x2="100" y2="8"
-                            stroke={step.color}
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            vectorEffect="non-scaling-stroke"
-                            animate={{ opacity: [0.5, 1, 0.5] }}
-                            transition={{
-                              duration: PULSE,
-                              repeat: Infinity,
-                              delay: delay + PULSE * 0.3,
-                              ease: 'easeInOut',
-                            }}
-                            style={{ filter: `drop-shadow(0 0 4px ${step.color})` }}
-                          />
-                        </svg>
+                      <div className="flex-1 flex flex-col items-center justify-center relative" style={{ marginBottom: '2.5rem' }}>
+                        {isMiddleInFirstRow ? (
+                          /* AI Agent sits above the middle connector in row 1 */
+                          <div className="flex flex-col items-center w-full relative">
+                            {/* Agent node */}
+                            <div className="mb-1">
+                              <AgentNode lang={lang} />
+                            </div>
+                            {/* SVG: two diagonal lines from agent down-left to node center & down-right to node center */}
+                            <svg
+                              width="100%"
+                              height="32"
+                              viewBox="0 0 100 32"
+                              preserveAspectRatio="none"
+                              fill="none"
+                              className="w-full"
+                              style={{ marginTop: -4 }}
+                            >
+                              {/* left diagonal: from center-top to left-bottom */}
+                              <motion.line
+                                x1="50" y1="0" x2="0" y2="32"
+                                stroke="#a78bfa"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                vectorEffect="non-scaling-stroke"
+                                animate={{ opacity: [0.4, 0.9, 0.4] }}
+                                transition={{ duration: PULSE * 0.9, repeat: Infinity, ease: 'easeInOut', delay: PULSE * 0.2 }}
+                                style={{ filter: 'drop-shadow(0 0 4px #a78bfa)' }}
+                              />
+                              {/* right diagonal: from center-top to right-bottom */}
+                              <motion.line
+                                x1="50" y1="0" x2="100" y2="32"
+                                stroke="#a78bfa"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                vectorEffect="non-scaling-stroke"
+                                animate={{ opacity: [0.4, 0.9, 0.4] }}
+                                transition={{ duration: PULSE * 0.9, repeat: Infinity, ease: 'easeInOut', delay: PULSE * 0.35 }}
+                                style={{ filter: 'drop-shadow(0 0 4px #a78bfa)' }}
+                              />
+                            </svg>
+                          </div>
+                        ) : (
+                          <svg width="100%" height="16" viewBox="0 0 100 16" preserveAspectRatio="none" fill="none" className="w-full">
+                            <motion.line
+                              x1="0" y1="8" x2="100" y2="8"
+                              stroke={step.color}
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              vectorEffect="non-scaling-stroke"
+                              animate={{ opacity: [0.5, 1, 0.5] }}
+                              transition={{
+                                duration: PULSE,
+                                repeat: Infinity,
+                                delay: delay + PULSE * 0.3,
+                                ease: 'easeInOut',
+                              }}
+                              style={{ filter: `drop-shadow(0 0 4px ${step.color})` }}
+                            />
+                          </svg>
+                        )}
                       </div>
                     )}
                   </React.Fragment>
@@ -416,8 +519,6 @@ function NodeGraph({ steps }: { steps: FlowStep[] }) {
               return (
                 <div className="w-full overflow-visible" style={{ height: 48, marginTop: -4, marginBottom: -4 }}>
                   <svg width="100%" height="48" viewBox="0 0 100 48" preserveAspectRatio="none" fill="none" className="w-full overflow-visible">
-                    {/* vertical down from last node center, then horizontal left to first node center of next row */}
-                    {/* Using percentage-based x positions via foreignObject trick — use viewBox 0-100 */}
                     <motion.path
                       d="M 83.33 0 L 83.33 30 L 16.67 30 L 16.67 48"
                       stroke={lastStepOfRow.color}
@@ -504,7 +605,7 @@ export function AutomationFlowSection({ lang, customSteps, customCards, customTe
 
           {/* Node Graph — always LTR layout, fixed direction */}
           <div className="px-4 pt-8 pb-6" dir="ltr">
-            <NodeGraph steps={steps} />
+            <NodeGraph steps={steps} lang={lang} />
           </div>
 
           {/* Bottom label row */}
