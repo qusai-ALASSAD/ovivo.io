@@ -103,18 +103,18 @@ export function Navbar() {
   return (
     <motion.nav
       style={{ backgroundColor }}
-      dir={isAr ? 'rtl' : 'ltr'}
+      dir="ltr"
       className={`fixed top-0 z-50 w-full transition-all duration-300 ${scrolled ? 'backdrop-blur-xl border-b border-white/10' : ''}`}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
-          {/* Logo */}
+          {/* Logo - always on the left */}
           <motion.div
-            initial={{ opacity: 0, x: isAr ? 20 : -20 }}
+            initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <Link href={prefix || '/'} className="flex items-center space-x-3 rtl:space-x-reverse group">
+            <Link href={prefix || '/'} className="flex items-center space-x-3 group">
               <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 shadow-lg group-hover:shadow-blue-500/50 transition-all duration-300 group-hover:scale-110">
                 <Sparkles className="h-6 w-6 text-white" />
               </div>
@@ -123,7 +123,7 @@ export function Navbar() {
           </motion.div>
 
           {/* Desktop Nav */}
-          <div className={`hidden md:flex items-center ${isAr ? 'space-x-reverse space-x-1' : 'space-x-1'}`}>
+          <div dir={isAr ? 'rtl' : 'ltr'} className={`hidden md:flex items-center ${isAr ? 'space-x-reverse space-x-1' : 'space-x-1'}`}>
             {/* Home link */}
             <motion.div
               initial={{ opacity: 0, y: -10 }}
@@ -213,10 +213,10 @@ export function Navbar() {
 
           {/* CTA Buttons + Lang Switcher */}
           <motion.div
-            initial={{ opacity: 0, x: isAr ? -20 : 20 }}
+            initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className={`hidden md:flex items-center ${isAr ? 'space-x-reverse space-x-3' : 'space-x-3'}`}
+            className="hidden md:flex items-center space-x-3"
           >
             {!isAr && (
               <Link href="/ar" className="px-2.5 py-1.5 rounded-full glass border border-white/10 hover:border-white/20 text-xs font-bold text-gray-400 hover:text-white transition-all">
@@ -240,7 +240,7 @@ export function Navbar() {
             </Link>
           </motion.div>
 
-          {/* Mobile toggle */}
+          {/* Mobile toggle - always on the right */}
           <div className="md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
