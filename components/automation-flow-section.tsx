@@ -387,35 +387,18 @@ function NodeGraph({ steps }: { steps: FlowStep[] }) {
                       <div className="flex-shrink-0 flex items-center justify-center w-8 sm:w-12 -mt-6">
                         <svg width="100%" height="16" viewBox="0 0 48 16" fill="none" className="w-full overflow-visible">
                           <motion.line
-                            x1="0" y1="8" x2="40" y2="8"
+                            x1="0" y1="8" x2="48" y2="8"
                             stroke={step.color}
                             strokeWidth="1.5"
                             strokeLinecap="round"
-                            initial={{ pathLength: 0, opacity: 0 }}
-                            animate={{ pathLength: [0, 1, 1], opacity: [0.6, 1, 0.6] }}
+                            animate={{ opacity: [0.5, 1, 0.5] }}
                             transition={{
                               duration: PULSE,
                               repeat: Infinity,
                               delay: delay + PULSE * 0.3,
                               ease: 'easeInOut',
-                              times: [0, 0.5, 1],
                             }}
                             style={{ filter: `drop-shadow(0 0 4px ${step.color})` }}
-                          />
-                          <motion.polyline
-                            points="34,4 42,8 34,12"
-                            stroke={step.color}
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            fill="none"
-                            animate={{ opacity: [0.4, 1, 0.4] }}
-                            transition={{
-                              duration: PULSE,
-                              repeat: Infinity,
-                              delay: delay + PULSE * 0.4,
-                            }}
-                            style={{ filter: `drop-shadow(0 0 3px ${step.color})` }}
                           />
                         </svg>
                       </div>
@@ -439,32 +422,14 @@ function NodeGraph({ steps }: { steps: FlowStep[] }) {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       fill="none"
-                      initial={{ pathLength: 0, opacity: 0 }}
-                      animate={{ pathLength: [0, 1, 1], opacity: [0, 1, 1] }}
+                      animate={{ opacity: [0.5, 1, 0.5] }}
                       transition={{
                         duration: PULSE,
                         repeat: Infinity,
                         delay: connDelay,
-                        ease: 'easeOut',
-                        times: [0, 0.65, 1],
+                        ease: 'easeInOut',
                       }}
                       style={{ filter: `drop-shadow(0 0 4px ${lastStepOfRow.color})` }}
-                    />
-                    <motion.polyline
-                      points="12,24 6,30 12,36"
-                      stroke={lastStepOfRow.color}
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      fill="none"
-                      animate={{ opacity: [0, 0, 1, 1] }}
-                      transition={{
-                        duration: PULSE,
-                        repeat: Infinity,
-                        delay: connDelay,
-                        times: [0, 0.55, 0.72, 1],
-                      }}
-                      style={{ filter: `drop-shadow(0 0 3px ${lastStepOfRow.color})` }}
                     />
                   </svg>
                 </div>
