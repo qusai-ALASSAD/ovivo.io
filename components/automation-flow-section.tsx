@@ -472,7 +472,7 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
 
   function renderRow(rowSteps: FlowStep[], rowOffset: number) {
     return (
-      <div className="flex items-center w-full">
+      <div className="flex items-start w-full">
         {rowSteps.map((step, colIdx) => {
           const i = rowOffset + colIdx;
           const Icon = step.icon;
@@ -480,7 +480,7 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
           return (
             <motion.div
               key={step.id}
-              className="relative flex flex-col items-center flex-1"
+              className="flex flex-col items-center flex-1"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -503,23 +503,11 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
                   </span>
                 </motion.div>
               </div>
+              <div className="text-center px-2 mt-4">
+                <p className="text-sm sm:text-base font-bold text-white leading-snug">{step.label}</p>
+                <p className="text-[11px] sm:text-xs text-gray-500 mt-1 leading-snug">{step.sub}</p>
+              </div>
             </motion.div>
-          );
-        })}
-      </div>
-    );
-  }
-
-  function renderLabels(rowSteps: FlowStep[], rowOffset: number) {
-    return (
-      <div className="flex w-full">
-        {rowSteps.map((step, colIdx) => {
-          const i = rowOffset + colIdx;
-          return (
-            <div key={step.id} className="flex-1 text-center px-2">
-              <p className="text-sm sm:text-base font-bold text-white leading-snug">{step.label}</p>
-              <p className="text-[11px] sm:text-xs text-gray-500 mt-1 leading-snug">{step.sub}</p>
-            </div>
           );
         })}
       </div>
@@ -529,9 +517,7 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
   return (
     <div ref={containerRef} className="relative w-full">
       <div className="relative" style={{ zIndex: 10 }}>{renderRow(row0Steps, 0)}</div>
-      <div className="mt-3 mb-4">{renderLabels(row0Steps, 0)}</div>
-      <div style={{ height: 60 }} />
-      <div className="mb-3 mt-4">{renderLabels(row1Steps, COL)}</div>
+      <div style={{ height: 160 }} />
       <div className="relative" style={{ zIndex: 10 }}>{renderRow(row1Steps, COL)}</div>
 
       {paths && (
