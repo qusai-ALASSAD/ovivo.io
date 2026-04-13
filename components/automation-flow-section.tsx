@@ -434,13 +434,18 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
 
     const agentPaths = nodes.map((n, i) => {
       if (n.r === 0) return '';
-      const isRow0 = i < COL;
-      const halfW = agent.w / 2;
-      const rawEx = agent.x + Math.max(-halfW, Math.min(halfW, n.x - agent.x)) * 0.7;
-      const ex = rawEx;
-      const ey = isRow0 ? agent.y - agent.h / 2 : agent.y + agent.h / 2;
+      // Connect from node edge to left or right side of agent box
+      const nodeIsLeft = n.x < agent.x;
+      const ex = nodeIsLeft ? agent.x - agent.w / 2 : agent.x + agent.w / 2;
+      const ey = agent.y;
       const startPt = pointOnCircle(n.x, n.y, n.r, ex, ey);
-      return curvePath(startPt.x, startPt.y, ex, ey);
+      // Curved path: horizontal S-curve
+      const dx = ex - startPt.x;
+      const cp1x = startPt.x + dx * 0.5;
+      const cp1y = startPt.y;
+      const cp2x = ex - dx * 0.5;
+      const cp2y = ey;
+      return `M ${startPt.x} ${startPt.y} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${ex} ${ey}`;
     });
 
     const hRow0 = row0Steps.slice(0,-1).map((_, ci) => {
