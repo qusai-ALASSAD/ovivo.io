@@ -438,6 +438,7 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
 
     const agentPaths = nodes.map((n, i) => {
       if (n.r === 0) return '';
+      if (i < COL) return '';
       const startPt = pointOnCircle(n.x, n.y, n.r, agent.x, agent.y);
       const endPt = pointOnRect(agent.x, agent.y, agent.w / 2, agent.h / 2, n.x, n.y);
       const dx = endPt.x - startPt.x;
