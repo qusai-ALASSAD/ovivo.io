@@ -414,15 +414,18 @@ function NodeGraph({ steps }: { steps: FlowStep[] }) {
               const lastStepOfRow = rowSteps[rowSteps.length - 1];
               const connDelay = (stepOffset + rowSteps.length - 1) * PULSE * 0.55 + PULSE * 0.4;
               return (
-                <div className="flex justify-end pr-[calc(33.33%/2-16px)] sm:pr-[104px] -my-1">
-                  <svg width="60" height="48" viewBox="0 0 60 48" fill="none">
+                <div className="w-full overflow-visible" style={{ height: 48, marginTop: -4, marginBottom: -4 }}>
+                  <svg width="100%" height="48" viewBox="0 0 100 48" preserveAspectRatio="none" fill="none" className="w-full overflow-visible">
+                    {/* vertical down from last node center, then horizontal left to first node center of next row */}
+                    {/* Using percentage-based x positions via foreignObject trick — use viewBox 0-100 */}
                     <motion.path
-                      d="M 52 0 L 52 30 L 8 30"
+                      d="M 83.33 0 L 83.33 30 L 16.67 30 L 16.67 48"
                       stroke={lastStepOfRow.color}
                       strokeWidth="1.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       fill="none"
+                      vectorEffect="non-scaling-stroke"
                       animate={{ opacity: [0.5, 1, 0.5] }}
                       transition={{
                         duration: PULSE,
