@@ -330,7 +330,7 @@ function NodeGraph({ steps }: { steps: FlowStep[] }) {
         return (
           <div key={rowIdx}>
             {/* Row of nodes */}
-            <div className="flex items-center justify-center gap-0">
+            <div className="flex items-center w-full">
               {rowSteps.map((step, colIdx) => {
                 const i = stepOffset + colIdx;
                 const isLastInRow = colIdx === rowSteps.length - 1;
@@ -339,9 +339,9 @@ function NodeGraph({ steps }: { steps: FlowStep[] }) {
 
                 return (
                   <React.Fragment key={step.id}>
-                    {/* Node card */}
+                    {/* Node */}
                     <motion.div
-                      className="flex flex-col items-center gap-2.5 px-3 sm:px-5 py-5 w-[calc(33.33%-16px)] sm:w-52 flex-shrink-0"
+                      className="flex flex-col items-center gap-2.5 py-5 flex-shrink-0"
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
@@ -376,21 +376,22 @@ function NodeGraph({ steps }: { steps: FlowStep[] }) {
                           {i + 1}
                         </span>
                       </motion.div>
-                      <div className="text-center">
+                      <div className="text-center px-1">
                         <p className="text-xs sm:text-sm font-bold text-white leading-snug">{step.label}</p>
                         <p className="text-[10px] sm:text-[11px] text-gray-500 mt-0.5 leading-snug">{step.sub}</p>
                       </div>
                     </motion.div>
 
-                    {/* Horizontal connector line between nodes in same row */}
+                    {/* Horizontal connector — stretches between nodes */}
                     {!isLastInRow && (
-                      <div className="flex-shrink-0 flex items-center justify-center w-8 sm:w-12 -mt-6">
-                        <svg width="100%" height="16" viewBox="0 0 48 16" fill="none" className="w-full overflow-visible">
+                      <div className="flex-1 flex items-center" style={{ marginBottom: '2.5rem' }}>
+                        <svg width="100%" height="16" viewBox="0 0 100 16" preserveAspectRatio="none" fill="none" className="w-full">
                           <motion.line
-                            x1="0" y1="8" x2="48" y2="8"
+                            x1="0" y1="8" x2="100" y2="8"
                             stroke={step.color}
                             strokeWidth="1.5"
                             strokeLinecap="round"
+                            vectorEffect="non-scaling-stroke"
                             animate={{ opacity: [0.5, 1, 0.5] }}
                             transition={{
                               duration: PULSE,
