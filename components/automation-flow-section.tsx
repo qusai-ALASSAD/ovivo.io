@@ -480,7 +480,7 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
           return (
             <motion.div
               key={step.id}
-              className="flex flex-col items-center gap-2.5 py-5 flex-1"
+              className="flex flex-col items-center gap-4 py-8 flex-1"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -503,9 +503,9 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
                   </span>
                 </motion.div>
               </div>
-              <div className="text-center px-1">
-                <p className="text-xs sm:text-sm font-bold text-white leading-snug">{step.label}</p>
-                <p className="text-[10px] sm:text-[11px] text-gray-500 mt-0.5 leading-snug">{step.sub}</p>
+              <div className="text-center px-2">
+                <p className="text-sm sm:text-base font-bold text-white leading-snug">{step.label}</p>
+                <p className="text-[11px] sm:text-xs text-gray-500 mt-1 leading-snug">{step.sub}</p>
               </div>
             </motion.div>
           );
@@ -517,7 +517,7 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
   return (
     <div ref={containerRef} className="relative w-full">
       <div className="relative" style={{ zIndex: 10 }}>{renderRow(row0Steps, 0)}</div>
-      <div style={{ height: 64 }} />
+      <div style={{ height: 100 }} />
       <div className="relative" style={{ zIndex: 10 }}>{renderRow(row1Steps, COL)}</div>
 
       {paths && (
@@ -652,7 +652,7 @@ export function AutomationFlowSection({ lang, customSteps, customCards, customTe
           </div>
 
           {/* Node Graph — always LTR layout, fixed direction */}
-          <div className="px-4 pt-8 pb-6" dir="ltr">
+          <div className="px-6 pt-10 pb-10" dir="ltr">
             <NodeGraph steps={steps} lang={lang} />
           </div>
 
