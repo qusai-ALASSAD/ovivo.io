@@ -437,7 +437,9 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
       const isRow0 = i < COL;
       const sx = n.x;
       const sy = isRow0 ? n.y + n.r : n.y - n.r;
-      const ex = agent.x;
+      const halfW = agent.w / 2;
+      const rawEx = agent.x + Math.max(-halfW, Math.min(halfW, n.x - agent.x)) * 0.7;
+      const ex = rawEx;
       const ey = isRow0 ? agent.y - agent.h / 2 : agent.y + agent.h / 2;
       return curvePath(sx, sy, ex, ey);
     });
@@ -514,9 +516,9 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
 
   return (
     <div ref={containerRef} className="relative w-full">
-      {renderRow(row0Steps, 0)}
+      <div className="relative" style={{ zIndex: 10 }}>{renderRow(row0Steps, 0)}</div>
       <div style={{ height: 64 }} />
-      {renderRow(row1Steps, COL)}
+      <div className="relative" style={{ zIndex: 10 }}>{renderRow(row1Steps, COL)}</div>
 
       {paths && (
         <svg
@@ -525,7 +527,7 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
           height={paths.svgH}
           viewBox={`0 0 ${paths.svgW} ${paths.svgH}`}
           fill="none"
-          style={{ top: 0, left: 0 }}
+          style={{ top: 0, left: 0, zIndex: 0 }}
         >
           {paths.hRow0.map((seg, ci) => {
             const mx = (seg.x1 + seg.x2) / 2;
