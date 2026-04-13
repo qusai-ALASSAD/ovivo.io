@@ -314,6 +314,169 @@ export interface FlowSectionText {
   subtitle: string;
 }
 
+const PULSE = 1.8;
+
+function NodeGraph({ steps }: { steps: FlowStep[] }) {
+  const COL = 3;
+  const rows = Math.ceil(steps.length / COL);
+
+  return (
+    <div className="flex flex-col gap-0">
+      {Array.from({ length: rows }).map((_, rowIdx) => {
+        const rowSteps = steps.slice(rowIdx * COL, rowIdx * COL + COL);
+        const isLastRow = rowIdx === rows - 1;
+        const stepOffset = rowIdx * COL;
+
+        return (
+          <div key={rowIdx}>
+            {/* Row of nodes */}
+            <div className="flex items-center justify-center gap-0">
+              {rowSteps.map((step, colIdx) => {
+                const i = stepOffset + colIdx;
+                const isLastInRow = colIdx === rowSteps.length - 1;
+                const Icon = step.icon;
+                const delay = i * PULSE * 0.55;
+
+                return (
+                  <React.Fragment key={step.id}>
+                    {/* Node card */}
+                    <motion.div
+                      className="flex flex-col items-center gap-2.5 px-3 sm:px-5 py-5 w-[calc(33.33%-16px)] sm:w-52 flex-shrink-0"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.08, duration: 0.45 }}
+                    >
+                      <motion.div
+                        className="relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full border-2"
+                        style={{
+                          borderColor: step.color + '70',
+                          backgroundColor: step.color + '12',
+                        }}
+                        animate={{
+                          boxShadow: [
+                            `0 0 0px ${step.glow}`,
+                            `0 0 28px ${step.glow}`,
+                            `0 0 0px ${step.glow}`,
+                          ],
+                        }}
+                        transition={{
+                          duration: PULSE,
+                          repeat: Infinity,
+                          delay,
+                          ease: 'easeInOut',
+                        }}
+                        whileHover={{ scale: 1.08 }}
+                      >
+                        <Icon className="h-6 w-6 sm:h-7 sm:w-7" style={{ color: step.color }} />
+                        <span
+                          className="absolute -top-1.5 -right-1.5 h-5 w-5 rounded-full text-[9px] font-bold text-white flex items-center justify-center z-10"
+                          style={{ backgroundColor: step.color }}
+                        >
+                          {i + 1}
+                        </span>
+                      </motion.div>
+                      <div className="text-center">
+                        <p className="text-xs sm:text-sm font-bold text-white leading-snug">{step.label}</p>
+                        <p className="text-[10px] sm:text-[11px] text-gray-500 mt-0.5 leading-snug">{step.sub}</p>
+                      </div>
+                    </motion.div>
+
+                    {/* Horizontal connector line between nodes in same row */}
+                    {!isLastInRow && (
+                      <div className="flex-shrink-0 flex items-center justify-center w-8 sm:w-12 -mt-6">
+                        <svg width="100%" height="16" viewBox="0 0 48 16" fill="none" className="w-full overflow-visible">
+                          <motion.line
+                            x1="0" y1="8" x2="40" y2="8"
+                            stroke={step.color}
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            initial={{ pathLength: 0, opacity: 0 }}
+                            animate={{ pathLength: [0, 1, 1], opacity: [0.6, 1, 0.6] }}
+                            transition={{
+                              duration: PULSE,
+                              repeat: Infinity,
+                              delay: delay + PULSE * 0.3,
+                              ease: 'easeInOut',
+                              times: [0, 0.5, 1],
+                            }}
+                            style={{ filter: `drop-shadow(0 0 4px ${step.color})` }}
+                          />
+                          <motion.polyline
+                            points="34,4 42,8 34,12"
+                            stroke={step.color}
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            fill="none"
+                            animate={{ opacity: [0.4, 1, 0.4] }}
+                            transition={{
+                              duration: PULSE,
+                              repeat: Infinity,
+                              delay: delay + PULSE * 0.4,
+                            }}
+                            style={{ filter: `drop-shadow(0 0 3px ${step.color})` }}
+                          />
+                        </svg>
+                      </div>
+                    )}
+                  </React.Fragment>
+                );
+              })}
+            </div>
+
+            {/* Turn connector: right side down then left, between rows */}
+            {!isLastRow && (() => {
+              const lastStepOfRow = rowSteps[rowSteps.length - 1];
+              const connDelay = (stepOffset + rowSteps.length - 1) * PULSE * 0.55 + PULSE * 0.4;
+              return (
+                <div className="flex justify-end pr-[calc(33.33%/2-16px)] sm:pr-[104px] -my-1">
+                  <svg width="60" height="48" viewBox="0 0 60 48" fill="none">
+                    <motion.path
+                      d="M 52 0 L 52 30 L 8 30"
+                      stroke={lastStepOfRow.color}
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      fill="none"
+                      initial={{ pathLength: 0, opacity: 0 }}
+                      animate={{ pathLength: [0, 1, 1], opacity: [0, 1, 1] }}
+                      transition={{
+                        duration: PULSE,
+                        repeat: Infinity,
+                        delay: connDelay,
+                        ease: 'easeOut',
+                        times: [0, 0.65, 1],
+                      }}
+                      style={{ filter: `drop-shadow(0 0 4px ${lastStepOfRow.color})` }}
+                    />
+                    <motion.polyline
+                      points="12,24 6,30 12,36"
+                      stroke={lastStepOfRow.color}
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      fill="none"
+                      animate={{ opacity: [0, 0, 1, 1] }}
+                      transition={{
+                        duration: PULSE,
+                        repeat: Infinity,
+                        delay: connDelay,
+                        times: [0, 0.55, 0.72, 1],
+                      }}
+                      style={{ filter: `drop-shadow(0 0 3px ${lastStepOfRow.color})` }}
+                    />
+                  </svg>
+                </div>
+              );
+            })()}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 interface Props {
   lang: Lang;
   customSteps?: FlowStep[];
@@ -370,246 +533,9 @@ export function AutomationFlowSection({ lang, customSteps, customCards, customTe
             <LiveIndicator lang={lang} />
           </div>
 
-          {/* Steps grid */}
-          <div className="px-6 pt-8 pb-6">
-            {/* Mobile: single column vertical flow */}
-            <div className="flex flex-col sm:hidden gap-0">
-              {steps.map((step, i) => {
-                const Icon = step.icon;
-                const isLastStep = i === steps.length - 1;
-                const PULSE_DURATION = 1.8;
-                const stepDelay = i * PULSE_DURATION * 0.55;
-                return (
-                  <div key={step.id} className="flex flex-col items-stretch">
-                    <motion.div
-                      className="relative flex items-center gap-4 rounded-xl border p-4"
-                      style={{
-                        borderColor: step.color + '30',
-                        backgroundColor: step.color + '0a',
-                      }}
-                      initial={{ opacity: 0, x: -16 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: i * 0.07, duration: 0.4 }}
-                    >
-                      <motion.div
-                        className="relative flex-shrink-0 flex h-12 w-12 items-center justify-center rounded-xl border-2"
-                        style={{
-                          borderColor: step.color + '60',
-                          backgroundColor: step.color + '15',
-                        }}
-                        animate={{
-                          boxShadow: [
-                            `0 0 0px ${step.glow}`,
-                            `0 0 20px ${step.glow}`,
-                            `0 0 0px ${step.glow}`,
-                          ],
-                        }}
-                        transition={{
-                          duration: PULSE_DURATION,
-                          repeat: Infinity,
-                          delay: stepDelay,
-                          ease: 'easeInOut',
-                        }}
-                      >
-                        <Icon className="h-5 w-5" style={{ color: step.color }} />
-                        <span
-                          className="absolute -top-2 -right-2 h-5 w-5 rounded-full text-[9px] font-bold text-white flex items-center justify-center"
-                          style={{ backgroundColor: step.color }}
-                        >
-                          {i + 1}
-                        </span>
-                      </motion.div>
-                      <div className="min-w-0 flex-1">
-                        <p className="text-sm font-bold text-white leading-snug">{step.label}</p>
-                        <p className="text-[11px] text-gray-500 mt-0.5 leading-snug">{step.sub}</p>
-                      </div>
-                    </motion.div>
-
-                    {!isLastStep && (
-                      <div className="flex justify-center py-1">
-                        <svg width="16" height="28" viewBox="0 0 16 28" fill="none">
-                          <motion.line
-                            x1="8" y1="0" x2="8" y2="20"
-                            stroke={step.color}
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            initial={{ pathLength: 0, opacity: 0 }}
-                            animate={{ pathLength: [0, 1, 1], opacity: [0, 1, 1] }}
-                            transition={{
-                              duration: PULSE_DURATION,
-                              repeat: Infinity,
-                              delay: stepDelay + PULSE_DURATION * 0.35,
-                              ease: 'easeOut',
-                              times: [0, 0.55, 1],
-                            }}
-                          />
-                          <motion.polyline
-                            points="4,16 8,22 12,16"
-                            stroke={step.color}
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            fill="none"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: [0, 0, 1, 1] }}
-                            transition={{
-                              duration: PULSE_DURATION,
-                              repeat: Infinity,
-                              delay: stepDelay + PULSE_DURATION * 0.35,
-                              times: [0, 0.5, 0.65, 1],
-                            }}
-                          />
-                        </svg>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Desktop: 3-column grid */}
-            <div className="hidden sm:grid grid-cols-3 gap-x-0 gap-y-0">
-              {steps.map((step, i) => {
-                const Icon = step.icon;
-                const col = i % 3;
-                const row = Math.floor(i / 3);
-                const totalRows = Math.ceil(steps.length / 3);
-                const isLastInRow = col === 2;
-                const isLastRow = row === totalRows - 1;
-                const isLastStep = i === steps.length - 1;
-                const PULSE_DURATION = 1.8;
-                const stepDelay = i * PULSE_DURATION * 0.55;
-
-                return (
-                  <div key={step.id} className="contents">
-                    <motion.div
-                      className="relative m-2 flex items-center gap-3 rounded-xl border p-4 overflow-visible"
-                      style={{
-                        borderColor: step.color + '25',
-                        backgroundColor: step.color + '08',
-                      }}
-                      initial={{ opacity: 0, y: 16 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: i * 0.08, duration: 0.45 }}
-                      whileHover={{ scale: 1.02 }}
-                    >
-                      <motion.div
-                        className="relative flex-shrink-0 flex h-12 w-12 items-center justify-center rounded-xl border-2"
-                        style={{
-                          borderColor: step.color + '60',
-                          backgroundColor: step.color + '15',
-                        }}
-                        animate={{
-                          boxShadow: [
-                            `0 0 0px ${step.glow}`,
-                            `0 0 20px ${step.glow}`,
-                            `0 0 0px ${step.glow}`,
-                          ],
-                        }}
-                        transition={{
-                          duration: PULSE_DURATION,
-                          repeat: Infinity,
-                          delay: stepDelay,
-                          ease: 'easeInOut',
-                        }}
-                      >
-                        <Icon className="h-5 w-5" style={{ color: step.color }} />
-                        <span
-                          className="absolute -top-2 -right-2 h-5 w-5 rounded-full text-[9px] font-bold text-white flex items-center justify-center"
-                          style={{ backgroundColor: step.color }}
-                        >
-                          {i + 1}
-                        </span>
-                      </motion.div>
-                      <div className="min-w-0">
-                        <p className="text-sm font-bold text-white leading-snug">{step.label}</p>
-                        <p className="text-[11px] text-gray-500 mt-0.5 leading-snug">{step.sub}</p>
-                      </div>
-
-                      {!isLastInRow && !isLastStep && (
-                        <div className="absolute -right-4 top-1/2 -translate-y-1/2 z-20 flex items-center w-8 overflow-hidden">
-                          <svg width="32" height="16" viewBox="0 0 32 16" fill="none" className="w-full">
-                            <motion.line
-                              x1="0" y1="8" x2="24" y2="8"
-                              stroke={step.color}
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              initial={{ pathLength: 0, opacity: 0 }}
-                              animate={{ pathLength: [0, 1, 1], opacity: [0, 1, 1] }}
-                              transition={{
-                                duration: PULSE_DURATION,
-                                repeat: Infinity,
-                                delay: stepDelay + PULSE_DURATION * 0.3,
-                                ease: 'easeOut',
-                                times: [0, 0.5, 1],
-                              }}
-                            />
-                            <motion.polyline
-                              points="20,4 26,8 20,12"
-                              stroke={step.color}
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              fill="none"
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: [0, 0, 1, 1] }}
-                              transition={{
-                                duration: PULSE_DURATION,
-                                repeat: Infinity,
-                                delay: stepDelay + PULSE_DURATION * 0.3,
-                                times: [0, 0.45, 0.6, 1],
-                              }}
-                            />
-                          </svg>
-                        </div>
-                      )}
-
-                      {isLastInRow && !isLastRow && !isLastStep && (
-                        <div className="absolute -bottom-6 right-0 z-20 w-full">
-                          <svg width="100%" height="24" viewBox="0 0 200 24" preserveAspectRatio="none" fill="none">
-                            <motion.path
-                              d="M 190 0 L 190 16 L 10 16"
-                              stroke={step.color}
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              fill="none"
-                              initial={{ pathLength: 0, opacity: 0 }}
-                              animate={{ pathLength: [0, 1, 1], opacity: [0, 1, 1] }}
-                              transition={{
-                                duration: PULSE_DURATION,
-                                repeat: Infinity,
-                                delay: stepDelay + PULSE_DURATION * 0.35,
-                                ease: 'easeOut',
-                                times: [0, 0.6, 1],
-                              }}
-                            />
-                            <motion.polyline
-                              points="14,12 8,16 14,20"
-                              stroke={step.color}
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              fill="none"
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: [0, 0, 1, 1] }}
-                              transition={{
-                                duration: PULSE_DURATION,
-                                repeat: Infinity,
-                                delay: stepDelay + PULSE_DURATION * 0.35,
-                                times: [0, 0.55, 0.7, 1],
-                              }}
-                            />
-                          </svg>
-                        </div>
-                      )}
-                    </motion.div>
-                  </div>
-                );
-              })}
-            </div>
+          {/* Node Graph — always LTR layout, fixed direction */}
+          <div className="px-4 pt-8 pb-6" dir="ltr">
+            <NodeGraph steps={steps} />
           </div>
 
           {/* Bottom label row */}
