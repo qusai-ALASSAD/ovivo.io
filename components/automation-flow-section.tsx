@@ -435,13 +435,12 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
     const agentPaths = nodes.map((n, i) => {
       if (n.r === 0) return '';
       const isRow0 = i < COL;
-      const sx = n.x;
-      const sy = isRow0 ? n.y + n.r : n.y - n.r;
       const halfW = agent.w / 2;
       const rawEx = agent.x + Math.max(-halfW, Math.min(halfW, n.x - agent.x)) * 0.7;
       const ex = rawEx;
       const ey = isRow0 ? agent.y - agent.h / 2 : agent.y + agent.h / 2;
-      return curvePath(sx, sy, ex, ey);
+      const startPt = pointOnCircle(n.x, n.y, n.r, ex, ey);
+      return curvePath(startPt.x, startPt.y, ex, ey);
     });
 
     const hRow0 = row0Steps.slice(0,-1).map((_, ci) => {
