@@ -406,7 +406,7 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
   const row1Steps = steps.slice(COL, COL * 2);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const nodeRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const circleRefs = useRef<(HTMLDivElement | null)[]>([]);
   const agentRef = useRef<HTMLDivElement>(null);
   const [paths, setPaths] = useState<ConnPaths | null>(null);
 
@@ -422,7 +422,7 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
       h: agentBox.height,
     };
 
-    const nodes: NodePos[] = nodeRefs.current.map(el => {
+    const nodes: NodePos[] = circleRefs.current.map(el => {
       if (!el) return { x: 0, y: 0, r: 0 };
       const b = el.getBoundingClientRect();
       return {
@@ -484,22 +484,23 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
               viewport={{ once: true }}
               transition={{ delay: i * 0.08, duration: 0.45 }}
             >
-              <motion.div
-                ref={el => { nodeRefs.current[i] = el; }}
-                className="relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full border-2"
-                style={{ borderColor: step.color + '70', backgroundColor: step.color + '12' }}
-                animate={{ boxShadow: [`0 0 0px ${step.glow}`,`0 0 28px ${step.glow}`,`0 0 0px ${step.glow}`] }}
-                transition={{ duration: PULSE, repeat: Infinity, delay, ease: 'easeInOut' }}
-                whileHover={{ scale: 1.08 }}
-              >
-                <Icon className="h-6 w-6 sm:h-7 sm:w-7" style={{ color: step.color }} />
-                <span
-                  className="absolute -top-1.5 -right-1.5 h-5 w-5 rounded-full text-[9px] font-bold text-white flex items-center justify-center z-10"
-                  style={{ backgroundColor: step.color }}
+              <div ref={el => { circleRefs.current[i] = el; }} className="inline-flex">
+                <motion.div
+                  className="relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full border-2"
+                  style={{ borderColor: step.color + '70', backgroundColor: step.color + '12' }}
+                  animate={{ boxShadow: [`0 0 0px ${step.glow}`,`0 0 28px ${step.glow}`,`0 0 0px ${step.glow}`] }}
+                  transition={{ duration: PULSE, repeat: Infinity, delay, ease: 'easeInOut' }}
+                  whileHover={{ scale: 1.08 }}
                 >
-                  {i + 1}
-                </span>
-              </motion.div>
+                  <Icon className="h-6 w-6 sm:h-7 sm:w-7" style={{ color: step.color }} />
+                  <span
+                    className="absolute -top-1.5 -right-1.5 h-5 w-5 rounded-full text-[9px] font-bold text-white flex items-center justify-center z-10"
+                    style={{ backgroundColor: step.color }}
+                  >
+                    {i + 1}
+                  </span>
+                </motion.div>
+              </div>
               <div className="text-center px-1">
                 <p className="text-xs sm:text-sm font-bold text-white leading-snug">{step.label}</p>
                 <p className="text-[10px] sm:text-[11px] text-gray-500 mt-0.5 leading-snug">{step.sub}</p>
