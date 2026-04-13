@@ -503,7 +503,7 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
                   </span>
                 </motion.div>
               </div>
-              <div className="text-center px-2">
+              <div className="text-center px-2 mt-3">
                 <p className="text-sm sm:text-base font-bold text-white leading-snug">{step.label}</p>
                 <p className="text-[11px] sm:text-xs text-gray-500 mt-1 leading-snug">{step.sub}</p>
               </div>
@@ -529,57 +529,79 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
           fill="none"
           style={{ top: 0, left: 0, zIndex: 0 }}
         >
+          <defs>
+            {paths.hRow0.map((seg, ci) => {
+              const id = `h0path-${ci}`;
+              const mx = (seg.x1 + seg.x2) / 2;
+              const my = seg.y1 - Math.abs(seg.x2 - seg.x1) * 0.04;
+              return <path key={id} id={id} d={`M ${seg.x1} ${seg.y1} Q ${mx} ${my}, ${seg.x2} ${seg.y2}`} />;
+            })}
+            {paths.hRow1.map((seg, ci) => {
+              const id = `h1path-${ci}`;
+              const mx = (seg.x1 + seg.x2) / 2;
+              const my = seg.y1 + Math.abs(seg.x2 - seg.x1) * 0.04;
+              return <path key={id} id={id} d={`M ${seg.x1} ${seg.y1} Q ${mx} ${my}, ${seg.x2} ${seg.y2}`} />;
+            })}
+            {paths.agentPaths.map((d, i) => (
+              <path key={`acpath-${i}`} id={`acpath-${i}`} d={d} />
+            ))}
+          </defs>
+
           {paths.hRow0.map((seg, ci) => {
+            const id = `h0path-${ci}`;
             const mx = (seg.x1 + seg.x2) / 2;
             const my = seg.y1 - Math.abs(seg.x2 - seg.x1) * 0.04;
             const d = `M ${seg.x1} ${seg.y1} Q ${mx} ${my}, ${seg.x2} ${seg.y2}`;
+            const color = row0Steps[ci].color;
+            const segDelay = ci * 1.1;
             return (
-              <motion.path
-                key={`h0-${ci}`}
-                d={d}
-                stroke={row0Steps[ci].color}
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                fill="none"
-                animate={{ opacity: [0.35, 0.9, 0.35] }}
-                transition={{ duration: PULSE, repeat: Infinity, delay: ci * PULSE * 0.4, ease: 'easeInOut' }}
-                style={{ filter: `drop-shadow(0 0 4px ${row0Steps[ci].color})` }}
-              />
+              <g key={`h0-${ci}`}>
+                <path d={d} stroke={color} strokeWidth="1" strokeOpacity="0.18" strokeLinecap="round" fill="none" />
+                <circle r="4" fill={color} style={{ filter: `drop-shadow(0 0 6px ${color})` }}>
+                  <animateMotion dur="3.3s" repeatCount="indefinite" begin={`${segDelay}s`} fill="freeze">
+                    <mpath xlinkHref={`#${id}`} />
+                  </animateMotion>
+                  <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.05;0.9;1" dur="3.3s" repeatCount="indefinite" begin={`${segDelay}s`} />
+                </circle>
+              </g>
             );
           })}
 
           {paths.hRow1.map((seg, ci) => {
+            const id = `h1path-${ci}`;
             const mx = (seg.x1 + seg.x2) / 2;
             const my = seg.y1 + Math.abs(seg.x2 - seg.x1) * 0.04;
             const d = `M ${seg.x1} ${seg.y1} Q ${mx} ${my}, ${seg.x2} ${seg.y2}`;
+            const color = row1Steps[ci].color;
+            const segDelay = (COL + ci) * 1.1;
             return (
-              <motion.path
-                key={`h1-${ci}`}
-                d={d}
-                stroke={row1Steps[ci].color}
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                fill="none"
-                animate={{ opacity: [0.35, 0.9, 0.35] }}
-                transition={{ duration: PULSE, repeat: Infinity, delay: (COL + ci) * PULSE * 0.4, ease: 'easeInOut' }}
-                style={{ filter: `drop-shadow(0 0 4px ${row1Steps[ci].color})` }}
-              />
+              <g key={`h1-${ci}`}>
+                <path d={d} stroke={color} strokeWidth="1" strokeOpacity="0.18" strokeLinecap="round" fill="none" />
+                <circle r="4" fill={color} style={{ filter: `drop-shadow(0 0 6px ${color})` }}>
+                  <animateMotion dur="3.3s" repeatCount="indefinite" begin={`${segDelay}s`} fill="freeze">
+                    <mpath xlinkHref={`#${id}`} />
+                  </animateMotion>
+                  <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.05;0.9;1" dur="3.3s" repeatCount="indefinite" begin={`${segDelay}s`} />
+                </circle>
+              </g>
             );
           })}
 
-          {paths.agentPaths.map((d, i) => (
-            <motion.path
-              key={`ac-${steps[i].id}`}
-              d={d}
-              stroke="#a78bfa"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              fill="none"
-              animate={{ opacity: [0.15, 0.72, 0.15] }}
-              transition={{ duration: PULSE * 1.2, repeat: Infinity, delay: i * PULSE * 0.22, ease: 'easeInOut' }}
-              style={{ filter: 'drop-shadow(0 0 5px rgba(167,139,250,0.9))' }}
-            />
-          ))}
+          {paths.agentPaths.map((d, i) => {
+            const color = i < COL ? steps[i].color : steps[i].color;
+            const segDelay = i * 0.9 + 0.4;
+            return (
+              <g key={`ac-${steps[i].id}`}>
+                <path d={d} stroke="#a78bfa" strokeWidth="1" strokeOpacity="0.15" strokeLinecap="round" fill="none" />
+                <circle r="4" fill="#c4b5fd" style={{ filter: 'drop-shadow(0 0 7px rgba(167,139,250,1))' }}>
+                  <animateMotion dur="2.8s" repeatCount="indefinite" begin={`${segDelay}s`} fill="freeze">
+                    <mpath xlinkHref={`#acpath-${i}`} />
+                  </animateMotion>
+                  <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.05;0.9;1" dur="2.8s" repeatCount="indefinite" begin={`${segDelay}s`} />
+                </circle>
+              </g>
+            );
+          })}
         </svg>
       )}
 
