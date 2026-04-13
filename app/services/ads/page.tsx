@@ -1,6 +1,8 @@
 'use client';
 
 import { ServicePageLayout } from '@/components/service-page-layout';
+import { AutomationFlowSection } from '@/components/automation-flow-section';
+import { adsFlowSteps, adsFlowCards, adsFlowText } from '@/components/service-flows';
 import { ChartBar as BarChart3, Target, TrendingUp, Zap } from 'lucide-react';
 
 const heroImage = (
@@ -163,6 +165,14 @@ export default function AdsPage() {
         { href: '/services/crm-email', label: 'CRM + Email Sequences' },
         { href: '/services/branding', label: 'Brand Identity' },
       ]}
+      extraSection={
+        <AutomationFlowSection
+          lang="de"
+          customSteps={adsFlowSteps}
+          customCards={adsFlowCards}
+          customText={adsFlowText}
+        />
+      }
     />
   );
 }

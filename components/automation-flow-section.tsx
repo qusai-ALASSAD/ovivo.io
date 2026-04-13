@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   UserPlus, Zap, Mail, Calendar, TrendingUp, Star,
@@ -289,15 +289,43 @@ const sectionText = {
   },
 };
 
-interface Props {
-  lang: Lang;
+export interface FlowStep {
+  id: string;
+  icon: React.ElementType;
+  color: string;
+  glow: string;
+  label: string;
+  sub: string;
 }
 
-export function AutomationFlowSection({ lang }: Props) {
+export interface FlowCard {
+  id: string;
+  icon: React.ElementType;
+  color: string;
+  bg: string;
+  title: string;
+  desc: string;
+}
+
+export interface FlowSectionText {
+  badge: string;
+  title: string;
+  titleGradient: string;
+  subtitle: string;
+}
+
+interface Props {
+  lang: Lang;
+  customSteps?: FlowStep[];
+  customCards?: FlowCard[];
+  customText?: FlowSectionText;
+}
+
+export function AutomationFlowSection({ lang, customSteps, customCards, customText }: Props) {
   const rtl = isRTL(lang);
-  const t = sectionText[lang] ?? sectionText.de;
-  const steps = flowSteps[lang] ?? flowSteps.de;
-  const cards = flowCards[lang] ?? flowCards.de;
+  const t = customText ?? (sectionText[lang] ?? sectionText.de);
+  const steps = customSteps ?? (flowSteps[lang] ?? flowSteps.de);
+  const cards = customCards ?? (flowCards[lang] ?? flowCards.de);
   const [activeCard, setActiveCard] = useState<string | null>(null);
 
   return (

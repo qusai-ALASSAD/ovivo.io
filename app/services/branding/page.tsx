@@ -1,6 +1,8 @@
 'use client';
 
 import { ServicePageLayout } from '@/components/service-page-layout';
+import { AutomationFlowSection } from '@/components/automation-flow-section';
+import { brandingFlowSteps, brandingFlowCards, brandingFlowText } from '@/components/service-flows';
 import { Palette, Star, TrendingUp, Users } from 'lucide-react';
 
 const heroImage = (
@@ -172,6 +174,14 @@ export default function BrandingPage() {
         { href: '/services/ads', label: 'Ads & Performance Marketing' },
         { href: '/services/crm-email', label: 'CRM + Email Sequences' },
       ]}
+      extraSection={
+        <AutomationFlowSection
+          lang="de"
+          customSteps={brandingFlowSteps}
+          customCards={brandingFlowCards}
+          customText={brandingFlowText}
+        />
+      }
     />
   );
 }

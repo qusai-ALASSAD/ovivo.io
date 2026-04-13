@@ -1,6 +1,8 @@
 'use client';
 
 import { ServicePageLayout } from '@/components/service-page-layout';
+import { AutomationFlowSection } from '@/components/automation-flow-section';
+import { chatbotFlowSteps, chatbotFlowCards, chatbotFlowText } from '@/components/service-flows';
 import { Bot, Clock, MessageSquare, TrendingUp, Shield } from 'lucide-react';
 
 const heroImage = (
@@ -166,6 +168,14 @@ export default function AIChatbotPage() {
         { href: '/services/crm-email', label: 'CRM + Email Sequences' },
         { href: '/services/funnels', label: 'Website + Funnel Build' },
       ]}
+      extraSection={
+        <AutomationFlowSection
+          lang="de"
+          customSteps={chatbotFlowSteps}
+          customCards={chatbotFlowCards}
+          customText={chatbotFlowText}
+        />
+      }
     />
   );
 }

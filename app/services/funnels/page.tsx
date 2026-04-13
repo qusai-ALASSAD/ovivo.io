@@ -1,6 +1,8 @@
 'use client';
 
 import { ServicePageLayout } from '@/components/service-page-layout';
+import { AutomationFlowSection } from '@/components/automation-flow-section';
+import { funnelsFlowSteps, funnelsFlowCards, funnelsFlowText } from '@/components/service-flows';
 import { Globe, Target, TrendingUp, Zap } from 'lucide-react';
 
 const heroImage = (
@@ -175,6 +177,14 @@ export default function FunnelsPage() {
         { href: '/services/crm-email', label: 'CRM + Email Sequences' },
         { href: '/services/branding', label: 'Brand Identity' },
       ]}
+      extraSection={
+        <AutomationFlowSection
+          lang="de"
+          customSteps={funnelsFlowSteps}
+          customCards={funnelsFlowCards}
+          customText={funnelsFlowText}
+        />
+      }
     />
   );
 }
