@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   UserPlus, Zap, Mail, Calendar, TrendingUp, Star,
@@ -374,27 +374,103 @@ function AgentNode({ lang }: { lang?: string }) {
   );
 }
 
+interface NodePos { x: number; y: number; r: number; }
+interface AgentPos { x: number; y: number; w: number; h: number; }
+interface ConnPaths { agentPaths: string[]; hRow0: { x1:number;y1:number;x2:number;y2:number }[]; hRow1: { x1:number;y1:number;x2:number;y2:number }[]; svgW: number; svgH: number; }
+
+function pointOnCircle(cx: number, cy: number, r: number, toX: number, toY: number) {
+  const dx = toX - cx; const dy = toY - cy;
+  const len = Math.sqrt(dx*dx + dy*dy);
+  return { x: cx + (dx/len)*r, y: cy + (dy/len)*r };
+}
+
+function pointOnRect(ax: number, ay: number, hw: number, hh: number, fromX: number, fromY: number) {
+  const dx = fromX - ax; const dy = fromY - ay;
+  if (dx === 0 && dy === 0) return { x: ax, y: ay };
+  const scaleX = dx !== 0 ? hw / Math.abs(dx) : Infinity;
+  const scaleY = dy !== 0 ? hh / Math.abs(dy) : Infinity;
+  const s = Math.min(scaleX, scaleY);
+  return { x: ax + dx*s, y: ay + dy*s };
+}
+
+function curvePath(sx: number, sy: number, ex: number, ey: number) {
+  const dx = ex - sx; const dy = ey - sy;
+  const len = Math.sqrt(dx*dx + dy*dy);
+  if (len < 1) return `M ${sx} ${sy} L ${ex} ${ey}`;
+  const ux = dx/len; const uy = dy/len;
+  const t = len * 0.45;
+  const perp = 0.22;
+  const c1x = sx + ux*t - uy*len*perp;
+  const c1y = sy + uy*t + ux*len*perp;
+  const c2x = ex - ux*t - uy*len*perp;
+  const c2y = ey - uy*t + ux*len*perp;
+  return `M ${sx} ${sy} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${ex} ${ey}`;
+}
+
 function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
   const COL = 3;
-
-  /*
-   * Layout (6 nodes, 2 rows of 3):
-   *   Row 0: node0 (16.67%)  node1 (50%)  node2 (83.33%)
-   *   Row 1: node3 (16.67%)  node4 (50%)  node5 (83.33%)
-   * Agent sits in the vertical middle between rows.
-   *
-   * We render:
-   *  - Two rows of nodes (no horizontal connectors inside them)
-   *  - One full-width SVG overlay that draws ALL lines (horizontal + turn + agent curves)
-   *  - Agent node absolutely centred between rows
-   *
-   * We use a single relative wrapper so the SVG and agent can be absolute.
-   */
-
-  const nodeXPct = [16.67, 50, 83.33]; // column centres as % of total width
-
   const row0Steps = steps.slice(0, COL);
   const row1Steps = steps.slice(COL, COL * 2);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const nodeRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const agentRef = useRef<HTMLDivElement>(null);
+  const [paths, setPaths] = useState<ConnPaths | null>(null);
+
+  const measure = useCallback(() => {
+    if (!containerRef.current || !agentRef.current) return;
+    const box = containerRef.current.getBoundingClientRect();
+    const agentBox = agentRef.current.getBoundingClientRect();
+
+    const agent: AgentPos = {
+      x: agentBox.left - box.left + agentBox.width / 2,
+      y: agentBox.top  - box.top  + agentBox.height / 2,
+      w: agentBox.width,
+      h: agentBox.height,
+    };
+
+    const nodes: NodePos[] = nodeRefs.current.map(el => {
+      if (!el) return { x: 0, y: 0, r: 0 };
+      const b = el.getBoundingClientRect();
+      return {
+        x: b.left - box.left + b.width  / 2,
+        y: b.top  - box.top  + b.height / 2,
+        r: b.width / 2,
+      };
+    });
+
+    const agentPaths = nodes.map((n, i) => {
+      if (n.r === 0) return '';
+      const start = pointOnCircle(n.x, n.y, n.r, agent.x, agent.y);
+      const end   = pointOnRect(agent.x, agent.y, agent.w/2, agent.h/2, n.x, n.y);
+      return curvePath(start.x, start.y, end.x, end.y);
+    });
+
+    const hRow0 = row0Steps.slice(0,-1).map((_, ci) => {
+      const a = nodes[ci];   const b = nodes[ci+1];
+      if (!a || !b || a.r === 0) return { x1:0,y1:0,x2:0,y2:0 };
+      const start = pointOnCircle(a.x, a.y, a.r, b.x, b.y);
+      const end   = pointOnCircle(b.x, b.y, b.r, a.x, a.y);
+      return { x1: start.x, y1: start.y, x2: end.x, y2: end.y };
+    });
+
+    const hRow1 = row1Steps.slice(0,-1).map((_, ci) => {
+      const a = nodes[COL+ci];   const b = nodes[COL+ci+1];
+      if (!a || !b || a.r === 0) return { x1:0,y1:0,x2:0,y2:0 };
+      const start = pointOnCircle(a.x, a.y, a.r, b.x, b.y);
+      const end   = pointOnCircle(b.x, b.y, b.r, a.x, a.y);
+      return { x1: start.x, y1: start.y, x2: end.x, y2: end.y };
+    });
+
+    setPaths({ agentPaths, hRow0, hRow1, svgW: box.width, svgH: box.height });
+  }, []);
+
+  useEffect(() => {
+    measure();
+    const ro = new ResizeObserver(measure);
+    if (containerRef.current) ro.observe(containerRef.current);
+    return () => ro.disconnect();
+  }, [measure]);
 
   function renderRow(rowSteps: FlowStep[], rowOffset: number) {
     return (
@@ -413,18 +489,10 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
               transition={{ delay: i * 0.08, duration: 0.45 }}
             >
               <motion.div
+                ref={el => { nodeRefs.current[i] = el; }}
                 className="relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full border-2"
-                style={{
-                  borderColor: step.color + '70',
-                  backgroundColor: step.color + '12',
-                }}
-                animate={{
-                  boxShadow: [
-                    `0 0 0px ${step.glow}`,
-                    `0 0 28px ${step.glow}`,
-                    `0 0 0px ${step.glow}`,
-                  ],
-                }}
+                style={{ borderColor: step.color + '70', backgroundColor: step.color + '12' }}
+                animate={{ boxShadow: [`0 0 0px ${step.glow}`,`0 0 28px ${step.glow}`,`0 0 0px ${step.glow}`] }}
                 transition={{ duration: PULSE, repeat: Infinity, delay, ease: 'easeInOut' }}
                 whileHover={{ scale: 1.08 }}
               >
@@ -447,162 +515,70 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
     );
   }
 
-  /*
-   * Strategy: use a FIXED pixel viewBox that matches the actual rendered size.
-   * We measure actual layout in px and map everything precisely.
-   *
-   * Layout (px, desktop):
-   *   - Container width: variable, but we use viewBox width = 900px as reference
-   *   - Row height (node + label): ~140px
-   *   - Spacer between rows: 64px
-   *   - Total height: ~344px
-   *   - Node circle radius: ~40px (h-20 w-20 = 80px diameter)
-   *   - Agent box: ~64px tall
-   *
-   * Column centres (x): col0=150, col1=450, col2=750  (900/6, 900/2, 900*5/6)
-   * Row0 node circle centre (y): 40  (top padding ~0, icon centre ~40px from top)
-   * Row1 node circle centre (y): 304 (140 + 64 spacer + 60 = 304, approx 140+64+100=304)
-   * Agent centre (y): 172  (140 + 64/2 = 172)
-   * Node circle radius: 40px
-   * Agent half-height: 32px
-   *
-   * For each connection node→agent:
-   *   1. Compute angle from node centre to agent centre
-   *   2. Start point = node centre + radius * unit_vector(angle)
-   *   3. End point   = nearest point on agent bounding box
-   *   4. Control points: tangent leaving START is in direction of angle,
-   *      tangent arriving END is also in direction of that same angle
-   *      → pure cubic bezier with matching tangents = perfectly smooth
-   */
-
-  const VB_W = 900;
-  const VB_H = 344;
-
-  const colX = [150, 450, 750];
-  const ROW0_CY = 40;
-  const ROW1_CY = 304;
-  const AGENT_CX = 450;
-  const AGENT_CY = 172;
-  const NODE_R = 40;
-  const AGENT_HW = 32;
-  const AGENT_HH = 32;
-
-  function clampToAgentBox(ax: number, ay: number, fromX: number, fromY: number) {
-    const dx = fromX - ax;
-    const dy = fromY - ay;
-    const scaleX = dx !== 0 ? AGENT_HW / Math.abs(dx) : Infinity;
-    const scaleY = dy !== 0 ? AGENT_HH / Math.abs(dy) : Infinity;
-    const scale = Math.min(scaleX, scaleY);
-    return { x: ax + dx * scale, y: ay + dy * scale };
-  }
-
-  function pointOnCircle(cx: number, cy: number, r: number, toX: number, toY: number) {
-    const dx = toX - cx;
-    const dy = toY - cy;
-    const len = Math.sqrt(dx * dx + dy * dy);
-    return { x: cx + (dx / len) * r, y: cy + (dy / len) * r };
-  }
-
-  function smoothPath(sx: number, sy: number, ex: number, ey: number) {
-    const dx = ex - sx;
-    const dy = ey - sy;
-    const len = Math.sqrt(dx * dx + dy * dy);
-    const ux = dx / len;
-    const uy = dy / len;
-    const tension = len * 0.42;
-    const c1x = sx + ux * tension;
-    const c1y = sy + uy * tension;
-    const c2x = ex - ux * tension;
-    const c2y = ey - uy * tension;
-    return `M ${sx} ${sy} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${ex} ${ey}`;
-  }
-
   return (
-    <div className="relative w-full">
+    <div ref={containerRef} className="relative w-full">
       {renderRow(row0Steps, 0)}
       <div style={{ height: 64 }} />
       {renderRow(row1Steps, COL)}
 
-      <svg
-        className="absolute inset-0 w-full h-full pointer-events-none"
-        viewBox={`0 0 ${VB_W} ${VB_H}`}
-        preserveAspectRatio="none"
-        fill="none"
-        style={{ top: 0, left: 0 }}
-      >
-        {/* Row 0 horizontal connectors — touch circle edges */}
-        {row0Steps.slice(0, -1).map((step, ci) => {
-          const x1 = colX[ci] + NODE_R;
-          const x2 = colX[ci + 1] - NODE_R;
-          return (
+      {paths && (
+        <svg
+          className="absolute inset-0 pointer-events-none"
+          width={paths.svgW}
+          height={paths.svgH}
+          viewBox={`0 0 ${paths.svgW} ${paths.svgH}`}
+          fill="none"
+          style={{ top: 0, left: 0 }}
+        >
+          {paths.hRow0.map((seg, ci) => (
             <motion.line
               key={`h0-${ci}`}
-              x1={x1} y1={ROW0_CY} x2={x2} y2={ROW0_CY}
-              stroke={step.color}
-              strokeWidth="2"
+              x1={seg.x1} y1={seg.y1} x2={seg.x2} y2={seg.y2}
+              stroke={row0Steps[ci].color}
+              strokeWidth="1.5"
               strokeLinecap="round"
-              vectorEffect="non-scaling-stroke"
               animate={{ opacity: [0.35, 0.9, 0.35] }}
               transition={{ duration: PULSE, repeat: Infinity, delay: ci * PULSE * 0.4, ease: 'easeInOut' }}
-              style={{ filter: `drop-shadow(0 0 4px ${step.color})` }}
+              style={{ filter: `drop-shadow(0 0 4px ${row0Steps[ci].color})` }}
             />
-          );
-        })}
+          ))}
 
-        {/* Row 1 horizontal connectors — touch circle edges */}
-        {row1Steps.slice(0, -1).map((step, ci) => {
-          const x1 = colX[ci] + NODE_R;
-          const x2 = colX[ci + 1] - NODE_R;
-          return (
+          {paths.hRow1.map((seg, ci) => (
             <motion.line
               key={`h1-${ci}`}
-              x1={x1} y1={ROW1_CY} x2={x2} y2={ROW1_CY}
-              stroke={step.color}
-              strokeWidth="2"
+              x1={seg.x1} y1={seg.y1} x2={seg.x2} y2={seg.y2}
+              stroke={row1Steps[ci].color}
+              strokeWidth="1.5"
               strokeLinecap="round"
-              vectorEffect="non-scaling-stroke"
               animate={{ opacity: [0.35, 0.9, 0.35] }}
               transition={{ duration: PULSE, repeat: Infinity, delay: (COL + ci) * PULSE * 0.4, ease: 'easeInOut' }}
-              style={{ filter: `drop-shadow(0 0 4px ${step.color})` }}
+              style={{ filter: `drop-shadow(0 0 4px ${row1Steps[ci].color})` }}
             />
-          );
-        })}
+          ))}
 
-        {/* Agent → each node: smooth cubic bezier tangent-aligned */}
-        {steps.map((step, i) => {
-          const col = i % COL;
-          const isRow0 = i < COL;
-          const ncx = colX[col];
-          const ncy = isRow0 ? ROW0_CY : ROW1_CY;
-
-          const start = pointOnCircle(ncx, ncy, NODE_R, AGENT_CX, AGENT_CY);
-          const end = clampToAgentBox(AGENT_CX, AGENT_CY, ncx, ncy);
-
-          const d = smoothPath(start.x, start.y, end.x, end.y);
-          const delay = i * PULSE * 0.22;
-
-          return (
+          {paths.agentPaths.map((d, i) => (
             <motion.path
-              key={`ac-${step.id}`}
+              key={`ac-${steps[i].id}`}
               d={d}
               stroke="#a78bfa"
-              strokeWidth="2"
+              strokeWidth="1.5"
               strokeLinecap="round"
               fill="none"
-              vectorEffect="non-scaling-stroke"
               animate={{ opacity: [0.15, 0.72, 0.15] }}
-              transition={{ duration: PULSE * 1.2, repeat: Infinity, delay, ease: 'easeInOut' }}
+              transition={{ duration: PULSE * 1.2, repeat: Infinity, delay: i * PULSE * 0.22, ease: 'easeInOut' }}
               style={{ filter: 'drop-shadow(0 0 5px rgba(167,139,250,0.9))' }}
             />
-          );
-        })}
-      </svg>
+          ))}
+        </svg>
+      )}
 
       <div
         className="absolute left-1/2 z-20"
         style={{ top: '50%', transform: 'translate(-50%, -50%)' }}
       >
-        <AgentNode lang={lang} />
+        <div ref={agentRef}>
+          <AgentNode lang={lang} />
+        </div>
       </div>
     </div>
   );
