@@ -362,8 +362,9 @@ export function HomePage({ lang }: Props) {
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden px-4 py-24 sm:px-6 lg:px-8 lg:py-36">
         <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[700px] w-[1000px] rounded-full bg-blue-500/10 blur-[130px]" />
-          <div className="absolute bottom-0 right-1/4 h-[400px] w-[600px] rounded-full bg-orange-500/5 blur-[100px]" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[800px] w-[1100px] rounded-full bg-blue-500/12 blur-[140px]" />
+          <div className="absolute bottom-0 right-1/4 h-[500px] w-[700px] rounded-full bg-cyan-500/6 blur-[110px]" />
+          <div className="absolute top-1/3 left-0 h-[300px] w-[400px] rounded-full bg-blue-600/5 blur-[90px]" />
         </div>
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
@@ -376,16 +377,16 @@ export function HomePage({ lang }: Props) {
                 <Sparkles className="mr-2 h-3 w-3 rtl:ml-2 rtl:mr-0" />
                 {t.hero.badge}
               </span>
-              <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl leading-tight">
+              <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl leading-[1.1]">
                 {t.hero.headline1}<br />
                 <span className="text-gradient">{t.hero.headline2}</span>
               </h1>
               <p className="mt-6 text-lg text-gray-400 leading-relaxed max-w-lg">
                 {t.hero.sub}
               </p>
-              <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+              <div className="mt-10">
                 <Link href={`${prefix}/consultation`}>
-                  <Button size="lg" className="group relative overflow-hidden bg-blue-500 hover:bg-blue-400 text-white px-8 py-6 text-base font-semibold transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)]">
+                  <Button size="lg" className="group relative overflow-hidden bg-blue-500 hover:bg-blue-400 text-white px-10 py-7 text-base font-semibold transition-all duration-300 hover:shadow-[0_0_40px_rgba(59,130,246,0.6)] rounded-xl">
                     <span className="relative z-10 flex items-center gap-2">
                       {t.hero.cta}
                       <ArrowRight className={`h-5 w-5 transition-transform group-hover:translate-x-1 ${rtl ? 'rotate-180' : ''}`} />
@@ -393,13 +394,8 @@ export function HomePage({ lang }: Props) {
                     <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                   </Button>
                 </Link>
-                <a href="#how-it-works">
-                  <Button size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/5 hover:border-white/30 px-8 py-6 text-base">
-                    {t.hero.ctaSecondary}
-                  </Button>
-                </a>
               </div>
-              <div className="mt-8 flex flex-wrap gap-5 text-sm text-gray-500">
+              <div className="mt-6 flex flex-wrap gap-5 text-sm text-gray-500">
                 {t.hero.trust.map((text) => (
                   <div key={text} className="flex items-center gap-1.5">
                     <CheckCircle className="h-4 w-4 text-emerald-500 flex-shrink-0" />
@@ -491,9 +487,12 @@ export function HomePage({ lang }: Props) {
       </section>
 
       {/* ── OFFER / VALUE PROP ───────────────────────────────────────────── */}
-      <section className="px-4 py-24 sm:px-6 lg:px-8">
+      <section className="px-4 py-24 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[900px] rounded-full bg-emerald-500/5 blur-[120px]" />
+        </div>
         <div className="mx-auto max-w-7xl">
-          <RevealSection className="text-center mb-14">
+          <RevealSection className="text-center mb-6">
             <SectionHeader
               badge={t.offer.badge}
               title={t.offer.title}
@@ -501,16 +500,38 @@ export function HomePage({ lang }: Props) {
               subtitle={t.offer.sub}
             />
           </RevealSection>
+          <RevealSection className="flex justify-center mb-12">
+            <div className="inline-flex items-center gap-3 rounded-2xl border border-emerald-500/25 bg-emerald-500/8 px-6 py-3">
+              <ShieldCheck className="h-5 w-5 text-emerald-400 flex-shrink-0" />
+              <p className="text-sm font-semibold text-emerald-300">
+                {lang === 'de' ? '30-Tage-Garantie — messbare Ergebnisse oder kostenlose Nacharbeit' : lang === 'ar' ? 'ضمان 30 يوماً — نتائج قابلة للقياس أو نستمر مجاناً' : '30-Day Guarantee — measurable results or we keep optimizing for free'}
+              </p>
+            </div>
+          </RevealSection>
           <StaggerContainer className="grid grid-cols-2 gap-5 lg:grid-cols-4">
             {t.offer.items.map((item, i) => (
               <StaggerItem key={item.label}>
-                <GlassCard className="p-6 text-center border-white/10 hover:border-white/20 transition-colors">
-                  <div className={`text-4xl font-bold mb-2 ${offerStatColors[i]}`}>{item.stat}</div>
-                  <div className="text-sm text-gray-400 leading-tight">{item.label}</div>
+                <GlassCard className="p-7 text-center border-white/10 hover:border-white/20 transition-all duration-300 hover:-translate-y-1 group">
+                  <div className={`text-4xl font-bold mb-3 ${offerStatColors[i]} group-hover:scale-105 transition-transform duration-300`}>{item.stat}</div>
+                  <div className="text-sm text-gray-400 leading-snug">{item.label}</div>
                 </GlassCard>
               </StaggerItem>
             ))}
           </StaggerContainer>
+          <RevealSection className="mt-10 text-center">
+            <Link href={`${prefix}/consultation`}>
+              <Button size="lg" className="group relative overflow-hidden bg-blue-500 hover:bg-blue-400 text-white px-10 py-6 text-base font-semibold transition-all duration-300 hover:shadow-[0_0_35px_rgba(59,130,246,0.5)] rounded-xl">
+                <span className="relative z-10 flex items-center gap-2">
+                  {lang === 'de' ? 'Kostenlose Wachstumsanalyse anfragen' : lang === 'ar' ? 'احصل على تحليل نمو مجاني' : 'Get Your Free Growth Analysis'}
+                  <ArrowRight className={`h-5 w-5 transition-transform group-hover:translate-x-1 ${rtl ? 'rotate-180' : ''}`} />
+                </span>
+                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+              </Button>
+            </Link>
+            <p className="mt-3 text-xs text-gray-600">
+              {lang === 'de' ? 'Kostenlos. Kein Pitch. Konkretes Ergebnis in 30 Minuten.' : lang === 'ar' ? 'مجاناً. لا ضغط. نتيجة ملموسة في 30 دقيقة.' : 'Free. No pitch. Concrete insights in 30 minutes.'}
+            </p>
+          </RevealSection>
         </div>
       </section>
 
