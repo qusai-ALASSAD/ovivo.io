@@ -19,6 +19,7 @@ export async function POST(req: NextRequest) {
     const messages: { role: string; content: string }[] = body.messages ?? [];
     const mode: string = body.mode ?? 'general';
     const plan: Plan = body.plan ?? 'free';
+    const systemOverride: string | undefined = body.systemOverride;
 
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {
@@ -28,8 +29,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const systemPrompt = buildSystemPrompt(mode, plan);
-    const maxTokens = plan === 'agency' ? 4096 : plan === 'pro' ? 3072 : 2048;
+    const systemPrompt = systemOverride || buildSystemPrompt(mode, plan);
+    const maxTokens = plan === 'agency' ? 4096 : plan === 'pro' ? 3072 : mode === 'sales_widget' ? 2048 : 2048;
 
     const openAIMessages = [
       { role: 'system', content: systemPrompt },
@@ -47,7 +48,7 @@ export async function POST(req: NextRequest) {
         messages: openAIMessages,
         stream: true,
         max_tokens: maxTokens,
-        temperature: 0.65,
+        temperature: 0.5,
       }),
     });
 

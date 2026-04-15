@@ -65,6 +65,7 @@ export function Navbar() {
         { label: 'Services', href: '/en/services' },
         { label: 'Pricing', href: '/en/pricing' },
         { label: 'About', href: '/en/about' },
+        { label: 'Contact', href: '/en/contact' },
       ]
     : isAr
     ? [
@@ -72,12 +73,14 @@ export function Navbar() {
         { label: 'الخدمات', href: '/ar/services' },
         { label: 'الأسعار', href: '/ar/pricing' },
         { label: 'من نحن', href: '/ar/about' },
+        { label: 'تواصل', href: '/ar/contact' },
       ]
     : [
         { label: 'Startseite', href: '/' },
         { label: 'Leistungen', href: '/services' },
         { label: 'Preise', href: '/pricing' },
         { label: 'Über uns', href: '/about' },
+        { label: 'Kontakt', href: '/contact' },
       ];
 
   useEffect(() => {
@@ -195,7 +198,7 @@ export function Navbar() {
             </motion.div>
 
             {/* Pricing + About links */}
-            {navLinks.slice(2, 4).map((link, index) => (
+            {navLinks.slice(2, 5).map((link, index) => (
               <motion.div
                 key={link.label}
                 initial={{ opacity: 0, y: -10 }}
@@ -307,7 +310,7 @@ export function Navbar() {
                 )}
               </div>
 
-              {navLinks.slice(2, 4).map((link) => (
+              {navLinks.slice(2, 5).map((link) => (
                 <Link
                   key={link.label}
                   href={link.href}

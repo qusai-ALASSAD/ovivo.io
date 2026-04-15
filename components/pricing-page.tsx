@@ -9,12 +9,13 @@ import {
 import { GlassCard, RevealSection, StaggerContainer, StaggerItem } from '@/components/ui/motion';
 import { SectionHeader } from '@/components/section-header';
 import type { Lang } from '@/lib/i18n';
+import { RoiCalculator } from '@/components/roi-calculator';
 import { isRTL } from '@/lib/i18n';
 
 const t = {
   de: {
     badge: 'Pakete & Preise',
-    title: 'Transparent.',
+    title: 'Klar.',
     titleGradient: 'Leistungsstark.',
     sub: 'Drei Pakete für jeden Bedarf — einmaliger Setup + monatliche Betreuung. Endpreis abhängig von Betriebsgröße und Anforderungen.',
     setupLabel: 'Setup',
@@ -433,6 +434,9 @@ export function PricingPage({ lang }: Props) {
               ))}
             </div>
           </RevealSection>
+
+          {/* ROI Calculator */}
+          <RoiCalculator lang={lang} prefix={prefix} />
 
           {/* CTA */}
           <RevealSection>

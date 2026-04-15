@@ -104,16 +104,16 @@ export function Footer() {
             </Link>
             <p className={`mt-4 text-sm text-gray-400 leading-relaxed ${rtl ? 'text-right' : ''}`}>{t.desc}</p>
             <div className={`mt-6 flex gap-4 ${rtl ? 'flex-row-reverse' : ''}`}>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
+              <a href="https://facebook.com/ovivo.io" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
                 <Facebook className="h-5 w-5" />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-pink-400 transition-colors">
+              <a href="https://instagram.com/ovivo.io" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-pink-400 transition-colors">
                 <Instagram className="h-5 w-5" />
               </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
+              <a href="https://twitter.com/ovivo_io" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
                 <Twitter className="h-5 w-5" />
               </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-500 transition-colors">
+              <a href="https://linkedin.com/company/ovivo-io" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-500 transition-colors">
                 <Linkedin className="h-5 w-5" />
               </a>
             </div>
@@ -145,7 +145,7 @@ export function Footer() {
             <h3 className={`text-sm font-semibold text-white ${rtl ? 'text-right' : ''}`}>{t.company}</h3>
             <ul className={`mt-4 space-y-3 ${rtl ? 'text-right' : ''}`}>
               <li><Link href={`${prefix}/about`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.about}</Link></li>
-              <li><Link href={`${prefix}/consultation`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.contact}</Link></li>
+              <li><Link href={`${prefix}/contact`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.contact}</Link></li>
               <li><Link href={`${prefix}/privacy`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.privacy}</Link></li>
               <li><Link href={`${prefix}/imprint`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.imprint}</Link></li>
               {showAdmin && (
