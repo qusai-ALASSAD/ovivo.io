@@ -133,11 +133,11 @@ export function Footer() {
           <div>
             <h3 className={`text-sm font-semibold text-white ${rtl ? 'text-right' : ''}`}>{t.industries}</h3>
             <ul className={`mt-4 space-y-3 ${rtl ? 'text-right' : ''}`}>
-              <li><Link href={`${prefix}/services`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.restaurants}</Link></li>
-              <li><Link href={`${prefix}/services`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.hair}</Link></li>
-              <li><Link href={`${prefix}/services`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.fitness}</Link></li>
-              <li><Link href={`${prefix}/services`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.hotels}</Link></li>
-              <li><Link href={`${prefix}/services`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.trades}</Link></li>
+              <li><Link href={`${prefix}/industries/restaurants`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.restaurants}</Link></li>
+              <li><Link href={`${prefix}/industries/beauty`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.hair}</Link></li>
+              <li><Link href={`${prefix}/industries/fitness`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.fitness}</Link></li>
+              <li><Link href={`${prefix}/industries/hotels`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.hotels}</Link></li>
+              <li><Link href={`${prefix}/industries/trades`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.trades}</Link></li>
             </ul>
           </div>
 

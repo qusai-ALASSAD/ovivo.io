@@ -22,7 +22,7 @@ export const content = {
     },
     hero: {
       badge: 'KI-Automation für Gastronomie & Servicebetriebe',
-      headline1: 'Ihr Betrieb füllt sich —',
+      headline1: 'Ihr Betrieb füllt sich',
       headline2: 'ohne dass Sie einen Finger rühren.',
       sub: 'Ovivo antwortet auf Kundenanfragen, bestätigt Reservierungen und holt Stammkunden zurück — vollautomatisch, 24/7. Sie konzentrieren sich aufs Wesentliche. Den Rest erledigt KI.',
       cta: 'Kostenlose Analyse anfragen',
@@ -151,7 +151,7 @@ export const content = {
     },
     hero: {
       badge: 'AI Automation for Restaurants & Service Businesses',
-      headline1: 'Your business stays full —',
+      headline1: 'Your business stays full',
       headline2: 'without lifting a finger.',
       sub: 'Ovivo answers inquiries, confirms bookings, and brings customers back — fully automated, 24/7. You focus on what matters. AI handles the rest.',
       cta: 'Get Your Free Growth Analysis',
@@ -280,7 +280,7 @@ export const content = {
     },
     hero: {
       badge: 'أتمتة ذكية للمطاعم وشركات الخدمات',
-      headline1: 'عملك يزدهر كل يوم —',
+      headline1: 'عملك يزدهر كل يوم',
       headline2: 'بدون ما تحرك إصبعاً.',
       sub: 'أوفيفو يرد على الاستفسارات، يؤكد الحجوزات، ويعيد العملاء تلقائياً على مدار الساعة. أنت تركز على ما يهم، والذكاء الاصطناعي يتولى الباقي.',
       cta: 'احصل على تحليل نمو مجاني',
