@@ -552,3 +552,228 @@ export const hotelsData: Record<string, IndustryData> = {
     ],
   },
 };
+
+export const cleaningData: Record<string, IndustryData> = {
+  de: {
+    slug: 'cleaning', emoji: '🧹', badge: 'Reinigung & Haushaltsservice',
+    heroTitle: 'Mehr Aufträge.', heroGradient: 'Ohne Telefonieren.',
+    heroSub: 'Reinigungsunternehmen verlieren täglich Aufträge durch langsame Reaktionen und manuelle Prozesse. Ovivo automatisiert Ihre gesamte Kundenkommunikation.',
+    painPoints: [
+      { icon: '📞', title: 'Ständig am Telefon', desc: 'Angebote, Termine, Rückfragen — alles manuell. Das kostet täglich Stunden.' },
+      { icon: '⏰', title: 'Zu langsame Reaktion', desc: 'Kunden wollen sofort wissen, ob Sie verfügbar sind. Wer nicht sofort antwortet, verliert den Auftrag.' },
+      { icon: '📋', title: 'Kein System für Wiederholungsaufträge', desc: 'Einmalkunden werden nicht zu Stammkunden, weil keine Nachverfolgung existiert.' },
+      { icon: '⭐', title: 'Zu wenig Weiterempfehlungen', desc: 'Zufriedene Kunden empfehlen Sie nicht weiter, weil niemand sie aktiv fragt.' },
+    ],
+    solutions: [
+      { title: 'Automatische Angebotserstellung', desc: 'Interessenten schicken ihre Anfrage per WhatsApp — das System sendet automatisch Preis und Terminvorschläge.', result: '+45% mehr Anfragen' },
+      { title: 'Terminerinnerungen & Bestätigungen', desc: 'Kunden erhalten automatisch Erinnerungen vor dem Termin. Absagen reduzieren sich drastisch.', result: '-50% Absagen' },
+      { title: 'Stammkunden-Automatisierung', desc: 'Einmalkunden bekommen nach dem Auftrag automatisch ein Angebot für regelmäßige Reinigung.', result: '+60% mehr Stammkunden' },
+    ],
+    stats: [{ value: '+45%', label: 'Mehr Anfragen' }, { value: '-50%', label: 'Weniger Absagen' }, { value: '+60%', label: 'Mehr Stammkunden' }, { value: '24/7', label: 'Erreichbar' }],
+    caseStudy: { name: 'CleanPro Hamburg', result: '+40% Umsatz in 2 Monaten', quote: 'Früher habe ich Stunden am Telefon verbracht. Jetzt kommen Anfragen rein, werden automatisch bearbeitet, und ich konzentriere mich auf die Arbeit selbst.' },
+    automations: ['WhatsApp Anfragen automatisch beantworten', 'Angebote & Preise automatisch versenden', 'Terminbestätigungen & Erinnerungen', 'Stammkunden-Angebote nach Erstauftrag', 'Bewertungsanfragen nach jedem Auftrag', 'Weiterempfehlungs-Kampagnen', 'Mitarbeiter-Einsatzplan Kommunikation', 'CRM mit Kundenhistorie'],
+    faq: [
+      { q: 'Kann das System Preise kalkulieren?', a: 'Ja, das System kann nach Fläche, Art der Reinigung und Häufigkeit automatisch Preise berechnen und versenden.' },
+      { q: 'Was wenn ein Kunde spezielle Wünsche hat?', a: 'Komplexe Anfragen werden automatisch an Sie weitergeleitet, einfache sofort beantwortet.' },
+      { q: 'Wie schnell ist das System live?', a: 'In 5–10 Werktagen. Wir kümmern uns um alles.' },
+    ],
+  },
+  en: {
+    slug: 'cleaning', emoji: '🧹', badge: 'Cleaning & Household Services',
+    heroTitle: 'More orders.', heroGradient: 'Without phone calls.',
+    heroSub: 'Cleaning companies lose orders daily through slow responses and manual processes. Ovivo automates your entire customer communication.',
+    painPoints: [
+      { icon: '📞', title: 'Always on the phone', desc: 'Quotes, appointments, questions — all manual. This costs hours daily.' },
+      { icon: '⏰', title: 'Too slow to respond', desc: 'Customers want to know immediately if you\'re available. Who doesn\'t respond instantly loses the job.' },
+      { icon: '📋', title: 'No repeat order system', desc: 'One-time customers don\'t become regulars because no follow-up exists.' },
+      { icon: '⭐', title: 'Too few referrals', desc: 'Satisfied customers don\'t refer you because no one actively asks them.' },
+    ],
+    solutions: [
+      { title: 'Automatic quote creation', desc: 'Prospects send their inquiry via WhatsApp — the system automatically sends pricing and appointment suggestions.', result: '+45% more inquiries' },
+      { title: 'Appointment reminders & confirmations', desc: 'Customers automatically receive reminders before the appointment. Cancellations drop drastically.', result: '-50% cancellations' },
+      { title: 'Regular customer automation', desc: 'One-time customers automatically receive an offer for regular cleaning after the job.', result: '+60% more regulars' },
+    ],
+    stats: [{ value: '+45%', label: 'More inquiries' }, { value: '-50%', label: 'Fewer cancellations' }, { value: '+60%', label: 'More regulars' }, { value: '24/7', label: 'Available' }],
+    caseStudy: { name: 'CleanPro Hamburg', result: '+40% revenue in 2 months', quote: 'I used to spend hours on the phone. Now inquiries come in, get handled automatically, and I focus on the actual work.' },
+    automations: ['Auto-answer WhatsApp inquiries', 'Automatically send quotes & pricing', 'Appointment confirmations & reminders', 'Regular customer offers after first job', 'Review requests after every job', 'Referral campaigns', 'Staff schedule communication', 'CRM with customer history'],
+    faq: [
+      { q: 'Can the system calculate prices?', a: 'Yes, the system can automatically calculate and send prices based on area, type of cleaning and frequency.' },
+      { q: 'What about special customer requests?', a: 'Complex inquiries are automatically forwarded to you, simple ones answered immediately.' },
+      { q: 'How fast is the system live?', a: 'In 5–10 business days. We handle everything.' },
+    ],
+  },
+  ar: {
+    slug: 'cleaning', emoji: '🧹', badge: 'خدمات التنظيف والمنازل',
+    heroTitle: 'طلبات أكثر.', heroGradient: 'بدون مكالمات هاتفية.',
+    heroSub: 'تخسر شركات التنظيف طلبات يومياً بسبب بطء الاستجابة والعمليات اليدوية. أوفيفو يؤتمت تواصلك الكامل مع العملاء.',
+    painPoints: [
+      { icon: '📞', title: 'دائماً على الهاتف', desc: 'عروض أسعار ومواعيد واستفسارات — كل شيء يدوي. هذا يكلف ساعات يومياً.' },
+      { icon: '⏰', title: 'الاستجابة بطيئة جداً', desc: 'العملاء يريدون معرفة توفرك فوراً. من لا يرد في الحين يخسر العقد.' },
+      { icon: '📋', title: 'لا نظام للطلبات المتكررة', desc: 'العملاء العرضيون لا يصبحون دائمين لغياب نظام متابعة.' },
+      { icon: '⭐', title: 'قلة التوصيات', desc: 'العملاء الراضون لا يحيلونك لآخرين لأن لا أحد يسألهم بفعالية.' },
+    ],
+    solutions: [
+      { title: 'إنشاء عروض أسعار تلقائية', desc: 'يرسل المهتمون استفساراتهم عبر واتساب — النظام يرسل الأسعار وأوقات المواعيد تلقائياً.', result: '+45% استفسارات أكثر' },
+      { title: 'تذكيرات وتأكيدات المواعيد', desc: 'يتلقى العملاء تذكيرات تلقائية قبل الموعد. الإلغاءات تنخفض بشكل كبير.', result: '-50% إلغاءات' },
+      { title: 'أتمتة العملاء الدائمين', desc: 'يتلقى العملاء العرضيون تلقائياً عرضاً للتنظيف المنتظم بعد الطلب الأول.', result: '+60% عملاء دائمون' },
+    ],
+    stats: [{ value: '+45%', label: 'استفسارات أكثر' }, { value: '-50%', label: 'إلغاءات أقل' }, { value: '+60%', label: 'عملاء دائمون' }, { value: '24/7', label: 'متاح دائماً' }],
+    caseStudy: { name: 'كلين برو هامبورغ', result: '+40% إيرادات في شهرين', quote: 'كنت أقضي ساعات على الهاتف. الآن تأتي الاستفسارات وتُعالَج تلقائياً، وأركز على العمل الفعلي.' },
+    automations: ['الرد التلقائي على استفسارات واتساب', 'إرسال عروض الأسعار تلقائياً', 'تأكيدات وتذكيرات المواعيد', 'عروض العملاء الدائمين بعد الطلب الأول', 'طلب التقييمات بعد كل طلب', 'حملات الإحالة', 'تواصل جداول الموظفين', 'CRM مع سجل العملاء'],
+    faq: [
+      { q: 'هل يمكن للنظام حساب الأسعار؟', a: 'نعم، يمكن للنظام حساب وإرسال الأسعار تلقائياً بناءً على المساحة ونوع التنظيف والتكرار.' },
+      { q: 'ماذا عن الطلبات الخاصة؟', a: 'الاستفسارات المعقدة تُحال إليك تلقائياً، والبسيطة تُجاب فوراً.' },
+      { q: 'كم يستغرق تشغيل النظام؟', a: '5-10 أيام عمل. نتولى كل شيء.' },
+    ],
+  },
+};
+
+export const transportData: Record<string, IndustryData> = {
+  de: {
+    slug: 'transport', emoji: '🚛', badge: 'Transport & Logistik',
+    heroTitle: 'Mehr Aufträge.', heroGradient: 'Weniger Leerfahrten.',
+    heroSub: 'Transport- und Umzugsunternehmen verlieren täglich Umsatz durch langsame Angebotserstellung und manuelle Kommunikation. Ovivo automatisiert Ihren gesamten Verkaufsprozess.',
+    painPoints: [
+      { icon: '⏰', title: 'Angebote zu langsam', desc: 'Kunden wollen sofort einen Preis. Wer Stunden braucht, verliert den Auftrag an die Konkurrenz.' },
+      { icon: '📞', title: 'Telefonflut', desc: 'Wo ist mein Auftrag? Wann kommt der Fahrer? Dieselben Fragen hundertmal täglich.' },
+      { icon: '🗓️', title: 'Koordinations-Chaos', desc: 'Termine, Routen, Fahrer — alles manuell koordiniert. Fehler und Ausfälle sind vorprogrammiert.' },
+      { icon: '🔄', title: 'Keine Stammkunden', desc: 'Einmalkunden buchen das nächste Mal woanders, weil kein Follow-up stattfindet.' },
+    ],
+    solutions: [
+      { title: 'Sofortige Angebotserstellung', desc: 'Kunden geben Start und Ziel ein — das System berechnet automatisch den Preis und sendet ein Angebot.', result: '+50% mehr Conversions' },
+      { title: 'Echtzeit-Kommunikation', desc: 'Automatische Updates zum Auftragsstatus, Fahrer-ETA und Änderungen — ohne manuelle Nachrichten.', result: '-70% Statusanfragen' },
+      { title: 'Stammkunden-Reaktivierung', desc: 'Nach jedem Auftrag geht automatisch ein Angebot für den nächsten Umzug oder Transport raus.', result: '+35% Wiederholungsaufträge' },
+    ],
+    stats: [{ value: '+50%', label: 'Mehr Conversions' }, { value: '-70%', label: 'Weniger Anfragen' }, { value: '+35%', label: 'Mehr Stammkunden' }, { value: '24/7', label: 'Buchbar' }],
+    caseStudy: { name: 'Schnell-Transport Berlin', result: '+45% Umsatz, -60% Telefonzeit', quote: 'Früher haben Angebote Stunden gedauert. Jetzt bekommt der Kunde in 2 Minuten einen Preis — und bucht fast immer direkt.' },
+    automations: ['Automatische Preisberechnung & Angebote', 'Buchungsbestätigung & Fahrerzuweisung', 'Echtzeit-Status-Updates für Kunden', 'Fahrer-Kommunikation automatisiert', 'Bewertungsanfragen nach Lieferung', 'Stammkunden-Follow-up', 'Saisonale Angebote & Broadcasts', 'CRM mit Auftragshistorie'],
+    faq: [
+      { q: 'Kann das System Routen und Preise automatisch berechnen?', a: 'Ja, basierend auf Entfernung, Gewicht, Volumen und weiteren Faktoren.' },
+      { q: 'Funktioniert das auch für B2B-Transport?', a: 'Absolut. Das System kann für private Umzüge genauso wie für Geschäftskunden konfiguriert werden.' },
+      { q: 'Wie werden Fahrer eingebunden?', a: 'Fahrer erhalten automatisch alle relevanten Auftragsinformationen per WhatsApp oder App.' },
+    ],
+  },
+  en: {
+    slug: 'transport', emoji: '🚛', badge: 'Transport & Logistics',
+    heroTitle: 'More orders.', heroGradient: 'Fewer empty runs.',
+    heroSub: 'Transport and moving companies lose daily revenue through slow quote creation and manual communication. Ovivo automates your entire sales process.',
+    painPoints: [
+      { icon: '⏰', title: 'Quotes too slow', desc: 'Customers want a price immediately. Those who take hours lose the job to competitors.' },
+      { icon: '📞', title: 'Phone flood', desc: 'Where\'s my order? When does the driver arrive? The same questions hundreds of times daily.' },
+      { icon: '🗓️', title: 'Coordination chaos', desc: 'Appointments, routes, drivers — everything manually coordinated. Errors and failures are inevitable.' },
+      { icon: '🔄', title: 'No regular customers', desc: 'One-time customers book elsewhere next time because no follow-up happens.' },
+    ],
+    solutions: [
+      { title: 'Instant quote creation', desc: 'Customers enter start and destination — the system automatically calculates the price and sends a quote.', result: '+50% more conversions' },
+      { title: 'Real-time communication', desc: 'Automatic updates on order status, driver ETA and changes — without manual messages.', result: '-70% status inquiries' },
+      { title: 'Regular customer reactivation', desc: 'After every order, an offer for the next move or transport goes out automatically.', result: '+35% repeat orders' },
+    ],
+    stats: [{ value: '+50%', label: 'More conversions' }, { value: '-70%', label: 'Fewer inquiries' }, { value: '+35%', label: 'More regulars' }, { value: '24/7', label: 'Bookable' }],
+    caseStudy: { name: 'Schnell-Transport Berlin', result: '+45% revenue, -60% phone time', quote: 'Quotes used to take hours. Now the customer gets a price in 2 minutes — and almost always books immediately.' },
+    automations: ['Automatic price calculation & quotes', 'Booking confirmation & driver assignment', 'Real-time status updates for customers', 'Driver communication automated', 'Review requests after delivery', 'Regular customer follow-up', 'Seasonal offers & broadcasts', 'CRM with order history'],
+    faq: [
+      { q: 'Can the system automatically calculate routes and prices?', a: 'Yes, based on distance, weight, volume and other factors.' },
+      { q: 'Does it work for B2B transport too?', a: 'Absolutely. The system can be configured for private moves as well as business customers.' },
+      { q: 'How are drivers integrated?', a: 'Drivers automatically receive all relevant order information via WhatsApp or app.' },
+    ],
+  },
+  ar: {
+    slug: 'transport', emoji: '🚛', badge: 'النقل والخدمات اللوجستية',
+    heroTitle: 'طلبات أكثر.', heroGradient: 'رحلات فارغة أقل.',
+    heroSub: 'تخسر شركات النقل والنقل إيرادات يومياً بسبب بطء إعداد العروض والتواصل اليدوي. أوفيفو يؤتمت عملية المبيعات كاملة.',
+    painPoints: [
+      { icon: '⏰', title: 'عروض الأسعار بطيئة جداً', desc: 'العملاء يريدون سعراً فورياً. من يستغرق ساعات يخسر العقد للمنافسين.' },
+      { icon: '📞', title: 'فيضان من المكالمات', desc: 'أين طلبي؟ متى يصل السائق؟ نفس الأسئلة مئات المرات يومياً.' },
+      { icon: '🗓️', title: 'فوضى التنسيق', desc: 'مواعيد ومسارات وسائقون — كل شيء منسق يدوياً. الأخطاء والإخفاقات حتمية.' },
+      { icon: '🔄', title: 'لا عملاء دائمون', desc: 'العملاء العرضيون يحجزون في مكان آخر في المرة القادمة لغياب المتابعة.' },
+    ],
+    solutions: [
+      { title: 'إنشاء عروض أسعار فورية', desc: 'يدخل العملاء نقطة البداية والوجهة — النظام يحسب السعر تلقائياً ويرسل العرض.', result: '+50% تحويلات أكثر' },
+      { title: 'تواصل في الوقت الفعلي', desc: 'تحديثات تلقائية عن حالة الطلب ووقت وصول السائق والتغييرات — بدون رسائل يدوية.', result: '-70% استفسارات الحالة' },
+      { title: 'إعادة تفعيل العملاء الدائمين', desc: 'بعد كل طلب يصدر عرض تلقائي للنقل أو الشحن القادم.', result: '+35% طلبات متكررة' },
+    ],
+    stats: [{ value: '+50%', label: 'تحويلات أكثر' }, { value: '-70%', label: 'استفسارات أقل' }, { value: '+35%', label: 'عملاء دائمون' }, { value: '24/7', label: 'قابل للحجز' }],
+    caseStudy: { name: 'شنيل ترانسبورت برلين', result: '+45% إيرادات، -60% وقت هاتفي', quote: 'كانت عروض الأسعار تستغرق ساعات. الآن يحصل العميل على سعر في دقيقتين — ويحجز في الغالب فوراً.' },
+    automations: ['حساب الأسعار التلقائي وإرسال العروض', 'تأكيد الحجز وتعيين السائق', 'تحديثات الحالة الفورية للعملاء', 'تواصل السائقين بشكل تلقائي', 'طلب التقييمات بعد التسليم', 'متابعة العملاء الدائمين', 'عروض موسمية وبث', 'CRM مع سجل الطلبات'],
+    faq: [
+      { q: 'هل يمكن للنظام حساب المسارات والأسعار تلقائياً؟', a: 'نعم، بناءً على المسافة والوزن والحجم وعوامل أخرى.' },
+      { q: 'هل يعمل للنقل التجاري أيضاً؟', a: 'بالتأكيد. يمكن تهيئة النظام للانتقالات الخاصة وعملاء الأعمال على حد سواء.' },
+      { q: 'كيف يتم دمج السائقين؟', a: 'يتلقى السائقون تلقائياً جميع معلومات الطلب ذات الصلة عبر واتساب أو التطبيق.' },
+    ],
+  },
+};
+
+export const medicalData: Record<string, IndustryData> = {
+  de: {
+    slug: 'medical', emoji: '🏥', badge: 'Arztpraxen & Gesundheit',
+    heroTitle: 'Weniger No-Shows.', heroGradient: 'Mehr Zeit für Patienten.',
+    heroSub: 'Arztpraxen verlieren täglich Einnahmen durch No-Shows und ineffiziente Terminverwaltung. Ovivo automatisiert Ihre gesamte Patientenkommunikation DSGVO-konform.',
+    painPoints: [
+      { icon: '🚫', title: 'No-Shows kosten Geld', desc: 'Jeder ungebuchte Termin ist verlorenes Geld. Ohne Erinnerungen sind No-Show-Raten von 15–20% normal.' },
+      { icon: '📞', title: 'Telefon läuft heiß', desc: 'Termin buchen, Rezept anfragen, Ergebnis abfragen — alles per Telefon. Das Team ist überlastet.' },
+      { icon: '📋', title: 'Lange Wartezeiten', desc: 'Patienten warten wochenlang auf Termine, weil die Terminverwaltung ineffizient ist.' },
+      { icon: '💊', title: 'Recall-System fehlt', desc: 'Patienten kommen nicht zur Nachsorge oder zum Folge-Termin, weil niemand sie erinnert.' },
+    ],
+    solutions: [
+      { title: 'Automatische Terminerinnerungen', desc: '48h und 2h vor dem Termin bekommt der Patient eine automatische Erinnerung per WhatsApp oder SMS.', result: '-65% No-Shows' },
+      { title: 'Online-Terminbuchung', desc: 'Patienten buchen rund um die Uhr online — ohne Telefon. Das Praxisteam wird massiv entlastet.', result: '-50% Telefonaufkommen' },
+      { title: 'Recall & Nachsorge Automation', desc: 'Das System erinnert Patienten automatisch an Folge-Termine, Impfungen und Vorsorgeuntersuchungen.', result: '+40% Recall-Rate' },
+    ],
+    stats: [{ value: '-65%', label: 'Weniger No-Shows' }, { value: '-50%', label: 'Weniger Telefonate' }, { value: '+40%', label: 'Mehr Recall' }, { value: '100%', label: 'DSGVO-konform' }],
+    caseStudy: { name: 'Hausarztpraxis Dr. Müller, München', result: '-60% No-Shows, 3h täglich gespart', quote: 'Das Team verbringt jetzt kaum noch Zeit am Telefon mit Terminanfragen. Die No-Show-Rate ist von 18% auf unter 7% gefallen.' },
+    automations: ['Online-Terminbuchung 24/7', 'Erinnerungen 48h und 2h vor Termin', 'Recall für Folge-Termine & Vorsorge', 'Rezeptanfragen automatisch bearbeiten', 'Ergebnis-Benachrichtigungen', 'Patientenzufriedenheits-Umfragen', 'Neue Patienten Onboarding', 'DSGVO-konforme Datenverwaltung'],
+    faq: [
+      { q: 'Ist das System DSGVO-konform?', a: 'Ja, vollständig. Alle Daten werden in Deutschland gespeichert und verarbeitet, konform mit dem deutschen Datenschutzrecht.' },
+      { q: 'Funktioniert das mit meiner Praxissoftware?', a: 'Wir integrieren mit den gängigsten Praxisverwaltungssystemen. Bei Bedarf bauen wir eine individuelle Schnittstelle.' },
+      { q: 'Können Patienten auch Rezepte anfordern?', a: 'Ja, Rezeptanfragen können automatisch entgegengenommen, bearbeitet und dem Arzt zur Freigabe vorgelegt werden.' },
+    ],
+  },
+  en: {
+    slug: 'medical', emoji: '🏥', badge: 'Medical Practices & Healthcare',
+    heroTitle: 'Fewer no-shows.', heroGradient: 'More time for patients.',
+    heroSub: 'Medical practices lose daily revenue through no-shows and inefficient appointment management. Ovivo automates your entire patient communication, fully GDPR-compliant.',
+    painPoints: [
+      { icon: '🚫', title: 'No-shows cost money', desc: 'Every empty appointment slot is lost income. Without reminders, no-show rates of 15-20% are normal.' },
+      { icon: '📞', title: 'Phone is constantly busy', desc: 'Booking appointments, prescription requests, test results — all by phone. The team is overwhelmed.' },
+      { icon: '📋', title: 'Long waiting times', desc: 'Patients wait weeks for appointments because scheduling is inefficient.' },
+      { icon: '💊', title: 'No recall system', desc: 'Patients don\'t come for follow-up because no one reminds them.' },
+    ],
+    solutions: [
+      { title: 'Automatic appointment reminders', desc: '48h and 2h before the appointment, the patient gets an automatic reminder via WhatsApp or SMS.', result: '-65% no-shows' },
+      { title: 'Online appointment booking', desc: 'Patients book online 24/7 — no phone calls. The practice team is massively relieved.', result: '-50% phone calls' },
+      { title: 'Recall & follow-up automation', desc: 'The system automatically reminds patients of follow-up appointments, vaccinations and check-ups.', result: '+40% recall rate' },
+    ],
+    stats: [{ value: '-65%', label: 'Fewer no-shows' }, { value: '-50%', label: 'Fewer calls' }, { value: '+40%', label: 'More recall' }, { value: '100%', label: 'GDPR compliant' }],
+    caseStudy: { name: 'GP Practice Dr. Müller, Munich', result: '-60% no-shows, 3h saved daily', quote: 'The team now spends almost no time on the phone for appointment requests. The no-show rate dropped from 18% to under 7%.' },
+    automations: ['Online appointment booking 24/7', 'Reminders 48h and 2h before', 'Recall for follow-ups & preventive care', 'Prescription requests automated', 'Result notifications', 'Patient satisfaction surveys', 'New patient onboarding', 'GDPR-compliant data management'],
+    faq: [
+      { q: 'Is the system GDPR-compliant?', a: 'Yes, fully. All data is stored and processed in compliance with data protection law.' },
+      { q: 'Does it work with my practice software?', a: 'We integrate with the most common practice management systems. We build custom interfaces if needed.' },
+      { q: 'Can patients also request prescriptions?', a: 'Yes, prescription requests can be automatically received, processed and presented to the doctor for approval.' },
+    ],
+  },
+  ar: {
+    slug: 'medical', emoji: '🏥', badge: 'العيادات والصحة',
+    heroTitle: 'إلغاءات أقل.', heroGradient: 'وقت أكثر للمرضى.',
+    heroSub: 'تخسر العيادات إيرادات يومياً بسبب الإلغاءات وإدارة المواعيد غير الفعّالة. أوفيفو يؤتمت تواصلك الكامل مع المرضى بما يتوافق مع قوانين الخصوصية.',
+    painPoints: [
+      { icon: '🚫', title: 'الإلغاءات تكلف مالاً', desc: 'كل موعد ملغى هو دخل ضائع. بدون تذكيرات، نسب الإلغاء 15-20% طبيعية.' },
+      { icon: '📞', title: 'الهاتف لا يتوقف', desc: 'حجز مواعيد وطلب وصفات وسؤال عن نتائج — كل شيء بالهاتف. الفريق مرهق.' },
+      { icon: '📋', title: 'أوقات انتظار طويلة', desc: 'المرضى ينتظرون أسابيع للمواعيد بسبب إدارة الجدول غير الفعّالة.' },
+      { icon: '💊', title: 'لا نظام للمتابعة', desc: 'المرضى لا يأتون للمتابعة لأن لا أحد يذكّرهم.' },
+    ],
+    solutions: [
+      { title: 'تذكيرات مواعيد تلقائية', desc: 'قبل 48 ساعة و2 ساعة من الموعد يتلقى المريض تذكيراً تلقائياً عبر واتساب.', result: '-65% إلغاءات' },
+      { title: 'حجز مواعيد أونلاين', desc: 'المرضى يحجزون على مدار الساعة أونلاين — بدون هاتف. فريق العيادة يرتاح بشكل كبير.', result: '-50% مكالمات هاتفية' },
+      { title: 'أتمتة المتابعة والرعاية', desc: 'النظام يذكّر المرضى تلقائياً بمواعيد المتابعة والتطعيمات والفحوصات الدورية.', result: '+40% معدل متابعة' },
+    ],
+    stats: [{ value: '-65%', label: 'إلغاءات أقل' }, { value: '-50%', label: 'مكالمات أقل' }, { value: '+40%', label: 'متابعة أكثر' }, { value: '100%', label: 'متوافق قانونياً' }],
+    caseStudy: { name: 'عيادة د. مولر، ميونخ', result: '-60% إلغاءات، 3 ساعات توفير يومي', quote: 'الفريق الآن يكاد لا يقضي وقتاً على الهاتف لطلبات المواعيد. نسبة الإلغاء انخفضت من 18% إلى أقل من 7%.' },
+    automations: ['حجز مواعيد أونلاين 24/7', 'تذكيرات قبل 48 ساعة و2 ساعة', 'متابعة المواعيد والرعاية الوقائية', 'معالجة طلبات الوصفات تلقائياً', 'إشعارات النتائج', 'استبيانات رضا المرضى', 'استقبال المرضى الجدد', 'إدارة البيانات المتوافقة مع القانون'],
+    faq: [
+      { q: 'هل النظام متوافق مع قوانين حماية البيانات؟', a: 'نعم، بالكامل. جميع البيانات تُخزَّن وتُعالَج وفقاً لقوانين حماية البيانات.' },
+      { q: 'هل يعمل مع برنامج العيادة الموجود؟', a: 'ندمج مع أنظمة إدارة العيادات الأكثر شيوعاً. نبني واجهات مخصصة عند الحاجة.' },
+      { q: 'هل يمكن للمرضى طلب وصفات طبية؟', a: 'نعم، يمكن استقبال طلبات الوصفات ومعالجتها تلقائياً وتقديمها للطبيب للموافقة.' },
+    ],
+  },
+};

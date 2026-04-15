@@ -39,8 +39,9 @@ export function Footer() {
         restaurants: 'Restaurants & Cafés',
         hair: 'Hair & Beauty',
         fitness: 'Fitness & Wellness',
-        hotels: 'Hotels & Accommodation',
-        trades: 'Trades & Services',
+        cleaning: 'Cleaning Services',
+        transport: 'Transport & Logistics',
+        medical: 'Medical Practices',
         about: 'About',
         contact: 'Contact',
         privacy: 'Privacy Policy',
@@ -61,8 +62,9 @@ export function Footer() {
         restaurants: 'المطاعم والمقاهي',
         hair: 'الحلاقة والتجميل',
         fitness: 'اللياقة والعافية',
-        hotels: 'الفنادق والإقامة',
-        trades: 'الحرف والخدمات',
+        cleaning: 'خدمات التنظيف',
+        transport: 'النقل واللوجستيك',
+        medical: 'العيادات والصحة',
         about: 'من نحن',
         contact: 'تواصل معنا',
         privacy: 'سياسة الخصوصية',
@@ -82,8 +84,9 @@ export function Footer() {
         restaurants: 'Restaurants & Cafés',
         hair: 'Friseure & Beauty',
         fitness: 'Fitness & Wellness',
-        hotels: 'Hotels & Unterkunft',
-        trades: 'Handwerk & Service',
+        cleaning: 'Reinigung & Service',
+        transport: 'Transport & Logistik',
+        medical: 'Arztpraxen & Gesundheit',
         about: 'Über uns',
         contact: 'Kontakt',
         privacy: 'Datenschutz',
@@ -135,8 +138,9 @@ export function Footer() {
             <ul className={`mt-4 space-y-3 ${rtl ? 'text-right' : ''}`}>
               <li><Link href={`${prefix}/industries/restaurants`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.restaurants}</Link></li>
               <li><Link href={`${prefix}/industries/beauty`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.hair}</Link></li>
-              <li><Link href={`${prefix}/industries/fitness`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.fitness}</Link></li>
-              <li><Link href={`${prefix}/industries/hotels`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.hotels}</Link></li>
+              <li><Link href={`${prefix}/industries/cleaning`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.cleaning}</Link></li>
+              <li><Link href={`${prefix}/industries/transport`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.transport}</Link></li>
+              <li><Link href={`${prefix}/industries/medical`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.medical}</Link></li>
               <li><Link href={`${prefix}/industries/trades`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.trades}</Link></li>
             </ul>
           </div>

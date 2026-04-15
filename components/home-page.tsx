@@ -378,8 +378,8 @@ export function HomePage({ lang }: Props) {
                 <Sparkles className="mr-2 h-3 w-3 rtl:ml-2 rtl:mr-0" />
                 {t.hero.badge}
               </span>
-              <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl leading-[1.1]">
-                {t.hero.headline1}<br />
+              <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl leading-[1.25]">
+                <span className="text-white">{t.hero.headline1}</span><br />
                 <span className="text-gradient">{t.hero.headline2}</span>
               </h1>
               <p className="mt-6 text-lg text-gray-400 leading-relaxed max-w-lg">

@@ -42,10 +42,38 @@ const serviceLinksAR = [
   { href: '/ar/services/branding', icon: Palette, label: 'الهوية التجارية والمحتوى', color: 'text-amber-400' },
 ];
 
+const industryLinksDE = [
+  { href: '/industries/restaurants', label: '🍽️ Restaurants & Cafés' },
+  { href: '/industries/beauty', label: '💇 Friseure & Beauty' },
+  { href: '/industries/fitness', label: '🏋️ Fitness & Wellness' },
+  { href: '/industries/cleaning', label: '🧹 Reinigung & Service' },
+  { href: '/industries/transport', label: '🚛 Transport & Logistik' },
+  { href: '/industries/medical', label: '🏥 Arztpraxen & Gesundheit' },
+];
+
+const industryLinksEN = [
+  { href: '/en/industries/restaurants', label: '🍽️ Restaurants & Cafés' },
+  { href: '/en/industries/beauty', label: '💇 Hair & Beauty' },
+  { href: '/en/industries/fitness', label: '🏋️ Fitness & Wellness' },
+  { href: '/en/industries/cleaning', label: '🧹 Cleaning Services' },
+  { href: '/en/industries/transport', label: '🚛 Transport & Logistics' },
+  { href: '/en/industries/medical', label: '🏥 Medical Practices' },
+];
+
+const industryLinksAR = [
+  { href: '/ar/industries/restaurants', label: '🍽️ المطاعم والمقاهي' },
+  { href: '/ar/industries/beauty', label: '💇 الصالونات والتجميل' },
+  { href: '/ar/industries/fitness', label: '🏋️ اللياقة والعافية' },
+  { href: '/ar/industries/cleaning', label: '🧹 خدمات التنظيف' },
+  { href: '/ar/industries/transport', label: '🚛 النقل والخدمات' },
+  { href: '/ar/industries/medical', label: '🏥 العيادات والصحة' },
+];
+
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [industriesOpen, setIndustriesOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const servicesRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
@@ -58,6 +86,8 @@ export function Navbar() {
   );
 
   const serviceLinks = isEn ? serviceLinksEN : isAr ? serviceLinksAR : serviceLinksDE;
+  const industryLinks = isEn ? industryLinksEN : isAr ? industryLinksAR : industryLinksDE;
+  const industriesLabel = isEn ? 'Industries' : isAr ? 'القطاعات' : 'Branchen';
 
   const navLinks = isEn
     ? [
@@ -191,6 +221,47 @@ export function Navbar() {
                           </Link>
                         );
                       })}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+
+            {/* Industries Dropdown */}
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.14 }}
+              className="relative"
+            >
+              <button
+                onClick={() => setIndustriesOpen((v) => !v)}
+                className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors group"
+              >
+                {industriesLabel}
+                <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${industriesOpen ? 'rotate-180' : ''}`} />
+              </button>
+              <AnimatePresence>
+                {industriesOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                    transition={{ duration: 0.18, ease: 'easeOut' }}
+                    className={`absolute top-full ${isAr ? 'right-1/2 translate-x-1/2' : 'left-1/2 -translate-x-1/2'} mt-3 w-64 rounded-2xl glass border border-white/15 shadow-[0_20px_60px_rgba(0,0,0,0.5)] overflow-hidden`}
+                    dir={isAr ? 'rtl' : 'ltr'}
+                  >
+                    <div className="p-2">
+                      {industryLinks.map((s) => (
+                        <Link
+                          key={s.href}
+                          href={s.href}
+                          onClick={() => setIndustriesOpen(false)}
+                          className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-white/5 transition-all"
+                        >
+                          {s.label}
+                        </Link>
+                      ))}
                     </div>
                   </motion.div>
                 )}
