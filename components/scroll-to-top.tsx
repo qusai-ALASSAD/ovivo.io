@@ -22,10 +22,10 @@ export function ScrollToTop() {
           exit={{ opacity: 0, scale: 0.8 }}
           transition={{ duration: 0.2 }}
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="fixed bottom-24 right-5 z-40 h-10 w-10 rounded-full flex items-center justify-center border border-white/15 bg-white/8 backdrop-blur-md text-gray-400 hover:text-white hover:border-white/30 hover:bg-white/15 transition-all duration-200 shadow-lg"
+          className="fixed bottom-6 left-6 z-40 h-11 w-11 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 hover:border-white/40 transition-all duration-200 shadow-lg"
           aria-label="Back to top"
         >
-          <ChevronUp className="h-4 w-4" />
+          <ChevronUp className="h-5 w-5" />
         </motion.button>
       )}
     </AnimatePresence>
