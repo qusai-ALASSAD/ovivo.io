@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
         messages: openAIMessages,
         stream: true,
         max_tokens: maxTokens,
-        temperature: mode === 'sales_widget' ? 0.3 : 0.7,
+        temperature: mode === 'sales_widget' ? 0.2 : 0.7,
       }),
     });
 
