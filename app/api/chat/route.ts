@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
     }
 
     const systemPrompt = systemOverride || buildSystemPrompt(mode, plan);
-    const maxTokens = mode === 'sales_widget' ? 500 : 3072;
+    const maxTokens = mode === 'sales_widget' ? 1200 : 3072;
 
     const openAIMessages = [
       { role: 'system', content: systemPrompt },
