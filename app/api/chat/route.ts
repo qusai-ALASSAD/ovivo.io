@@ -1,109 +1,68 @@
-import { NextRequest } from 'next/server';
-import { rateLimit } from '@/lib/rate-limit';
-import { buildSystemPrompt } from '@/lib/plan-prompts';
-import type { Plan } from '@/lib/chat-usage';
+// app/api/chat/route.ts
+// Updated to use n8n webhook + Automation Expert feature
 
-export async function POST(req: NextRequest) {
-  const ip = req.headers.get('x-forwarded-for') ?? req.headers.get('x-real-ip') ?? 'unknown';
-  const { allowed } = rateLimit(`chat:${ip}`, 30, 60_000);
+import { NextResponse } from 'next/server';
 
-  if (!allowed) {
-    return new Response(
-      JSON.stringify({ error: 'Too many requests. Please slow down.' }),
-      { status: 429, headers: { 'Content-Type': 'application/json', 'Retry-After': '60' } }
-    );
-  }
+const N8N_WEBHOOK_URL = 'http://187.77.89.15:5678/webhook/ovivo-agent';
 
-  try {
-    const body = await req.json();
-    const messages: { role: string; content: string }[] = body.messages ?? [];
-    const mode: string = body.mode ?? 'general';
-    const plan: Plan = body.plan ?? 'free';
-    const systemOverride: string | undefined = body.systemOverride;
+export async function POST(req: Request) {
+    try {
+          const body = await req.json();
+          const { message, messages, lang = 'ar', sessionId, name, phone, company } = body;
 
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) {
-      return new Response(
-        JSON.stringify({ error: 'OpenAI API key not configured' }),
-        { status: 500, headers: { 'Content-Type': 'application/json' } }
-      );
+      // التحقق من نوع الرسالة
+      const isAutomationExpert = message?.toLowerCase().includes('خبير') || 
+                                       message?.toLowerCase().includes('expert') ||
+                                       message?.toLowerCase().includes('automation');
+
+      // إرسال إلى n8n webhook
+      const response = await fetch(N8N_WEBHOOK_URL, {
+              method: 'POST',
+              headers: {
+                        'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                        message: message || messages?.[messages.length - 1]?.content || '',
+                        lang,
+                        sessionId: sessionId || `session_${Date.now()}`,
+                        name: name || '',
+                        phone: phone || '',
+                        company: company || '',
+                        expertMode: isAutomationExpert, // ميزة خبير الأتمتة
+              }),
+      });
+
+      if (!response.ok) {
+              throw new Error(`n8n webhook error: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      return NextResponse.json({
+              reply: data.reply || 'شكراً على تواصلك.',
+              sessionId: data.sessionId || sessionId,
+              hasLead: data.hasLead || false,
+              lead: data.lead || null,
+      });
+
+    } catch (error) {
+          console.error('Chat API Error:', error);
+          return NextResponse.json(
+            { 
+                    error: 'حدث خطأ في الاتصال. يرجى المحاولة مرة أخرى.',
+                      reply: 'عذراً، حدث خطأ مؤقت. يرجى المحاولة مرة أخرى.'
+            },
+            { status: 500 }
+                );
     }
+}
 
-    const systemPrompt = systemOverride || buildSystemPrompt(mode, plan);
-    const maxTokens = mode === 'sales_widget' ? 1200 : 3072;
-
-    const openAIMessages = [
-      { role: 'system', content: systemPrompt },
-      ...messages.map((m) => ({ role: m.role, content: m.content })),
-    ];
-
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o-mini',
-        messages: openAIMessages,
-        stream: true,
-        max_tokens: maxTokens,
-        temperature: mode === 'sales_widget' ? 0.2 : 0.7,
-      }),
+// GET endpoint للتحقق من الحالة
+export async function GET() {
+    return NextResponse.json({ 
+                                 status: 'active',
+          webhook: N8N_WEBHOOK_URL,
+          features: ['n8n_integration', 'automation_expert'],
+          version: '2.0.0'
     });
-
-    if (!response.ok) {
-      return new Response(
-        JSON.stringify({ error: `OpenAI error: ${response.status}` }),
-        { status: response.status, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    const stream = new ReadableStream({
-      async start(controller) {
-        const reader = response.body!.getReader();
-        const decoder = new TextDecoder();
-
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-
-          const chunk = decoder.decode(value, { stream: true });
-          const lines = chunk.split('\n');
-
-          for (const line of lines) {
-            if (line.startsWith('data: ')) {
-              const data = line.slice(6).trim();
-              if (data === '[DONE]') {
-                controller.close();
-                return;
-              }
-              try {
-                const parsed = JSON.parse(data);
-                const token = parsed.choices?.[0]?.delta?.content;
-                if (token) {
-                  controller.enqueue(new TextEncoder().encode(token));
-                }
-              } catch {}
-            }
-          }
-        }
-        controller.close();
-      },
-    });
-
-    return new Response(stream, {
-      headers: {
-        'Content-Type': 'text/plain; charset=utf-8',
-        'Transfer-Encoding': 'chunked',
-        'Cache-Control': 'no-cache',
-        'X-Accel-Buffering': 'no',
-      },
-    });
-  } catch {
-    return new Response(
-      JSON.stringify({ error: 'Internal server error' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
-    );
-  }
 }
