@@ -1,4 +1,4 @@
-fimport './globals.css';
+import './globals.css';
 import type { Metadata } from 'next';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
@@ -7,6 +7,8 @@ import { SalesChatWidget } from '@/components/sales-chat-widget';
 import { ScrollToTop } from '@/components/scroll-to-top';
 import { Toaster } from 'sonner';
 import { FloatingChatWidget } from '@/components/FloatingChatWidget';
+
+
 
 
 export const metadata: Metadata = {
@@ -30,23 +32,9 @@ export const metadata: Metadata = {
 };
 
 
+
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
-}) {
-  return (
-    <html lang="de">
-      <body style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif' }}>
-        <Navbar />
-        <main className="min-h-screen pt-20">{children}</main>
-        <Footer />
-        <LeadMagnet />
-        <SalesChatWidget />
-        <ScrollToTop />
-        <Toaster position="bottom-right" theme="dark" />
-        <FloatingChatWidget />
-      </body>
-    </html>
-  );
-}
