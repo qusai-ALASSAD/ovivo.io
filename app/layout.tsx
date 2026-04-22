@@ -1,4 +1,4 @@
-import './globals.css';
+fimport './globals.css';
 import type { Metadata } from 'next';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
@@ -6,6 +6,8 @@ import { LeadMagnet } from '@/components/lead-magnet';
 import { SalesChatWidget } from '@/components/sales-chat-widget';
 import { ScrollToTop } from '@/components/scroll-to-top';
 import { Toaster } from 'sonner';
+import { FloatingChatWidget } from '@/components/FloatingChatWidget';
+
 
 export const metadata: Metadata = {
   title: 'Ovivo - KI-Automation für Gastronomie & Servicebetriebe',
@@ -27,6 +29,7 @@ export const metadata: Metadata = {
   },
 };
 
+
 export default function RootLayout({
   children,
 }: {
@@ -42,6 +45,7 @@ export default function RootLayout({
         <SalesChatWidget />
         <ScrollToTop />
         <Toaster position="bottom-right" theme="dark" />
+        <FloatingChatWidget />
       </body>
     </html>
   );
