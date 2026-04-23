@@ -6,6 +6,10 @@ import { LeadMagnet } from '@/components/lead-magnet';
 import { SalesChatWidget } from '@/components/sales-chat-widget';
 import { ScrollToTop } from '@/components/scroll-to-top';
 import { Toaster } from 'sonner';
+import { FloatingChatWidget } from '@/components/FloatingChatWidget';
+
+
+
 
 export const metadata: Metadata = {
   title: 'Ovivo - KI-Automation für Gastronomie & Servicebetriebe',
@@ -27,22 +31,10 @@ export const metadata: Metadata = {
   },
 };
 
+
+
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
-}) {
-  return (
-    <html lang="de">
-      <body style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif' }}>
-        <Navbar />
-        <main className="min-h-screen pt-20">{children}</main>
-        <Footer />
-        <LeadMagnet />
-        <SalesChatWidget />
-        <ScrollToTop />
-        <Toaster position="bottom-right" theme="dark" />
-      </body>
-    </html>
-  );
-}
