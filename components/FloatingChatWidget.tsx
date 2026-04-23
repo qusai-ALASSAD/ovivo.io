@@ -45,35 +45,26 @@ export function FloatingChatWidget() {
       {/* Floating Button with Animated Robot */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 group"
+        className="fixed bottom-6 right-6 z-50"
         style={{
           width: '70px',
           height: '70px',
           borderRadius: '50%',
           background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          boxShadow: '0 4px 20px rgba(102, 126, 234, 0.4)',
+          boxShadow: isOpen ? '0 6px 25px rgba(102, 126, 234, 0.5)' : '0 4px 20px rgba(102, 126, 234, 0.4)',
           border: 'none',
           cursor: 'pointer',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           transition: 'all 0.3s ease',
-          animation: isOpen ? 'none' : 'bounce 2s infinite',
-          position: 'relative'
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'scale(1.1)';
-          e.currentTarget.style.boxShadow = '0 6px 25px rgba(102, 126, 234, 0.5)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'scale(1)';
-          e.currentTarget.style.boxShadow = '0 4px 20px rgba(102, 126, 234, 0.4)';
+          animation: isOpen ? 'none' : 'bounce 2s infinite'
         }}
       >
         {isOpen ? (
           <X className="w-8 h-8 text-white" />
         ) : (
-          <>
+          <div style={{ position: 'relative' }}>
             {/* Animated Robot Icon */}
             <svg 
               width="40" 
@@ -89,7 +80,7 @@ export function FloatingChatWidget() {
               <line x1="50" y1="20" x2="50" y2="30" stroke="white" strokeWidth="3" strokeLinecap="round" />
               <circle cx="50" cy="17" r="4" fill="white" />
               
-              {/* Robot Eyes - will blink */}
+              {/* Robot Eyes */}
               <circle cx="40" cy="50" r="5" fill="#667eea" className="robot-eye-left" />
               <circle cx="60" cy="50" r="5" fill="#667eea" className="robot-eye-right" />
               
@@ -99,10 +90,19 @@ export function FloatingChatWidget() {
 
             {/* Online Indicator */}
             <span
-              className="absolute top-1 right-1 block h-3 w-3 rounded-full bg-green-400 ring-2 ring-white"
-              style={{ animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}
+              style={{
+                position: 'absolute',
+                top: '-8px',
+                right: '-8px',
+                width: '14px',
+                height: '14px',
+                borderRadius: '50%',
+                background: '#10b981',
+                border: '2px solid white',
+                animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+              }}
             />
-          </>
+          </div>
         )}
       </button>
 
@@ -206,9 +206,9 @@ export function FloatingChatWidget() {
                   }}
                 >
                   <div style={{ display: 'flex', gap: '4px' }}>
-                    <div className="animate-bounce" style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#667eea' }} />
-                    <div className="animate-bounce" style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#667eea', animationDelay: '0.1s' }} />
-                    <div className="animate-bounce" style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#667eea', animationDelay: '0.2s' }} />
+                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#667eea', animation: 'bounce 1s infinite' }} />
+                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#667eea', animation: 'bounce 1s infinite 0.1s' }} />
+                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#667eea', animation: 'bounce 1s infinite 0.2s' }} />
                   </div>
                 </div>
               </div>
@@ -285,12 +285,8 @@ export function FloatingChatWidget() {
           }
         }
         @keyframes robotBlink {
-          0%, 45%, 55%, 100% { 
-            opacity: 1; 
-          }
-          50% { 
-            opacity: 0.3; 
-          }
+          0%, 45%, 55%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
         }
         .robot-eye-left, .robot-eye-right {
           animation: eyeBlink 4s infinite;
@@ -299,12 +295,8 @@ export function FloatingChatWidget() {
           animation-delay: 0.1s;
         }
         @keyframes eyeBlink {
-          0%, 48%, 52%, 100% {
-            transform: scaleY(1);
-          }
-          50% {
-            transform: scaleY(0.1);
-          }
+          0%, 48%, 52%, 100% { transform: scaleY(1); }
+          50% { transform: scaleY(0.1); }
         }
       `}</style>
     </>
