@@ -8,9 +8,6 @@ import { ScrollToTop } from '@/components/scroll-to-top';
 import { Toaster } from 'sonner';
 import { FloatingChatWidget } from '@/components/FloatingChatWidget';
 
-
-
-
 export const metadata: Metadata = {
   title: 'Ovivo - KI-Automation für Gastronomie & Servicebetriebe',
   description: 'Wir automatisieren Reservierungen, Kundenanfragen und Kundenbindung für Restaurants, Cafés und Servicebetriebe in Deutschland. KI-Chatbot, WhatsApp Automation, Buchungssystem & CRM — alles aus einer Hand.',
@@ -31,10 +28,23 @@ export const metadata: Metadata = {
   },
 };
 
-
-
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
+}) {
+  return (
+    <html lang="de">
+      <body style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif' }}>
+        <Navbar />
+        <main className="min-h-screen pt-20">{children}</main>
+        <Footer />
+        <LeadMagnet />
+        <SalesChatWidget />
+        <ScrollToTop />
+        <FloatingChatWidget />
+        <Toaster position="bottom-right" theme="dark" />
+      </body>
+    </html>
+  );
+}
