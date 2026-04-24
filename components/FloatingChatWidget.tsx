@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X, Send } from 'lucide-react';
 
 export function FloatingChatWidget() {
@@ -8,6 +8,19 @@ export function FloatingChatWidget() {
   const [messages, setMessages] = useState<Array<{role: string; content: string}>>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [lang, setLang] = useState('de');
+
+  useEffect(() => {
+    // Detect browser language
+    const browserLang = navigator.language.toLowerCase();
+    if (browserLang.startsWith('ar')) {
+      setLang('ar');
+    } else if (browserLang.startsWith('en')) {
+      setLang('en');
+    } else {
+      setLang('de');
+    }
+  }, []);
 
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
@@ -23,7 +36,7 @@ export function FloatingChatWidget() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message: userMessage,
-          lang: 'ar'
+          lang: lang
         })
       });
 
@@ -31,13 +44,39 @@ export function FloatingChatWidget() {
         const data = await response.json();
         setMessages(prev => [...prev, { role: 'assistant', content: data.reply }]);
       } else {
-        setMessages(prev => [...prev, { role: 'assistant', content: 'عذراً، حدث خطأ. حاول مرة أخرى.' }]);
+        const errorMsg = lang === 'ar' 
+          ? 'عذراً، حدث خطأ. حاول مرة أخرى.'
+          : lang === 'en'
+          ? 'Sorry, an error occurred. Please try again.'
+          : 'Entschuldigung, ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.';
+        setMessages(prev => [...prev, { role: 'assistant', content: errorMsg }]);
       }
     } catch (error) {
-      setMessages(prev => [...prev, { role: 'assistant', content: 'عذراً، حدث خطأ في الاتصال.' }]);
+      const errorMsg = lang === 'ar'
+        ? 'عذراً، حدث خطأ في الاتصال.'
+        : lang === 'en'
+        ? 'Sorry, connection error occurred.'
+        : 'Entschuldigung, Verbindungsfehler aufgetreten.';
+      setMessages(prev => [...prev, { role: 'assistant', content: errorMsg }]);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const getWelcomeMessage = () => {
+    if (lang === 'ar') {
+      return 'مرحباً! أنا مساعدك الذكي من Ovivo\nكيف يمكنني مساعدتك اليوم؟';
+    } else if (lang === 'en') {
+      return 'Hello! I\'m your smart assistant from Ovivo\nHow can I help you today?';
+    } else {
+      return 'Hallo! Ich bin Ihr intelligenter Assistent von Ovivo\nWie kann ich Ihnen heute helfen?';
+    }
+  };
+
+  const getPlaceholder = () => {
+    if (lang === 'ar') return 'اكتب رسالتك...';
+    if (lang === 'en') return 'Type your message...';
+    return 'Geben Sie Ihre Nachricht ein...';
   };
 
   return (
@@ -96,7 +135,7 @@ export function FloatingChatWidget() {
         )}
       </button>
 
-      {/* Chat Window - Dark Theme */}
+      {/* Chat Window */}
       {isOpen && (
         <div
           className="fixed bottom-24 right-6 z-50"
@@ -121,26 +160,26 @@ export function FloatingChatWidget() {
               background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
               padding: '20px',
               color: 'white',
-              textAlign: 'right',
-              direction: 'rtl'
+              textAlign: lang === 'ar' ? 'right' : 'left',
+              direction: lang === 'ar' ? 'rtl' : 'ltr'
             }}
           >
             <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 'bold' }}>
-              🤖 مساعد Ovivo
+              {lang === 'ar' ? 'مساعد Ovivo' : lang === 'en' ? 'Ovivo Assistant' : 'Ovivo Assistent'}
             </h3>
             <p style={{ margin: '4px 0 0', fontSize: '13px', opacity: 0.9 }}>
-              متصل الآن • مدعوم بالذكاء الاصطناعي
+              {lang === 'ar' ? 'متصل الآن' : lang === 'en' ? 'Online now' : 'Jetzt online'}
             </p>
           </div>
 
-          {/* Messages - Dark Background */}
+          {/* Messages */}
           <div
             style={{
               flex: 1,
               overflowY: 'auto',
               padding: '20px',
               background: '#111827',
-              direction: 'rtl'
+              direction: lang === 'ar' ? 'rtl' : 'ltr'
             }}
           >
             {messages.length === 0 ? (
@@ -153,9 +192,8 @@ export function FloatingChatWidget() {
                   <circle cx="62" cy="45" r="6" fill="white" />
                   <path d="M 32 60 Q 50 68 68 60" stroke="white" strokeWidth="4" strokeLinecap="round" fill="none" />
                 </svg>
-                <p style={{ margin: 0, fontSize: '14px', lineHeight: '1.6', color: '#d1d5db' }}>
-                  مرحباً! أنا مساعدك الذكي 🤖<br/>
-                  كيف يمكنني مساعدتك اليوم؟
+                <p style={{ margin: 0, fontSize: '14px', lineHeight: '1.6', color: '#d1d5db', whiteSpace: 'pre-line' }}>
+                  {getWelcomeMessage()}
                 </p>
               </div>
             ) : (
@@ -165,7 +203,7 @@ export function FloatingChatWidget() {
                   style={{
                     marginBottom: '12px',
                     display: 'flex',
-                    justifyContent: msg.role === 'user' ? 'flex-start' : 'flex-end'
+                    justifyContent: msg.role === 'user' ? (lang === 'ar' ? 'flex-start' : 'flex-end') : (lang === 'ar' ? 'flex-end' : 'flex-start')
                   }}
                 >
                   <div
@@ -179,7 +217,8 @@ export function FloatingChatWidget() {
                       color: 'white',
                       fontSize: '14px',
                       lineHeight: '1.5',
-                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
+                      whiteSpace: 'pre-line'
                     }}
                   >
                     {msg.content}
@@ -188,7 +227,7 @@ export function FloatingChatWidget() {
               ))
             )}
             {isLoading && (
-              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '12px' }}>
+              <div style={{ display: 'flex', justifyContent: lang === 'ar' ? 'flex-end' : 'flex-start', marginBottom: '12px' }}>
                 <div
                   style={{
                     padding: '12px 16px',
@@ -207,13 +246,13 @@ export function FloatingChatWidget() {
             )}
           </div>
 
-          {/* Input - Dark Theme */}
+          {/* Input */}
           <div
             style={{
               padding: '16px',
               background: '#1f2937',
               borderTop: '1px solid #374151',
-              direction: 'rtl'
+              direction: lang === 'ar' ? 'rtl' : 'ltr'
             }}
           >
             <div style={{ display: 'flex', gap: '8px' }}>
@@ -230,7 +269,8 @@ export function FloatingChatWidget() {
                   border: 'none',
                   cursor: input.trim() && !isLoading ? 'pointer' : 'not-allowed',
                   transition: 'all 0.2s',
-                  flexShrink: 0
+                  flexShrink: 0,
+                  order: lang === 'ar' ? 0 : 1
                 }}
               >
                 <Send className="w-5 h-5" />
@@ -240,7 +280,7 @@ export function FloatingChatWidget() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                placeholder="اكتب رسالتك..."
+                placeholder={getPlaceholder()}
                 disabled={isLoading}
                 style={{
                   flex: 1,
@@ -249,9 +289,10 @@ export function FloatingChatWidget() {
                   border: '1px solid #374151',
                   fontSize: '14px',
                   outline: 'none',
-                  textAlign: 'right',
+                  textAlign: lang === 'ar' ? 'right' : 'left',
                   background: '#111827',
-                  color: 'white'
+                  color: 'white',
+                  order: lang === 'ar' ? 1 : 0
                 }}
               />
             </div>
