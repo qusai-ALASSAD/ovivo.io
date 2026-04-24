@@ -42,7 +42,7 @@ export function FloatingChatWidget() {
 
   return (
     <>
-      {/* Floating Button with Animated Robot */}
+      {/* Floating Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-6 right-6 z-50"
@@ -65,7 +65,6 @@ export function FloatingChatWidget() {
           <X className="w-8 h-8 text-white" />
         ) : (
           <div style={{ position: 'relative' }}>
-            {/* Animated Robot Icon */}
             <svg 
               width="40" 
               height="40" 
@@ -73,22 +72,13 @@ export function FloatingChatWidget() {
               fill="none"
               style={{ animation: 'robotBlink 3s infinite' }}
             >
-              {/* Robot Head */}
               <rect x="25" y="30" width="50" height="45" rx="8" fill="white" />
-              
-              {/* Robot Antenna */}
               <line x1="50" y1="20" x2="50" y2="30" stroke="white" strokeWidth="3" strokeLinecap="round" />
               <circle cx="50" cy="17" r="4" fill="white" />
-              
-              {/* Robot Eyes */}
               <circle cx="40" cy="50" r="5" fill="#667eea" className="robot-eye-left" />
               <circle cx="60" cy="50" r="5" fill="#667eea" className="robot-eye-right" />
-              
-              {/* Robot Mouth */}
               <path d="M 35 63 Q 50 70 65 63" stroke="#667eea" strokeWidth="3" strokeLinecap="round" fill="none" />
             </svg>
-
-            {/* Online Indicator */}
             <span
               style={{
                 position: 'absolute',
@@ -106,7 +96,7 @@ export function FloatingChatWidget() {
         )}
       </button>
 
-      {/* Chat Window */}
+      {/* Chat Window - Dark Theme */}
       {isOpen && (
         <div
           className="fixed bottom-24 right-6 z-50"
@@ -116,12 +106,13 @@ export function FloatingChatWidget() {
             height: '600px',
             maxHeight: 'calc(100vh - 140px)',
             borderRadius: '16px',
-            background: 'white',
-            boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
+            background: '#1f2937',
+            boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)',
             display: 'flex',
             flexDirection: 'column',
             overflow: 'hidden',
-            animation: 'slideIn 0.3s ease-out'
+            animation: 'slideIn 0.3s ease-out',
+            border: '1px solid rgba(102, 126, 234, 0.2)'
           }}
         >
           {/* Header */}
@@ -138,23 +129,23 @@ export function FloatingChatWidget() {
               🤖 مساعد Ovivo
             </h3>
             <p style={{ margin: '4px 0 0', fontSize: '13px', opacity: 0.9 }}>
-              متصل الآن
+              متصل الآن • مدعوم بالذكاء الاصطناعي
             </p>
           </div>
 
-          {/* Messages */}
+          {/* Messages - Dark Background */}
           <div
             style={{
               flex: 1,
               overflowY: 'auto',
               padding: '20px',
-              background: '#f8f9fa',
+              background: '#111827',
               direction: 'rtl'
             }}
           >
             {messages.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: '40px 20px', color: '#6b7280' }}>
-                <svg width="60" height="60" viewBox="0 0 100 100" fill="none" style={{ margin: '0 auto 16px', opacity: 0.3 }}>
+              <div style={{ textAlign: 'center', padding: '40px 20px', color: '#9ca3af' }}>
+                <svg width="60" height="60" viewBox="0 0 100 100" fill="none" style={{ margin: '0 auto 16px', opacity: 0.5 }}>
                   <rect x="20" y="25" width="60" height="50" rx="8" fill="#667eea" />
                   <line x1="50" y1="15" x2="50" y2="25" stroke="#667eea" strokeWidth="4" strokeLinecap="round" />
                   <circle cx="50" cy="12" r="5" fill="#667eea" />
@@ -162,8 +153,9 @@ export function FloatingChatWidget() {
                   <circle cx="62" cy="45" r="6" fill="white" />
                   <path d="M 32 60 Q 50 68 68 60" stroke="white" strokeWidth="4" strokeLinecap="round" fill="none" />
                 </svg>
-                <p style={{ margin: 0, fontSize: '14px' }}>
-                  مرحباً! كيف يمكنني مساعدتك اليوم؟
+                <p style={{ margin: 0, fontSize: '14px', lineHeight: '1.6', color: '#d1d5db' }}>
+                  مرحباً! أنا مساعدك الذكي 🤖<br/>
+                  كيف يمكنني مساعدتك اليوم؟
                 </p>
               </div>
             ) : (
@@ -183,11 +175,11 @@ export function FloatingChatWidget() {
                       borderRadius: '12px',
                       background: msg.role === 'user'
                         ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-                        : 'white',
-                      color: msg.role === 'user' ? 'white' : '#1f2937',
+                        : '#374151',
+                      color: 'white',
                       fontSize: '14px',
                       lineHeight: '1.5',
-                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
                     }}
                   >
                     {msg.content}
@@ -201,8 +193,8 @@ export function FloatingChatWidget() {
                   style={{
                     padding: '12px 16px',
                     borderRadius: '12px',
-                    background: 'white',
-                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'
+                    background: '#374151',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
                   }}
                 >
                   <div style={{ display: 'flex', gap: '4px' }}>
@@ -215,12 +207,12 @@ export function FloatingChatWidget() {
             )}
           </div>
 
-          {/* Input */}
+          {/* Input - Dark Theme */}
           <div
             style={{
               padding: '16px',
-              background: 'white',
-              borderTop: '1px solid #e5e7eb',
+              background: '#1f2937',
+              borderTop: '1px solid #374151',
               direction: 'rtl'
             }}
           >
@@ -233,8 +225,8 @@ export function FloatingChatWidget() {
                   borderRadius: '10px',
                   background: input.trim() && !isLoading
                     ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-                    : '#e5e7eb',
-                  color: input.trim() && !isLoading ? 'white' : '#9ca3af',
+                    : '#374151',
+                  color: 'white',
                   border: 'none',
                   cursor: input.trim() && !isLoading ? 'pointer' : 'not-allowed',
                   transition: 'all 0.2s',
@@ -254,10 +246,12 @@ export function FloatingChatWidget() {
                   flex: 1,
                   padding: '10px 16px',
                   borderRadius: '10px',
-                  border: '1px solid #e5e7eb',
+                  border: '1px solid #374151',
                   fontSize: '14px',
                   outline: 'none',
-                  textAlign: 'right'
+                  textAlign: 'right',
+                  background: '#111827',
+                  color: 'white'
                 }}
               />
             </div>
