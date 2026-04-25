@@ -1,31 +1,27 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import { X, Send, Bot, Minimize2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { X, Send } from 'lucide-react';
 
 export function FloatingChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    {
-      role: 'assistant',
-      content: 'أهلاً! أنا المستشار الذكي لأوفيفو. كيف يمكنني مساعدتك؟'
-    }
-  ]);
+  const [messages, setMessages] = useState<Array<{role: string; content: string}>>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const messagesEndRef = useRef(null);
-  const sessionIdRef = useRef(`session_${Date.now()}`);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const [lang, setLang] = useState('de');
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    const browserLang = navigator.language.toLowerCase();
+    if (browserLang.startsWith('ar')) {
+      setLang('ar');
+    } else if (browserLang.startsWith('en')) {
+      setLang('en');
+    } else {
+      setLang('de');
+    }
+  }, []);
 
-  const sendMessage = async (e) => {
-    e.preventDefault();
+  const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
 
     const userMessage = input.trim();
@@ -39,131 +35,364 @@ export function FloatingChatWidget() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message: userMessage,
-          lang: 'ar',
-          sessionId: sessionIdRef.current
+          lang: lang
         })
       });
 
-      const data = await response.json();
-      
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: data.reply || 'شكراً على تواصلك.'
-      }]);
+      if (response.ok) {
+        const data = await response.json();
+        setMessages(prev => [...prev, { role: 'assistant', content: data.reply }]);
+      } else {
+        const errorMsg = lang === 'ar' 
+          ? 'عذراً، حدث خطأ. حاول مرة أخرى.'
+          : lang === 'en'
+          ? 'Sorry, an error occurred. Please try again.'
+          : 'Entschuldigung, ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.';
+        setMessages(prev => [...prev, { role: 'assistant', content: errorMsg }]);
+      }
     } catch (error) {
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: 'عذراً، حدث خطأ. يرجى المحاولة مرة أخرى.'
-      }]);
+      const errorMsg = lang === 'ar'
+        ? 'عذراً، حدث خطأ في الاتصال.'
+        : lang === 'en'
+        ? 'Sorry, connection error occurred.'
+        : 'Entschuldigung, Verbindungsfehler aufgetreten.';
+      setMessages(prev => [...prev, { role: 'assistant', content: errorMsg }]);
     } finally {
       setIsLoading(false);
     }
   };
 
+  const getWelcomeMessage = () => {
+    if (lang === 'ar') {
+      return 'مرحباً! أنا مساعدك الذكي من Ovivo. كيف يمكنني مساعدتك اليوم؟';
+    } else if (lang === 'en') {
+      return 'Hello! I\'m your smart assistant from Ovivo. How can I help you today?';
+    } else {
+      return 'Guten Tag! Ich bin Ihr persönlicher KI-Berater bei Ovivo. Erzählen Sie mir kurz von Ihrem Betrieb — was machen Sie, und woher kommen die meisten Kundenanfragen?';
+    }
+  };
+
+  const getPlaceholder = () => {
+    if (lang === 'ar') return 'اكتب رسالتك...';
+    if (lang === 'en') return 'Type your message...';
+    return 'Ihre Nachricht...';
+  };
+
   return (
     <>
-      {/* Floating Button */}
-      {!isOpen && (
-        <button
-          onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full shadow-2xl hover:shadow-3xl transform hover:scale-110 transition-all duration-300 flex items-center justify-center group"
-          aria-label="فتح المحادثة"
-        >
-          <Bot className="w-8 h-8 text-white animate-bounce" />
-          <span className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white animate-pulse"></span>
-        </button>
-      )}
+      {/* Floating Button - SMALL SIZE */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="fixed z-50"
+        style={{
+          bottom: '24px',
+          right: '24px',
+          width: '56px',
+          height: '56px',
+          borderRadius: '50%',
+          background: '#3b82f6',
+          boxShadow: '0 4px 16px rgba(59, 130, 246, 0.4)',
+          border: 'none',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transition: 'all 0.3s ease',
+          transform: isOpen ? 'scale(0.9)' : 'scale(1)',
+          position: 'fixed'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'scale(1.1)';
+          e.currentTarget.style.boxShadow = '0 6px 24px rgba(59, 130, 246, 0.5)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = isOpen ? 'scale(0.9)' : 'scale(1)';
+          e.currentTarget.style.boxShadow = '0 4px 16px rgba(59, 130, 246, 0.4)';
+        }}
+      >
+        {isOpen ? (
+          <X className="w-5 h-5 text-white" />
+        ) : (
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="white" fillOpacity="0.9"/>
+            <circle cx="9" cy="10" r="1.5" fill="white"/>
+            <circle cx="15" cy="10" r="1.5" fill="white"/>
+            <path d="M12 17.5C14.33 17.5 16.32 16.04 17.05 14H6.95C7.68 16.04 9.67 17.5 12 17.5Z" fill="white"/>
+          </svg>
+        )}
+        
+        <span
+          style={{
+            position: 'absolute',
+            top: '2px',
+            right: '2px',
+            width: '12px',
+            height: '12px',
+            borderRadius: '50%',
+            background: '#10b981',
+            border: '2px solid white'
+          }}
+        />
+      </button>
 
-      {/* Chat Widget */}
+      {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 z-50 w-[400px] h-[600px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-200">
-          {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-                <Bot className="w-6 h-6 text-blue-600" />
+        <div
+          className="fixed z-50"
+          style={{
+            bottom: '100px',
+            right: '24px',
+            width: '360px',
+            maxWidth: 'calc(100vw - 48px)',
+            height: '500px',
+            maxHeight: 'calc(100vh - 140px)',
+            borderRadius: '12px',
+            background: '#1a1f2e',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
+            border: '1px solid rgba(59, 130, 246, 0.1)',
+            position: 'fixed'
+          }}
+        >
+          {/* Header with CLOSE BUTTON */}
+          <div
+            style={{
+              padding: '14px 16px',
+              background: '#1a1f2e',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              direction: lang === 'ar' ? 'rtl' : 'ltr'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div
+                style={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '50%',
+                  background: '#3b82f6',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0
+                }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" fill="white" fillOpacity="0.9"/>
+                  <circle cx="9" cy="10" r="1.5" fill="#3b82f6"/>
+                  <circle cx="15" cy="10" r="1.5" fill="#3b82f6"/>
+                  <path d="M12 17.5C14.33 17.5 16.32 16.04 17.05 14H6.95C7.68 16.04 9.67 17.5 12 17.5Z" fill="#3b82f6"/>
+                </svg>
               </div>
-              <div className="text-white">
-                <h3 className="font-bold text-lg">مستشار أوفيفو</h3>
-                <p className="text-xs opacity-90">متاح الآن</p>
+              <div>
+                <h3 style={{ margin: 0, fontSize: '14px', fontWeight: '600', color: '#ffffff' }}>
+                  {lang === 'ar' ? 'مساعد Ovivo' : lang === 'en' ? 'Ovivo Assistant' : 'Ovivo Assistent'}
+                </h3>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '2px' }}>
+                  <span style={{
+                    width: '6px',
+                    height: '6px',
+                    borderRadius: '50%',
+                    background: '#10b981'
+                  }} />
+                  <p style={{ margin: 0, fontSize: '12px', color: '#9ca3af' }}>
+                    {lang === 'ar' ? 'متصل' : lang === 'en' ? 'Online' : 'Online'}
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-white hover:bg-white/20 rounded-lg p-2 transition-colors"
-                aria-label="تصغير"
-              >
-                <Minimize2 className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-white hover:bg-white/20 rounded-lg p-2 transition-colors"
-                aria-label="إغلاق"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
+            
+            {/* CLOSE BUTTON */}
+            <button
+              onClick={() => setIsOpen(false)}
+              style={{
+                width: '32px',
+                height: '32px',
+                borderRadius: '6px',
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'background 0.2s',
+                color: '#9ca3af'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                e.currentTarget.style.color = '#ffffff';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'transparent';
+                e.currentTarget.style.color = '#9ca3af';
+              }}
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
-            {messages.map((msg, idx) => (
-              <div
-                key={idx}
-                className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
+          <div
+            style={{
+              flex: 1,
+              overflowY: 'auto',
+              padding: '16px',
+              background: '#0f1419',
+              direction: lang === 'ar' ? 'rtl' : 'ltr'
+            }}
+          >
+            {messages.length === 0 ? (
+              <div style={{ textAlign: lang === 'ar' ? 'right' : 'left' }}>
                 <div
-                  className={`max-w-[80%] p-3 rounded-2xl ${
-                    msg.role === 'user'
-                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-br-none'
-                      : 'bg-white text-gray-800 rounded-bl-none shadow-sm border border-gray-200'
-                  }`}
+                  style={{
+                    display: 'inline-block',
+                    maxWidth: '90%',
+                    padding: '10px 14px',
+                    borderRadius: '10px',
+                    background: '#1a1f2e',
+                    color: '#e5e7eb',
+                    fontSize: '13px',
+                    lineHeight: '1.5',
+                    marginBottom: '10px'
+                  }}
                 >
-                  <p className="text-sm leading-relaxed">{msg.content}</p>
+                  {getWelcomeMessage()}
                 </div>
               </div>
-            ))}
+            ) : (
+              messages.map((msg, i) => (
+                <div
+                  key={i}
+                  style={{
+                    marginBottom: '10px',
+                    display: 'flex',
+                    justifyContent: msg.role === 'user' ? (lang === 'ar' ? 'flex-start' : 'flex-end') : (lang === 'ar' ? 'flex-end' : 'flex-start')
+                  }}
+                >
+                  <div
+                    style={{
+                      maxWidth: '85%',
+                      padding: '10px 14px',
+                      borderRadius: '10px',
+                      background: msg.role === 'user' ? '#3b82f6' : '#1a1f2e',
+                      color: '#ffffff',
+                      fontSize: '13px',
+                      lineHeight: '1.5',
+                      whiteSpace: 'pre-line'
+                    }}
+                  >
+                    {msg.content}
+                  </div>
+                </div>
+              ))
+            )}
             {isLoading && (
-              <div className="flex justify-start">
-                <div className="bg-white p-3 rounded-2xl rounded-bl-none shadow-sm border border-gray-200">
-                  <div className="flex gap-1">
-                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></span>
-                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.2s]"></span>
-                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.4s]"></span>
+              <div style={{ display: 'flex', justifyContent: lang === 'ar' ? 'flex-end' : 'flex-start', marginBottom: '10px' }}>
+                <div
+                  style={{
+                    padding: '10px 14px',
+                    borderRadius: '10px',
+                    background: '#1a1f2e'
+                  }}
+                >
+                  <div style={{ display: 'flex', gap: '4px' }}>
+                    <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#3b82f6', animation: 'bounce 1.4s infinite ease-in-out' }} />
+                    <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#3b82f6', animation: 'bounce 1.4s infinite ease-in-out 0.2s' }} />
+                    <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#3b82f6', animation: 'bounce 1.4s infinite ease-in-out 0.4s' }} />
                   </div>
                 </div>
               </div>
             )}
-            <div ref={messagesEndRef} />
           </div>
 
           {/* Input */}
-          <form onSubmit={sendMessage} className="p-4 bg-white border-t border-gray-200">
-            <div className="flex gap-2">
+          <div
+            style={{
+              padding: '12px',
+              background: '#1a1f2e',
+              borderTop: '1px solid rgba(255, 255, 255, 0.05)',
+              direction: lang === 'ar' ? 'rtl' : 'ltr'
+            }}
+          >
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="اكتب رسالتك هنا..."
-                className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-right"
+                onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+                placeholder={getPlaceholder()}
                 disabled={isLoading}
+                style={{
+                  flex: 1,
+                  padding: '10px 12px',
+                  borderRadius: '8px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  fontSize: '13px',
+                  outline: 'none',
+                  textAlign: lang === 'ar' ? 'right' : 'left',
+                  background: '#0f1419',
+                  color: '#ffffff',
+                  transition: 'all 0.2s',
+                  order: lang === 'ar' ? 1 : 0
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = '#3b82f6';
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                }}
               />
               <button
-                type="submit"
-                disabled={isLoading || !input.trim()}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-3 rounded-xl hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                aria-label="إرسال"
+                onClick={sendMessage}
+                disabled={!input.trim() || isLoading}
+                style={{
+                  padding: '10px',
+                  borderRadius: '8px',
+                  background: input.trim() && !isLoading ? '#3b82f6' : '#374151',
+                  color: 'white',
+                  border: 'none',
+                  cursor: input.trim() && !isLoading ? 'pointer' : 'not-allowed',
+                  transition: 'all 0.2s',
+                  flexShrink: 0,
+                  width: '40px',
+                  height: '40px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  order: lang === 'ar' ? 0 : 1
+                }}
+                onMouseEnter={(e) => {
+                  if (input.trim() && !isLoading) {
+                    e.currentTarget.style.background = '#2563eb';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = input.trim() && !isLoading ? '#3b82f6' : '#374151';
+                }}
               >
-                <Send className="w-5 h-5" />
+                <Send className="w-4 h-4" />
               </button>
             </div>
-            <p className="text-xs text-gray-500 mt-2 text-center">
-              مدعوم بالذكاء الاصطناعي من Ovivo
-            </p>
-          </form>
+          </div>
         </div>
       )}
+
+      <style jsx global>{`
+        @keyframes bounce {
+          0%, 80%, 100% { 
+            transform: scale(0.8);
+            opacity: 0.5;
+          }
+          40% { 
+            transform: scale(1.2);
+            opacity: 1;
+          }
+        }
+      `}</style>
     </>
   );
 }
