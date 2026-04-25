@@ -6,10 +6,22 @@ publish = ".next"
 NODE_VERSION = "20"
 NPM_FLAGS = "--legacy-peer-deps"
 
+[functions]
+directory = "netlify/functions"
+node_bundler = "esbuild"
+
 [[plugins]]
 package = "@netlify/plugin-nextjs"
+
+[[redirects]]
+from = "/api/chat"
+to = "/.netlify/functions/chat"
+status = 200
+force = true
 
 [[headers]]
 for = "/api/*"
 [headers.values]
 Access-Control-Allow-Origin = "*"
+Access-Control-Allow-Headers = "Content-Type"
+Access-Control-Allow-Methods = "POST, OPTIONS"
