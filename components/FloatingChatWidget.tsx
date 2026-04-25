@@ -11,7 +11,6 @@ export function FloatingChatWidget() {
   const [lang, setLang] = useState('de');
 
   useEffect(() => {
-    // Detect browser language
     const browserLang = navigator.language.toLowerCase();
     if (browserLang.startsWith('ar')) {
       setLang('ar');
@@ -65,301 +64,192 @@ export function FloatingChatWidget() {
 
   const getWelcomeMessage = () => {
     if (lang === 'ar') {
-      return 'مرحباً! أنا مساعدك الذكي من Ovivo\nكيف يمكنني مساعدتك اليوم؟';
+      return 'مرحباً! أنا مساعدك الذكي من Ovivo. كيف يمكنني مساعدتك اليوم؟';
     } else if (lang === 'en') {
-      return 'Hello! I\'m your smart assistant from Ovivo\nHow can I help you today?';
+      return 'Hello! I\'m your smart assistant from Ovivo. How can I help you today?';
     } else {
-      return 'Hallo! Ich bin Ihr intelligenter Assistent von Ovivo\nWie kann ich Ihnen heute helfen?';
+      return 'Guten Tag! Ich bin Ihr persönlicher KI-Berater bei Ovivo. Erzählen Sie mir kurz von Ihrem Betrieb — was machen Sie, und woher kommen die meisten Kundenanfragen?';
     }
   };
 
   const getPlaceholder = () => {
     if (lang === 'ar') return 'اكتب رسالتك...';
     if (lang === 'en') return 'Type your message...';
-    return 'Geben Sie Ihre Nachricht ein...';
+    return 'Ihre Nachricht...';
   };
 
   return (
     <>
-      {/* Floating Button - 3D Modern Design */}
+      {/* Floating Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-6 right-6 z-50"
         style={{
-          width: '68px',
-          height: '68px',
+          width: '64px',
+          height: '64px',
           borderRadius: '50%',
-          background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%)',
-          boxShadow: isOpen 
-            ? '0 8px 32px rgba(59, 130, 246, 0.5), 0 0 0 4px rgba(59, 130, 246, 0.1)' 
-            : '0 6px 24px rgba(59, 130, 246, 0.4), 0 12px 48px rgba(0, 0, 0, 0.3)',
+          background: '#3b82f6',
+          boxShadow: '0 4px 16px rgba(59, 130, 246, 0.4)',
           border: 'none',
           cursor: 'pointer',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          transform: isOpen ? 'scale(0.95)' : 'scale(1)',
-          animation: isOpen ? 'none' : 'floatBounce 3s ease-in-out infinite',
-          position: 'relative',
-          overflow: 'visible'
+          transition: 'all 0.3s ease',
+          transform: isOpen ? 'scale(0.9)' : 'scale(1)',
+          position: 'relative'
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'scale(1.05)';
-          e.currentTarget.style.boxShadow = '0 12px 40px rgba(59, 130, 246, 0.6), 0 0 0 6px rgba(59, 130, 246, 0.15)';
+          e.currentTarget.style.transform = 'scale(1.1)';
+          e.currentTarget.style.boxShadow = '0 6px 24px rgba(59, 130, 246, 0.5)';
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.transform = isOpen ? 'scale(0.95)' : 'scale(1)';
-          e.currentTarget.style.boxShadow = isOpen 
-            ? '0 8px 32px rgba(59, 130, 246, 0.5), 0 0 0 4px rgba(59, 130, 246, 0.1)' 
-            : '0 6px 24px rgba(59, 130, 246, 0.4), 0 12px 48px rgba(0, 0, 0, 0.3)';
+          e.currentTarget.style.transform = isOpen ? 'scale(0.9)' : 'scale(1)';
+          e.currentTarget.style.boxShadow = '0 4px 16px rgba(59, 130, 246, 0.4)';
         }}
       >
-        {/* Pulse Ring */}
+        {isOpen ? (
+          <X className="w-6 h-6 text-white" />
+        ) : (
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="white" fillOpacity="0.9"/>
+            <circle cx="9" cy="10" r="1.5" fill="white"/>
+            <circle cx="15" cy="10" r="1.5" fill="white"/>
+            <path d="M12 17.5C14.33 17.5 16.32 16.04 17.05 14H6.95C7.68 16.04 9.67 17.5 12 17.5Z" fill="white"/>
+          </svg>
+        )}
+        
+        {/* Online indicator */}
         <span
           style={{
             position: 'absolute',
-            top: '-4px',
-            left: '-4px',
-            right: '-4px',
-            bottom: '-4px',
+            top: '2px',
+            right: '2px',
+            width: '14px',
+            height: '14px',
             borderRadius: '50%',
-            background: 'transparent',
-            border: '2px solid rgba(59, 130, 246, 0.4)',
-            animation: 'pulseRing 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            pointerEvents: 'none'
+            background: '#10b981',
+            border: '2px solid white',
+            boxShadow: '0 0 8px rgba(16, 185, 129, 0.6)'
           }}
         />
-        
-        {isOpen ? (
-          <X className="w-7 h-7 text-white" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))' }} />
-        ) : (
-          <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            {/* 3D Robot Icon */}
-            <svg 
-              width="44" 
-              height="44" 
-              viewBox="0 0 100 100" 
-              fill="none"
-              style={{ 
-                filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))',
-                animation: 'subtleBob 2s ease-in-out infinite'
-              }}
-            >
-              {/* Antenna with glow */}
-              <defs>
-                <radialGradient id="antennaGlow" cx="50%" cy="50%">
-                  <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.8"/>
-                  <stop offset="100%" stopColor="#3b82f6" stopOpacity="0"/>
-                </radialGradient>
-                <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#ffffff" stopOpacity="1"/>
-                  <stop offset="100%" stopColor="#e0e7ff" stopOpacity="1"/>
-                </linearGradient>
-              </defs>
-              
-              {/* Antenna ball glow */}
-              <circle cx="50" cy="15" r="8" fill="url(#antennaGlow)" />
-              
-              {/* Antenna stick */}
-              <line x1="50" y1="18" x2="50" y2="28" stroke="#ffffff" strokeWidth="3.5" strokeLinecap="round" 
-                    style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.2))' }} />
-              
-              {/* Antenna ball */}
-              <circle cx="50" cy="15" r="5" fill="#60a5fa">
-                <animate attributeName="r" values="5;6;5" dur="1.5s" repeatCount="indefinite"/>
-              </circle>
-              
-              {/* Robot head - 3D effect with gradient */}
-              <rect x="22" y="28" width="56" height="50" rx="10" fill="url(#bodyGrad)" 
-                    stroke="#cbd5e1" strokeWidth="1.5"/>
-              
-              {/* Inner shadow for depth */}
-              <rect x="25" y="31" width="50" height="44" rx="8" fill="rgba(59, 130, 246, 0.03)" />
-              
-              {/* Left eye - 3D with reflection */}
-              <circle cx="38" cy="50" r="7" fill="#3b82f6"/>
-              <circle cx="36" cy="48" r="2.5" fill="#60a5fa" opacity="0.8"/>
-              <circle cx="40" cy="52" r="1.5" fill="rgba(0,0,0,0.2)"/>
-              
-              {/* Right eye - 3D with reflection */}
-              <circle cx="62" cy="50" r="7" fill="#3b82f6"/>
-              <circle cx="60" cy="48" r="2.5" fill="#60a5fa" opacity="0.8"/>
-              <circle cx="64" cy="52" r="1.5" fill="rgba(0,0,0,0.2)"/>
-              
-              {/* Smile - curved with shadow */}
-              <path d="M 32 63 Q 50 72 68 63" stroke="#3b82f6" strokeWidth="4" strokeLinecap="round" fill="none"
-                    style={{ filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.1))' }} />
-              
-              {/* Side panels for 3D effect */}
-              <path d="M 22 35 L 18 38 L 18 70 L 22 73 Z" fill="rgba(203, 213, 225, 0.4)" />
-              <path d="M 78 35 L 82 38 L 82 70 L 78 73 Z" fill="rgba(148, 163, 184, 0.3)" />
-            </svg>
-            
-            {/* Online indicator with enhanced glow */}
-            <span
-              style={{
-                position: 'absolute',
-                top: '-6px',
-                right: '-6px',
-                width: '16px',
-                height: '16px',
-                borderRadius: '50%',
-                background: '#10b981',
-                border: '3px solid white',
-                boxShadow: '0 0 0 2px rgba(16, 185, 129, 0.3), 0 2px 8px rgba(16, 185, 129, 0.4)',
-                animation: 'statusPulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite'
-              }}
-            />
-          </div>
-        )}
       </button>
 
-      {/* Chat Window - Premium Design */}
+      {/* Chat Window */}
       {isOpen && (
         <div
           className="fixed bottom-24 right-6 z-50"
           style={{
-            width: '400px',
+            width: '380px',
             maxWidth: 'calc(100vw - 48px)',
-            height: '620px',
+            height: '600px',
             maxHeight: 'calc(100vh - 140px)',
-            borderRadius: '20px',
-            background: '#ffffff',
-            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3), 0 0 1px rgba(0, 0, 0, 0.1)',
+            borderRadius: '12px',
+            background: '#1a1f2e',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
             display: 'flex',
             flexDirection: 'column',
             overflow: 'hidden',
-            animation: 'slideInUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
-            border: '1px solid rgba(203, 213, 225, 0.3)'
+            border: '1px solid rgba(59, 130, 246, 0.1)'
           }}
         >
-          {/* Header - Modern Gradient with Glass Effect */}
+          {/* Header */}
           <div
             style={{
-              background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
-              padding: '24px 24px 20px',
-              color: 'white',
-              textAlign: lang === 'ar' ? 'right' : 'left',
-              direction: lang === 'ar' ? 'rtl' : 'ltr',
-              position: 'relative',
-              overflow: 'hidden',
-              borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+              padding: '16px 20px',
+              background: '#1a1f2e',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              direction: lang === 'ar' ? 'rtl' : 'ltr'
             }}
           >
-            {/* Decorative circles */}
-            <div style={{
-              position: 'absolute',
-              top: '-20px',
-              right: '-20px',
-              width: '100px',
-              height: '100px',
-              borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%)',
-              pointerEvents: 'none'
-            }} />
-            <div style={{
-              position: 'absolute',
-              bottom: '-30px',
-              left: '-30px',
-              width: '80px',
-              height: '80px',
-              borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)',
-              pointerEvents: 'none'
-            }} />
-            
-            <div style={{ position: 'relative', zIndex: 1 }}>
-              <h3 style={{ margin: 0, fontSize: '20px', fontWeight: '700', letterSpacing: '-0.02em' }}>
+            <div
+              style={{
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                background: '#3b82f6',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0
+              }}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z" fill="white" fillOpacity="0.9"/>
+                <circle cx="9" cy="10" r="1.5" fill="#3b82f6"/>
+                <circle cx="15" cy="10" r="1.5" fill="#3b82f6"/>
+                <path d="M12 17.5C14.33 17.5 16.32 16.04 17.05 14H6.95C7.68 16.04 9.67 17.5 12 17.5Z" fill="#3b82f6"/>
+              </svg>
+            </div>
+            <div style={{ flex: 1 }}>
+              <h3 style={{ margin: 0, fontSize: '15px', fontWeight: '600', color: '#ffffff' }}>
                 {lang === 'ar' ? 'مساعد Ovivo' : lang === 'en' ? 'Ovivo Assistant' : 'Ovivo Assistent'}
               </h3>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '6px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '2px' }}>
                 <span style={{
-                  width: '8px',
-                  height: '8px',
+                  width: '6px',
+                  height: '6px',
                   borderRadius: '50%',
-                  background: '#10b981',
-                  boxShadow: '0 0 8px rgba(16, 185, 129, 0.6)',
-                  animation: 'statusPulse 2s infinite'
+                  background: '#10b981'
                 }} />
-                <p style={{ margin: 0, fontSize: '14px', opacity: 0.95, fontWeight: '500' }}>
-                  {lang === 'ar' ? 'متصل الآن' : lang === 'en' ? 'Online now' : 'Jetzt online'}
+                <p style={{ margin: 0, fontSize: '13px', color: '#9ca3af' }}>
+                  {lang === 'ar' ? 'متصل الآن' : lang === 'en' ? 'Online' : 'Online'}
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Messages - Clean White Background */}
+          {/* Messages */}
           <div
             style={{
               flex: 1,
               overflowY: 'auto',
-              padding: '24px',
-              background: '#f8fafc',
+              padding: '20px',
+              background: '#0f1419',
               direction: lang === 'ar' ? 'rtl' : 'ltr'
             }}
           >
             {messages.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: '50px 20px' }}>
-                <div style={{
-                  width: '80px',
-                  height: '80px',
-                  margin: '0 auto 20px',
-                  borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: '0 8px 24px rgba(59, 130, 246, 0.25)'
-                }}>
-                  <svg width="50" height="50" viewBox="0 0 100 100" fill="none">
-                    <rect x="20" y="25" width="60" height="50" rx="10" fill="white" fillOpacity="0.95" />
-                    <line x1="50" y1="15" x2="50" y2="25" stroke="white" strokeWidth="4" strokeLinecap="round" />
-                    <circle cx="50" cy="12" r="5" fill="white" />
-                    <circle cx="38" cy="48" r="6" fill="#3b82f6" />
-                    <circle cx="62" cy="48" r="6" fill="#3b82f6" />
-                    <path d="M 32 62 Q 50 70 68 62" stroke="#3b82f6" strokeWidth="4" strokeLinecap="round" fill="none" />
-                  </svg>
-                </div>
-                <p style={{ 
-                  margin: 0, 
-                  fontSize: '15px', 
-                  lineHeight: '1.7', 
-                  color: '#475569',
-                  fontWeight: '500',
-                  whiteSpace: 'pre-line' 
-                }}>
+              <div style={{ textAlign: lang === 'ar' ? 'right' : 'left' }}>
+                <div
+                  style={{
+                    display: 'inline-block',
+                    maxWidth: '85%',
+                    padding: '12px 16px',
+                    borderRadius: '12px',
+                    background: '#1a1f2e',
+                    color: '#e5e7eb',
+                    fontSize: '14px',
+                    lineHeight: '1.6',
+                    marginBottom: '12px'
+                  }}
+                >
                   {getWelcomeMessage()}
-                </p>
+                </div>
               </div>
             ) : (
               messages.map((msg, i) => (
                 <div
                   key={i}
                   style={{
-                    marginBottom: '16px',
+                    marginBottom: '12px',
                     display: 'flex',
-                    justifyContent: msg.role === 'user' ? (lang === 'ar' ? 'flex-start' : 'flex-end') : (lang === 'ar' ? 'flex-end' : 'flex-start'),
-                    animation: 'messageSlideIn 0.3s ease-out'
+                    justifyContent: msg.role === 'user' ? (lang === 'ar' ? 'flex-start' : 'flex-end') : (lang === 'ar' ? 'flex-end' : 'flex-start')
                   }}
                 >
                   <div
                     style={{
-                      maxWidth: '75%',
-                      padding: '14px 18px',
-                      borderRadius: msg.role === 'user' ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
-                      background: msg.role === 'user'
-                        ? 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)'
-                        : '#ffffff',
-                      color: msg.role === 'user' ? 'white' : '#1e293b',
-                      fontSize: '15px',
+                      maxWidth: '85%',
+                      padding: '12px 16px',
+                      borderRadius: '12px',
+                      background: msg.role === 'user' ? '#3b82f6' : '#1a1f2e',
+                      color: '#ffffff',
+                      fontSize: '14px',
                       lineHeight: '1.6',
-                      boxShadow: msg.role === 'user' 
-                        ? '0 4px 12px rgba(59, 130, 246, 0.25)' 
-                        : '0 2px 8px rgba(0, 0, 0, 0.06)',
-                      border: msg.role === 'user' ? 'none' : '1px solid rgba(226, 232, 240, 0.8)',
-                      whiteSpace: 'pre-line',
-                      fontWeight: '500'
+                      whiteSpace: 'pre-line'
                     }}
                   >
                     {msg.content}
@@ -368,36 +258,34 @@ export function FloatingChatWidget() {
               ))
             )}
             {isLoading && (
-              <div style={{ display: 'flex', justifyContent: lang === 'ar' ? 'flex-end' : 'flex-start', marginBottom: '16px' }}>
+              <div style={{ display: 'flex', justifyContent: lang === 'ar' ? 'flex-end' : 'flex-start', marginBottom: '12px' }}>
                 <div
                   style={{
-                    padding: '14px 18px',
-                    borderRadius: '18px 18px 18px 4px',
-                    background: '#ffffff',
-                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)',
-                    border: '1px solid rgba(226, 232, 240, 0.8)'
+                    padding: '12px 16px',
+                    borderRadius: '12px',
+                    background: '#1a1f2e'
                   }}
                 >
-                  <div style={{ display: 'flex', gap: '6px' }}>
-                    <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#3b82f6', animation: 'dotBounce 1.4s infinite ease-in-out' }} />
-                    <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#3b82f6', animation: 'dotBounce 1.4s infinite ease-in-out 0.2s' }} />
-                    <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#3b82f6', animation: 'dotBounce 1.4s infinite ease-in-out 0.4s' }} />
+                  <div style={{ display: 'flex', gap: '4px' }}>
+                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#3b82f6', animation: 'bounce 1.4s infinite ease-in-out' }} />
+                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#3b82f6', animation: 'bounce 1.4s infinite ease-in-out 0.2s' }} />
+                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#3b82f6', animation: 'bounce 1.4s infinite ease-in-out 0.4s' }} />
                   </div>
                 </div>
               </div>
             )}
           </div>
 
-          {/* Input - Modern Elevated Design */}
+          {/* Input */}
           <div
             style={{
-              padding: '20px',
-              background: '#ffffff',
-              borderTop: '1px solid rgba(226, 232, 240, 0.8)',
+              padding: '16px',
+              background: '#1a1f2e',
+              borderTop: '1px solid rgba(255, 255, 255, 0.05)',
               direction: lang === 'ar' ? 'rtl' : 'ltr'
             }}
           >
-            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
               <input
                 type="text"
                 value={input}
@@ -407,60 +295,52 @@ export function FloatingChatWidget() {
                 disabled={isLoading}
                 style={{
                   flex: 1,
-                  padding: '14px 18px',
-                  borderRadius: '14px',
-                  border: '2px solid #e2e8f0',
-                  fontSize: '15px',
+                  padding: '12px 16px',
+                  borderRadius: '8px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  fontSize: '14px',
                   outline: 'none',
                   textAlign: lang === 'ar' ? 'right' : 'left',
-                  background: '#f8fafc',
-                  color: '#1e293b',
+                  background: '#0f1419',
+                  color: '#ffffff',
                   transition: 'all 0.2s',
-                  fontWeight: '500',
                   order: lang === 'ar' ? 1 : 0
                 }}
                 onFocus={(e) => {
                   e.currentTarget.style.borderColor = '#3b82f6';
-                  e.currentTarget.style.background = '#ffffff';
-                  e.currentTarget.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
+                  e.currentTarget.style.background = '#1a1f2e';
                 }}
                 onBlur={(e) => {
-                  e.currentTarget.style.borderColor = '#e2e8f0';
-                  e.currentTarget.style.background = '#f8fafc';
-                  e.currentTarget.style.boxShadow = 'none';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                  e.currentTarget.style.background = '#0f1419';
                 }}
               />
               <button
                 onClick={sendMessage}
                 disabled={!input.trim() || isLoading}
                 style={{
-                  padding: '14px',
-                  borderRadius: '14px',
-                  background: input.trim() && !isLoading
-                    ? 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)'
-                    : '#e2e8f0',
+                  padding: '12px',
+                  borderRadius: '8px',
+                  background: input.trim() && !isLoading ? '#3b82f6' : '#374151',
                   color: 'white',
                   border: 'none',
                   cursor: input.trim() && !isLoading ? 'pointer' : 'not-allowed',
                   transition: 'all 0.2s',
                   flexShrink: 0,
-                  width: '48px',
-                  height: '48px',
+                  width: '44px',
+                  height: '44px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  boxShadow: input.trim() && !isLoading ? '0 4px 12px rgba(59, 130, 246, 0.25)' : 'none',
                   order: lang === 'ar' ? 0 : 1
                 }}
                 onMouseEnter={(e) => {
                   if (input.trim() && !isLoading) {
-                    e.currentTarget.style.transform = 'scale(1.05)';
-                    e.currentTarget.style.boxShadow = '0 6px 16px rgba(59, 130, 246, 0.35)';
+                    e.currentTarget.style.background = '#2563eb';
                   }
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'scale(1)';
-                  e.currentTarget.style.boxShadow = input.trim() && !isLoading ? '0 4px 12px rgba(59, 130, 246, 0.25)' : 'none';
+                  e.currentTarget.style.background = input.trim() && !isLoading ? '#3b82f6' : '#374151';
                 }}
               >
                 <Send className="w-5 h-5" />
@@ -471,59 +351,7 @@ export function FloatingChatWidget() {
       )}
 
       <style jsx global>{`
-        @keyframes floatBounce {
-          0%, 100% { transform: translateY(0px) scale(1); }
-          50% { transform: translateY(-8px) scale(1); }
-        }
-        @keyframes pulseRing {
-          0% { 
-            transform: scale(1);
-            opacity: 1;
-          }
-          50% { 
-            transform: scale(1.15);
-            opacity: 0.5;
-          }
-          100% { 
-            transform: scale(1.3);
-            opacity: 0;
-          }
-        }
-        @keyframes statusPulse {
-          0%, 100% { 
-            opacity: 1;
-            transform: scale(1);
-          }
-          50% { 
-            opacity: 0.7;
-            transform: scale(0.95);
-          }
-        }
-        @keyframes slideInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px) scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
-        }
-        @keyframes subtleBob {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-3px); }
-        }
-        @keyframes messageSlideIn {
-          from {
-            opacity: 0;
-            transform: translateY(10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        @keyframes dotBounce {
+        @keyframes bounce {
           0%, 80%, 100% { 
             transform: scale(0.8);
             opacity: 0.5;
