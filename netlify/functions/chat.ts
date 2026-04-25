@@ -24,17 +24,17 @@ function extractLead(message: string, previous: Lead = {}) {
 
   const channels: string[] = lead.channels || [];
   if (/واتساب|whatsapp/i.test(message) && !channels.includes('whatsapp')) channels.push('whatsapp');
-  if (/انستغرام|instagram|insta/i.test(message) && !channels.includes('instagram')) channels.push('instagram');
+  if (/انستغرام|إنستغرام|instagram|insta/i.test(message) && !channels.includes('instagram')) channels.push('instagram');
   if (/فيسبوك|facebook/i.test(message) && !channels.includes('facebook')) channels.push('facebook');
   if (/email|e-mail|ايميل|إيميل/i.test(message) && !channels.includes('email')) channels.push('email');
-  if (/telefon|phone|هاتف|اتصال/i.test(message) && !channels.includes('phone')) channels.push('phone');
+  if (/telefon|phone|هاتف|اتصال|تلفون/i.test(message) && !channels.includes('phone')) channels.push('phone');
   if (channels.length) lead.channels = channels;
 
-  if (/طلبات|طلبيات|orders|bestellungen|حجوزات|bookings|reservierungen/.test(lower)) lead.problem = 'increase_orders_or_bookings';
+  if (/طلبات|طلبيات|orders|bestellungen|حجوزات|bookings|reservierungen|زيد|زيادة/.test(lower)) lead.problem = 'increase_orders_or_bookings';
   if (/تأخر|بطيء|slow|spät|late|ضغط|stress/.test(lower)) lead.problem = 'slow_replies_or_workload';
 
-  const nameMatchAr = message.match(/(?:اسمي|انا|أنا)\s+([\u0600-\u06FFa-zA-Z ]{2,30})/i);
-  if (nameMatchAr && !lead.name) lead.name = nameMatchAr[1].trim();
+  const nameMatch = message.match(/(?:اسمي|انا|أنا|name is|ich bin)\s+([\u0600-\u06FFa-zA-Z ]{2,30})/i);
+  if (nameMatch && !lead.name) lead.name = nameMatch[1].trim();
 
   const companyMatch = message.match(/(?:شركة|مطعم|company|firma|restaurant)\s+([\u0600-\u06FFa-zA-Z0-9 &.-]{2,40})/i);
   if (companyMatch && !lead.company) lead.company = companyMatch[1].trim();
@@ -51,22 +51,22 @@ function salesReply(lang: string, message: string, lead: Lead) {
   const hasCompany = Boolean(lead.company);
 
   if (lang === 'ar') {
-    if (!hasBusiness) return 'مرحبًا! نحن في Ovivo نساعد الشركات والمطاعم على الرد التلقائي على العملاء وتحويل الاستفسارات إلى طلبات أو عملاء محتملين. ما نوع عملك؟ مطعم، شركة خدمات، متجر، أم شيء آخر؟';
+    if (!hasBusiness) return 'أهلًا! نحن في Ovivo نساعد المطاعم والشركات على الرد على العملاء تلقائيًا وتحويل الاستفسارات إلى طلبات أو عملاء محتملين. ما نوع عملك؟';
     if (!hasChannels) return 'ممتاز. من أين تأتيك استفسارات العملاء غالبًا؟ واتساب، إنستغرام، فيسبوك، إيميل، أم اتصال هاتفي؟';
-    if (!hasProblem) return 'فهمت. ما المشكلة الأساسية التي تريد حلها الآن؟ هل تريد زيادة الطلبات، تسريع الرد، تنظيم الحجوزات، أم تقليل الضغط على فريقك؟';
-    if (!hasName || !hasPhone || !hasCompany) return 'هذا مناسب جدًا لنظام Ovivo. يمكننا ربط قنوات التواصل لديك بنظام ذكي يرد فورًا، يجمع بيانات العملاء، وينظم الطلبات أو الحجوزات تلقائيًا. حتى نجهز لك شرحًا مناسبًا، أرسل لي من فضلك: الاسم، رقم الهاتف، واسم الشركة أو المطعم.';
+    if (!hasProblem) return 'فهمت. ما الهدف الأهم لك الآن؟ زيادة الطلبات، تسريع الرد، تنظيم الحجوزات، أم تقليل الضغط على الفريق؟';
+    if (!hasName || !hasPhone || !hasCompany) return 'هذا مناسب جدًا لنظام Ovivo. نربط قنوات التواصل لديك بنظام ذكي يرد فورًا، يجمع بيانات العملاء، وينظم الطلبات أو الحجوزات تلقائيًا. أرسل لي الاسم، رقم الهاتف، واسم الشركة أو المطعم لنجهز لك شرحًا مناسبًا.';
     return 'تم تسجيل معلوماتك بنجاح. سيتواصل معك فريق Ovivo قريبًا لشرح الحل المناسب لعملك. شكرًا لثقتك بنا.';
   }
 
   if (lang === 'en') {
-    if (!hasBusiness) return 'Hello! Ovivo helps businesses automate customer inquiries and turn them into leads, bookings, or orders. What type of business do you run: restaurant, service company, shop, or something else?';
+    if (!hasBusiness) return 'Hello! Ovivo helps businesses automate customer inquiries and turn them into leads, bookings, or orders. What type of business do you run?';
     if (!hasChannels) return 'Great. Where do most customer inquiries come from? WhatsApp, Instagram, Facebook, email, or phone calls?';
-    if (!hasProblem) return 'Understood. What is the main problem you want to solve: more orders, faster replies, booking automation, or reducing workload?';
-    if (!hasName || !hasPhone || !hasCompany) return 'This is a good fit for Ovivo. We can connect your channels to an AI system that replies instantly, captures leads, and organizes bookings or requests. Please send your name, phone number, and company name.';
+    if (!hasProblem) return 'Understood. What is the main goal right now: more orders, faster replies, booking automation, or reducing workload?';
+    if (!hasName || !hasPhone || !hasCompany) return 'This is a strong fit for Ovivo. We can connect your channels to an AI system that replies instantly, captures leads, and organizes bookings or requests. Please send your name, phone number, and company name.';
     return 'Your information has been registered successfully. The Ovivo team will contact you soon to explain the right solution for your business.';
   }
 
-  if (!hasBusiness) return 'Hallo! Ovivo hilft Unternehmen, Kundenanfragen automatisch zu beantworten und daraus Leads, Buchungen oder Bestellungen zu machen. Welche Art von Unternehmen haben Sie: Restaurant, Dienstleister, Geschäft oder etwas anderes?';
+  if (!hasBusiness) return 'Hallo! Ovivo hilft Unternehmen, Kundenanfragen automatisch zu beantworten und daraus Leads, Buchungen oder Bestellungen zu machen. Welche Art von Unternehmen haben Sie?';
   if (!hasChannels) return 'Sehr gut. Woher kommen Ihre Kundenanfragen meistens? WhatsApp, Instagram, Facebook, E-Mail oder Telefon?';
   if (!hasProblem) return 'Verstanden. Was möchten Sie aktuell verbessern: mehr Bestellungen, schnellere Antworten, automatische Buchungen oder weniger Aufwand im Team?';
   if (!hasName || !hasPhone || !hasCompany) return 'Das passt sehr gut zu Ovivo. Wir können Ihre Kanäle mit einem KI-System verbinden, das sofort antwortet, Leads erfasst und Anfragen oder Buchungen organisiert. Bitte senden Sie mir Ihren Namen, Ihre Telefonnummer und den Firmennamen.';
