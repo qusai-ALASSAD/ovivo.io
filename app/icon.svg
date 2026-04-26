@@ -1,44 +1,64 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Ovivo automation O mark">
   <defs>
-    <radialGradient id="bg" cx="50%" cy="42%" r="72%">
+    <radialGradient id="bg" cx="48%" cy="45%" r="74%">
       <stop offset="0" stop-color="#111827"/>
+      <stop offset="0.62" stop-color="#0b1220"/>
       <stop offset="1" stop-color="#080f1a"/>
     </radialGradient>
-    <linearGradient id="ring" x1="18" y1="34" x2="110" y2="94" gradientUnits="userSpaceOnUse">
+    <linearGradient id="brand" x1="21" y1="35" x2="107" y2="93" gradientUnits="userSpaceOnUse">
       <stop stop-color="#00d1ff"/>
-      <stop offset="0.5" stop-color="#3b82f6"/>
+      <stop offset="0.46" stop-color="#3478ff"/>
+      <stop offset="0.72" stop-color="#7b61ff"/>
       <stop offset="1" stop-color="#ff5ce0"/>
     </linearGradient>
-    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="3" result="blur"/>
+    <linearGradient id="soft" x1="27" y1="26" x2="101" y2="102" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#67e8f9" stop-opacity="0.78"/>
+      <stop offset="0.5" stop-color="#60a5fa" stop-opacity="0.58"/>
+      <stop offset="1" stop-color="#e879f9" stop-opacity="0.7"/>
+    </linearGradient>
+    <filter id="glow" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="2.2" result="blur"/>
       <feMerge>
         <feMergeNode in="blur"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
   </defs>
-  <rect width="128" height="128" rx="30" fill="url(#bg)"/>
-  <g fill="none" stroke="url(#ring)" stroke-linecap="round" filter="url(#glow)">
-    <circle cx="64" cy="64" r="38" stroke-width="5"/>
-    <circle cx="64" cy="64" r="29" stroke-width="2.2" opacity="0.72"/>
-    <path d="M31 53C43 31 77 28 98 50" stroke-width="2.1" opacity="0.82"/>
-    <path d="M30 75C44 96 80 98 99 76" stroke-width="2.1" opacity="0.82"/>
-    <path d="M38 38C56 59 72 67 91 92" stroke-width="1.8" opacity="0.64"/>
-    <path d="M37 91C55 69 76 59 91 37" stroke-width="1.8" opacity="0.64"/>
-    <path d="M50 30C45 51 45 76 53 98" stroke-width="1.5" opacity="0.58"/>
-    <path d="M78 30C84 50 84 76 75 98" stroke-width="1.5" opacity="0.58"/>
+
+  <rect width="128" height="128" rx="27" fill="url(#bg)"/>
+
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="64" cy="64" r="41" stroke="url(#brand)" stroke-width="3.6" filter="url(#glow)"/>
+    <circle cx="64" cy="64" r="30" stroke="url(#soft)" stroke-width="1.45" opacity="0.82"/>
+    <circle cx="64" cy="64" r="22" stroke="url(#soft)" stroke-width="1.05" opacity="0.48"/>
+
+    <path d="M24 58C39 33 74 25 101 45" stroke="url(#brand)" stroke-width="1.8" opacity="0.9"/>
+    <path d="M23 72C41 99 77 103 104 82" stroke="url(#brand)" stroke-width="1.8" opacity="0.9"/>
+    <path d="M31 42C50 56 73 69 96 91" stroke="url(#soft)" stroke-width="1.35" opacity="0.78"/>
+    <path d="M31 87C49 70 72 56 96 37" stroke="url(#soft)" stroke-width="1.35" opacity="0.78"/>
+    <path d="M42 30C36 52 37 76 46 98" stroke="url(#soft)" stroke-width="1.15" opacity="0.66"/>
+    <path d="M57 24C50 48 52 82 60 105" stroke="url(#soft)" stroke-width="1.05" opacity="0.55"/>
+    <path d="M76 24C84 48 82 82 73 105" stroke="url(#soft)" stroke-width="1.05" opacity="0.55"/>
+    <path d="M91 30C98 52 96 77 86 98" stroke="url(#soft)" stroke-width="1.15" opacity="0.66"/>
+
+    <path d="M27 58L39 39L58 27L80 30L99 47L104 67L94 88L73 101L51 97L32 83Z" stroke="url(#soft)" stroke-width="0.95" opacity="0.58"/>
+    <path d="M39 39L46 70L32 83M58 27L67 55L94 88M80 30L67 55L51 97M99 47L78 72L73 101M27 58L56 73L104 67" stroke="url(#soft)" stroke-width="0.9" opacity="0.52"/>
   </g>
-  <g>
-    <circle cx="30" cy="64" r="7" fill="#00d1ff"/>
-    <circle cx="39" cy="41" r="5.6" fill="#19c8ff"/>
-    <circle cx="56" cy="29" r="5.4" fill="#2f8cff"/>
-    <circle cx="78" cy="31" r="5.4" fill="#7b61ff"/>
-    <circle cx="96" cy="45" r="6" fill="#b43cff"/>
-    <circle cx="103" cy="66" r="6.7" fill="#d946ef"/>
-    <circle cx="94" cy="88" r="5.8" fill="#b43cff"/>
-    <circle cx="75" cy="99" r="5.4" fill="#7b61ff"/>
-    <circle cx="52" cy="97" r="5.3" fill="#3b82f6"/>
-    <circle cx="36" cy="83" r="5.8" fill="#00d1ff"/>
-    <circle cx="64" cy="64" r="4.5" fill="#ffffff" opacity="0.92"/>
+
+  <g filter="url(#glow)">
+    <circle cx="27" cy="58" r="6.2" fill="#00d1ff"/>
+    <circle cx="32" cy="83" r="6.8" fill="#16c9ff"/>
+    <circle cx="39" cy="39" r="5.2" fill="#22d3ee"/>
+    <circle cx="46" cy="70" r="4.6" fill="#1597ff"/>
+    <circle cx="51" cy="97" r="5.3" fill="#3b82f6"/>
+    <circle cx="58" cy="27" r="5.3" fill="#4f7dff"/>
+    <circle cx="67" cy="55" r="4.4" fill="#5b6fff"/>
+    <circle cx="73" cy="101" r="5" fill="#6d5dfc"/>
+    <circle cx="78" cy="72" r="4.5" fill="#7b61ff"/>
+    <circle cx="80" cy="30" r="5.4" fill="#7b61ff"/>
+    <circle cx="94" cy="88" r="5.4" fill="#b43cff"/>
+    <circle cx="99" cy="47" r="5.9" fill="#b43cff"/>
+    <circle cx="104" cy="67" r="6.5" fill="#d946ef"/>
+    <circle cx="64" cy="64" r="2.4" fill="#ffffff" opacity="0.88"/>
   </g>
 </svg>
