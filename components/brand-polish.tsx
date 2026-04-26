@@ -5,18 +5,39 @@ import { useEffect } from 'react';
 const OLD_ARABIC_HERO_SUB =
   'اجذب المزيد من العملاء بدون أي جهد يدوي. مع Ovivo يتم الرد على جميع الاستفسارات وتأكيد الحجوزات تلقائياً على مدار الساعة. وفّر وقتك وركّز على تطوير عملك.';
 
+const DUPLICATE_ARABIC_SENTENCE = 'اجذب المزيد من العملاء بدون أي جهد يدوي.';
+
 const NEW_ARABIC_HERO_SUB =
   'مع Ovivo يتم الرد على الاستفسارات وتأكيد الحجوزات تلقائياً على مدار الساعة، حتى عندما يكون فريقك مشغولاً. وفّر وقتك وركّز على تطوير عملك بينما يعمل النظام في الخلفية.';
 
+function replaceArabicHeroCopy() {
+  if (!window.location.pathname.startsWith('/ar')) return;
+
+  document.querySelectorAll('p, span, div').forEach((node) => {
+    const text = node.textContent?.replace(/\s+/g, ' ').trim();
+    if (!text) return;
+
+    if (text === OLD_ARABIC_HERO_SUB || text === DUPLICATE_ARABIC_SENTENCE) {
+      node.textContent = text === DUPLICATE_ARABIC_SENTENCE ? '' : NEW_ARABIC_HERO_SUB;
+    }
+  });
+
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  const textNodes: Text[] = [];
+  while (walker.nextNode()) textNodes.push(walker.currentNode as Text);
+
+  textNodes.forEach((node) => {
+    if (node.nodeValue?.includes(OLD_ARABIC_HERO_SUB)) {
+      node.nodeValue = node.nodeValue.replace(OLD_ARABIC_HERO_SUB, NEW_ARABIC_HERO_SUB);
+    }
+  });
+}
+
 export function BrandPolish() {
   useEffect(() => {
-    if (!window.location.pathname.startsWith('/ar')) return;
-
-    document.querySelectorAll('p').forEach((node) => {
-      if (node.textContent?.trim() === OLD_ARABIC_HERO_SUB) {
-        node.textContent = NEW_ARABIC_HERO_SUB;
-      }
-    });
+    replaceArabicHeroCopy();
+    const timers = [100, 500, 1200, 2500].map((delay) => setTimeout(replaceArabicHeroCopy, delay));
+    return () => timers.forEach(clearTimeout);
   }, []);
 
   return (
