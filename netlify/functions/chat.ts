@@ -29,8 +29,8 @@ type ChatPayload = {
   history?: Array<{ role: string; content: string }>;
 };
 
-const N8N_PRODUCTION_WEBHOOK_URL = 'http://187.77.89.15:5678/webhook/ovivo-agent';
 const N8N_TEST_WEBHOOK_URL = 'http://187.77.89.15:5678/webhook-test/ovivo-agent';
+const N8N_PRODUCTION_WEBHOOK_URL = 'http://187.77.89.15:5678/webhook/ovivo-agent';
 
 const headers = {
   'Content-Type': 'application/json',
@@ -148,12 +148,12 @@ const handler = async (event: HandlerEvent): Promise<HandlerResponse> => {
       timestamp: new Date().toISOString(),
     };
 
-    let usedWebhook = 'production';
-    let result = await callN8n(N8N_PRODUCTION_WEBHOOK_URL, payload);
+    let usedWebhook = 'test';
+    let result = await callN8n(N8N_TEST_WEBHOOK_URL, payload);
 
     if (!result.response.ok) {
-      usedWebhook = 'test';
-      result = await callN8n(N8N_TEST_WEBHOOK_URL, payload);
+      usedWebhook = 'production';
+      result = await callN8n(N8N_PRODUCTION_WEBHOOK_URL, payload);
     }
 
     const n8nReply = result.response.ok ? extractReply(result.data) : '';
