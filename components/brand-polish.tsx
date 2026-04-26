@@ -30,6 +30,9 @@ function replaceTextContent(value: string) {
   next = next.replace(OLD_ARABIC_HERO_SUB, NEW_ARABIC_HERO_SUB);
   next = next.replace(DUPLICATE_ARABIC_SENTENCE, '');
 
+  next = next.replace(/Ihr Betrieb füllt sich/g, 'Mehr Anfragen für Ihren Betrieb');
+  next = next.replace(/ohne dass Sie einen Finger rühren\./g, 'automatisch rund um die Uhr.');
+
   next = next.replace(/الأسعار/g, 'الباقات');
   next = next.replace(/الباقات والأسعار/g, 'الباقات');
   next = next.replace(/Packages & Pricing/g, 'Packages');
