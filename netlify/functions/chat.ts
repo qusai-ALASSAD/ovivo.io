@@ -45,14 +45,21 @@ function createSessionId() {
 
 function detectLanguage(message: string, requestedLang = 'de') {
   if (/[\u0600-\u06FF]/.test(message)) return 'ar';
-  if (/\b(hello|hi|help|business|restaurant|service|shop|automation)\b/i.test(message)) return 'en';
-  return ['ar', 'en', 'de'].includes(requestedLang) ? requestedLang : 'de';
+  if (['ar', 'en', 'de'].includes(requestedLang)) return requestedLang;
+  if (/\b(hello|hi|help|business|shop|automation)\b/i.test(message)) return 'en';
+  return 'de';
 }
 
 function fallbackReply(lang: string) {
-  if (lang === 'ar') return 'عذرًا، الاتصال بالمساعد تأخر قليلًا. اكتب نوع عملك وسأساعدك مباشرة.';
-  if (lang === 'en') return 'Sorry, the assistant connection is taking a moment. Tell me what type of business you run and I will help you.';
-  return 'Entschuldigung, die Verbindung zum Assistenten dauert kurz. Welche Art von Unternehmen haben Sie?';
+  if (lang === 'ar') {
+    return 'أهلًا بك. نحن في Ovivo نساعد المطاعم والشركات على الرد على العملاء تلقائيًا وتحويل الاستفسارات إلى طلبات أو عملاء محتملين. ما نوع عملك؟';
+  }
+
+  if (lang === 'en') {
+    return 'Welcome. Ovivo helps businesses automate customer inquiries and turn them into leads, bookings, or orders. What type of business do you run?';
+  }
+
+  return 'Willkommen. Ovivo hilft Unternehmen, Kundenanfragen automatisch zu beantworten und daraus Leads, Buchungen oder Bestellungen zu machen. Welche Art von Unternehmen haben Sie?';
 }
 
 function extractReply(data: unknown) {
@@ -68,7 +75,6 @@ function extractReply(data: unknown) {
       record.text ||
       record.output ||
       record.response ||
-      record.message ||
       record.answer ||
       record.data?.reply ||
       record.data?.text ||
@@ -150,14 +156,15 @@ const handler = async (event: HandlerEvent): Promise<HandlerResponse> => {
       result = await callN8n(N8N_TEST_WEBHOOK_URL, payload);
     }
 
-    const reply = extractReply(result.data) || fallbackReply(lang);
+    const n8nReply = result.response.ok ? extractReply(result.data) : '';
+    const reply = n8nReply || fallbackReply(lang);
 
     return {
       statusCode: 200,
       headers,
       body: JSON.stringify({
-        success: result.response.ok,
-        webhook: usedWebhook,
+        success: true,
+        webhook: result.response.ok ? usedWebhook : 'fallback',
         reply,
         sessionId,
         lang,
@@ -171,7 +178,8 @@ const handler = async (event: HandlerEvent): Promise<HandlerResponse> => {
       statusCode: 200,
       headers,
       body: JSON.stringify({
-        success: false,
+        success: true,
+        webhook: 'fallback',
         reply: fallbackReply('ar'),
       }),
     };
