@@ -32,6 +32,7 @@ function replaceTextContent(value: string) {
 
   next = next.replace(/Ihr Betrieb füllt sich/g, 'Mehr Anfragen für Ihren Betrieb');
   next = next.replace(/ohne dass Sie einen Finger rühren\./g, 'automatisch rund um die Uhr.');
+  next = next.replace(/Bereit, Ihren Betrieb auf Autopilot zu setzen\?/g, 'Bereit, Kundenanfragen und Buchungen zuverlässig zu automatisieren?');
   next = next.replace(/Your business stays full/g, 'More inquiries for your business');
   next = next.replace(/without lifting a finger\./g, 'automatically, around the clock.');
   next = next.replace(/اجذب المزيد من العملاء/g, 'زِد طلبات العملاء لعملك');
