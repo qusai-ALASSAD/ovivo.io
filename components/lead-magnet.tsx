@@ -8,6 +8,8 @@ import { Gift, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { usePathname } from 'next/navigation';
 
+const LEAD_MAGNET_SHOWN_KEY = 'ovivo_lead_magnet_shown';
+
 export function LeadMagnet() {
   const [isOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState('');
@@ -50,12 +52,20 @@ export function LeadMagnet() {
   };
 
   useEffect(() => {
-    const hasSeenPopup = localStorage.getItem('ovivo_lead_magnet_shown');
-    if (!hasSeenPopup) {
-      const timer = setTimeout(() => { setIsOpen(true); }, 25000);
-      return () => clearTimeout(timer);
-    }
+    const hasSeenPopup = localStorage.getItem(LEAD_MAGNET_SHOWN_KEY);
+    if (hasSeenPopup) return;
+
+    const timer = setTimeout(() => {
+      localStorage.setItem(LEAD_MAGNET_SHOWN_KEY, 'true');
+      setIsOpen(true);
+    }, 25000);
+
+    return () => clearTimeout(timer);
   }, []);
+
+  const markAsSeen = () => {
+    localStorage.setItem(LEAD_MAGNET_SHOWN_KEY, 'true');
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,8 +78,8 @@ export function LeadMagnet() {
         body: JSON.stringify({ email, source: 'popup_lead_magnet' }),
       });
       toast.success(t.success);
+      markAsSeen();
       setIsOpen(false);
-      localStorage.setItem('ovivo_lead_magnet_shown', 'true');
       setEmail('');
     } catch {
       toast.error(t.error);
@@ -79,12 +89,17 @@ export function LeadMagnet() {
   };
 
   const handleClose = () => {
+    markAsSeen();
     setIsOpen(false);
-    localStorage.setItem('ovivo_lead_magnet_shown', 'true');
+  };
+
+  const handleOpenChange = (open: boolean) => {
+    if (!open) markAsSeen();
+    setIsOpen(open);
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogContent
         dir={isAr ? 'rtl' : 'ltr'}
         className="sm:max-w-sm border border-white/10 bg-[#0d1117] shadow-2xl rounded-2xl p-6"
@@ -116,4 +131,4 @@ export function LeadMagnet() {
       </DialogContent>
     </Dialog>
   );
-      }
+}
