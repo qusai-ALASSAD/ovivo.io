@@ -89,8 +89,8 @@ export function BrandPolish() {
       }
 
       nav a.group > div.relative.flex.h-10.w-10 {
-        overflow: visible;
-        background: linear-gradient(145deg, #2563eb, #06b6d4) !important;
+        overflow: hidden;
+        background: linear-gradient(145deg, #1d4ed8, #06b6d4) !important;
       }
 
       nav a.group > div.relative.flex.h-10.w-10 > svg {
@@ -100,10 +100,14 @@ export function BrandPolish() {
       nav a.group > div.relative.flex.h-10.w-10::before {
         content: '';
         position: absolute;
-        inset: 9px;
-        border-radius: 10px;
-        background: rgba(255, 255, 255, 0.96);
-        box-shadow: 0 10px 22px rgba(37, 99, 235, 0.32);
+        left: 50%;
+        top: 50%;
+        width: 25px;
+        height: 25px;
+        border-radius: 999px;
+        border: 6px solid rgba(255, 255, 255, 0.94);
+        box-shadow: 0 7px 18px rgba(37, 99, 235, 0.35), inset 0 0 0 7px rgba(15, 23, 42, 0.22);
+        transform: translate(-50%, -50%);
       }
 
       nav a.group > div.relative.flex.h-10.w-10::after {
@@ -111,18 +115,17 @@ export function BrandPolish() {
         position: absolute;
         left: 50%;
         top: 50%;
-        width: 22px;
-        height: 22px;
+        width: 23px;
+        height: 23px;
         transform: translate(-50%, -50%);
         background:
-          radial-gradient(circle at 50% 50%, #2563eb 0 3px, transparent 4px),
-          radial-gradient(circle at 15% 15%, #06b6d4 0 3px, transparent 4px),
-          radial-gradient(circle at 85% 18%, #22c55e 0 3px, transparent 4px),
-          radial-gradient(circle at 18% 85%, #8b5cf6 0 3px, transparent 4px),
+          radial-gradient(circle at 50% 50%, #ffffff 0 3px, transparent 4px),
+          radial-gradient(circle at 18% 18%, #22c55e 0 3px, transparent 4px),
+          radial-gradient(circle at 84% 18%, #06b6d4 0 3px, transparent 4px),
+          radial-gradient(circle at 18% 84%, #8b5cf6 0 3px, transparent 4px),
           radial-gradient(circle at 84% 84%, #2563eb 0 3px, transparent 4px),
-          linear-gradient(45deg, transparent 45%, #2563eb 46% 54%, transparent 55%),
-          linear-gradient(-45deg, transparent 45%, #06b6d4 46% 54%, transparent 55%),
-          linear-gradient(90deg, transparent 45%, #22c55e 46% 54%, transparent 55%);
+          linear-gradient(42deg, transparent 45%, #bfdbfe 46% 54%, transparent 55%),
+          linear-gradient(-42deg, transparent 45%, #bfdbfe 46% 54%, transparent 55%);
       }
     `}</style>
   );
