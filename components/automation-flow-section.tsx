@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import type { ElementType } from 'react';
+import { motion } from 'framer-motion';
 import {
   Bell,
   Bot,
@@ -12,8 +12,6 @@ import {
   Link2,
   MessageSquare,
   Send,
-  Star,
-  Utensils,
 } from 'lucide-react';
 import { SectionHeader } from '@/components/section-header';
 import type { Lang } from '@/lib/i18n';
@@ -21,7 +19,7 @@ import { isRTL } from '@/lib/i18n';
 
 export interface FlowStep {
   id: string;
-  icon: React.ElementType;
+  icon: ElementType;
   color: string;
   glow: string;
   label: string;
@@ -30,7 +28,7 @@ export interface FlowStep {
 
 export interface FlowCard {
   id: string;
-  icon: React.ElementType;
+  icon: ElementType;
   color: string;
   bg: string;
   title: string;
@@ -56,22 +54,19 @@ const restaurantText: Record<Lang, FlowSectionText> = {
     badge: 'Restaurant-Automation live',
     title: 'So arbeitet Ihr Restaurant',
     titleGradient: 'mit Ovivo automatisch',
-    subtitle:
-      'Ein Gast schreibt im Chat. Ovivo versteht die Anfrage, beantwortet Fragen, erkennt Reservierungen, speichert Leads und informiert Ihr Team automatisch.',
+    subtitle: 'Ein Gast schreibt im Chat. Ovivo versteht die Anfrage, beantwortet Fragen, erkennt Reservierungen, speichert Leads und informiert Ihr Team automatisch.',
   },
   en: {
     badge: 'Restaurant automation live',
     title: 'How your restaurant runs',
     titleGradient: 'automatically with Ovivo',
-    subtitle:
-      'A guest writes in the chat. Ovivo understands the request, answers questions, detects bookings, saves leads, and notifies your team automatically.',
+    subtitle: 'A guest writes in the chat. Ovivo understands the request, answers questions, detects bookings, saves leads, and notifies your team automatically.',
   },
   ar: {
     badge: 'أتمتة مطعم مباشرة',
     title: 'هكذا يعمل مطعمك',
     titleGradient: 'تلقائياً مع Ovivo',
-    subtitle:
-      'العميل يكتب في الشات. Ovivo يفهم الطلب، يرد على الأسئلة، يميّز الحجز، يحفظ بيانات العميل، ويبلغ فريق المطعم تلقائياً.',
+    subtitle: 'العميل يكتب في الشات. Ovivo يفهم الطلب، يرد على الأسئلة، يميّز الحجز، يحفظ بيانات العميل، ويبلغ فريق المطعم تلقائياً.',
   },
 };
 
@@ -129,6 +124,17 @@ const restaurantCards: Record<Lang, FlowCard[]> = {
   ],
 };
 
+const placements = [
+  'lg:col-start-1 lg:row-start-1',
+  'lg:col-start-2 lg:row-start-1',
+  'lg:col-start-3 lg:row-start-1',
+  'lg:col-start-4 lg:row-start-1',
+  'lg:col-start-3 lg:row-start-2',
+  'lg:col-start-3 lg:row-start-3',
+  'lg:col-start-2 lg:row-start-3',
+  'lg:col-start-4 lg:row-start-3',
+];
+
 function WorkflowNode({ step, index, rtl }: { step: FlowStep; index: number; rtl: boolean }) {
   const Icon = step.icon;
 
@@ -160,7 +166,8 @@ function WorkflowNode({ step, index, rtl }: { step: FlowStep; index: number; rtl
 
 function WorkflowCanvas({ steps, lang }: { steps: FlowStep[]; lang: Lang }) {
   const rtl = isRTL(lang);
-  const visibleSteps = steps.slice(0, 8);
+  const fallback = restaurantNodes[lang];
+  const visibleSteps = Array.from({ length: 8 }, (_, index) => steps[index] ?? fallback[index] ?? fallback[0]!);
 
   return (
     <motion.div
@@ -177,16 +184,14 @@ function WorkflowCanvas({ steps, lang }: { steps: FlowStep[]; lang: Lang }) {
             <div className="h-3 w-3 rounded-full bg-[#febc2e]" />
             <div className="h-3 w-3 rounded-full bg-[#28c840]" />
           </div>
-          <span className="hidden text-[11px] font-mono text-gray-500 sm:block">
-            {lang === 'ar' ? 'restaurant-chat-workflow.n8n' : 'restaurant-chat-workflow.n8n'}
-          </span>
+          <span className="hidden text-[11px] font-mono text-gray-500 sm:block">restaurant-chat-workflow.n8n</span>
         </div>
         <LiveIndicator lang={lang} />
       </div>
 
       <div className="relative p-5 sm:p-8">
         <div className="pointer-events-none absolute inset-0 opacity-[0.18]" style={{ backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)', backgroundSize: '18px 18px' }} />
-        <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 1000 470" preserveAspectRatio="none" fill="none">
+        <svg className="pointer-events-none absolute inset-0 hidden h-full w-full lg:block" viewBox="0 0 1000 470" preserveAspectRatio="none" fill="none">
           <path d="M150 90 C260 85 330 90 420 90" stroke="#22c55e" strokeOpacity="0.45" strokeWidth="2" />
           <path d="M530 90 C620 90 700 90 820 90" stroke="#06b6d4" strokeOpacity="0.38" strokeWidth="2" />
           <path d="M500 140 C500 178 500 208 500 250" stroke="#a78bfa" strokeOpacity="0.42" strokeWidth="2" strokeDasharray="5 7" />
@@ -196,14 +201,11 @@ function WorkflowCanvas({ steps, lang }: { steps: FlowStep[]; lang: Lang }) {
         </svg>
 
         <div className="relative grid gap-5 lg:grid-cols-4 lg:grid-rows-[auto_auto_auto]">
-          <div className="lg:col-start-1 lg:row-start-1"><WorkflowNode step={visibleSteps[0]} index={0} rtl={rtl} /></div>
-          <div className="lg:col-start-2 lg:row-start-1"><WorkflowNode step={visibleSteps[1]} index={1} rtl={rtl} /></div>
-          <div className="lg:col-start-3 lg:row-start-1"><WorkflowNode step={visibleSteps[2]} index={2} rtl={rtl} /></div>
-          <div className="lg:col-start-4 lg:row-start-1"><WorkflowNode step={visibleSteps[3]} index={3} rtl={rtl} /></div>
-          <div className="lg:col-start-3 lg:row-start-2"><WorkflowNode step={visibleSteps[4]} index={4} rtl={rtl} /></div>
-          <div className="lg:col-start-3 lg:row-start-3"><WorkflowNode step={visibleSteps[5]} index={5} rtl={rtl} /></div>
-          <div className="lg:col-start-2 lg:row-start-3"><WorkflowNode step={visibleSteps[6]} index={6} rtl={rtl} /></div>
-          <div className="lg:col-start-4 lg:row-start-3"><WorkflowNode step={visibleSteps[7]} index={7} rtl={rtl} /></div>
+          {visibleSteps.map((step, index) => (
+            <div key={`${step.id}-${index}`} className={placements[index] ?? ''}>
+              <WorkflowNode step={step} index={index} rtl={rtl} />
+            </div>
+          ))}
         </div>
 
         <div className="relative mt-6 flex items-center justify-between gap-4 text-[10px] font-mono uppercase tracking-widest">
@@ -222,16 +224,13 @@ function WorkflowCanvas({ steps, lang }: { steps: FlowStep[]; lang: Lang }) {
 
 function FlowCardView({ card, rtl }: { card: FlowCard; rtl: boolean }) {
   const Icon = card.icon;
-  const [active, setActive] = useState(false);
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      onClick={() => setActive((value) => !value)}
-      className={`relative cursor-pointer rounded-2xl border p-6 transition-all duration-300 ${card.bg} ${active ? 'scale-[1.02]' : 'hover:scale-[1.01]'}`}
-      style={{ boxShadow: active ? `0 0 30px ${card.color}30` : 'none' }}
+      className={`relative rounded-2xl border p-6 transition-all duration-300 hover:scale-[1.01] ${card.bg}`}
     >
       <div className={`flex items-start gap-3 ${rtl ? 'flex-row-reverse text-right' : ''}`}>
         <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border" style={{ backgroundColor: `${card.color}18`, borderColor: `${card.color}40` }}>
@@ -239,11 +238,7 @@ function FlowCardView({ card, rtl }: { card: FlowCard; rtl: boolean }) {
         </div>
         <div>
           <p className="mb-1 text-sm font-bold leading-snug text-white">{card.title}</p>
-          <AnimatePresence>
-            <motion.p className="text-xs leading-relaxed text-gray-400" initial={{ opacity: 0.75 }} animate={{ opacity: 1 }}>
-              {card.desc}
-            </motion.p>
-          </AnimatePresence>
+          <p className="text-xs leading-relaxed text-gray-400">{card.desc}</p>
         </div>
       </div>
     </motion.div>
@@ -255,12 +250,12 @@ function LiveIndicator({ lang }: { lang: Lang }) {
   return (
     <div className="flex items-center gap-2">
       <div className="flex gap-1">
-        {[0, 1, 2, 3, 4, 5].map((i) => (
+        {[0, 1, 2, 3, 4, 5].map((index) => (
           <motion.div
-            key={i}
+            key={index}
             className="w-1 rounded-full bg-blue-500/60"
-            animate={{ height: [4, 12 + i, 4] }}
-            transition={{ duration: 0.75 + i * 0.08, repeat: Infinity, delay: i * 0.1, ease: 'easeInOut' }}
+            animate={{ height: [4, 12 + index, 4] }}
+            transition={{ duration: 0.75 + index * 0.08, repeat: Infinity, delay: index * 0.1, ease: 'easeInOut' }}
           />
         ))}
       </div>
