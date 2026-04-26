@@ -102,54 +102,16 @@ export function BrandPolish() {
 
       nav a.group > div.relative.flex.h-10.w-10 {
         overflow: hidden;
-        background: radial-gradient(circle at 35% 25%, #111827 0%, #0b1220 55%, #07101d 100%) !important;
+        background: #080f1a url('/icon.svg') center / 118% 118% no-repeat !important;
         border: 1px solid rgba(59, 130, 246, 0.35);
         box-shadow: 0 10px 28px rgba(0, 209, 255, 0.18), inset 0 0 22px rgba(59, 130, 246, 0.14);
       }
 
-      nav a.group > div.relative.flex.h-10.w-10 > svg {
-        display: none;
-      }
-
-      nav a.group > div.relative.flex.h-10.w-10::before {
-        content: '';
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 30px;
-        height: 30px;
-        border-radius: 999px;
-        transform: translate(-50%, -50%);
-        background: conic-gradient(from 205deg, #00d1ff 0deg, #2563eb 145deg, #7b61ff 235deg, #ff5ce0 330deg, #00d1ff 360deg);
-        -webkit-mask: radial-gradient(farthest-side, transparent 0 54%, #000 56% 68%, transparent 70% 100%);
-        mask: radial-gradient(farthest-side, transparent 0 54%, #000 56% 68%, transparent 70% 100%);
-        filter: drop-shadow(0 0 7px rgba(0, 209, 255, 0.72));
-      }
-
+      nav a.group > div.relative.flex.h-10.w-10 > svg,
+      nav a.group > div.relative.flex.h-10.w-10::before,
       nav a.group > div.relative.flex.h-10.w-10::after {
-        content: '';
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 31px;
-        height: 31px;
-        transform: translate(-50%, -50%);
-        background:
-          radial-gradient(circle at 6% 50%, #00d1ff 0 3px, transparent 3.6px),
-          radial-gradient(circle at 18% 22%, #20c8ff 0 2.4px, transparent 3px),
-          radial-gradient(circle at 42% 6%, #3b82f6 0 2.4px, transparent 3px),
-          radial-gradient(circle at 67% 11%, #7b61ff 0 2.4px, transparent 3px),
-          radial-gradient(circle at 89% 29%, #b43cff 0 2.8px, transparent 3.4px),
-          radial-gradient(circle at 94% 55%, #ff5ce0 0 3px, transparent 3.7px),
-          radial-gradient(circle at 78% 83%, #b43cff 0 2.6px, transparent 3.2px),
-          radial-gradient(circle at 51% 94%, #7b61ff 0 2.4px, transparent 3px),
-          radial-gradient(circle at 24% 83%, #3b82f6 0 2.4px, transparent 3px),
-          radial-gradient(circle at 11% 67%, #00d1ff 0 2.6px, transparent 3.2px),
-          radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.95) 0 2px, transparent 2.6px),
-          linear-gradient(30deg, transparent 43%, rgba(125, 211, 252, 0.75) 45%, transparent 47%),
-          linear-gradient(-35deg, transparent 44%, rgba(196, 181, 253, 0.7) 46%, transparent 48%),
-          linear-gradient(92deg, transparent 47%, rgba(59, 130, 246, 0.68) 49%, transparent 51%);
-        opacity: 0.98;
+        display: none !important;
+        content: none !important;
       }
     `}</style>
   );
