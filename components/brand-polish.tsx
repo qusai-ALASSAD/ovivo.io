@@ -102,7 +102,9 @@ export function BrandPolish() {
 
       nav a.group > div.relative.flex.h-10.w-10 {
         overflow: hidden;
-        background: linear-gradient(145deg, #1d4ed8, #06b6d4) !important;
+        background: radial-gradient(circle at 35% 25%, #111827 0%, #0b1220 55%, #07101d 100%) !important;
+        border: 1px solid rgba(59, 130, 246, 0.35);
+        box-shadow: 0 10px 28px rgba(0, 209, 255, 0.18), inset 0 0 22px rgba(59, 130, 246, 0.14);
       }
 
       nav a.group > div.relative.flex.h-10.w-10 > svg {
@@ -114,12 +116,14 @@ export function BrandPolish() {
         position: absolute;
         left: 50%;
         top: 50%;
-        width: 25px;
-        height: 25px;
+        width: 30px;
+        height: 30px;
         border-radius: 999px;
-        border: 6px solid rgba(255, 255, 255, 0.94);
-        box-shadow: 0 7px 18px rgba(37, 99, 235, 0.35), inset 0 0 0 7px rgba(15, 23, 42, 0.22);
         transform: translate(-50%, -50%);
+        background: conic-gradient(from 205deg, #00d1ff 0deg, #2563eb 145deg, #7b61ff 235deg, #ff5ce0 330deg, #00d1ff 360deg);
+        -webkit-mask: radial-gradient(farthest-side, transparent 0 54%, #000 56% 68%, transparent 70% 100%);
+        mask: radial-gradient(farthest-side, transparent 0 54%, #000 56% 68%, transparent 70% 100%);
+        filter: drop-shadow(0 0 7px rgba(0, 209, 255, 0.72));
       }
 
       nav a.group > div.relative.flex.h-10.w-10::after {
@@ -127,17 +131,25 @@ export function BrandPolish() {
         position: absolute;
         left: 50%;
         top: 50%;
-        width: 23px;
-        height: 23px;
+        width: 31px;
+        height: 31px;
         transform: translate(-50%, -50%);
         background:
-          radial-gradient(circle at 50% 50%, #ffffff 0 3px, transparent 4px),
-          radial-gradient(circle at 18% 18%, #22c55e 0 3px, transparent 4px),
-          radial-gradient(circle at 84% 18%, #06b6d4 0 3px, transparent 4px),
-          radial-gradient(circle at 18% 84%, #8b5cf6 0 3px, transparent 4px),
-          radial-gradient(circle at 84% 84%, #2563eb 0 3px, transparent 4px),
-          linear-gradient(42deg, transparent 45%, #bfdbfe 46% 54%, transparent 55%),
-          linear-gradient(-42deg, transparent 45%, #bfdbfe 46% 54%, transparent 55%);
+          radial-gradient(circle at 6% 50%, #00d1ff 0 3px, transparent 3.6px),
+          radial-gradient(circle at 18% 22%, #20c8ff 0 2.4px, transparent 3px),
+          radial-gradient(circle at 42% 6%, #3b82f6 0 2.4px, transparent 3px),
+          radial-gradient(circle at 67% 11%, #7b61ff 0 2.4px, transparent 3px),
+          radial-gradient(circle at 89% 29%, #b43cff 0 2.8px, transparent 3.4px),
+          radial-gradient(circle at 94% 55%, #ff5ce0 0 3px, transparent 3.7px),
+          radial-gradient(circle at 78% 83%, #b43cff 0 2.6px, transparent 3.2px),
+          radial-gradient(circle at 51% 94%, #7b61ff 0 2.4px, transparent 3px),
+          radial-gradient(circle at 24% 83%, #3b82f6 0 2.4px, transparent 3px),
+          radial-gradient(circle at 11% 67%, #00d1ff 0 2.6px, transparent 3.2px),
+          radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.95) 0 2px, transparent 2.6px),
+          linear-gradient(30deg, transparent 43%, rgba(125, 211, 252, 0.75) 45%, transparent 47%),
+          linear-gradient(-35deg, transparent 44%, rgba(196, 181, 253, 0.7) 46%, transparent 48%),
+          linear-gradient(92deg, transparent 47%, rgba(59, 130, 246, 0.68) 49%, transparent 51%);
+        opacity: 0.98;
       }
     `}</style>
   );
