@@ -37,6 +37,10 @@ function replaceTextContent(value: string) {
   next = next.replace(/Pakete & Preise/g, 'Pakete');
   next = next.replace(/Preise/g, 'Pakete');
 
+  next = next.replace(/مضمونة أو نواصل مجاناً\./g, 'مضمونة أو نواصل التحسين حتى تظهر النتائج.');
+  next = next.replace(/أو نواصل مجاناً/g, 'أو نواصل التحسين حتى تظهر النتائج');
+  next = next.replace(/نواصل مجاناً/g, 'نواصل التحسين حتى تظهر النتائج');
+
   if (/^(ab|from|من)\s*€?[\d.,]+/i.test(next.trim()) || /€\s?[\d.,]+/.test(next)) {
     next = packageCopy();
   }
