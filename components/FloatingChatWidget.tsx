@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { MessageCircle, RotateCcw, Send, X } from 'lucide-react';
+import { RotateCcw, Send, X } from 'lucide-react';
 
 type ChatMessage = {
   role: 'user' | 'assistant';
@@ -30,6 +30,18 @@ function detectBrowserLanguage() {
   if (browserLang.startsWith('ar')) return 'ar';
   if (browserLang.startsWith('en')) return 'en';
   return 'de';
+}
+
+function RobotFace({ small = false }: { small?: boolean }) {
+  const size = small ? 30 : 38;
+  return (
+    <div className="ovivo-robot-head" style={{ width: size, height: size }}>
+      <span className="ovivo-robot-screen" />
+      <span className="ovivo-robot-eye left" />
+      <span className="ovivo-robot-eye right" />
+      <span className="ovivo-robot-mouth" />
+    </div>
+  );
 }
 
 function getCopy(lang: string) {
@@ -94,23 +106,15 @@ export function FloatingChatWidget() {
       localStorage.removeItem(MEMORY_KEY);
     }
 
-    const nextSessionId = createSessionId();
-    setSessionId(nextSessionId);
+    setSessionId(createSessionId());
     setLang(detectedLang);
   }, []);
 
   useEffect(() => {
     if (!sessionId) return;
-
     localStorage.setItem(
       MEMORY_KEY,
-      JSON.stringify({
-        sessionId,
-        messages,
-        lead,
-        lang,
-        expiresAt: Date.now() + MEMORY_TTL_MS,
-      })
+      JSON.stringify({ sessionId, messages, lead, lang, expiresAt: Date.now() + MEMORY_TTL_MS })
     );
   }, [sessionId, messages, lead, lang]);
 
@@ -121,13 +125,7 @@ export function FloatingChatWidget() {
     setSessionId(nextSessionId);
     localStorage.setItem(
       MEMORY_KEY,
-      JSON.stringify({
-        sessionId: nextSessionId,
-        messages: [],
-        lead: {},
-        lang,
-        expiresAt: Date.now() + MEMORY_TTL_MS,
-      })
+      JSON.stringify({ sessionId: nextSessionId, messages: [], lead: {}, lang, expiresAt: Date.now() + MEMORY_TTL_MS })
     );
   };
 
@@ -205,7 +203,7 @@ export function FloatingChatWidget() {
             }}
           >
             <div style={{ display: 'flex', gap: 10, alignItems: 'center', minWidth: 0 }}>
-              <div className="ovivo-chat-avatar"><MessageCircle size={20} /></div>
+              <RobotFace small />
               <div style={{ minWidth: 0 }}>
                 <div style={{ fontWeight: 800, fontSize: 14 }}>{copy.title}</div>
                 <div style={{ fontSize: 12, color: '#86efac', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 7 }}>
@@ -273,7 +271,7 @@ export function FloatingChatWidget() {
       )}
 
       <button onClick={() => setIsOpen((open) => !open)} aria-label={copy.title} className="ovivo-chat-launcher">
-        {isOpen ? <X size={24} /> : <MessageCircle size={25} />}
+        {isOpen ? <X size={24} /> : <RobotFace />}
         <span className="ovivo-chat-launcher-dot" />
       </button>
 
@@ -309,15 +307,68 @@ export function FloatingChatWidget() {
           top: 8px;
           border: 2px solid #fff;
         }
-        .ovivo-chat-avatar {
-          width: 38px;
-          height: 38px;
+        .ovivo-robot-head {
+          position: relative;
           border-radius: 12px;
-          background: rgba(255, 255, 255, 0.12);
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          background: linear-gradient(145deg, #eaf5ff, #8ec5ff);
+          border: 2px solid rgba(255, 255, 255, 0.85);
+          box-shadow: inset 0 -6px 10px rgba(37, 99, 235, 0.32), inset 0 3px 8px rgba(255, 255, 255, 0.9), 0 10px 24px rgba(59, 130, 246, 0.42);
+          animation: ovivoFloat 2.6s ease-in-out infinite;
           flex-shrink: 0;
+        }
+        .ovivo-robot-head:before {
+          content: '';
+          position: absolute;
+          left: 50%;
+          top: -9px;
+          width: 5px;
+          height: 9px;
+          background: #60a5fa;
+          border-radius: 6px;
+          transform: translateX(-50%);
+        }
+        .ovivo-robot-head:after {
+          content: '';
+          position: absolute;
+          left: 50%;
+          top: -15px;
+          width: 9px;
+          height: 9px;
+          border-radius: 50%;
+          background: #22c55e;
+          box-shadow: 0 0 12px #22c55e;
+          transform: translateX(-50%);
+        }
+        .ovivo-robot-screen {
+          position: absolute;
+          left: 17%;
+          right: 17%;
+          top: 28%;
+          bottom: 22%;
+          border-radius: 8px;
+          background: rgba(15, 23, 42, 0.12);
+          box-shadow: inset 0 1px 4px rgba(15, 23, 42, 0.12);
+        }
+        .ovivo-robot-eye {
+          position: absolute;
+          top: 42%;
+          width: 6px;
+          height: 6px;
+          background: #1d4ed8;
+          border-radius: 50%;
+          animation: ovivoBlink 4s infinite;
+        }
+        .ovivo-robot-eye.left { left: 32%; }
+        .ovivo-robot-eye.right { right: 32%; }
+        .ovivo-robot-mouth {
+          position: absolute;
+          left: 50%;
+          bottom: 27%;
+          width: 14px;
+          height: 6px;
+          border-bottom: 2px solid #1d4ed8;
+          border-radius: 0 0 14px 14px;
+          transform: translateX(-50%);
         }
         .ovivo-chat-icon-button,
         .ovivo-chat-send-button {
@@ -368,6 +419,14 @@ export function FloatingChatWidget() {
           font-size: 18px;
           letter-spacing: 2px;
           padding: 0 4px;
+        }
+        @keyframes ovivoFloat {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-3px); }
+        }
+        @keyframes ovivoBlink {
+          0%, 92%, 100% { transform: scaleY(1); }
+          94%, 96% { transform: scaleY(0.12); }
         }
       `}</style>
     </>
