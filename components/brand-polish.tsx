@@ -15,43 +15,47 @@ function packageCopy() {
   return 'Nach Unternehmensgröße';
 }
 
+const heroTitleByLang = {
+  ar: 'زِد طلبات العملاء لعملك\nتلقائياً على مدار الساعة 24/7.',
+  de: 'Mehr Anfragen für Ihren Betrieb\nautomatisch rund um die Uhr 24/7.',
+  en: 'More inquiries for your business\nautomatically, around the clock 24/7.',
+} as const;
+
 function replaceTextContent(value: string) {
   const lang = currentLang();
+  const heroTitle = heroTitleByLang[lang];
   let next = value;
 
-  const heroTitleByLang = {
-    ar: 'زِد طلبات العملاء لعملك\nتلقائياً على مدار الساعة 24/7.',
-    de: 'Mehr Anfragen für Ihren Betrieb\nautomatisch rund um die Uhr 24/7.',
-    en: 'More inquiries for your business\nautomatically, around the clock 24/7.',
-  } as const;
+  if (value.includes('24/7')) {
+    return value;
+  }
 
-  const heroTitle = heroTitleByLang[lang];
-
-  next = next.replace(/Ihr Betrieb füllt sich/g, heroTitle);
-  next = next.replace(/KI-Automation, die Sie sehen/g, heroTitle);
-  next = next.replace(/Mehr Anfragen für Ihren Betrieb/g, heroTitle);
-  next = next.replace(/automatisch rund um die U+hr\s*(7\/24|24\/7)?/g, '');
-  next = next.replace(/ohne dass Sie einen Finger rühren\./g, '');
-  next = next.replace(/und zuverlässig steuern\./g, '');
-
-  next = next.replace(/Your business stays full/g, heroTitle);
-  next = next.replace(/AI automation you can see/g, heroTitle);
-  next = next.replace(/More inquiries for your business/g, heroTitle);
-  next = next.replace(/automatically, around the clock\.r\.?\s*(7\/24|24\/7)?/g, '');
-  next = next.replace(/automatically, around the clock\.?\s*(7\/24|24\/7)?/g, '');
-  next = next.replace(/without lifting a finger\./g, '');
-  next = next.replace(/and control with confidence\./g, '');
-
-  next = next.replace(/اجذب المزيد من العملاء بدون أي جهد يدوي\. مع Ovivo يتم الرد على جميع الاستفسارات وتأكيد الحجوزات تلقائياً على مدار الساعة\. وفّر وقتك وركّز على تطوير عملك\./g, 'مع Ovivo يتم الرد على الاستفسارات وتأكيد الحجوزات تلقائياً على مدار الساعة، حتى عندما يكون فريقك مشغولاً. وفّر وقتك وركّز على تطوير عملك بينما يعمل النظام في الخلفية.');
-  next = next.replace(/اجذب المزيد من العملاء بدون أي جهد يدوي\./g, '');
-  next = next.replace(/اجذب المزيد من العملاء/g, heroTitle);
-  next = next.replace(/أتمتة ذكية تراها بوضوح/g, heroTitle);
-  next = next.replace(/زِد طلبات العملاء لعملك/g, heroTitle);
-  next = next.replace(/تلقائياً على مدار الساعة\.?\s*(7\/24|24\/7)?/g, '');
-  next = next.replace(/بدون أي جهد يدوي\./g, '');
-  next = next.replace(/وتتحكم بها بثقة\./g, '');
-
-  next = next.replace(/Bereit, Ihren Betrieb auf Autopilot zu setzen\?/g, 'Bereit, Kundenanfragen und Buchungen zuverlässig zu automatisieren?');
+  if (lang === 'ar') {
+    next = next.replace(/اجذب المزيد من العملاء بدون أي جهد يدوي\. مع Ovivo يتم الرد على جميع الاستفسارات وتأكيد الحجوزات تلقائياً على مدار الساعة\. وفّر وقتك وركّز على تطوير عملك\./g, 'مع Ovivo يتم الرد على الاستفسارات وتأكيد الحجوزات تلقائياً على مدار الساعة، حتى عندما يكون فريقك مشغولاً. وفّر وقتك وركّز على تطوير عملك بينما يعمل النظام في الخلفية.');
+    next = next.replace(/اجذب المزيد من العملاء بدون أي جهد يدوي\./g, '');
+    next = next.replace(/اجذب المزيد من العملاء/g, heroTitle);
+    next = next.replace(/أتمتة ذكية تراها بوضوح/g, heroTitle);
+    next = next.replace(/زِد طلبات العملاء لعملك/g, heroTitle);
+    next = next.replace(/تلقائياً على مدار الساعة\.?\s*7\/24/g, '');
+    next = next.replace(/بدون أي جهد يدوي\./g, '');
+    next = next.replace(/وتتحكم بها بثقة\./g, '');
+  } else if (lang === 'en') {
+    next = next.replace(/Your business stays full/g, heroTitle);
+    next = next.replace(/AI automation you can see/g, heroTitle);
+    next = next.replace(/More inquiries for your business/g, heroTitle);
+    next = next.replace(/automatically, around the clock\.r\.?\s*7\/24/g, '');
+    next = next.replace(/automatically, around the clock\.?\s*7\/24/g, '');
+    next = next.replace(/without lifting a finger\./g, '');
+    next = next.replace(/and control with confidence\./g, '');
+  } else {
+    next = next.replace(/Ihr Betrieb füllt sich/g, heroTitle);
+    next = next.replace(/KI-Automation, die Sie sehen/g, heroTitle);
+    next = next.replace(/Mehr Anfragen für Ihren Betrieb/g, heroTitle);
+    next = next.replace(/automatisch rund um die U+hr\s*7\/24/g, '');
+    next = next.replace(/ohne dass Sie einen Finger rühren\./g, '');
+    next = next.replace(/und zuverlässig steuern\./g, '');
+    next = next.replace(/Bereit, Ihren Betrieb auf Autopilot zu setzen\?/g, 'Bereit, Kundenanfragen und Buchungen zuverlässig zu automatisieren?');
+  }
 
   next = next.replace(/الأسعار/g, 'الباقات');
   next = next.replace(/الباقات والباقات/g, 'الباقات');
@@ -81,7 +85,7 @@ function replaceTextContent(value: string) {
     next = next.replace(/Endpreis abhängig von Betriebsgröße und Automatisierungsumfang\./g, 'Jedes Angebot richtet sich nach Unternehmensgröße, Kanälen und Automatisierungsumfang.');
   }
 
-  return next.replace(/\n\s*\n/g, '\n').trim();
+  return next.replace(/\n\s*\n/g, '\n');
 }
 
 function polishVisibleCopy() {
