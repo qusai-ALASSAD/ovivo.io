@@ -203,3 +203,42 @@ html.ovivo-platform-ui body main section:first-of-type a[href*="consultation"] b
     font-size: clamp(2rem, 9.7vw, 2.9rem) !important;
   }
 }
+
+/* Chat icon and mobile button width */
+.ovivo-robot-head {
+  background: #050914 url('/chat-icon.svg') center / cover no-repeat !important;
+  border: 1px solid rgba(59, 130, 246, 0.45) !important;
+  box-shadow: 0 10px 24px rgba(59, 130, 246, 0.42), inset 0 0 18px rgba(0, 209, 255, 0.1) !important;
+}
+
+.ovivo-robot-head::before,
+.ovivo-robot-head::after,
+.ovivo-robot-head span {
+  display: none !important;
+}
+
+.ovivo-chat-launcher {
+  background: #050914 url('/chat-icon.svg') center / 122% 122% no-repeat !important;
+  border: 1px solid rgba(59, 130, 246, 0.5) !important;
+  box-shadow: 0 16px 42px rgba(37, 99, 235, 0.42), 0 0 34px rgba(0, 209, 255, 0.18) !important;
+}
+
+.ovivo-chat-launcher:has(> svg) {
+  background: linear-gradient(135deg, #2563eb, #9333ea) !important;
+}
+
+@media (max-width: 768px) {
+  html.ovivo-platform-ui body main section:first-of-type a,
+  html.ovivo-platform-ui body main section:first-of-type a[href*="consultation"] {
+    display: block !important;
+    max-width: none !important;
+    width: 100% !important;
+  }
+
+  html.ovivo-platform-ui body main section:first-of-type a button {
+    justify-content: center !important;
+    min-height: 64px !important;
+    width: 100% !important;
+    white-space: normal !important;
+  }
+}
