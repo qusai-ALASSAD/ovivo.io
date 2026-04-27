@@ -2,14 +2,6 @@
 
 import { useEffect } from 'react';
 
-const OLD_ARABIC_HERO_SUB =
-  'اجذب المزيد من العملاء بدون أي جهد يدوي. مع Ovivo يتم الرد على جميع الاستفسارات وتأكيد الحجوزات تلقائياً على مدار الساعة. وفّر وقتك وركّز على تطوير عملك.';
-
-const DUPLICATE_ARABIC_SENTENCE = 'اجذب المزيد من العملاء بدون أي جهد يدوي.';
-
-const NEW_ARABIC_HERO_SUB =
-  'مع Ovivo يتم الرد على الاستفسارات وتأكيد الحجوزات تلقائياً على مدار الساعة، حتى عندما يكون فريقك مشغولاً. وفّر وقتك وركّز على تطوير عملك بينما يعمل النظام في الخلفية.';
-
 function currentLang() {
   if (window.location.pathname.startsWith('/ar')) return 'ar';
   if (window.location.pathname.startsWith('/en')) return 'en';
@@ -27,18 +19,39 @@ function replaceTextContent(value: string) {
   const lang = currentLang();
   let next = value;
 
-  next = next.replace(OLD_ARABIC_HERO_SUB, NEW_ARABIC_HERO_SUB);
-  next = next.replace(DUPLICATE_ARABIC_SENTENCE, '');
+  const heroTitleByLang = {
+    ar: 'زِد طلبات العملاء لعملك\nتلقائياً على مدار الساعة 24/7.',
+    de: 'Mehr Anfragen für Ihren Betrieb\nautomatisch rund um die Uhr 24/7.',
+    en: 'More inquiries for your business\nautomatically, around the clock 24/7.',
+  } as const;
 
-  next = next.replace(/Ihr Betrieb füllt sich/g, 'KI-Automation, die Sie sehen');
-  next = next.replace(/ohne dass Sie einen Finger rühren\./g, 'und zuverlässig steuern.');
+  const heroTitle = heroTitleByLang[lang];
+
+  next = next.replace(/Ihr Betrieb füllt sich/g, heroTitle);
+  next = next.replace(/KI-Automation, die Sie sehen/g, heroTitle);
+  next = next.replace(/Mehr Anfragen für Ihren Betrieb/g, heroTitle);
+  next = next.replace(/automatisch rund um die U+hr\s*(7\/24|24\/7)?/g, '');
+  next = next.replace(/ohne dass Sie einen Finger rühren\./g, '');
+  next = next.replace(/und zuverlässig steuern\./g, '');
+
+  next = next.replace(/Your business stays full/g, heroTitle);
+  next = next.replace(/AI automation you can see/g, heroTitle);
+  next = next.replace(/More inquiries for your business/g, heroTitle);
+  next = next.replace(/automatically, around the clock\.r\.?\s*(7\/24|24\/7)?/g, '');
+  next = next.replace(/automatically, around the clock\.?\s*(7\/24|24\/7)?/g, '');
+  next = next.replace(/without lifting a finger\./g, '');
+  next = next.replace(/and control with confidence\./g, '');
+
+  next = next.replace(/اجذب المزيد من العملاء بدون أي جهد يدوي\. مع Ovivo يتم الرد على جميع الاستفسارات وتأكيد الحجوزات تلقائياً على مدار الساعة\. وفّر وقتك وركّز على تطوير عملك\./g, 'مع Ovivo يتم الرد على الاستفسارات وتأكيد الحجوزات تلقائياً على مدار الساعة، حتى عندما يكون فريقك مشغولاً. وفّر وقتك وركّز على تطوير عملك بينما يعمل النظام في الخلفية.');
+  next = next.replace(/اجذب المزيد من العملاء بدون أي جهد يدوي\./g, '');
+  next = next.replace(/اجذب المزيد من العملاء/g, heroTitle);
+  next = next.replace(/أتمتة ذكية تراها بوضوح/g, heroTitle);
+  next = next.replace(/زِد طلبات العملاء لعملك/g, heroTitle);
+  next = next.replace(/تلقائياً على مدار الساعة\.?\s*(7\/24|24\/7)?/g, '');
+  next = next.replace(/بدون أي جهد يدوي\./g, '');
+  next = next.replace(/وتتحكم بها بثقة\./g, '');
+
   next = next.replace(/Bereit, Ihren Betrieb auf Autopilot zu setzen\?/g, 'Bereit, Kundenanfragen und Buchungen zuverlässig zu automatisieren?');
-  next = next.replace(/Your business stays full/g, 'AI automation you can see');
-  next = next.replace(/without lifting a finger\./g, 'and control with confidence.');
-  next = next.replace(/اجذب المزيد من العملاء/g, 'أتمتة ذكية تراها بوضوح');
-  next = next.replace(/زِد طلبات العملاء لعملك/g, 'أتمتة ذكية تراها بوضوح');
-  next = next.replace(/بدون أي جهد يدوي\./g, 'وتتحكم بها بثقة.');
-  next = next.replace(/تلقائياً على مدار الساعة\./g, 'وتتحكم بها بثقة.');
 
   next = next.replace(/الأسعار/g, 'الباقات');
   next = next.replace(/الباقات والباقات/g, 'الباقات');
@@ -68,7 +81,7 @@ function replaceTextContent(value: string) {
     next = next.replace(/Endpreis abhängig von Betriebsgröße und Automatisierungsumfang\./g, 'Jedes Angebot richtet sich nach Unternehmensgröße, Kanälen und Automatisierungsumfang.');
   }
 
-  return next;
+  return next.replace(/\n\s*\n/g, '\n').trim();
 }
 
 function polishVisibleCopy() {
@@ -124,19 +137,18 @@ export function BrandPolish() {
     <style jsx global>{`
       .ovivo-platform-ui body {
         background:
-          radial-gradient(circle at 50% -10%, rgba(36, 99, 235, 0.22), transparent 34rem),
-          radial-gradient(circle at 86% 12%, rgba(168, 85, 247, 0.12), transparent 26rem),
-          linear-gradient(180deg, #070b13 0%, #0a101d 44%, #070b13 100%) !important;
+          radial-gradient(circle at 18% 12%, rgba(0, 209, 255, 0.13), transparent 24rem),
+          radial-gradient(circle at 86% 8%, rgba(123, 97, 255, 0.14), transparent 26rem),
+          linear-gradient(180deg, #070b12 0%, #0a111d 42%, #070b12 100%) !important;
       }
 
       .ovivo-platform-ui body::before {
         background-image:
-          linear-gradient(rgba(148, 163, 184, 0.045) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(148, 163, 184, 0.045) 1px, transparent 1px),
-          radial-gradient(circle at 20% 20%, rgba(0, 209, 255, 0.1), transparent 34rem),
-          radial-gradient(circle at 80% 0%, rgba(255, 92, 224, 0.08), transparent 30rem) !important;
-        background-size: 34px 34px, 34px 34px, auto, auto !important;
-        opacity: 1 !important;
+          linear-gradient(rgba(148, 163, 184, 0.055) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(148, 163, 184, 0.055) 1px, transparent 1px),
+          radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.12), transparent 34rem) !important;
+        background-size: 42px 42px, 42px 42px, auto !important;
+        opacity: 0.92 !important;
       }
 
       nav {
@@ -176,13 +188,22 @@ export function BrandPolish() {
         max-width: 1240px !important;
       }
 
+      .ovivo-platform-ui body main h1,
+      .ovivo-platform-ui body main h2 {
+        hyphens: none !important;
+        overflow-wrap: normal !important;
+        text-wrap: balance;
+        word-break: normal !important;
+      }
+
       .ovivo-hero-command h1 {
         max-width: 980px !important;
         margin-left: auto !important;
         margin-right: auto !important;
-        font-size: clamp(3.2rem, 7.4vw, 7.8rem) !important;
-        line-height: 0.94 !important;
+        font-size: clamp(3rem, 6.2vw, 6.6rem) !important;
+        line-height: 1.02 !important;
         letter-spacing: 0 !important;
+        white-space: pre-line;
         text-wrap: balance;
       }
 
@@ -265,12 +286,12 @@ export function BrandPolish() {
       @media (max-width: 768px) {
         .ovivo-hero-command {
           min-height: auto !important;
-          padding-top: 4rem !important;
+          padding-top: 3.75rem !important;
         }
 
         .ovivo-hero-command h1 {
-          font-size: clamp(2.6rem, 15vw, 4.5rem) !important;
-          line-height: 1.02 !important;
+          font-size: clamp(2.05rem, 9.4vw, 3.2rem) !important;
+          line-height: 1.08 !important;
         }
 
         .ovivo-workflow-theater svg text {
