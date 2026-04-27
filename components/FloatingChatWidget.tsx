@@ -19,7 +19,7 @@ type Lead = {
 
 const MEMORY_KEY = 'ovivo_chat_memory_v2';
 const MEMORY_TTL_MS = 24 * 60 * 60 * 1000;
-const CHAT_ICON_SRC = '/chat-icon.svg?v=2026042704';
+const CHAT_ICON_SRC = '/chat-icon.svg?v=2026042705';
 
 function createSessionId() {
   return `ovivo_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
@@ -34,7 +34,7 @@ function detectBrowserLanguage() {
 }
 
 function ChatLogo({ small = false }: { small?: boolean }) {
-  const size = small ? 34 : 46;
+  const size = small ? 38 : 54;
   return (
     <span className="ovivo-chat-logo" style={{ width: size, height: size }}>
       <img src={CHAT_ICON_SRC} alt="" aria-hidden="true" />
@@ -173,7 +173,7 @@ export function FloatingChatWidget() {
           style={{
             position: 'fixed',
             right: 20,
-            bottom: 92,
+            bottom: 98,
             width: 370,
             maxWidth: 'calc(100vw - 32px)',
             height: 510,
@@ -279,13 +279,13 @@ export function FloatingChatWidget() {
           right: 20px;
           bottom: 20px;
           z-index: 999999;
-          width: 66px;
-          height: 66px;
-          border: 1px solid rgba(59, 130, 246, 0.5);
-          border-radius: 19px;
+          width: 72px;
+          height: 72px;
+          border: 1px solid rgba(59, 130, 246, 0.55);
+          border-radius: 50%;
           color: #fff;
-          background: #050914;
-          box-shadow: 0 16px 42px rgba(37, 99, 235, 0.42), 0 0 34px rgba(0, 209, 255, 0.18);
+          background: radial-gradient(circle at 35% 22%, rgba(0, 209, 255, 0.22), rgba(5, 9, 20, 0.95) 58%);
+          box-shadow: 0 18px 46px rgba(37, 99, 235, 0.44), 0 0 42px rgba(0, 209, 255, 0.2);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -298,9 +298,9 @@ export function FloatingChatWidget() {
         .ovivo-chat-logo {
           display: block;
           flex-shrink: 0;
-          border-radius: 14px;
+          border-radius: 50%;
           background: #050914;
-          box-shadow: inset 0 0 18px rgba(0, 209, 255, 0.12);
+          box-shadow: inset 0 0 18px rgba(0, 209, 255, 0.12), 0 0 20px rgba(0, 209, 255, 0.14);
           overflow: hidden;
         }
         .ovivo-chat-logo img {
@@ -308,11 +308,12 @@ export function FloatingChatWidget() {
           height: 100%;
           display: block;
           object-fit: cover;
+          transform: scale(1.16);
         }
         .ovivo-chat-launcher .ovivo-chat-logo {
-          width: 58px !important;
-          height: 58px !important;
-          border-radius: 17px;
+          width: 66px !important;
+          height: 66px !important;
+          border-radius: 50%;
         }
         .ovivo-chat-launcher-dot,
         .ovivo-online-dot {
@@ -324,7 +325,7 @@ export function FloatingChatWidget() {
         }
         .ovivo-chat-launcher-dot {
           position: absolute;
-          right: 8px;
+          right: 7px;
           top: 8px;
           border: 2px solid #fff;
         }
