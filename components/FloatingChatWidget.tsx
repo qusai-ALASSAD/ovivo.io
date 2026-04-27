@@ -19,6 +19,7 @@ type Lead = {
 
 const MEMORY_KEY = 'ovivo_chat_memory_v2';
 const MEMORY_TTL_MS = 24 * 60 * 60 * 1000;
+const CHAT_ICON_SRC = '/chat-icon.svg?v=2026042704';
 
 function createSessionId() {
   return `ovivo_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
@@ -34,7 +35,11 @@ function detectBrowserLanguage() {
 
 function ChatLogo({ small = false }: { small?: boolean }) {
   const size = small ? 34 : 46;
-  return <span className="ovivo-chat-logo" style={{ width: size, height: size }} />;
+  return (
+    <span className="ovivo-chat-logo" style={{ width: size, height: size }}>
+      <img src={CHAT_ICON_SRC} alt="" aria-hidden="true" />
+    </span>
+  );
 }
 
 function getCopy(lang: string) {
@@ -42,9 +47,9 @@ function getCopy(lang: string) {
     return {
       title: 'مساعد Ovivo',
       status: 'متصل',
-      welcome: 'أهلًا! أنا مساعد Ovivo الذكي. أخبرني عن نوع عملك، وسأساعدك في معرفة كيف يمكن للأتمتة زيادة الطلبات وتنظيم الردود.',
+      welcome: 'أهلاً! أنا مساعد Ovivo الذكي. أخبرني عن نوع عملك، وسأساعدك في معرفة كيف يمكن للأتمتة زيادة الطلبات وتنظيم الردود.',
       placeholder: 'اكتب رسالتك...',
-      error: 'عذرًا، حدث خطأ مؤقت. حاول مرة أخرى.',
+      error: 'عذراً، حدث خطأ مؤقت. حاول مرة أخرى.',
       newChat: 'محادثة جديدة',
     };
   }
@@ -294,8 +299,15 @@ export function FloatingChatWidget() {
           display: block;
           flex-shrink: 0;
           border-radius: 14px;
-          background: #050914 url('/chat-icon.svg') center / 122% 122% no-repeat;
+          background: #050914;
           box-shadow: inset 0 0 18px rgba(0, 209, 255, 0.12);
+          overflow: hidden;
+        }
+        .ovivo-chat-logo img {
+          width: 100%;
+          height: 100%;
+          display: block;
+          object-fit: cover;
         }
         .ovivo-chat-launcher .ovivo-chat-logo {
           width: 58px !important;
