@@ -15,43 +15,37 @@ function packageCopy() {
   return 'Nach Unternehmensgröße';
 }
 
-const heroTitleByLang = {
-  ar: 'زِد طلبات العملاء لعملك\nتلقائياً على مدار الساعة 24/7.',
-  de: 'Mehr Anfragen für Ihren Betrieb\nautomatisch rund um die Uhr 24/7.',
-  en: 'More inquiries for your business\nautomatically, around the clock 24/7.',
+const heroLinesByLang = {
+  ar: {
+    first: 'زِد طلبات العملاء لعملك',
+    second: 'تلقائياً على مدار الساعة 24/7.',
+  },
+  de: {
+    first: 'Mehr Anfragen für Ihren Betrieb',
+    second: 'automatisch rund um die Uhr 24/7.',
+  },
+  en: {
+    first: 'More inquiries for your business',
+    second: 'automatically, around the clock 24/7.',
+  },
 } as const;
+
+function isHomePage() {
+  const path = window.location.pathname.replace(/\/$/, '');
+  return path === '' || path === '/ar' || path === '/en';
+}
 
 function replaceTextContent(value: string) {
   const lang = currentLang();
-  const heroTitle = heroTitleByLang[lang];
   let next = value;
-
-  if (value.includes('24/7')) {
-    return value;
-  }
 
   if (lang === 'ar') {
     next = next.replace(/اجذب المزيد من العملاء بدون أي جهد يدوي\. مع Ovivo يتم الرد على جميع الاستفسارات وتأكيد الحجوزات تلقائياً على مدار الساعة\. وفّر وقتك وركّز على تطوير عملك\./g, 'مع Ovivo يتم الرد على الاستفسارات وتأكيد الحجوزات تلقائياً على مدار الساعة، حتى عندما يكون فريقك مشغولاً. وفّر وقتك وركّز على تطوير عملك بينما يعمل النظام في الخلفية.');
     next = next.replace(/اجذب المزيد من العملاء بدون أي جهد يدوي\./g, '');
-    next = next.replace(/اجذب المزيد من العملاء/g, heroTitle);
-    next = next.replace(/أتمتة ذكية تراها بوضوح/g, heroTitle);
-    next = next.replace(/زِد طلبات العملاء لعملك/g, heroTitle);
-    next = next.replace(/تلقائياً على مدار الساعة\.?\s*7\/24/g, '');
-    next = next.replace(/بدون أي جهد يدوي\./g, '');
-    next = next.replace(/وتتحكم بها بثقة\./g, '');
   } else if (lang === 'en') {
-    next = next.replace(/Your business stays full/g, heroTitle);
-    next = next.replace(/AI automation you can see/g, heroTitle);
-    next = next.replace(/More inquiries for your business/g, heroTitle);
-    next = next.replace(/automatically, around the clock\.r\.?\s*7\/24/g, '');
-    next = next.replace(/automatically, around the clock\.?\s*7\/24/g, '');
     next = next.replace(/without lifting a finger\./g, '');
     next = next.replace(/and control with confidence\./g, '');
   } else {
-    next = next.replace(/Ihr Betrieb füllt sich/g, heroTitle);
-    next = next.replace(/KI-Automation, die Sie sehen/g, heroTitle);
-    next = next.replace(/Mehr Anfragen für Ihren Betrieb/g, heroTitle);
-    next = next.replace(/automatisch rund um die U+hr\s*7\/24/g, '');
     next = next.replace(/ohne dass Sie einen Finger rühren\./g, '');
     next = next.replace(/und zuverlässig steuern\./g, '');
     next = next.replace(/Bereit, Ihren Betrieb auf Autopilot zu setzen\?/g, 'Bereit, Kundenanfragen und Buchungen zuverlässig zu automatisieren?');
@@ -100,6 +94,31 @@ function polishVisibleCopy() {
   });
 }
 
+function applyHeroHeadline() {
+  if (!isHomePage()) return;
+
+  const lang = currentLang();
+  const copy = heroLinesByLang[lang];
+  const hero = document.querySelector('main section:first-of-type h1') as HTMLElement | null;
+  if (!hero) return;
+
+  const desired = `${copy.first}${copy.second}`;
+  const current = (hero.textContent || '').replace(/\s+/g, '');
+  if (hero.dataset.ovivoHeroFixed === lang && current === desired.replace(/\s+/g, '')) return;
+
+  const oldSpan = hero.querySelector('span') as HTMLElement | null;
+  const spanClass = oldSpan?.className || 'text-gradient';
+  hero.textContent = '';
+  hero.appendChild(document.createTextNode(copy.first));
+  hero.appendChild(document.createElement('br'));
+
+  const span = document.createElement('span');
+  span.className = spanClass;
+  span.textContent = copy.second;
+  hero.appendChild(span);
+  hero.dataset.ovivoHeroFixed = lang;
+}
+
 function applyPlatformPolish() {
   document.documentElement.classList.add('ovivo-platform-ui');
 
@@ -117,6 +136,8 @@ function applyPlatformPolish() {
       section.classList.add('ovivo-workflow-theater');
     }
   });
+
+  applyHeroHeadline();
 }
 
 export function BrandPolish() {
@@ -207,7 +228,6 @@ export function BrandPolish() {
         font-size: clamp(3rem, 6.2vw, 6.6rem) !important;
         line-height: 1.02 !important;
         letter-spacing: 0 !important;
-        white-space: pre-line;
         text-wrap: balance;
       }
 
