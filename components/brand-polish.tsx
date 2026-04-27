@@ -30,15 +30,19 @@ function replaceTextContent(value: string) {
   next = next.replace(OLD_ARABIC_HERO_SUB, NEW_ARABIC_HERO_SUB);
   next = next.replace(DUPLICATE_ARABIC_SENTENCE, '');
 
-  next = next.replace(/Ihr Betrieb füllt sich/g, 'Mehr Anfragen für Ihren Betrieb');
-  next = next.replace(/ohne dass Sie einen Finger rühren\./g, 'automatisch rund um die Uhr.');
+  next = next.replace(/Ihr Betrieb füllt sich/g, 'KI-Automation, die Sie sehen');
+  next = next.replace(/ohne dass Sie einen Finger rühren\./g, 'und zuverlässig steuern.');
   next = next.replace(/Bereit, Ihren Betrieb auf Autopilot zu setzen\?/g, 'Bereit, Kundenanfragen und Buchungen zuverlässig zu automatisieren?');
-  next = next.replace(/Your business stays full/g, 'More inquiries for your business');
-  next = next.replace(/without lifting a finger\./g, 'automatically, around the clock.');
-  next = next.replace(/اجذب المزيد من العملاء/g, 'زِد طلبات العملاء لعملك');
-  next = next.replace(/بدون أي جهد يدوي\./g, 'تلقائياً على مدار الساعة.');
+  next = next.replace(/Your business stays full/g, 'AI automation you can see');
+  next = next.replace(/without lifting a finger\./g, 'and control with confidence.');
+  next = next.replace(/اجذب المزيد من العملاء/g, 'أتمتة ذكية تراها بوضوح');
+  next = next.replace(/زِد طلبات العملاء لعملك/g, 'أتمتة ذكية تراها بوضوح');
+  next = next.replace(/بدون أي جهد يدوي\./g, 'وتتحكم بها بثقة.');
+  next = next.replace(/تلقائياً على مدار الساعة\./g, 'وتتحكم بها بثقة.');
 
   next = next.replace(/الأسعار/g, 'الباقات');
+  next = next.replace(/الباقات والباقات/g, 'الباقات');
+  next = next.replace(/الباقات و الأسعار/g, 'الباقات');
   next = next.replace(/الباقات والأسعار/g, 'الباقات');
   next = next.replace(/Packages & Pricing/g, 'Packages');
   next = next.replace(/Pricing/g, 'Packages');
@@ -79,11 +83,35 @@ function polishVisibleCopy() {
   });
 }
 
+function applyPlatformPolish() {
+  document.documentElement.classList.add('ovivo-platform-ui');
+
+  const sections = Array.from(document.querySelectorAll('main section'));
+  sections[0]?.classList.add('ovivo-hero-command');
+  sections[1]?.classList.add('ovivo-proof-console');
+
+  sections.forEach((section) => {
+    const text = section.textContent || '';
+    if (
+      text.includes('Restaurant-Automation live') ||
+      text.includes('Restaurant automation live') ||
+      text.includes('أتمتة مطعم مباشرة')
+    ) {
+      section.classList.add('ovivo-workflow-theater');
+    }
+  });
+}
+
 export function BrandPolish() {
   useEffect(() => {
-    polishVisibleCopy();
-    const timers = [100, 500, 1200, 2500].map((delay) => setTimeout(polishVisibleCopy, delay));
-    const observer = new MutationObserver(() => polishVisibleCopy());
+    const run = () => {
+      polishVisibleCopy();
+      applyPlatformPolish();
+    };
+
+    run();
+    const timers = [100, 500, 1200, 2500].map((delay) => setTimeout(run, delay));
+    const observer = new MutationObserver(() => run());
     observer.observe(document.body, { childList: true, subtree: true });
 
     return () => {
@@ -94,10 +122,33 @@ export function BrandPolish() {
 
   return (
     <style jsx global>{`
-      html[dir='rtl'] h1,
-      html[lang='ar'] h1,
-      body:has(a[href='/ar']) h1 {
-        line-height: 1.18 !important;
+      .ovivo-platform-ui body {
+        background:
+          radial-gradient(circle at 50% -10%, rgba(36, 99, 235, 0.22), transparent 34rem),
+          radial-gradient(circle at 86% 12%, rgba(168, 85, 247, 0.12), transparent 26rem),
+          linear-gradient(180deg, #070b13 0%, #0a101d 44%, #070b13 100%) !important;
+      }
+
+      .ovivo-platform-ui body::before {
+        background-image:
+          linear-gradient(rgba(148, 163, 184, 0.045) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(148, 163, 184, 0.045) 1px, transparent 1px),
+          radial-gradient(circle at 20% 20%, rgba(0, 209, 255, 0.1), transparent 34rem),
+          radial-gradient(circle at 80% 0%, rgba(255, 92, 224, 0.08), transparent 30rem) !important;
+        background-size: 34px 34px, 34px 34px, auto, auto !important;
+        opacity: 1 !important;
+      }
+
+      nav {
+        background: rgba(7, 11, 19, 0.78) !important;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.14) !important;
+        backdrop-filter: blur(22px) saturate(150%) !important;
+        box-shadow: 0 20px 70px rgba(0, 0, 0, 0.22) !important;
+      }
+
+      nav a,
+      nav button {
+        letter-spacing: 0 !important;
       }
 
       nav a.group > div.relative.flex.h-10.w-10 {
@@ -112,6 +163,119 @@ export function BrandPolish() {
       nav a.group > div.relative.flex.h-10.w-10::after {
         display: none !important;
         content: none !important;
+      }
+
+      .ovivo-hero-command {
+        position: relative !important;
+        min-height: calc(100vh - 80px) !important;
+        padding-top: clamp(4rem, 8vw, 7rem) !important;
+        padding-bottom: clamp(3rem, 6vw, 5rem) !important;
+      }
+
+      .ovivo-hero-command > div {
+        max-width: 1240px !important;
+      }
+
+      .ovivo-hero-command h1 {
+        max-width: 980px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        font-size: clamp(3.2rem, 7.4vw, 7.8rem) !important;
+        line-height: 0.94 !important;
+        letter-spacing: 0 !important;
+        text-wrap: balance;
+      }
+
+      html[dir='rtl'] h1,
+      html[lang='ar'] h1,
+      body:has(a[href='/ar']) h1 {
+        line-height: 1.12 !important;
+      }
+
+      .ovivo-hero-command h1 + p,
+      .ovivo-hero-command p:has(+ div) {
+        max-width: 760px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        color: rgba(203, 213, 225, 0.86) !important;
+        font-size: clamp(1rem, 1.6vw, 1.28rem) !important;
+      }
+
+      .ovivo-hero-command .glass,
+      .ovivo-proof-console .glass,
+      .ovivo-workflow-theater .glass {
+        background: linear-gradient(180deg, rgba(15, 23, 42, 0.82), rgba(7, 11, 19, 0.72)) !important;
+        border-color: rgba(148, 163, 184, 0.16) !important;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 24px 90px rgba(0, 0, 0, 0.28) !important;
+      }
+
+      .ovivo-platform-ui a[href*='consultation'] button,
+      .ovivo-platform-ui button.bg-blue-500 {
+        background: linear-gradient(135deg, #2f7cff 0%, #7461ff 55%, #b832f7 100%) !important;
+        border: 1px solid rgba(255, 255, 255, 0.16) !important;
+        border-radius: 12px !important;
+        box-shadow: 0 16px 42px rgba(47, 124, 255, 0.28) !important;
+      }
+
+      .ovivo-platform-ui button[variant='outline'],
+      .ovivo-platform-ui a[href='#pakete'] button {
+        background: rgba(7, 11, 19, 0.76) !important;
+        border: 1px solid rgba(148, 163, 184, 0.18) !important;
+      }
+
+      .ovivo-proof-console {
+        border-top: 1px solid rgba(148, 163, 184, 0.1) !important;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.1) !important;
+        background: linear-gradient(180deg, rgba(15, 23, 42, 0.38), rgba(7, 11, 19, 0.18)) !important;
+      }
+
+      .ovivo-workflow-theater {
+        padding-top: clamp(5rem, 8vw, 8rem) !important;
+        padding-bottom: clamp(5rem, 8vw, 8rem) !important;
+        background:
+          radial-gradient(circle at 50% 40%, rgba(59, 130, 246, 0.12), transparent 34rem),
+          linear-gradient(180deg, rgba(255, 255, 255, 0.015), rgba(255, 255, 255, 0.035)) !important;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .ovivo-workflow-theater svg {
+        border-radius: 24px !important;
+        box-shadow: 0 34px 120px rgba(0, 0, 0, 0.42), 0 0 0 1px rgba(148, 163, 184, 0.12) !important;
+      }
+
+      .ovivo-workflow-theater h2,
+      .ovivo-workflow-theater [class*='text-gradient'] {
+        text-wrap: balance;
+      }
+
+      .ovivo-platform-ui section h2 {
+        letter-spacing: 0 !important;
+        text-wrap: balance;
+      }
+
+      .ovivo-platform-ui .rounded-3xl {
+        border-radius: 24px !important;
+      }
+
+      .ovivo-platform-ui .rounded-2xl {
+        border-radius: 18px !important;
+      }
+
+      @media (max-width: 768px) {
+        .ovivo-hero-command {
+          min-height: auto !important;
+          padding-top: 4rem !important;
+        }
+
+        .ovivo-hero-command h1 {
+          font-size: clamp(2.6rem, 15vw, 4.5rem) !important;
+          line-height: 1.02 !important;
+        }
+
+        .ovivo-workflow-theater svg text {
+          font-size: 16px !important;
+        }
       }
     `}</style>
   );
