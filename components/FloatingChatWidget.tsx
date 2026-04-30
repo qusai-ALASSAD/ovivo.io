@@ -20,16 +20,35 @@ type Lead = {
 const MEMORY_KEY = 'ovivo_chat_memory_v2';
 const MEMORY_TTL_MS = 24 * 60 * 60 * 1000;
 const CHAT_ICON_SRC = '/chat-icon.svg?v=2026042705';
+const SUPPORTED_LANGS = ['ar', 'en', 'de'] as const;
 
 function createSessionId() {
   return `ovivo_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
 }
 
-function detectBrowserLanguage() {
-  if (typeof navigator === 'undefined') return 'de';
-  const browserLang = navigator.language.toLowerCase();
-  if (browserLang.startsWith('ar')) return 'ar';
-  if (browserLang.startsWith('en')) return 'en';
+function normalizeLanguage(value?: string | null) {
+  const lang = String(value || '').toLowerCase();
+  if (lang.startsWith('ar')) return 'ar';
+  if (lang.startsWith('en')) return 'en';
+  if (lang.startsWith('de')) return 'de';
+  return '';
+}
+
+function detectPreferredLanguage() {
+  if (typeof window === 'undefined') return 'de';
+
+  const pageLang = normalizeLanguage(document.documentElement.lang);
+  if (pageLang) return pageLang;
+
+  const pathLang = normalizeLanguage(window.location.pathname.split('/').filter(Boolean)[0]);
+  if (pathLang) return pathLang;
+
+  const browserLangs = navigator.languages?.length ? navigator.languages : [navigator.language];
+  for (const browserLang of browserLangs) {
+    const normalized = normalizeLanguage(browserLang);
+    if (SUPPORTED_LANGS.includes(normalized as (typeof SUPPORTED_LANGS)[number])) return normalized;
+  }
+
   return 'de';
 }
 
@@ -88,7 +107,7 @@ export function FloatingChatWidget() {
   const isRtl = lang === 'ar';
 
   useEffect(() => {
-    const detectedLang = detectBrowserLanguage();
+    const detectedLang = detectPreferredLanguage();
     const now = Date.now();
 
     try {
@@ -118,12 +137,14 @@ export function FloatingChatWidget() {
 
   const resetChat = () => {
     const nextSessionId = createSessionId();
+    const detectedLang = detectPreferredLanguage();
     setMessages([]);
     setLead({});
+    setLang(detectedLang);
     setSessionId(nextSessionId);
     localStorage.setItem(
       MEMORY_KEY,
-      JSON.stringify({ sessionId: nextSessionId, messages: [], lead: {}, lang, expiresAt: Date.now() + MEMORY_TTL_MS })
+      JSON.stringify({ sessionId: nextSessionId, messages: [], lead: {}, lang: detectedLang, expiresAt: Date.now() + MEMORY_TTL_MS })
     );
   };
 
@@ -170,6 +191,8 @@ export function FloatingChatWidget() {
     <>
       {isOpen && (
         <div
+          lang={lang}
+          dir={isRtl ? 'rtl' : 'ltr'}
           style={{
             position: 'fixed',
             right: 20,
@@ -187,7 +210,6 @@ export function FloatingChatWidget() {
             display: 'flex',
             flexDirection: 'column',
             overflow: 'hidden',
-            direction: isRtl ? 'rtl' : 'ltr',
           }}
         >
           <div
@@ -202,7 +224,7 @@ export function FloatingChatWidget() {
           >
             <div style={{ display: 'flex', gap: 10, alignItems: 'center', minWidth: 0 }}>
               <ChatLogo small />
-              <div style={{ minWidth: 0 }}>
+              <div style={{ minWidth: 0, textAlign: isRtl ? 'right' : 'left' }}>
                 <div style={{ fontWeight: 800, fontSize: 14 }}>{copy.title}</div>
                 <div style={{ fontSize: 12, color: '#86efac', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 7 }}>
                   <span className="ovivo-online-dot" /> {copy.status}
@@ -221,7 +243,7 @@ export function FloatingChatWidget() {
           </div>
 
           <div style={{ flex: 1, padding: 14, overflowY: 'auto', background: '#08111f' }}>
-            {messages.length === 0 && <div className="ovivo-chat-bubble assistant">{copy.welcome}</div>}
+            {messages.length === 0 && <div className={`ovivo-chat-bubble assistant ${isRtl ? 'rtl' : ''}`}>{copy.welcome}</div>}
             {messages.map((message, index) => (
               <div
                 key={`${message.role}-${index}`}
@@ -231,7 +253,7 @@ export function FloatingChatWidget() {
                   marginBottom: 10,
                 }}
               >
-                <div className={`ovivo-chat-bubble ${message.role}`}>{message.content}</div>
+                <div className={`ovivo-chat-bubble ${message.role} ${isRtl ? 'rtl' : ''}`}>{message.content}</div>
               </div>
             ))}
             {isLoading && <div className="ovivo-chat-typing">...</div>}
@@ -246,6 +268,7 @@ export function FloatingChatWidget() {
                 if (event.key === 'Enter') sendMessage();
               }}
               placeholder={copy.placeholder}
+              dir={isRtl ? 'rtl' : 'ltr'}
               style={{
                 flex: 1,
                 height: 46,
@@ -363,10 +386,16 @@ export function FloatingChatWidget() {
           max-width: 86%;
           padding: 10px 12px;
           border-radius: 12px;
-          font-size: 13px;
-          line-height: 1.5;
+          font-size: 14px;
+          line-height: 1.58;
           white-space: pre-wrap;
           word-break: break-word;
+          text-align: left;
+        }
+        .ovivo-chat-bubble.rtl {
+          direction: rtl;
+          text-align: right;
+          line-height: 1.7;
         }
         .ovivo-chat-bubble.user {
           background: #2563eb;
