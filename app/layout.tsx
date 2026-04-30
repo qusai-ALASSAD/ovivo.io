@@ -7,6 +7,7 @@ import { ScrollToTop } from '@/components/scroll-to-top';
 import { Toaster } from 'sonner';
 import { FloatingChatWidget } from '@/components/FloatingChatWidget';
 import { BrandPolish } from '@/components/brand-polish';
+import { PackageOverrides } from '@/components/package-overrides';
 
 export const metadata: Metadata = {
   title: 'Ovivo - KI-Automation für Gastronomie & Servicebetriebe',
@@ -47,6 +48,7 @@ export default function RootLayout({
         <Footer />
         <LeadMagnet />
         <ScrollToTop />
+        <PackageOverrides />
         <FloatingChatWidget />
         <Toaster position="bottom-right" theme="dark" />
       </body>
