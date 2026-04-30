@@ -47,9 +47,9 @@ function getCopy(lang: string) {
     return {
       title: 'مساعد Ovivo',
       status: 'متصل',
-      welcome: 'أهلًا! أنا مساعد Ovivo الذكي. اكتب لي نوع شغلك، مثل مطعم أو كافيه أو شركة تنظيف، وسأساعدك نحدد أي باقة أتمتة تناسبك.',
+      welcome: 'أهلاً! أنا مساعد Ovivo الذكي. أخبرني عن نوع عملك، وسأساعدك في معرفة كيف يمكن للأتمتة زيادة الطلبات وتنظيم الردود.',
       placeholder: 'اكتب رسالتك...',
-      error: 'عذرًا، حدث خطأ مؤقت. حاول مرة أخرى.',
+      error: 'عذراً، حدث خطأ مؤقت. حاول مرة أخرى.',
       newChat: 'محادثة جديدة',
     };
   }
@@ -202,7 +202,7 @@ export function FloatingChatWidget() {
           >
             <div style={{ display: 'flex', gap: 10, alignItems: 'center', minWidth: 0 }}>
               <ChatLogo small />
-              <div style={{ minWidth: 0, textAlign: isRtl ? 'right' : 'left' }}>
+              <div style={{ minWidth: 0 }}>
                 <div style={{ fontWeight: 800, fontSize: 14 }}>{copy.title}</div>
                 <div style={{ fontSize: 12, color: '#86efac', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 7 }}>
                   <span className="ovivo-online-dot" /> {copy.status}
@@ -220,28 +220,18 @@ export function FloatingChatWidget() {
             </div>
           </div>
 
-          <div style={{ flex: 1, padding: 14, overflowY: 'auto', background: '#08111f', direction: 'ltr' }}>
-            {messages.length === 0 && (
-              <div dir={isRtl ? 'rtl' : 'ltr'} className="ovivo-chat-bubble assistant" style={{ textAlign: isRtl ? 'right' : 'left' }}>
-                {copy.welcome}
-              </div>
-            )}
+          <div style={{ flex: 1, padding: 14, overflowY: 'auto', background: '#08111f' }}>
+            {messages.length === 0 && <div className="ovivo-chat-bubble assistant">{copy.welcome}</div>}
             {messages.map((message, index) => (
               <div
                 key={`${message.role}-${index}`}
                 style={{
                   display: 'flex',
-                  justifyContent: message.role === 'user' ? 'flex-end' : 'flex-start',
+                  justifyContent: message.role === 'user' ? (isRtl ? 'flex-start' : 'flex-end') : (isRtl ? 'flex-end' : 'flex-start'),
                   marginBottom: 10,
                 }}
               >
-                <div
-                  dir={isRtl ? 'rtl' : 'ltr'}
-                  className={`ovivo-chat-bubble ${message.role}`}
-                  style={{ textAlign: isRtl ? 'right' : 'left' }}
-                >
-                  {message.content}
-                </div>
+                <div className={`ovivo-chat-bubble ${message.role}`}>{message.content}</div>
               </div>
             ))}
             {isLoading && <div className="ovivo-chat-typing">...</div>}
@@ -251,7 +241,6 @@ export function FloatingChatWidget() {
             <input
               value={input}
               disabled={isLoading}
-              dir={isRtl ? 'rtl' : 'ltr'}
               onChange={(event) => setInput(event.target.value)}
               onKeyDown={(event) => {
                 if (event.key === 'Enter') sendMessage();
