@@ -242,3 +242,81 @@ html.ovivo-platform-ui body main section:first-of-type a[href*="consultation"] b
     white-space: normal !important;
   }
 }
+/* ====================================
+   OVIVO HOMEPAGE FIXES - ADD THIS TO END
+   تعديلات الصفحة الرئيسية
+   ==================================== */
+
+/* 1. تقليل الفراغ بين Sections */
+section:not(:first-of-type):not(.ovivo-chat-section) {
+  padding-top: 60px !important;
+  padding-bottom: 60px !important;
+}
+
+@media (max-width: 768px) {
+  section:not(:first-of-type):not(.ovivo-chat-section) {
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+  }
+}
+
+/* 2. توحيد كل الأزرار */
+button:not(.unstyled):not([class*="close"]):not([class*="icon"]):not(.ovivo-chat-launcher),
+.button:not(.unstyled),
+.btn:not(.unstyled),
+a.cta-button {
+  min-width: 180px !important;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+  color: white !important;
+  padding: 14px 32px !important;
+  border-radius: 8px !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+  border: none !important;
+}
+
+button:not(.unstyled):hover,
+.button:hover,
+.btn:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3) !important;
+}
+
+@media (max-width: 768px) {
+  button:not(.unstyled):not(.ovivo-chat-launcher),
+  .button:not(.unstyled),
+  .btn:not(.unstyled) {
+    width: 100% !important;
+    min-width: auto !important;
+  }
+}
+
+/* 3. توحيد Service Cards */
+.service-card,
+.feature-card {
+  max-width: 380px !important;
+  margin: 0 auto !important;
+}
+
+/* 4. Grid موحد */
+.services-grid,
+.features-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
+  gap: 24px !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+}
+
+@media (max-width: 768px) {
+  .services-grid,
+  .features-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+}
+
+/* END OVIVO HOMEPAGE FIXES */
+
