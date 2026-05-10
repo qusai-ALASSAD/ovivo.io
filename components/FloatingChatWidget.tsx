@@ -1,417 +1,218 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { RotateCcw, Send, X } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { MessageCircle, X, Send } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
-type ChatMessage = {
-  role: 'user' | 'assistant';
-  content: string;
-};
-
-type Lead = {
-  name?: string;
-  phone?: string;
-  company?: string;
-  businessType?: string;
-  channels?: string[];
-  problem?: string;
-};
-
-const MEMORY_KEY = 'ovivo_chat_memory_v2';
-const MEMORY_TTL_MS = 24 * 60 * 60 * 1000;
-const CHAT_ICON_SRC = '/chat-icon.svg?v=2026042705';
-const SUPPORTED_LANGS = ['ar', 'en', 'de'] as const;
-
-function createSessionId() {
-  return `ovivo_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
+interface Message {
+  id: string;
+  text: string;
+  sender: 'user' | 'bot';
+  timestamp: Date;
 }
 
-function normalizeLanguage(value?: string | null) {
-  const lang = String(value || '').toLowerCase();
-  if (lang.startsWith('ar')) return 'ar';
-  if (lang.startsWith('en')) return 'en';
-  if (lang.startsWith('de')) return 'de';
-  return '';
-}
-
-function detectPreferredLanguage() {
-  if (typeof window === 'undefined') return 'de';
-
-  const pageLang = normalizeLanguage(document.documentElement.lang);
-  if (pageLang) return pageLang;
-
-  const pathLang = normalizeLanguage(window.location.pathname.split('/').filter(Boolean)[0]);
-  if (pathLang) return pathLang;
-
-  const browserLangs = navigator.languages?.length ? navigator.languages : [navigator.language];
-  for (const browserLang of browserLangs) {
-    const normalized = normalizeLanguage(browserLang);
-    if (SUPPORTED_LANGS.includes(normalized as (typeof SUPPORTED_LANGS)[number])) return normalized;
-  }
-
-  return 'de';
-}
-
-function ChatLogo({ small = false }: { small?: boolean }) {
-  const size = small ? 38 : 54;
-  return (
-    <span className="ovivo-chat-logo" style={{ width: size, height: size }}>
-      <img src={CHAT_ICON_SRC} alt="" aria-hidden="true" />
-    </span>
-  );
-}
-
-function getCopy(lang: string) {
-  if (lang === 'ar') {
-    return {
-      title: 'مساعد Ovivo',
-      status: 'متصل',
-      welcome: 'أهلاً! أنا مساعد Ovivo الذكي. أخبرني عن نوع عملك، وسأساعدك في معرفة كيف يمكن للأتمتة زيادة الطلبات وتنظيم الردود.',
-      placeholder: 'اكتب رسالتك...',
-      error: 'عذراً، حدث خطأ مؤقت. حاول مرة أخرى.',
-      newChat: 'محادثة جديدة',
-    };
-  }
-
-  if (lang === 'en') {
-    return {
-      title: 'Ovivo Assistant',
-      status: 'Online',
-      welcome: 'Hello! I am Ovivo’s smart assistant. Tell me what type of business you run, and I will help you see how automation can bring more leads and faster replies.',
-      placeholder: 'Type your message...',
-      error: 'Sorry, a temporary error occurred. Please try again.',
-      newChat: 'New chat',
-    };
-  }
-
-  return {
-    title: 'Ovivo Assistent',
-    status: 'Online',
-    welcome: 'Hallo! Ich bin der Ovivo Assistent. Erzählen Sie mir kurz, welche Art von Unternehmen Sie haben, und ich zeige Ihnen, wie Automatisierung mehr Anfragen und schnellere Antworten bringen kann.',
-    placeholder: 'Ihre Nachricht...',
-    error: 'Entschuldigung, es gab ein kurzes Problem. Bitte versuchen Sie es erneut.',
-    newChat: 'Neuer Chat',
-  };
-}
-
-export function FloatingChatWidget() {
+const FloatingChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [input, setInput] = useState('');
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [lang, setLang] = useState('de');
-  const [sessionId, setSessionId] = useState('');
-  const [lead, setLead] = useState<Lead>({});
+  const [sessionId, setSessionId] = useState<string>('');
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const pathname = usePathname();
 
-  const copy = useMemo(() => getCopy(lang), [lang]);
-  const isRtl = lang === 'ar';
+  // كشف اللغة من URL فوراً
+  const currentLang = pathname?.startsWith('/ar') ? 'ar' : pathname?.startsWith('/en') ? 'en' : 'de';
 
+  // توليد sessionId
   useEffect(() => {
-    const detectedLang = detectPreferredLanguage();
-    const now = Date.now();
-
-    try {
-      const saved = JSON.parse(localStorage.getItem(MEMORY_KEY) || 'null');
-      if (saved?.expiresAt > now && saved?.sessionId) {
-        setSessionId(saved.sessionId);
-        setMessages(Array.isArray(saved.messages) ? saved.messages : []);
-        setLead(saved.lead || {});
-        setLang(saved.lang || detectedLang);
-        return;
-      }
-    } catch {
-      localStorage.removeItem(MEMORY_KEY);
+    let sid = localStorage.getItem('ovivo_session_id');
+    if (!sid) {
+      sid = `ovivo_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      localStorage.setItem('ovivo_session_id', sid);
     }
-
-    setSessionId(createSessionId());
-    setLang(detectedLang);
+    setSessionId(sid);
   }, []);
 
+  // رسالة الترحيب تتغير فوراً مع اللغة
   useEffect(() => {
-    if (!sessionId) return;
-    localStorage.setItem(
-      MEMORY_KEY,
-      JSON.stringify({ sessionId, messages, lead, lang, expiresAt: Date.now() + MEMORY_TTL_MS })
-    );
-  }, [sessionId, messages, lead, lang]);
+    if (isOpen && sessionId) {
+      const greetings = {
+        ar: 'مرحباً! أنا مساعد Ovivo. أساعد أصحاب الأعمال في أتمتة الاستفسارات وكسب عملاء جدد 7/24. ما نوع عملك؟',
+        de: 'Hallo! Ich bin der Ovivo Assistent. Welche Art von Unternehmen haben Sie?',
+        en: 'Hello! I am the Ovivo Assistant. What type of business do you have?'
+      };
 
-  const resetChat = () => {
-    const nextSessionId = createSessionId();
-    const detectedLang = detectPreferredLanguage();
-    setMessages([]);
-    setLead({});
-    setLang(detectedLang);
-    setSessionId(nextSessionId);
-    localStorage.setItem(
-      MEMORY_KEY,
-      JSON.stringify({ sessionId: nextSessionId, messages: [], lead: {}, lang: detectedLang, expiresAt: Date.now() + MEMORY_TTL_MS })
-    );
-  };
+      // تحديث أو إضافة رسالة الترحيب
+      setMessages(prev => {
+        if (prev.length === 0 || (prev.length === 1 && prev[0].sender === 'bot')) {
+          return [{
+            id: 'greeting',
+            text: greetings[currentLang],
+            sender: 'bot',
+            timestamp: new Date(),
+          }];
+        }
+        return prev;
+      });
+    }
+  }, [isOpen, sessionId, currentLang]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  useEffect(() => {
+    if (isOpen) {
+      inputRef.current?.focus();
+    }
+  }, [isOpen]);
 
   const sendMessage = async () => {
-    const userMessage = input.trim();
-    if (!userMessage || isLoading) return;
+    if (!inputValue.trim() || isLoading || !sessionId) return;
 
-    const nextMessages: ChatMessage[] = [...messages, { role: 'user', content: userMessage }];
-    setInput('');
-    setMessages(nextMessages);
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      text: inputValue,
+      sender: 'user',
+      timestamp: new Date(),
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    setInputValue('');
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/chat', {
+      const response = await fetch('/.netlify/functions/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          message: userMessage,
-          chatInput: userMessage,
-          lang,
-          sessionId: sessionId || createSessionId(),
-          lead,
-          history: nextMessages.slice(-10),
+          message: inputValue,
+          lang: currentLang,
+          sessionId: sessionId,
         }),
       });
 
-      const data = await response.json().catch(() => ({}));
-      if (data.sessionId) setSessionId(String(data.sessionId));
-      if (data.lang) setLang(String(data.lang));
-      if (data.lead) setLead(data.lead);
+      const data = await response.json();
 
-      setMessages((current) => [
-        ...current,
-        { role: 'assistant', content: String(data.reply || data.text || copy.error) },
-      ]);
-    } catch {
-      setMessages((current) => [...current, { role: 'assistant', content: copy.error }]);
+      if (data.success && data.reply) {
+        const botMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          text: data.reply,
+          sender: 'bot',
+          timestamp: new Date(),
+        };
+        setMessages(prev => [...prev, botMessage]);
+      }
+    } catch (error) {
+      const errorMessages = {
+        ar: 'عذراً، حدث خطأ.',
+        de: 'Entschuldigung, ein Fehler ist aufgetreten.',
+        en: 'Sorry, an error occurred.'
+      };
+      
+      setMessages(prev => [...prev, {
+        id: (Date.now() + 1).toString(),
+        text: errorMessages[currentLang],
+        sender: 'bot',
+        timestamp: new Date(),
+      }]);
     } finally {
       setIsLoading(false);
     }
   };
 
+  const labels = {
+    ar: { title: 'مساعد Ovivo', status: 'متصل', placeholder: 'رسالتك...' },
+    de: { title: 'Ovivo Assistent', status: 'Aktiv', placeholder: 'Ihre Nachricht...' },
+    en: { title: 'Ovivo Assistant', status: 'Active', placeholder: 'Your message...' }
+  };
+
+  const l = labels[currentLang];
+  const isRTL = currentLang === 'ar';
+
   return (
     <>
-      {isOpen && (
-        <div
-          lang={lang}
-          dir={isRtl ? 'rtl' : 'ltr'}
+      {!isOpen && (
+        <button
+          onClick={() => setIsOpen(true)}
+          className="fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-lg z-50 transition-transform hover:scale-110"
           style={{
-            position: 'fixed',
-            right: 20,
-            bottom: 98,
-            width: 370,
-            maxWidth: 'calc(100vw - 32px)',
-            height: 510,
-            maxHeight: 'calc(100vh - 120px)',
-            zIndex: 999999,
-            background: '#0b1220',
-            color: '#fff',
-            borderRadius: 16,
-            border: '1px solid rgba(59, 130, 246, 0.35)',
-            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)',
-            display: 'flex',
-            flexDirection: 'column',
-            overflow: 'hidden',
+            background: '#050914 url(/chat-icon.svg) center / cover no-repeat',
+            border: '1px solid rgba(59, 130, 246, 0.5)',
+            boxShadow: '0 16px 42px rgba(37, 99, 235, 0.42)'
           }}
         >
-          <div
-            style={{
-              padding: 14,
-              background: 'linear-gradient(135deg, #0f172a, #1e3a8a)',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              gap: 12,
-            }}
-          >
-            <div style={{ display: 'flex', gap: 10, alignItems: 'center', minWidth: 0 }}>
-              <ChatLogo small />
-              <div style={{ minWidth: 0, textAlign: isRtl ? 'right' : 'left' }}>
-                <div style={{ fontWeight: 800, fontSize: 14 }}>{copy.title}</div>
-                <div style={{ fontSize: 12, color: '#86efac', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 7 }}>
-                  <span className="ovivo-online-dot" /> {copy.status}
+          <span className="absolute top-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white" />
+        </button>
+      )}
+
+      {isOpen && (
+        <div className="fixed bottom-6 right-6 w-96 h-[600px] bg-gray-900 rounded-lg shadow-2xl flex flex-col z-50 border border-gray-700" dir={isRTL ? 'rtl' : 'ltr'}>
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 rounded-t-lg flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full" style={{ background: 'url(/chat-icon.svg) center / cover' }} />
+              <div>
+                <h3 className="font-semibold">{l.title}</h3>
+                <div className="flex items-center gap-1 text-xs">
+                  <span className="w-2 h-2 bg-green-400 rounded-full" />
+                  <span>{l.status}</span>
                 </div>
               </div>
             </div>
+            <button onClick={() => setIsOpen(false)} className="hover:bg-white/20 rounded-full p-1">
+              <X className="w-5 h-5" />
+            </button>
+          </div>
 
-            <div style={{ display: 'flex', gap: 8 }}>
-              <button onClick={resetChat} aria-label={copy.newChat} title={copy.newChat} className="ovivo-chat-icon-button">
-                <RotateCcw size={16} />
-              </button>
-              <button onClick={() => setIsOpen(false)} aria-label="Close" title="Close" className="ovivo-chat-icon-button">
-                <X size={17} />
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-800">
+            {messages.map(msg => (
+              <div key={msg.id} className={`flex ${msg.sender === 'user' ? (isRTL ? 'justify-start' : 'justify-end') : (isRTL ? 'justify-end' : 'justify-start')}`}>
+                <div className={`max-w-[80%] p-3 rounded-lg ${msg.sender === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-white'}`}>
+                  <p className="text-sm whitespace-pre-wrap">{msg.text}</p>
+                </div>
+              </div>
+            ))}
+            {isLoading && (
+              <div className={`flex ${isRTL ? 'justify-end' : 'justify-start'}`}>
+                <div className="bg-gray-700 p-3 rounded-lg">
+                  <div className="flex gap-1">
+                    {[0, 0.2, 0.4].map((delay, i) => (
+                      <span key={i} className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: `${delay}s` }} />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          <div className="p-4 border-t border-gray-700 bg-gray-900">
+            <div className="flex gap-2">
+              <input
+                ref={inputRef}
+                type="text"
+                value={inputValue}
+                onChange={e => setInputValue(e.target.value)}
+                onKeyPress={e => e.key === 'Enter' && !e.shiftKey && (e.preventDefault(), sendMessage())}
+                placeholder={l.placeholder}
+                className="flex-1 px-4 py-2 bg-gray-800 text-white border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500"
+                disabled={isLoading}
+                dir={isRTL ? 'rtl' : 'ltr'}
+              />
+              <button
+                onClick={sendMessage}
+                disabled={isLoading || !inputValue.trim()}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+              >
+                <Send className="w-5 h-5" />
               </button>
             </div>
           </div>
-
-          <div style={{ flex: 1, padding: 14, overflowY: 'auto', background: '#08111f' }}>
-            {messages.length === 0 && <div className={`ovivo-chat-bubble assistant ${isRtl ? 'rtl' : ''}`}>{copy.welcome}</div>}
-            {messages.map((message, index) => (
-              <div
-                key={`${message.role}-${index}`}
-                style={{
-                  display: 'flex',
-                  justifyContent: message.role === 'user' ? (isRtl ? 'flex-start' : 'flex-end') : (isRtl ? 'flex-end' : 'flex-start'),
-                  marginBottom: 10,
-                }}
-              >
-                <div className={`ovivo-chat-bubble ${message.role} ${isRtl ? 'rtl' : ''}`}>{message.content}</div>
-              </div>
-            ))}
-            {isLoading && <div className="ovivo-chat-typing">...</div>}
-          </div>
-
-          <div style={{ padding: 14, background: '#0f172a', display: 'flex', gap: 10, alignItems: 'center' }}>
-            <input
-              value={input}
-              disabled={isLoading}
-              onChange={(event) => setInput(event.target.value)}
-              onKeyDown={(event) => {
-                if (event.key === 'Enter') sendMessage();
-              }}
-              placeholder={copy.placeholder}
-              dir={isRtl ? 'rtl' : 'ltr'}
-              style={{
-                flex: 1,
-                height: 46,
-                minWidth: 0,
-                background: '#020617',
-                color: '#fff',
-                border: '1px solid #334155',
-                borderRadius: 12,
-                padding: '0 14px',
-                fontSize: 14,
-                outline: 'none',
-                boxSizing: 'border-box',
-                textAlign: isRtl ? 'right' : 'left',
-              }}
-            />
-            <button onClick={sendMessage} disabled={!input.trim() || isLoading} aria-label="Send" className="ovivo-chat-send-button">
-              <Send size={18} />
-            </button>
-          </div>
         </div>
       )}
-
-      <button onClick={() => setIsOpen((open) => !open)} aria-label={copy.title} className={`ovivo-chat-launcher ${isOpen ? 'open' : ''}`}>
-        {isOpen ? <X size={24} /> : <ChatLogo />}
-        <span className="ovivo-chat-launcher-dot" />
-      </button>
-
-      <style jsx global>{`
-        .ovivo-chat-launcher {
-          position: fixed;
-          right: 20px;
-          bottom: 20px;
-          z-index: 999999;
-          width: 72px;
-          height: 72px;
-          border: 1px solid rgba(59, 130, 246, 0.55);
-          border-radius: 50%;
-          color: #fff;
-          background: radial-gradient(circle at 35% 22%, rgba(0, 209, 255, 0.22), rgba(5, 9, 20, 0.95) 58%);
-          box-shadow: 0 18px 46px rgba(37, 99, 235, 0.44), 0 0 42px rgba(0, 209, 255, 0.2);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          overflow: hidden;
-        }
-        .ovivo-chat-launcher.open {
-          background: linear-gradient(135deg, #2563eb, #9333ea);
-        }
-        .ovivo-chat-logo {
-          display: block;
-          flex-shrink: 0;
-          border-radius: 50%;
-          background: #050914;
-          box-shadow: inset 0 0 18px rgba(0, 209, 255, 0.12), 0 0 20px rgba(0, 209, 255, 0.14);
-          overflow: hidden;
-        }
-        .ovivo-chat-logo img {
-          width: 100%;
-          height: 100%;
-          display: block;
-          object-fit: cover;
-          transform: scale(1.16);
-        }
-        .ovivo-chat-launcher .ovivo-chat-logo {
-          width: 66px !important;
-          height: 66px !important;
-          border-radius: 50%;
-        }
-        .ovivo-chat-launcher-dot,
-        .ovivo-online-dot {
-          width: 9px;
-          height: 9px;
-          border-radius: 50%;
-          background: #22c55e;
-          box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.18), 0 0 11px #22c55e;
-        }
-        .ovivo-chat-launcher-dot {
-          position: absolute;
-          right: 7px;
-          top: 8px;
-          border: 2px solid #fff;
-        }
-        .ovivo-chat-launcher.open .ovivo-chat-launcher-dot {
-          display: none;
-        }
-        .ovivo-chat-icon-button,
-        .ovivo-chat-send-button {
-          border: 0;
-          color: #fff;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-        }
-        .ovivo-chat-icon-button {
-          width: 34px;
-          height: 34px;
-          border-radius: 9px;
-          background: rgba(255, 255, 255, 0.1);
-        }
-        .ovivo-chat-send-button {
-          width: 46px;
-          height: 46px;
-          border-radius: 12px;
-          background: #2563eb;
-          flex-shrink: 0;
-        }
-        .ovivo-chat-send-button:disabled {
-          cursor: not-allowed;
-          background: #334155;
-          opacity: 0.75;
-        }
-        .ovivo-chat-bubble {
-          max-width: 86%;
-          padding: 10px 12px;
-          border-radius: 12px;
-          font-size: 14px;
-          line-height: 1.58;
-          white-space: pre-wrap;
-          word-break: break-word;
-          text-align: left;
-        }
-        .ovivo-chat-bubble.rtl {
-          direction: rtl;
-          text-align: right;
-          line-height: 1.7;
-        }
-        .ovivo-chat-bubble.user {
-          background: #2563eb;
-          color: #fff;
-        }
-        .ovivo-chat-bubble.assistant {
-          background: #111827;
-          color: #e5e7eb;
-        }
-        .ovivo-chat-typing {
-          color: #93c5fd;
-          font-size: 18px;
-          letter-spacing: 2px;
-          padding: 0 4px;
-        }
-      `}</style>
     </>
   );
-}
+};
+
+export default FloatingChatWidget;
