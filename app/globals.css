@@ -242,3 +242,40 @@ html.ovivo-platform-ui body main section:first-of-type a[href*="consultation"] b
     white-space: normal !important;
   }
 }
+
+/* ====================================
+   OVIVO LOGO FIXES - Add to globals.css
+   إصلاحات اللوغو
+   ==================================== */
+
+/* 1. إصلاح لوغو الهيدر - بدون خلفية دائرية */
+nav a[href="/"] > *:first-child,
+header a[href="/"] > *:first-child,
+nav a[href="/"] img,
+header a[href="/"] img {
+  background: transparent !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* 2. إصلاح أيقونة الشات - بدون دائرة سوداء */
+button[class*="chat"],
+button[aria-label*="Chat"],
+button[aria-label*="chat"],
+.ovivo-chat-launcher {
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+/* التأكد من ظهور الأيقونة بدون خلفية */
+button[class*="chat"]:hover,
+.ovivo-chat-launcher:hover {
+  background: transparent !important;
+}
+
+/* END LOGO FIXES */
