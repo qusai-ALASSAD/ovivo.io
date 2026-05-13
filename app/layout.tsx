@@ -5,7 +5,7 @@ import { Footer } from '@/components/footer';
 import { LeadMagnet } from '@/components/lead-magnet';
 import { ScrollToTop } from '@/components/scroll-to-top';
 import { Toaster } from 'sonner';
-import { FloatingChatWidget } from '@/components/FloatingChatWidget';
+import FloatingChatWidget from '@/components/FloatingChatWidget';
 import { BrandPolish } from '@/components/brand-polish';
 
 export const metadata: Metadata = {

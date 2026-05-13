@@ -11,7 +11,7 @@ interface Message {
   timestamp: Date;
 }
 
-export const FloatingChatWidget = () => {
+const FloatingChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
