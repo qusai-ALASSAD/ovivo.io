@@ -5,128 +5,98 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Gift, X } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
-import { usePathname } from 'next/navigation';
-
-const LEAD_MAGNET_SHOWN_KEY = 'ovivo_lead_magnet_shown';
 
 export function LeadMagnet() {
   const [isOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
-  const pathname = usePathname();
-
-  const isAr = pathname?.startsWith('/ar');
-  const isEn = pathname?.startsWith('/en');
-
-  const t = isAr ? {
-    title: 'احصل على خطة تسويق مجانية',
-    desc: 'انضم إلى أكثر من 200 شركة تستخدم الذكاء الاصطناعي لتنمية أعمالها.',
-    placeholder: 'أدخل بريدك الإلكتروني',
-    btn: 'احصل عليها مجاناً',
-    loading: 'جاري الإرسال...',
-    privacy: 'نحترم خصوصيتك. يمكنك إلغاء الاشتراك في أي وقت.',
-    success: 'تم! تحقق من بريدك الإلكتروني.',
-    error: 'حدث خطأ. حاول مرة أخرى.',
-    emailError: 'أدخل بريداً إلكترونياً صحيحاً.',
-  } : isEn ? {
-    title: 'Get Your Free AI Marketing Plan',
-    desc: 'Join 200+ businesses using AI to grow. Get instant access to our marketing plan template.',
-    placeholder: 'Enter your email',
-    btn: 'Get Free Template',
-    loading: 'Sending...',
-    privacy: 'We respect your privacy. Unsubscribe at any time.',
-    success: 'Success! Check your email.',
-    error: 'Something went wrong. Please try again.',
-    emailError: 'Please enter a valid email address.',
-  } : {
-    title: 'Kostenlosen KI-Marketing-Plan sichern',
-    desc: 'Über 200 Betriebe nutzen KI zum Wachsen. Holen Sie sich jetzt Ihr kostenloses Template.',
-    placeholder: 'Ihre E-Mail-Adresse',
-    btn: 'Kostenlos anfordern',
-    loading: 'Wird gesendet...',
-    privacy: 'Wir respektieren Ihre Privatsphäre. Jederzeit abmeldbar.',
-    success: 'Erfolg! Prüfen Sie Ihre E-Mails.',
-    error: 'Etwas ist schiefgelaufen. Bitte erneut versuchen.',
-    emailError: 'Bitte gültige E-Mail-Adresse eingeben.',
-  };
 
   useEffect(() => {
-    const hasSeenPopup = localStorage.getItem(LEAD_MAGNET_SHOWN_KEY);
-    if (hasSeenPopup) return;
+    const hasSeenPopup = localStorage.getItem('ovivo_lead_magnet_shown');
 
-    const timer = setTimeout(() => {
-      localStorage.setItem(LEAD_MAGNET_SHOWN_KEY, 'true');
-      setIsOpen(true);
-    }, 25000);
+    if (!hasSeenPopup) {
+      const timer = setTimeout(() => {
+        setIsOpen(true);
+      }, 20000);
 
-    return () => clearTimeout(timer);
+      return () => clearTimeout(timer);
+    }
   }, []);
-
-  const markAsSeen = () => {
-    localStorage.setItem(LEAD_MAGNET_SHOWN_KEY, 'true');
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !email.includes('@')) { toast.error(t.emailError); return; }
+
+    if (!email || !email.includes('@')) {
+      toast.error('Please enter a valid email address');
+      return;
+    }
+
     setLoading(true);
+
     try {
-      await fetch('/api/leads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, source: 'popup_lead_magnet' }),
-      });
-      toast.success(t.success);
-      markAsSeen();
+      const { error } = await supabase
+        .from('lead_magnets')
+        .insert([{ email, source: 'popup' }]);
+
+      if (error) throw error;
+
+      toast.success('Success! Check your email for your free marketing plan template.');
       setIsOpen(false);
+      localStorage.setItem('ovivo_lead_magnet_shown', 'true');
       setEmail('');
-    } catch {
-      toast.error(t.error);
+    } catch (error) {
+      toast.error('Something went wrong. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
   const handleClose = () => {
-    markAsSeen();
     setIsOpen(false);
-  };
-
-  const handleOpenChange = (open: boolean) => {
-    if (!open) markAsSeen();
-    setIsOpen(open);
+    localStorage.setItem('ovivo_lead_magnet_shown', 'true');
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogContent
-        dir={isAr ? 'rtl' : 'ltr'}
-        className="sm:max-w-sm border border-white/10 bg-[#0d1117] shadow-2xl rounded-2xl p-6"
-      >
-        <button onClick={handleClose} className="absolute right-4 top-4 text-gray-500 hover:text-white transition-colors">
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogContent className="sm:max-w-md glass border-white/20">
+        <button
+          onClick={handleClose}
+          className="absolute right-4 top-4 rounded-sm text-gray-400 hover:text-white transition-colors"
+        >
           <X className="h-4 w-4" />
         </button>
-        <DialogHeader className="space-y-3">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600">
-            <Gift className="h-7 w-7 text-white" />
+
+        <DialogHeader>
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-purple-600 glow">
+            <Gift className="h-8 w-8 text-white" />
           </div>
-          <DialogTitle className="text-center text-xl font-bold text-white">{t.title}</DialogTitle>
-          <DialogDescription className="text-center text-sm text-gray-400 leading-relaxed">{t.desc}</DialogDescription>
+          <DialogTitle className="text-center text-2xl text-white">Get Your Free AI Marketing Plan!</DialogTitle>
+          <DialogDescription className="text-center text-base text-gray-300">
+            Join 1,000+ entrepreneurs using AI to grow their business. Get instant access to our marketing plan template.
+          </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="mt-4 space-y-3">
-          <Input
-            type="email" placeholder={t.placeholder} value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:border-blue-500"
-            required dir={isAr ? 'rtl' : 'ltr'}
-          />
-          <Button type="submit"
-            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 font-semibold"
-            disabled={loading}>
-            {loading ? t.loading : t.btn}
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <Input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full"
+              required
+            />
+          </div>
+
+          <Button type="submit" className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0" disabled={loading}>
+            {loading ? 'Sending...' : 'Get Free Template'}
           </Button>
-          <p className="text-center text-xs text-gray-500">{t.privacy}</p>
+
+          <p className="text-center text-xs text-gray-400">
+            We respect your privacy. Unsubscribe at any time.
+          </p>
         </form>
       </DialogContent>
     </Dialog>

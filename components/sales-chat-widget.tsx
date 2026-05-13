@@ -12,17 +12,17 @@ interface Message {
 
 const OPENING_MESSAGE_DE: Message = {
   role: 'assistant',
-  content: 'Hi 👋 Ich bin Ihr persönlicher Wachstumsberater bei Ovivo — kein Bot, kein Script.\n\nEine Frage, bevor ich Ihnen zeige, was für Ihren Betrieb möglich ist: Was für ein Unternehmen führen Sie?',
+  content: 'Hallo! Ich bin Ihr KI-Berater bei Ovivo.\n\nEine kurze Frage zum Einstieg: Was für ein Betrieb führen Sie? (z.B. Restaurant, Café, Salon, Dienstleister...)\n\nSo kann ich Ihnen zeigen, was bei Ihnen konkret automatisiert werden kann.',
 };
 
 const OPENING_MESSAGE_EN: Message = {
   role: 'assistant',
-  content: "Hi 👋 I'm your personal growth consultant at Ovivo — not a bot, not a script.\n\nBefore I show you what's possible for your business, let me understand your situation: what type of business do you run?",
+  content: "Hi! I'm your AI consultant at Ovivo.\n\nQuick question to get started: what type of business do you run? (e.g. restaurant, café, salon, service business...)\n\nThat way I can show you exactly what we can automate for you.",
 };
 
 const OPENING_MESSAGE_AR: Message = {
   role: 'assistant',
-  content: 'مرحباً 👋 أنا مستشارك الشخصي في Ovivo — لست روبوتاً ولا نصاً مبرمجاً.\n\nقبل أن أريك ما هو ممكن لعملك، أحتاج أن أفهم وضعك جيداً: ما نوع عملك؟',
+  content: 'مرحباً! أنا مستشارك الذكي في Ovivo.\n\nسؤال سريع للبداية: ما نوع عملك؟ (مطعم، مقهى، صالون، شركة خدمات...)\n\nحتى أريك بالضبط ما يمكن أتمتته في عملك وكيف تحصل على نتائج أسرع.',
 };
 
 function extractLead(text: string): { name: string; company: string; email: string; phone: string } | null {
@@ -57,9 +57,9 @@ export function SalesChatWidget() {
 
   const openingMessage = isEn ? OPENING_MESSAGE_EN : isAr ? OPENING_MESSAGE_AR : OPENING_MESSAGE_DE;
 
-  const widgetLabel = isEn ? 'Talk to a Growth Expert' : isAr ? 'تحدث مع خبير النمو' : 'Kostenlos mit Berater sprechen';
-  const placeholderText = isEn ? 'Type your answer here...' : isAr ? 'اكتب إجابتك هنا...' : 'Schreiben Sie Ihre Antwort...';
-  const headerTitle = isEn ? 'Ovivo Growth Consultant' : isAr ? 'مستشار النمو — Ovivo' : 'Ovivo Wachstumsberater';
+  const widgetLabel = isEn ? 'Free AI Consultation' : isAr ? 'استشارة ذكية مجانية' : 'KI-Beratung kostenlos';
+  const placeholderText = isEn ? 'Tell me about your business...' : isAr ? 'أخبرني عن عملك...' : 'Erzählen Sie von Ihrem Betrieb...';
+  const headerTitle = isEn ? 'Ovivo AI Consultant' : isAr ? 'مستشار Ovivo الذكي' : 'Ovivo KI-Berater';
   const errorMsg = isEn
     ? 'Sorry, something went wrong. Please try again.'
     : isAr
