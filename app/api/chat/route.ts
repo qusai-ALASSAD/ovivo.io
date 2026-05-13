@@ -1,151 +1,108 @@
-// app/api/chat/route.ts
+import { NextRequest } from 'next/server';
+import { rateLimit } from '@/lib/rate-limit';
+import { buildSystemPrompt } from '@/lib/plan-prompts';
+import type { Plan } from '@/lib/chat-usage';
 
-import { NextResponse } from 'next/server';
+export async function POST(req: NextRequest) {
+  const ip = req.headers.get('x-forwarded-for') ?? req.headers.get('x-real-ip') ?? 'unknown';
+  const { allowed } = rateLimit(`chat:${ip}`, 30, 60_000);
 
-type Lead = {
-  name?: string;
-  phone?: string;
-  company?: string;
-  businessType?: string;
-  channels?: string[];
-  problem?: string;
-};
-
-type ChatPayload = {
-  message?: string;
-  chatInput?: string;
-  lang?: string;
-  sessionId?: string;
-  lead?: Lead;
-  history?: Array<{ role: string; content: string }>;
-};
-
-const N8N_TEST_WEBHOOK_URL = 'http://187.77.89.15:5678/webhook-test/ovivo-agent';
-const N8N_PRODUCTION_WEBHOOK_URL = 'http://187.77.89.15:5678/webhook/ovivo-agent';
-
-function createSessionId() {
-  return `ovivo_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
-}
-
-function detectLanguage(message: string, requestedLang = 'de') {
-  if (/[\u0600-\u06FF]/.test(message)) return 'ar';
-  if (['ar', 'en', 'de'].includes(requestedLang)) return requestedLang;
-  if (/\b(hello|hi|help|business|shop|automation)\b/i.test(message)) return 'en';
-  return 'de';
-}
-
-function fallbackReply(lang: string) {
-  if (lang === 'ar') {
-    return 'أهلًا بك. نحن في Ovivo نساعد المطاعم والشركات على الرد على العملاء تلقائيًا وتحويل الاستفسارات إلى طلبات أو عملاء محتملين. ما نوع عملك؟';
+  if (!allowed) {
+    return new Response(
+      JSON.stringify({ error: 'Too many requests. Please slow down.' }),
+      { status: 429, headers: { 'Content-Type': 'application/json', 'Retry-After': '60' } }
+    );
   }
-
-  if (lang === 'en') {
-    return 'Welcome. Ovivo helps businesses automate customer inquiries and turn them into leads, bookings, or orders. What type of business do you run?';
-  }
-
-  return 'Willkommen. Ovivo hilft Unternehmen, Kundenanfragen automatisch zu beantworten und daraus Leads, Buchungen oder Bestellungen zu machen. Welche Art von Unternehmen haben Sie?';
-}
-
-function extractReply(data: unknown) {
-  if (typeof data === 'string') return data;
-  if (!data || typeof data !== 'object') return '';
-
-  const item = Array.isArray(data) ? data[0] : data;
-  if (!item || typeof item !== 'object') return '';
-
-  const record = item as Record<string, any>;
-  return String(
-    record.reply ||
-      record.text ||
-      record.output ||
-      record.response ||
-      record.answer ||
-      record.data?.reply ||
-      record.data?.text ||
-      record.data?.output ||
-      ''
-  ).trim();
-}
-
-async function callN8n(url: string, payload: Record<string, unknown>) {
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  });
-
-  const rawText = await response.text();
-  let data: unknown = rawText;
 
   try {
-    data = JSON.parse(rawText);
+    const body = await req.json();
+    const messages: { role: string; content: string }[] = body.messages ?? [];
+    const mode: string = body.mode ?? 'general';
+    const plan: Plan = body.plan ?? 'free';
+
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      return new Response(
+        JSON.stringify({ error: 'OpenAI API key not configured' }),
+        { status: 500, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const systemPrompt = buildSystemPrompt(mode, plan);
+    const maxTokens = plan === 'agency' ? 4096 : plan === 'pro' ? 3072 : 2048;
+
+    const openAIMessages = [
+      { role: 'system', content: systemPrompt },
+      ...messages.map((m) => ({ role: m.role, content: m.content })),
+    ];
+
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        messages: openAIMessages,
+        stream: true,
+        max_tokens: maxTokens,
+        temperature: 0.65,
+      }),
+    });
+
+    if (!response.ok) {
+      return new Response(
+        JSON.stringify({ error: `OpenAI error: ${response.status}` }),
+        { status: response.status, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const stream = new ReadableStream({
+      async start(controller) {
+        const reader = response.body!.getReader();
+        const decoder = new TextDecoder();
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          const chunk = decoder.decode(value, { stream: true });
+          const lines = chunk.split('\n');
+
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              const data = line.slice(6).trim();
+              if (data === '[DONE]') {
+                controller.close();
+                return;
+              }
+              try {
+                const parsed = JSON.parse(data);
+                const token = parsed.choices?.[0]?.delta?.content;
+                if (token) {
+                  controller.enqueue(new TextEncoder().encode(token));
+                }
+              } catch {}
+            }
+          }
+        }
+        controller.close();
+      },
+    });
+
+    return new Response(stream, {
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Transfer-Encoding': 'chunked',
+        'Cache-Control': 'no-cache',
+        'X-Accel-Buffering': 'no',
+      },
+    });
   } catch {
-    data = rawText;
-  }
-
-  return { response, data };
-}
-
-export async function OPTIONS() {
-  return NextResponse.json({}, { status: 200 });
-}
-
-export async function POST(req: Request) {
-  try {
-    const body = (await req.json()) as ChatPayload;
-    const message = String(body.message || body.chatInput || '').trim();
-    const requestedLang = String(body.lang || 'de').toLowerCase();
-    const lang = detectLanguage(message, requestedLang);
-    const sessionId = String(body.sessionId || createSessionId());
-    const lead = body.lead || {};
-
-    if (!message) {
-      const reply = lang === 'ar'
-        ? 'الرجاء إدخال رسالة صحيحة.'
-        : lang === 'en'
-          ? 'Please enter a valid message.'
-          : 'Bitte geben Sie eine gültige Nachricht ein.';
-
-      return NextResponse.json({ success: false, reply, sessionId, lang, lead }, { status: 400 });
-    }
-
-    const payload = {
-      message,
-      chatInput: message,
-      lang,
-      sessionId,
-      lead,
-      history: Array.isArray(body.history) ? body.history.slice(-10) : [],
-      source: 'ovivo.io',
-      timestamp: new Date().toISOString(),
-    };
-
-    let usedWebhook = 'test';
-    let result = await callN8n(N8N_TEST_WEBHOOK_URL, payload);
-
-    if (!result.response.ok) {
-      usedWebhook = 'production';
-      result = await callN8n(N8N_PRODUCTION_WEBHOOK_URL, payload);
-    }
-
-    const n8nReply = result.response.ok ? extractReply(result.data) : '';
-    const reply = n8nReply || fallbackReply(lang);
-
-    return NextResponse.json({
-      success: true,
-      webhook: result.response.ok ? usedWebhook : 'fallback',
-      reply,
-      sessionId,
-      lang,
-      lead,
-    });
-  } catch (error) {
-    console.error('Chat API Error:', error);
-
-    return NextResponse.json({
-      success: true,
-      webhook: 'fallback',
-      reply: fallbackReply('ar'),
-    });
+    return new Response(
+      JSON.stringify({ error: 'Internal server error' }),
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    );
   }
 }

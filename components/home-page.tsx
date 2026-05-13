@@ -9,7 +9,6 @@ import { Sparkles, Zap, ArrowRight, CircleCheck as CheckCircle, Star, ChevronLef
 import { GlassCard, RevealSection, StaggerContainer, StaggerItem } from '@/components/ui/motion';
 import { SectionHeader } from '@/components/section-header';
 import { AutomationFlowSection } from '@/components/automation-flow-section';
-import { RoiCalculator } from '@/components/roi-calculator';
 import type { Lang } from '@/lib/i18n';
 import { content, isRTL } from '@/lib/i18n';
 
@@ -378,16 +377,16 @@ export function HomePage({ lang }: Props) {
                 <Sparkles className="mr-2 h-3 w-3 rtl:ml-2 rtl:mr-0" />
                 {t.hero.badge}
               </span>
-              <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl leading-[1.25]">
-                <span className="text-white">{t.hero.headline1}</span><br />
+              <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl leading-[1.1]">
+                {t.hero.headline1}<br />
                 <span className="text-gradient">{t.hero.headline2}</span>
               </h1>
               <p className="mt-6 text-lg text-gray-400 leading-relaxed max-w-lg">
                 {t.hero.sub}
               </p>
-              <div className="mt-10 flex flex-col sm:flex-row gap-3">
+              <div className="mt-10">
                 <Link href={`${prefix}/consultation`}>
-                  <Button size="lg" className="group relative overflow-hidden bg-blue-500 hover:bg-blue-400 text-white px-8 py-7 text-base font-semibold transition-all duration-300 hover:shadow-[0_0_40px_rgba(59,130,246,0.6)] rounded-xl w-full sm:w-auto">
+                  <Button size="lg" className="group relative overflow-hidden bg-blue-500 hover:bg-blue-400 text-white px-10 py-7 text-base font-semibold transition-all duration-300 hover:shadow-[0_0_40px_rgba(59,130,246,0.6)] rounded-xl">
                     <span className="relative z-10 flex items-center gap-2">
                       {t.hero.cta}
                       <ArrowRight className={`h-5 w-5 transition-transform group-hover:translate-x-1 ${rtl ? 'rotate-180' : ''}`} />
@@ -395,13 +394,8 @@ export function HomePage({ lang }: Props) {
                     <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                   </Button>
                 </Link>
-                <Link href="#how-it-works">
-                  <Button size="lg" variant="outline" className="border-white/15 text-gray-300 hover:bg-white/5 hover:border-white/25 px-8 py-7 text-base rounded-xl w-full sm:w-auto">
-                    {t.hero.ctaSecondary}
-                  </Button>
-                </Link>
               </div>
-              <div className="mt-6 flex flex-wrap gap-4 text-sm text-gray-500">
+              <div className="mt-6 flex flex-wrap gap-5 text-sm text-gray-500">
                 {t.hero.trust.map((text) => (
                   <div key={text} className="flex items-center gap-1.5">
                     <CheckCircle className="h-4 w-4 text-emerald-500 flex-shrink-0" />
@@ -631,9 +625,6 @@ export function HomePage({ lang }: Props) {
           </StaggerContainer>
         </div>
       </section>
-
-      {/* ── ROI CALCULATOR ───────────────────────────────────────────── */}
-      <RoiCalculator lang={lang} prefix={prefix} />
 
       {/* ── HOW IT WORKS ─────────────────────────────────────────────────── */}
       <section className="px-4 py-24 sm:px-6 lg:px-8" id="how-it-works">

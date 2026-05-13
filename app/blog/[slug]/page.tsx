@@ -4,19 +4,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Clock, ArrowLeft, ArrowRight } from 'lucide-react';
 
-const blogSlugs = [
-  'wordpress-business-automation',
-  'shopify-marketing-strategies',
-  'facebook-ads-guide-2024',
-  'email-marketing-automation',
-  'ai-tools-business-growth',
-  'local-seo-small-business',
-];
-
-export function generateStaticParams() {
-  return blogSlugs.map((slug) => ({ slug }));
-}
-
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
   return (
     <div className="flex flex-col">

@@ -39,10 +39,8 @@ export function Footer() {
         restaurants: 'Restaurants & Cafés',
         hair: 'Hair & Beauty',
         fitness: 'Fitness & Wellness',
-        cleaning: 'Cleaning Services',
-        transport: 'Transport & Logistics',
-        medical: 'Medical Practices',
-        trades: 'Trades & Contractors',
+        hotels: 'Hotels & Accommodation',
+        trades: 'Trades & Services',
         about: 'About',
         contact: 'Contact',
         privacy: 'Privacy Policy',
@@ -63,10 +61,8 @@ export function Footer() {
         restaurants: 'المطاعم والمقاهي',
         hair: 'الحلاقة والتجميل',
         fitness: 'اللياقة والعافية',
-        cleaning: 'خدمات التنظيف',
-        transport: 'النقل واللوجستيك',
-        medical: 'العيادات والصحة',
-        trades: 'الحرف والخدمات المهنية',
+        hotels: 'الفنادق والإقامة',
+        trades: 'الحرف والخدمات',
         about: 'من نحن',
         contact: 'تواصل معنا',
         privacy: 'سياسة الخصوصية',
@@ -86,10 +82,8 @@ export function Footer() {
         restaurants: 'Restaurants & Cafés',
         hair: 'Friseure & Beauty',
         fitness: 'Fitness & Wellness',
-        cleaning: 'Reinigung & Service',
-        transport: 'Transport & Logistik',
-        medical: 'Arztpraxen & Gesundheit',
-        trades: 'Handwerk & Fachbetriebe',
+        hotels: 'Hotels & Unterkunft',
+        trades: 'Handwerk & Service',
         about: 'Über uns',
         contact: 'Kontakt',
         privacy: 'Datenschutz',
@@ -110,16 +104,16 @@ export function Footer() {
             </Link>
             <p className={`mt-4 text-sm text-gray-400 leading-relaxed ${rtl ? 'text-right' : ''}`}>{t.desc}</p>
             <div className={`mt-6 flex gap-4 ${rtl ? 'flex-row-reverse' : ''}`}>
-              <a href="https://facebook.com/ovivo.io" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
                 <Facebook className="h-5 w-5" />
               </a>
-              <a href="https://instagram.com/ovivo.io" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-pink-400 transition-colors">
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-pink-400 transition-colors">
                 <Instagram className="h-5 w-5" />
               </a>
-              <a href="https://twitter.com/ovivo_io" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
                 <Twitter className="h-5 w-5" />
               </a>
-              <a href="https://linkedin.com/company/ovivo-io" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-500 transition-colors">
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-500 transition-colors">
                 <Linkedin className="h-5 w-5" />
               </a>
             </div>
@@ -139,12 +133,11 @@ export function Footer() {
           <div>
             <h3 className={`text-sm font-semibold text-white ${rtl ? 'text-right' : ''}`}>{t.industries}</h3>
             <ul className={`mt-4 space-y-3 ${rtl ? 'text-right' : ''}`}>
-              <li><Link href={`${prefix}/industries/restaurants`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.restaurants}</Link></li>
-              <li><Link href={`${prefix}/industries/beauty`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.hair}</Link></li>
-              <li><Link href={`${prefix}/industries/cleaning`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.cleaning}</Link></li>
-              <li><Link href={`${prefix}/industries/transport`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.transport}</Link></li>
-              <li><Link href={`${prefix}/industries/medical`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.medical}</Link></li>
-              <li><Link href={`${prefix}/industries/trades`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.trades}</Link></li>
+              <li><Link href={`${prefix}/services`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.restaurants}</Link></li>
+              <li><Link href={`${prefix}/services`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.hair}</Link></li>
+              <li><Link href={`${prefix}/services`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.fitness}</Link></li>
+              <li><Link href={`${prefix}/services`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.hotels}</Link></li>
+              <li><Link href={`${prefix}/services`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.trades}</Link></li>
             </ul>
           </div>
 
@@ -152,7 +145,7 @@ export function Footer() {
             <h3 className={`text-sm font-semibold text-white ${rtl ? 'text-right' : ''}`}>{t.company}</h3>
             <ul className={`mt-4 space-y-3 ${rtl ? 'text-right' : ''}`}>
               <li><Link href={`${prefix}/about`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.about}</Link></li>
-              <li><Link href={`${prefix}/contact`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.contact}</Link></li>
+              <li><Link href={`${prefix}/consultation`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.contact}</Link></li>
               <li><Link href={`${prefix}/privacy`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.privacy}</Link></li>
               <li><Link href={`${prefix}/imprint`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.imprint}</Link></li>
               {showAdmin && (
