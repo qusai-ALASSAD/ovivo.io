@@ -18,7 +18,7 @@ const ServicesPage = () => {
         subtitle: "Maßgeschneiderte KI-Automation für Restaurants, Cafés und Serviceunternehmen — genau auf Ihre Branche zugeschnitten."
       },
       restaurants: {
-        title: "AI Automation für Restaurants",
+        title: "KI-Automation für Restaurants",
         subtitle: "Mehr Reservierungen. Weniger Aufwand. Glücklichere Gäste.",
         description: "Restaurants kämpfen täglich mit vollen Telefonleitungen, verpassten Reservierungsanfragen und zeitaufwendiger Kundenkommunikation. Unsere KI-Systeme übernehmen diese Aufgaben — automatisch, zuverlässig, rund um die Uhr.",
         stats: [
@@ -34,7 +34,7 @@ const ServicesPage = () => {
             icon: Calendar
           },
           {
-            title: "WhatsApp Automation",
+            title: "WhatsApp-Automatisierung",
             description: "Gäste erhalten sofortige Antworten auf WhatsApp: Öffnungszeiten, Menü, Verfügbarkeit.",
             icon: MessageCircle
           },
@@ -61,7 +61,7 @@ const ServicesPage = () => {
         ]
       },
       cafes: {
-        title: "AI Automation für Cafés",
+        title: "KI-Automation für Cafés",
         subtitle: "Mehr Stammgäste. Mehr Bestellungen. Weniger Stress.",
         description: "Cafés leben von Stammgästen und reibungslosen Abläufen. Unsere KI-Systeme helfen Ihnen, Kundenfragen sofort zu beantworten, Bestellungen zu automatisieren und Ihre Gäste noch besser zu betreuen.",
         stats: [
@@ -98,7 +98,7 @@ const ServicesPage = () => {
         ]
       },
       service: {
-        title: "AI Automation für Serviceunternehmen",
+        title: "KI-Automation für Serviceunternehmen",
         subtitle: "Mehr Anfragen. Mehr Kunden. Mehr Umsatz.",
         description: "Ob Friseur, Fitnessstudio, Arztpraxis oder Handwerksbetrieb — jedes Serviceunternehmen verliert täglich wertvolle Anfragen. Unsere KI-Systeme erfassen jede Anfrage, antworten sofort und buchen Termine automatisch.",
         stats: [
