@@ -162,7 +162,7 @@ const tx = {
     headline: 'Bereit, Ihren Betrieb auf',
     headlineGradient: 'Autopilot zu setzen?',
     sub: 'Sprechen Sie zuerst mit unserem KI-Assistenten — oder füllen Sie direkt das Formular aus. Unser Team meldet sich innerhalb von 24 Stunden für ein kostenloses, unverbindliches Strategiegespräch.',
-    chatTitle: 'Ovivo Assistent',
+    chatTitle: 'Ovivo KI-Berater',
     chatSub: 'Fragen Sie mich alles — ich beantworte ehrlich',
     online: 'Online',
     placeholder: 'Ihre Frage...',
@@ -250,7 +250,7 @@ const tx = {
     headline: 'حوّل عملك إلى آلة',
     headlineGradient: 'تعمل بلا توقف',
     sub: 'تحدّث مع مستشارنا الذكي — أو أرسل طلبك مباشرة. سيتواصل معك خبير من فريقنا خلال 24 ساعة بخطة عملية واضحة لأعمالك.',
-    chatTitle: 'Ovivo — مستشار ذكي',
+    chatTitle: 'مستشار أوفيفو الذكي',
     chatSub: 'اسألني أي شيء — إجابات صادقة وعملية',
     online: 'متاح الآن',
     placeholder: 'اكتب سؤالك هنا...',
@@ -325,55 +325,35 @@ export function ConsultationPage({ lang }: Props) {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
-  const CONSULTATION_SYSTEM = lang === 'ar'
-    ? 'أنت Ovivo، مستشار النمو الذكي. تساعد أصحاب المطاعم والمقاهي وصالونات التجميل على التوسع بالذكاء الاصطناعي.\n\nأسلوبك: دافئ، مباشر، صادق. سؤال واحد بالنهاية. استخدم أرقاماً ملموسة. إذا أبدى المستخدم اهتماماً، اطلب منه ملء النموذج للحصول على استشارة مجانية.\n\nأجب دائماً بالعربية.'
-    : lang === 'en'
-    ? 'You are Ovivo, the\'s AI growth advisor. You help restaurants, cafes, salons and local businesses scale with AI automation.\n\nStyle: warm, direct, honest. One question at the end. Use concrete numbers. If the user shows interest, invite them to fill the form for a free consultation.\n\nAlways respond in English.'
-    : 'Du bist Ovivo, der KI-Wachstumsberater. Du hilfst Restaurants, Cafes, Salons und lokalen Betrieben beim Skalieren mit KI-Automation.\n\nStil: warm, direkt, ehrlich. Eine Frage am Ende. Konkrete Zahlen verwenden. Bei Interesse: Formular ausfüllen für kostenlose Beratung.\n\nImmer auf Deutsch antworten.';
+  function getResponse(userMsg: string): string {
+    const lower = userMsg.toLowerCase();
+    if (lang === 'ar') {
+      for (const item of aiResponsesAR) {
+        if (item.triggers.some((trigger) => lower.includes(trigger))) {
+          return item.response;
+        }
+      }
+    } else {
+      const responses = aiResponses[lang as keyof typeof aiResponses] ?? aiResponses.de;
+      for (const item of responses) {
+        if (item.triggers.some((trigger) => lower.includes(trigger))) {
+          return item.response;
+        }
+      }
+    }
+    return defaultResponses[lang] ?? defaultResponses.de;
+  }
 
   async function sendMessage(text: string) {
-    if (!text.trim() || isTyping) return;
+    if (!text.trim()) return;
     const userMsg = text.trim();
     setInput('');
-    const newMessages: Message[] = [...messages, { role: 'user', content: userMsg }];
-    setMessages(newMessages);
+    setMessages((prev) => [...prev, { role: 'user', content: userMsg }]);
     setIsTyping(true);
-
-    try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: newMessages.map((m) => ({ role: m.role, content: m.content })),
-          mode: 'consultation',
-          plan: 'free',
-          systemOverride: CONSULTATION_SYSTEM,
-        }),
-      });
-
-      if (!res.ok) throw new Error();
-      const reader = res.body!.getReader();
-      const decoder = new TextDecoder();
-      let full = '';
-
-      setMessages((prev) => [...prev, { role: 'assistant', content: '' }]);
-      setIsTyping(false);
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        full += decoder.decode(value, { stream: true });
-        setMessages((prev) => {
-          const u = [...prev];
-          u[u.length - 1] = { role: 'assistant', content: full };
-          return u;
-        });
-      }
-    } catch {
-      setIsTyping(false);
-      const fallback = lang === 'ar' ? 'عذراً، حدث خطأ. حاول مجدداً.' : lang === 'en' ? 'Sorry, something went wrong. Please try again.' : 'Entschuldigung, etwas ist schiefgelaufen.';
-      setMessages((prev) => [...prev, { role: 'assistant', content: fallback }]);
-    }
+    await new Promise((r) => setTimeout(r, 900 + Math.random() * 600));
+    const response = getResponse(userMsg);
+    setIsTyping(false);
+    setMessages((prev) => [...prev, { role: 'assistant', content: response }]);
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -384,7 +364,7 @@ export function ConsultationPage({ lang }: Props) {
       await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, phone: phone || '', company, message, source: 'consultation' }),
+        body: JSON.stringify({ name, email, company, message: `${message}${phone ? ` | Tel: ${phone}` : ''}`, source: 'consultation' }),
       });
     } catch {
     }
