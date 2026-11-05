@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, Loader as Loader2, Bot, Sparkles } from 'lucide-react';
+import { X, Send, Loader as Loader2 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 interface Message {
@@ -12,17 +12,17 @@ interface Message {
 
 const OPENING_MESSAGE_DE: Message = {
   role: 'assistant',
-  content: 'Hi 👋 Ich bin Ihr persönlicher Wachstumsberater bei Ovivo — ein KI-Assistent (Demo).\n\nEine Frage, bevor ich Ihnen zeige, was für Ihren Betrieb möglich ist: Was für ein Unternehmen führen Sie?',
+  content: 'Hallo! 👋 Willkommen bei OVIVO.IO. Ich zeige Ihnen gerne, wie KI-Automation Ihr Unternehmen unterstützen kann. Was möchten Sie automatisieren?',
 };
 
 const OPENING_MESSAGE_EN: Message = {
   role: 'assistant',
-  content: "Hi 👋 I'm your personal growth consultant at Ovivo — an AI assistant (demo).\n\nBefore I show you what's possible for your business, let me understand your situation: what type of business do you run?",
+  content: "Hello! 👋 Welcome to OVIVO.IO. I can show you how AI automation may help your business. What would you like to automate?",
 };
 
 const OPENING_MESSAGE_AR: Message = {
   role: 'assistant',
-  content: 'مرحباً 👋 أنا مستشارك الشخصي في Ovivo — مساعد ذكاء اصطناعي تجريبي.\n\nقبل أن أريك ما هو ممكن لعملك، أحتاج أن أفهم وضعك جيداً: ما نوع عملك؟',
+  content: 'مرحباً 👋 أهلاً بك في OVIVO.IO. يمكنني مساعدتك في استكشاف أتمتة أعمالك. ما العمليات التي ترغب بأتمتتها؟',
 };
 
 function extractLead(text: string): { name: string; company: string; email: string; phone: string } | null {
@@ -57,9 +57,9 @@ export function SalesChatWidget() {
 
   const openingMessage = isEn ? OPENING_MESSAGE_EN : isAr ? OPENING_MESSAGE_AR : OPENING_MESSAGE_DE;
 
-  const widgetLabel = isEn ? 'Talk to a Growth Expert' : isAr ? 'تحدث مع خبير النمو' : 'Kostenlos mit Berater sprechen';
+  const widgetLabel = isEn ? 'Ask our AI assistant' : isAr ? 'اسأل مساعدنا الذكي' : 'Fragen Sie unseren KI-Assistenten';
   const placeholderText = isEn ? 'Type your answer here...' : isAr ? 'اكتب إجابتك هنا...' : 'Schreiben Sie Ihre Antwort...';
-  const headerTitle = isEn ? 'Ovivo Growth Consultant' : isAr ? 'مستشار النمو — Ovivo' : 'Ovivo Wachstumsberater';
+  const headerTitle = isEn ? 'OVIVO AI Assistant' : isAr ? 'مساعد OVIVO الذكي' : 'OVIVO KI-Assistent';
   const errorMsg = isEn
     ? 'Sorry, something went wrong. Please try again.'
     : isAr
@@ -185,14 +185,14 @@ export function SalesChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed bottom-24 right-6 z-50 w-[380px] max-w-[calc(100vw-24px)] flex flex-col rounded-2xl overflow-hidden shadow-2xl border border-white/10"
-            style={{ height: '500px' }}
+            className="fixed bottom-24 right-4 z-50 flex w-[380px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl border border-[#E0E7FF] bg-white shadow-[0_24px_70px_rgba(11,31,77,.18)] sm:right-6"
+            style={{ height: 'min(500px,calc(100dvh - 120px))' }}
             dir={rtl ? 'rtl' : 'ltr'}
           >
             <div className={`flex items-center justify-between px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 flex-shrink-0 ${rtl ? 'flex-row-reverse' : ''}`}>
               <div className={`flex items-center gap-3 ${rtl ? 'flex-row-reverse' : ''}`}>
                 <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/20">
-                  <Bot className="h-5 w-5 text-white" />
+                  <img src="/ovivo-favicon.svg" alt="" className="h-8 w-8 rounded-full object-contain" />
                 </div>
                 <div className={rtl ? 'text-right' : ''}>
                   <p className="text-sm font-semibold text-white leading-tight">{headerTitle}</p>
@@ -204,20 +204,20 @@ export function SalesChatWidget() {
               </div>
               <button
                 onClick={() => setOpen(false)}
-                className="flex h-7 w-7 items-center justify-center rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                aria-label={isEn ? 'Close chat' : isAr ? 'إغلاق' : 'Chat schließen'} className="flex h-7 w-7 items-center justify-center rounded-full text-white/80 hover:text-white hover:bg-white/10 transition-colors"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-[#0f1117]">
+            <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-[#F4F7FB]">
               {messages.map((msg, i) => (
                 <div key={i} className={`flex ${msg.role === 'user' ? (rtl ? 'justify-start' : 'justify-end') : (rtl ? 'justify-end' : 'justify-start')}`}>
                   <div
                     className={`max-w-[82%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
                       msg.role === 'user'
                         ? `bg-blue-600 text-white ${rtl ? 'rounded-bl-sm' : 'rounded-br-sm'}`
-                        : `bg-white/8 text-gray-100 ${rtl ? 'rounded-br-sm' : 'rounded-bl-sm'} border border-white/10`
+                        : `bg-white text-[#0B1F4D] ${rtl ? 'rounded-br-sm' : 'rounded-bl-sm'} border border-[#E0E7FF]`
                     }`}
                     style={{ direction: rtl ? 'rtl' : 'ltr', textAlign: rtl ? 'right' : 'left' }}
                   >
@@ -227,7 +227,7 @@ export function SalesChatWidget() {
               ))}
               {loading && messages[messages.length - 1]?.role !== 'assistant' && (
                 <div className={`flex ${rtl ? 'justify-end' : 'justify-start'}`}>
-                  <div className="bg-white/8 border border-white/10 rounded-2xl rounded-bl-sm px-4 py-3">
+                  <div className="bg-white border border-[#E0E7FF] rounded-2xl rounded-bl-sm px-4 py-3">
                     <div className="flex gap-1.5">
                       <span className="h-2 w-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '0ms' }} />
                       <span className="h-2 w-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '150ms' }} />
@@ -239,7 +239,7 @@ export function SalesChatWidget() {
               <div ref={bottomRef} />
             </div>
 
-            <div className="px-3 py-3 bg-[#0f1117] border-t border-white/10 flex-shrink-0">
+            <div className="px-3 py-3 bg-white border-t border-[#E0E7FF] flex-shrink-0">
               <div className={`flex items-end gap-2 bg-white/5 rounded-xl border border-white/10 px-3 py-2 ${rtl ? 'flex-row-reverse' : ''}`}>
                 <textarea
                   ref={inputRef}
@@ -249,7 +249,7 @@ export function SalesChatWidget() {
                   placeholder={placeholderText}
                   rows={1}
                   dir={rtl ? 'rtl' : 'ltr'}
-                  className="flex-1 bg-transparent text-sm text-white placeholder:text-gray-400 resize-none outline-none leading-relaxed max-h-24 overflow-y-auto"
+                  className="flex-1 bg-transparent text-sm text-[#0B1F4D] placeholder:text-[#64748b] resize-none outline-none leading-relaxed max-h-24 overflow-y-auto"
                   style={{ scrollbarWidth: 'none' }}
                 />
                 <button
@@ -278,32 +278,26 @@ export function SalesChatWidget() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.15 }}
-            className="fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 border border-white/20 hover:bg-white/15 active:scale-95 transition-all shadow-lg"
+            className="fixed bottom-5 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-white border border-[#E0E7FF] hover:bg-[#F4F7FB] transition-all shadow-lg sm:bottom-6 sm:right-6" aria-label={isEn ? 'Close AI chat' : isAr ? 'إغلاق المحادثة' : 'KI-Chat schließen'}
           >
-            <X className="h-5 w-5 text-white" />
+            <X className="h-5 w-5 text-[#0B1F4D]" />
           </motion.button>
         ) : (
           <motion.button
             key="open-btn"
+            type="button"
             onClick={() => setOpen(true)}
+            aria-label={widgetLabel}
+            title={widgetLabel}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 12 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 rounded-full bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-3.5 shadow-2xl shadow-blue-500/40 hover:shadow-blue-500/60 hover:from-blue-500 hover:to-blue-600 active:scale-95 transition-all"
+            className="group fixed bottom-5 right-4 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-[0_12px_32px_rgba(59,130,246,.25)] ring-1 ring-[#E0E7FF] transition-shadow hover:shadow-[0_14px_40px_rgba(136,92,246,.32)] sm:bottom-6 sm:right-6"
           >
-            <motion.div
-              animate={{ rotate: [0, 15, -15, 10, -10, 0] }}
-              transition={{ duration: 3, repeat: Infinity, repeatDelay: 4, ease: 'easeInOut' }}
-            >
-              <Sparkles className="h-4 w-4 text-white flex-shrink-0" />
-            </motion.div>
-            <span className="text-sm font-semibold text-white whitespace-nowrap">
-              {widgetLabel}
-            </span>
-            {unread && (
-              <span className="h-2.5 w-2.5 rounded-full bg-red-400 flex-shrink-0" />
-            )}
+            <span className="ovivo-chat-orbit pointer-events-none absolute inset-[-4px] rounded-full" aria-hidden="true" />
+            <img src="/ovivo-favicon.svg" alt="" className="relative z-10 h-12 w-12 rounded-full object-contain" />
+            {unread && <span className="absolute right-0 top-0 z-20 h-3 w-3 rounded-full border-2 border-white bg-[#885CF6]" aria-hidden="true" />}
           </motion.button>
         )}
       </AnimatePresence>
