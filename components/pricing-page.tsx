@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { GlassCard, RevealSection, StaggerContainer, StaggerItem } from '@/components/ui/motion';
 import { SectionHeader } from '@/components/section-header';
+import { OpenConsultationButton } from '@/components/lead-magnet';
 import type { Lang } from '@/lib/i18n';
 import { isRTL } from '@/lib/i18n';
 
@@ -294,6 +295,19 @@ export function PricingPage({ lang }: Props) {
           <RevealSection className="text-center mb-14">
             <SectionHeader badge={tx.badge} title={tx.title} titleGradient={tx.titleGradient} subtitle={tx.sub} />
           </RevealSection>
+
+          <div className="mx-auto mb-12 max-w-2xl rounded-3xl border border-[#E0E7FF] bg-white px-6 py-7 text-center shadow-[0_18px_60px_rgba(11,31,77,.06)]">
+            <p className="mb-2 text-xs font-bold uppercase tracking-widest text-[#3B82F6]">
+              {lang === 'de' ? 'Kostenlose Erstberatung' : lang === 'ar' ? 'استشارة أولية مجانية' : 'Free initial consultation'}
+            </p>
+            <h2 className="text-xl font-bold text-[#0B1F4D] sm:text-2xl">
+              {lang === 'de' ? 'Entdecken Sie Ihr Automatisierungspotenzial.' : lang === 'ar' ? 'اكتشف إمكانات الأتمتة في شركتك.' : 'Discover your automation potential.'}
+            </h2>
+            <p className="mx-auto mb-5 mt-3 max-w-xl text-sm leading-relaxed text-[#52647e]">
+              {lang === 'de' ? 'Wir zeigen Ihnen, welche Prozesse sich mit KI automatisieren lassen – klar, unverbindlich und auf Ihr Unternehmen zugeschnitten.' : lang === 'ar' ? 'نوضح لك العمليات التي يمكن أتمتتها بالذكاء الاصطناعي بحسب احتياجات شركتك.' : 'Explore which of your business processes AI can automate, without obligation.'}
+            </p>
+            <OpenConsultationButton lang={lang} />
+          </div>
 
           {/* Trust badges */}
           <RevealSection className="mb-12">
