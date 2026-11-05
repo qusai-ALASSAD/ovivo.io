@@ -401,3 +401,21 @@ body.ovivo-light .ovivo-floating-chat :is(button,textarea):focus-visible {
     animation-duration: 0.01ms !important;
   }
 }
+
+
+/* Consultation dialog: preserve brand CTA contrast without intrusive double focus rings. */
+body.ovivo-light .ovivo-consultation-modal .ovivo-consultation-submit {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  background-color: #3B82F6 !important;
+}
+body.ovivo-light .ovivo-consultation-modal .ovivo-consultation-submit:hover {
+  background-color: #2563EB !important;
+}
+body.ovivo-light .ovivo-consultation-modal #ovivo-consultation-email:focus {
+  box-shadow: none !important;
+}
+body.ovivo-light .ovivo-consultation-modal #ovivo-consultation-email:focus-visible {
+  outline: 2px solid #3B82F6;
+  outline-offset: 2px;
+}
