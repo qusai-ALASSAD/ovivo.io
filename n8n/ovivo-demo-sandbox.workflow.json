@@ -1,0 +1,179 @@
+{
+  "name": "OVIVO — Live Demo Automation (Sandbox)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ovivo-demo-v1",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "ovivo-webhook",
+      "name": "Secure Demo Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        240,
+        300
+      ],
+      "webhookId": "ovivo-demo-v1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $input.first().json.body || {};\nif (input.demo !== true || typeof input.runId !== 'string' || !/^[0-9a-f-]{36}$/i.test(input.runId)) throw new Error('Invalid demo request');\nconst scenario = ['booking','lead','support'].includes(input.scenario) ? input.scenario : 'booking';\nreturn [{ json: { runId: input.runId, lang: ['de','en','ar'].includes(input.lang) ? input.lang : 'de', scenario, demo: true, steps: ['received'], receivedAt: new Date().toISOString() } }];"
+      },
+      "id": "ovivo-validate",
+      "name": "Validate synthetic demo",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json;\nconst category = data.scenario === 'booking' ? 'Terminanfrage' : data.scenario === 'lead' ? 'Neukundenanfrage' : 'Serviceanfrage';\nreturn [{ json: { ...data, classification: category, steps: [...data.steps,'classified'] } }];"
+      },
+      "id": "ovivo-classify",
+      "name": "Classify inquiry",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json;\nconst syntheticRecord = { ref: 'DEMO-' + data.runId.slice(0,8), company: 'Example Business', category: data.classification, sandbox: true };\nreturn [{ json: { ...data, demoCrmRecord: syntheticRecord, steps: [...data.steps,'crm_demo'] } }];"
+      },
+      "id": "ovivo-crm",
+      "name": "Create sandbox CRM record",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json;\nconst draft = 'OVIVO demo: Anfrage ' + data.demoCrmRecord.ref + ' eingegangen.';\nreturn [{ json: { ...data, confirmationDraft: draft, steps: [...data.steps,'confirmation_demo'] } }];"
+      },
+      "id": "ovivo-confirm",
+      "name": "Prepare confirmation (no send)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json;\nreturn [{ json: { runId: data.runId, status: 'completed', steps: [...data.steps,'team_notification_demo'], demo: true, customerDataStored: false, messagesSent: false } }];"
+      },
+      "id": "ovivo-team",
+      "name": "Prepare team notification (no send)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "ovivo-response",
+      "name": "Return verified execution",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1680,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Secure Demo Webhook": {
+      "main": [
+        [
+          {
+            "node": "Validate synthetic demo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate synthetic demo": {
+      "main": [
+        [
+          {
+            "node": "Classify inquiry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classify inquiry": {
+      "main": [
+        [
+          {
+            "node": "Create sandbox CRM record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create sandbox CRM record": {
+      "main": [
+        [
+          {
+            "node": "Prepare confirmation (no send)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare confirmation (no send)": {
+      "main": [
+        [
+          {
+            "node": "Prepare team notification (no send)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare team notification (no send)": {
+      "main": [
+        [
+          {
+            "node": "Return verified execution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false,
+  "pinData": {},
+  "tags": []
+}
