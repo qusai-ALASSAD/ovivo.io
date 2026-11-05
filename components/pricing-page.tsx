@@ -43,7 +43,7 @@ const content = {
     setup:'Einmalige Einrichtung', monthly:'Monatliche Betreuung', from:'ab', per:'/ Monat',
     discount:'10 % Einführungsrabatt', savings:'99 € sparen', recommended:'Unsere Empfehlung',
     note:'10 % Rabatt ausschließlich auf die einmalige Starter-Einrichtung (990 € → 891 €). Der Monatspreis bleibt unverändert.',
-    button:'Paket anfragen', included:'Leistungen im Überblick',
+    button:'Jetzt Beratung anfragen', included:'Leistungen im Überblick',
     compare:'Leistungen vergleichen', compareSub:'Wählen Sie den Umfang, der zu Ihrem Unternehmen passt.',
     fine:'Unverbindliche B2B-Einstiegspreise, netto (ggf. zzgl. gesetzlicher Umsatzsteuer). Einrichtung und monatliche Betreuung werden separat berechnet. API-, KI-Modell-, WhatsApp-, Telefonie-, Hosting- und Drittanbietergebühren können zusätzlich anfallen. Leistungsumfang, Nutzungsgrenzen, Laufzeit und Kündigungsbedingungen werden im individuellen Angebot festgelegt.',
     questions:'Häufige Fragen', faqs:[
@@ -64,7 +64,7 @@ const content = {
     features:{chat:'AI assistant for frequent questions',leads:'Capture customer inquiries',workflow:'n8n workflow automation',calendar:'Calendar & booking inquiries',crm:'CRM connection within agreed scope',integration:'Connect existing tools',analytics:'Basic automation reporting',support:'Setup, testing & agreed support',marketing:'Marketing automation basics'},
     setup:'One-time setup',monthly:'Monthly support',from:'from',per:'/ month',discount:'10% introductory discount',savings:'Save €99',recommended:'Recommended',
     note:'10% off the one-time AI Starter setup only (€990 → €891). Monthly support remains unchanged.',
-    button:'Ask about this plan',included:'Included services',compare:'Compare packages',compareSub:'Choose the scope that suits your business.',
+    button:'Request a consultation',included:'Included services',compare:'Compare packages',compareSub:'Choose the scope that suits your business.',
     fine:'Non-binding B2B starting prices, net (VAT may apply). Setup and monthly support are charged separately. Usage-based AI/API, WhatsApp, phone, hosting and third-party fees may apply. Final scope, usage limits, duration and cancellation are specified in the individual proposal.',
     questions:'Frequently asked questions',faqs:[
       ['What does “from” mean?','Prices cover the stated basic scope. Extra features and custom integrations are quoted separately.'],
@@ -84,7 +84,7 @@ const content = {
     features:{chat:'مساعد AI للأسئلة الشائعة',leads:'تنظيم طلبات العملاء',workflow:'أتمتة العمليات عبر n8n',calendar:'المواعيد والتقويم',crm:'ربط CRM حسب نطاق الاتفاق',integration:'ربط الأدوات الحالية',analytics:'تقارير مبسطة للأتمتة',support:'الإعداد والاختبار والمتابعة',marketing:'أساسيات أتمتة التسويق'},
     setup:'رسوم إعداد لمرة واحدة',monthly:'متابعة شهرية',from:'ابتداءً من',per:'/ شهرياً',discount:'خصم 10% على البداية',savings:'وفّر 99€',recommended:'الباقة الموصى بها',
     note:'خصم 10% على رسوم تأسيس AI Starter فقط (990€ ← 891€)، دون تغيير الاشتراك الشهري.',
-    button:'استفسر عن الباقة',included:'الخدمات',compare:'مقارنة الباقات',compareSub:'اختر الخدمات التي تناسب طريقة عملك.',
+    button:'اطلب استشارة الآن',included:'الخدمات',compare:'مقارنة الباقات',compareSub:'اختر الخدمات التي تناسب طريقة عملك.',
     fine:'أسعار استرشادية للشركات، صافية (قد تُضاف ضريبة القيمة المضافة). رسوم التأسيس منفصلة عن المتابعة الشهرية. تكاليف AI وAPI وواتساب والاتصالات والاستضافة والخدمات الخارجية قد تُحسب بشكل إضافي. يحدد العرض المكتوب نطاق الخدمة وحدود الاستخدام ومدة العقد والإلغاء.',
     questions:'الأسئلة الشائعة',faqs:[
       ['ماذا يعني «ابتداءً من»؟','السعر يشمل نطاقاً أساسياً محدداً، ويُسعّر العمل الإضافي مسبقاً.'],
@@ -101,7 +101,7 @@ export function PricingPage({lang}: {lang: Lang}) {
  const rtl = lang === 'ar';
  const prefix = lang === 'de' ? '' : '/' + lang;
  return (
-  <div dir={rtl ? 'rtl' : 'ltr'} className="min-h-screen bg-[#F4F7FB]">
+  <div dir={rtl ? 'rtl' : 'ltr'} className="min-h-screen bg-[#F5F8FF]">
    <section className="relative overflow-hidden px-4 pb-24 pt-32 sm:px-6 lg:pt-36">
     <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-[460px] bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.11),transparent_68%)]" />
     <div className="relative mx-auto max-w-7xl">
@@ -121,17 +121,17 @@ export function PricingPage({lang}: {lang: Lang}) {
        return <span key={item} className="inline-flex items-center gap-2 rounded-full border border-[#DCE5F7] bg-white px-4 py-2 text-xs font-semibold text-[#52647E]"><Icon size={15} className="text-[#3B82F6]"/>{item}</span>;
       })}
      </div>
-     <div className="mt-12 grid items-stretch gap-6 lg:grid-cols-3">
+     <div className="mt-12 grid items-stretch gap-7 lg:grid-cols-3">
       {offers.map((plan,index)=>(
        <motion.article key={plan.id} whileHover={{y:-3}} transition={{duration:.2}}
-        className={'relative flex h-full min-w-0 flex-col rounded-[28px] border bg-white p-6 shadow-[0_16px_55px_rgba(11,31,77,.06)] sm:p-8 ' + (plan.recommended?'border-[#8BB3FF] ring-2 ring-[#E0E9FF]':'border-[#DCE5F7]')}>
-        <div className="mb-4 flex min-h-[30px] flex-wrap items-center gap-2">
-         {'original' in plan && <><span className="inline-flex items-center gap-1 rounded-full bg-[#EEE9FF] px-3 py-1.5 text-xs font-extrabold text-[#683DC7]"><Tag size={13}/>{t.discount}</span><span className="text-xs font-semibold text-[#52647E]">{t.savings}</span></>}
-         {'recommended' in plan && <span className="rounded-full bg-[#2563EB] px-3 py-1.5 text-xs font-bold text-white">{t.recommended}</span>}
+        className={'ovivo-price-card relative flex h-full min-w-0 flex-col rounded-[30px] border bg-white p-6 transition-shadow duration-200 sm:p-8 ' + (plan.recommended ? 'ovivo-price-featured border-[#8CB5FF] shadow-[0_22px_60px_rgba(37,99,235,.13)] ring-2 ring-[#E7F0FF]' : 'border-[#D9E4F5] shadow-[0_12px_36px_rgba(11,31,77,.07)] hover:shadow-[0_20px_45px_rgba(11,31,77,.10)]')}>
+        <div className="mb-5 flex min-h-[34px] flex-wrap items-center gap-2">
+         {'original' in plan && <><span className="inline-flex items-center gap-1 rounded-full border border-[#DDD0FF] bg-[#F1EAFE] px-3 py-1.5 text-xs font-extrabold text-[#6D28D9]"><Tag size={13}/>{t.discount}</span><span className="text-xs font-semibold text-[#52647E]">{t.savings}</span></>}
+         {'recommended' in plan && <span className="ovivo-price-featured-badge rounded-full bg-[#2563EB] px-3 py-1.5 text-xs font-bold text-white shadow-sm">{t.recommended}</span>}
         </div>
         <h3 className="text-2xl font-extrabold tracking-tight text-[#0B1F4D]">{t.names[index]}</h3>
         <p className="mt-3 min-h-[72px] text-sm leading-6 text-[#52647E]">{t.desc[index]}</p>
-        <div className="mt-5 rounded-2xl border border-[#DFE7FA] bg-[#F8FAFF] p-5">
+        <div className="mt-5 rounded-2xl border border-[#E2E9F6] bg-[#F9FAFE] p-5">
          <p className="text-xs font-bold uppercase tracking-wide text-[#52647E]">{t.setup}</p>
          <div className="mt-2 flex flex-wrap items-end gap-3">
           <span className="text-xs text-[#52647E]">{t.from}</span>
@@ -142,7 +142,7 @@ export function PricingPage({lang}: {lang: Lang}) {
          <p className="text-xs font-bold uppercase tracking-wide text-[#52647E]">{t.monthly}</p>
          <p className="mt-2 text-2xl font-extrabold text-[#2563EB]"><span className="text-xs font-normal text-[#52647E]">{t.from} </span>{euro(plan.monthly)} <span className="text-xs font-medium text-[#52647E]">{t.per}</span></p>
         </div>
-        <p className="mt-5 rounded-xl bg-[#EFF5FF] px-4 py-3 text-sm font-semibold leading-6 text-[#27466D]">{t.scope[index]}</p>
+        <p className="mt-5 rounded-xl border border-[#DFE8F6] bg-[#F3F6FC] px-4 py-3 text-sm font-semibold leading-6 text-[#27466D]">{t.scope[index]}</p>
         <ul className="mt-6 flex-1 space-y-3">
          {plan.features.map(feature=>(
           <li key={feature} className="flex items-start gap-3 text-sm leading-6 text-[#36547A]">
@@ -150,8 +150,8 @@ export function PricingPage({lang}: {lang: Lang}) {
           </li>
          ))}
         </ul>
-        <Link href={prefix + '/consultation'} className={'mt-8 flex min-h-[52px] items-center justify-center gap-2 rounded-xl px-4 text-center text-sm font-bold transition-colors ' + (plan.recommended?'bg-[#2563EB] text-white hover:bg-[#1D4ED8]':'border border-[#B6CBF7] bg-white text-[#0B1F4D] hover:bg-[#EDF4FF]')}>
-         {t.button}<ArrowRight size={16} className={rtl?'rotate-180':''}/>
+        <Link href={prefix + '/consultation'} className={'ovivo-pricing-cta mt-8 flex min-h-[54px] items-center justify-center gap-2 rounded-xl px-5 text-center text-sm font-extrabold transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#885CF6] ' + (plan.recommended ? 'ovivo-pricing-cta-primary bg-[#2563EB] text-white shadow-[0_10px_24px_rgba(37,99,235,.23)] hover:bg-[#1D4ED8] hover:shadow-[0_14px_30px_rgba(37,99,235,.29)]' : plan.id === 'growth' ? 'ovivo-pricing-cta-growth bg-[#0B1F4D] text-white shadow-[0_9px_23px_rgba(11,31,77,.16)] hover:bg-[#173671]' : 'ovivo-pricing-cta-secondary border border-[#BFD3F8] bg-white text-[#0B1F4D] hover:border-[#2563EB] hover:bg-[#EEF5FF]')}>
+         {plan.recommended ? (lang === 'de' ? 'Empfohlene Lösung anfragen' : lang === 'ar' ? 'اطلب الحل الموصى به' : 'Request recommended solution') : t.button}<ArrowRight size={16} className={rtl?'rotate-180':''}/>
         </Link>
        </motion.article>
       ))}
