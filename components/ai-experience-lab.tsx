@@ -29,10 +29,10 @@ const copy = {
     send: 'Senden', greeting: 'Hallo! Welche Aufgaben möchten Sie in Ihrem Unternehmen automatisieren?',
     voiceTip: 'Klicken Sie auf das Mikrofon und sprechen Sie. Die Antworten werden von einer KI erstellt und vom Browser vorgelesen.',
     voiceStart: 'Sprechen', voiceStop: 'Stoppen', voiceUnavailable: 'Spracherkennung ist in diesem Browser nicht verfügbar. Nutzen Sie bitte den KI-Chatbot.',
-    workflowTip: 'Testen Sie einen Beispielprozess. Er läuft nur in Ihrem Browser; es werden keine echten CRM-Einträge oder Nachrichten erstellt.',
+    workflowTip: 'Starten Sie einen echten n8n-Testworkflow mit Beispieldaten. Es werden keine echten CRM-Einträge oder Nachrichten erstellt.',
     workflowStart: 'Beispielprozess starten', workflowReset: 'Zurücksetzen',
     steps: ['Anfrage erfasst', 'Anfrage kategorisiert', 'Kontakt im Demo-CRM angelegt', 'Bestätigung simuliert', 'Team-Benachrichtigung simuliert'],
-    completed: 'Der Beispielprozess wurde simuliert. Keine Daten wurden extern versendet.',
+    completed: 'Der n8n-Workflow wurde ausgeführt und bestätigt. Keine echten Kundennachrichten wurden gesendet.',
     privacy: 'Demo-Hinweis: Im Chat werden Ihre Eingaben an den KI-Anbieter übermittelt. Bitte keine persönlichen oder vertraulichen Daten eingeben. Die Sprachfunktion verwendet zusätzlich die Spracherkennung Ihres Browsers. Keine echte Telefonanlage.',
     unavailable: 'Der KI-Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es später erneut.',
     consultancy: 'Kostenlose KI-Beratung',
@@ -47,10 +47,10 @@ const copy = {
     greeting: 'Hello! What would you like to automate in your business?',
     voiceTip: 'Tap the microphone and speak. An AI generates the answer; your browser reads it aloud.',
     voiceStart: 'Speak', voiceStop: 'Stop', voiceUnavailable: 'Speech recognition is unavailable in this browser. Please use the AI Chatbot.',
-    workflowTip: 'Try a sample process in your browser. No real CRM records or messages are created.',
+    workflowTip: 'Run a real n8n demo workflow with synthetic data. No real CRM entries, emails or messages will be created.',
     workflowStart: 'Run sample workflow', workflowReset: 'Reset',
     steps: ['Request received', 'Request classified', 'Demo CRM entry created', 'Confirmation simulated', 'Team notification simulated'],
-    completed: 'Demo workflow finished. No data was sent to external services.',
+    completed: 'n8n confirmed the demo workflow. No real customer messages were sent.',
     privacy: 'Demo notice: Chat messages are sent to an AI provider. Do not enter personal or confidential information. Voice input additionally uses browser speech recognition. Not a real phone system.',
     unavailable: 'The AI service is currently unavailable. Please try again later.',
     consultancy: 'Free AI consultation',
@@ -65,10 +65,10 @@ const copy = {
     greeting: 'مرحباً! ما العمليات التي تريد أتمتتها في عملك؟',
     voiceTip: 'اضغط الميكروفون وتحدث. الذكاء الاصطناعي ينشئ الرد والمتصفح يقرأه صوتياً.',
     voiceStart: 'تحدث', voiceStop: 'إيقاف', voiceUnavailable: 'التعرّف الصوتي غير مدعوم في هذا المتصفح. استخدم الدردشة.',
-    workflowTip: 'جرّب العملية في المتصفح. لا يتم إنشاء سجلات أو إرسال رسائل حقيقية.',
+    workflowTip: 'شغّل سير عمل حقيقياً عبر n8n باستخدام بيانات تجريبية، دون إرسال رسائل أو إنشاء سجلات عملاء حقيقية.',
     workflowStart: 'ابدأ التجربة', workflowReset: 'إعادة',
     steps: ['استلام الطلب', 'تصنيف الطلب', 'إضافة سجل تجريبي', 'محاكاة التأكيد', 'محاكاة إشعار الفريق'],
-    completed: 'اكتملت المحاكاة دون إرسال بيانات لأي خدمة خارجية.',
+    completed: 'أكد n8n تنفيذ سير العمل التجريبي دون إرسال رسائل حقيقية للعملاء.',
     privacy: 'ملاحظة: تُرسل رسائل الدردشة لمزود الذكاء الاصطناعي. لا تدخل بيانات شخصية أو سرية. تستخدم التجربة الصوتية أيضاً التعرف الصوتي في المتصفح؛ وهي ليست نظام هاتف فعلياً.',
     unavailable: 'خدمة الذكاء الاصطناعي غير متاحة الآن. حاول لاحقاً.',
     consultancy: 'استشارة مجانية',
@@ -84,6 +84,9 @@ export function AiExperienceLab({ lang }: { lang: Lang }) {
   const [listening, setListening] = useState(false);
   const [voiceSupported, setVoiceSupported] = useState(true);
   const [step, setStep] = useState(-1);
+  const [workflowError, setWorkflowError] = useState('');
+  const [workflowBusy, setWorkflowBusy] = useState(false);
+  const [workflowRunId, setWorkflowRunId] = useState('');
   const controller = useRef<AbortController | null>(null);
   const recognition = useRef<BrowserRecognition | null>(null);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -161,18 +164,31 @@ export function AiExperienceLab({ lang }: { lang: Lang }) {
     try { recognizer.start(); setListening(true); } catch { setListening(false); }
   }
 
-  function runWorkflow() {
-    if (timer.current) clearInterval(timer.current);
-    setStep(0);
-    let current = 0;
-    timer.current = setInterval(() => {
-      current += 1;
-      setStep(current);
-      if (current >= t.steps.length - 1 && timer.current) {
-        clearInterval(timer.current);
-        timer.current = null;
+  async function runWorkflow() {
+    if (workflowBusy) return;
+    setWorkflowError('');
+    setWorkflowRunId('');
+    setStep(-1);
+    setWorkflowBusy(true);
+    try {
+      const response = await fetch('/api/demo-workflow', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lang, scenario: 'booking' }),
+      });
+      const data = await response.json();
+      if (!response.ok || data?.status !== 'completed' || !Array.isArray(data.steps)) {
+        throw new Error(data?.code === 'NOT_CONFIGURED' ? 'NOT_CONFIGURED' : 'WORKFLOW_ERROR');
       }
-    }, 800);
+      setWorkflowRunId(String(data.runId || ''));
+      setStep(Math.min(t.steps.length - 1, data.steps.length - 1));
+    } catch (error) {
+      setWorkflowError((error as Error).message === 'NOT_CONFIGURED'
+        ? (lang === 'de' ? 'Die n8n-Verbindung ist noch nicht eingerichtet.' : lang === 'ar' ? 'لم يتم إعداد اتصال n8n بعد.' : 'The n8n connection has not been configured yet.')
+        : (lang === 'de' ? 'Der echte n8n-Workflow konnte nicht bestätigt werden.' : lang === 'ar' ? 'تعذّر التحقق من تنفيذ سير العمل الفعلي عبر n8n.' : 'The live n8n workflow could not be verified.'));
+    } finally {
+      setWorkflowBusy(false);
+    }
   }
 
   const isRtl = lang === 'ar';
@@ -198,7 +214,7 @@ export function AiExperienceLab({ lang }: { lang: Lang }) {
           );
         })}
       </div>
-      <section className="mt-6 min-h-[340px] rounded-2xl border border-white/10 bg-[#111a30] p-5 shadow-xl sm:p-7">
+      <section className="mt-6 min-h-[340px] rounded-2xl border border-white/10 bg-white p-5 shadow-xl sm:p-7">
         {mode === 'chat' && (
           <div>
             <p className="mb-5 text-sm text-gray-300">{t.description}</p>
@@ -236,10 +252,12 @@ export function AiExperienceLab({ lang }: { lang: Lang }) {
                 </div>
               ))}
             </div>
-            {step === t.steps.length - 1 && <p role="status" className="mt-5 text-sm text-emerald-300">{t.completed}</p>}
+            {workflowBusy && <p role="status" className="mt-5 text-sm text-blue-600">{lang === 'ar' ? 'جاري تشغيل n8n...' : lang === 'de' ? 'n8n-Workflow wird ausgeführt...' : 'Running n8n workflow...'}</p>}
+            {workflowError && <p role="alert" className="mt-5 text-sm text-red-600">{workflowError}</p>}
+            {step === t.steps.length - 1 && workflowRunId && <p role="status" className="mt-5 text-sm text-emerald-700">{t.completed} · ID: {workflowRunId.slice(0, 8)}</p>}
             <div className="mt-7 flex flex-wrap gap-3">
-              <button type="button" onClick={runWorkflow} className="flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white"><Play size={17} />{t.workflowStart}</button>
-              <button type="button" onClick={() => { if (timer.current) clearInterval(timer.current); timer.current = null; setStep(-1); }} className="rounded-xl border border-white/20 px-5 py-3 text-white">{t.workflowReset}</button>
+              <button type="button" disabled={workflowBusy} onClick={runWorkflow} className="flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white"><Play size={17} />{t.workflowStart}</button>
+              <button type="button" onClick={() => { if (timer.current) clearInterval(timer.current); timer.current = null; setStep(-1); setWorkflowError(''); setWorkflowRunId(''); }} className="rounded-xl border border-white/20 px-5 py-3 text-white">{t.workflowReset}</button>
             </div>
           </div>
         )}
