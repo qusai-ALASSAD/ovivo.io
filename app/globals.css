@@ -183,3 +183,27 @@ body.ovivo-light .bg-indigo-600 {
    transition-duration: 0.01ms !important;
  }
 }
+
+/* Branded OVIVO chat launcher: orbit only, no logo distortion or layout shift. */
+.ovivo-chat-orbit {
+  border: 2px solid transparent;
+  background: linear-gradient(#fff,#fff) padding-box,
+    conic-gradient(from 0deg, #3B82F6, #885CF6, transparent 60%, #3B82F6) border-box;
+  animation: ovivo-orbit 8s linear infinite;
+  will-change: transform;
+}
+@keyframes ovivo-orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+body.ovivo-light .ovivo-chat-orbit {
+  background: linear-gradient(#fff,#fff) padding-box,
+    conic-gradient(from 0deg,#3B82F6,#885CF6,transparent 65%,#3B82F6) border-box;
+}
+body.ovivo-light .ovivo-workflow-demo {
+  contain: layout paint;
+  overflow: hidden;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ovivo-chat-orbit { animation: none !important; will-change: auto; }
+}
