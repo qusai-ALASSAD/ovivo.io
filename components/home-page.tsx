@@ -192,8 +192,8 @@ const pricingData = {
     plans: [
       {
         name: 'Starter',
-        setup: 'ab €1.200',
-        monthly: 'ab €120 / Monat',
+        setup: 'ab €891 (10 % Rabatt)',
+        monthly: 'ab €99 / Monat',
         badge: null,
         highlighted: false,
         ideal: 'Für Einzelbetriebe & Einsteiger',
@@ -202,8 +202,8 @@ const pricingData = {
       },
       {
         name: 'Business',
-        setup: 'ab €2.200',
-        monthly: 'ab €220 / Monat',
+        setup: 'ab €2.490',
+        monthly: 'ab €249 / Monat',
         badge: 'Beliebtestes Paket',
         highlighted: true,
         ideal: 'Für Restaurants, Cafés & Dienstleister',
@@ -212,8 +212,8 @@ const pricingData = {
       },
       {
         name: 'Full',
-        setup: 'ab €3.200',
-        monthly: 'ab €450 / Monat',
+        setup: 'ab €4.990',
+        monthly: 'ab €449 / Monat',
         badge: 'Maximale Leistung',
         highlighted: false,
         ideal: 'Für wachsende Betriebe & Ketten',
@@ -233,8 +233,8 @@ const pricingData = {
     plans: [
       {
         name: 'Starter',
-        setup: 'from €1,200',
-        monthly: 'from €120 / mo',
+        setup: 'from €891 (10% off)',
+        monthly: 'from €99 / mo',
         badge: null,
         highlighted: false,
         ideal: 'For sole traders & beginners',
@@ -243,8 +243,8 @@ const pricingData = {
       },
       {
         name: 'Business',
-        setup: 'from €2,200',
-        monthly: 'from €220 / mo',
+        setup: 'from €2,490',
+        monthly: 'from €249 / mo',
         badge: 'Most Popular',
         highlighted: true,
         ideal: 'For restaurants, cafés & services',
@@ -253,8 +253,8 @@ const pricingData = {
       },
       {
         name: 'Full',
-        setup: 'from €3,200',
-        monthly: 'from €450 / mo',
+        setup: 'from €4,990',
+        monthly: 'from €449 / mo',
         badge: 'Maximum Power',
         highlighted: false,
         ideal: 'For growing businesses & chains',
@@ -274,8 +274,8 @@ const pricingData = {
     plans: [
       {
         name: 'الأساسية',
-        setup: 'من €1,200',
-        monthly: 'من €120 / شهر',
+        setup: 'من €891 (خصم 10%)',
+        monthly: 'من €99 / شهر',
         badge: null,
         highlighted: false,
         ideal: 'لأصحاب الأعمال الفردية والبدايات',
@@ -284,8 +284,8 @@ const pricingData = {
       },
       {
         name: 'الأعمال',
-        setup: 'من €2,200',
-        monthly: 'من €220 / شهر',
+        setup: 'من €2,490',
+        monthly: 'من €249 / شهر',
         badge: 'الأكثر طلباً',
         highlighted: true,
         ideal: 'للمطاعم والمقاهي والشركات النامية',
@@ -294,8 +294,8 @@ const pricingData = {
       },
       {
         name: 'المتقدمة',
-        setup: 'من €3,500',
-        monthly: 'من €350 / شهر',
+        setup: 'من €4,990',
+        monthly: 'من €449 / شهر',
         badge: 'أقصى أداء',
         highlighted: false,
         ideal: 'للشركات التي تريد التوسع بسرعة',
