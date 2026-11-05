@@ -328,3 +328,59 @@ body.ovivo-light .ovivo-price-card .ovivo-pricing-cta-secondary:hover { backgrou
 @media (prefers-reduced-motion: reduce) {
   .ovivo-price-card, .ovivo-pricing-cta { transition-duration: 0.01ms !important; transform: none !important; }
 }
+
+
+/* OVIVO pricing-specific black/blue theme. Scoped above legacy global light overrides. */
+body.ovivo-light .ovivo-pricing-page {
+  background: #fff;
+}
+body.ovivo-light .ovivo-pricing-page h2,
+body.ovivo-light .ovivo-pricing-page h3 {
+  color: #101828;
+}
+body.ovivo-light .ovivo-pricing-page .text-gradient,
+body.ovivo-light .ovivo-pricing-page h2 .bg-clip-text {
+  background-image: linear-gradient(105deg, #2563EB 0%, #1D4ED8 100%) !important;
+}
+body.ovivo-light .ovivo-pricing-page .ovivo-pricing-hero-cta,
+body.ovivo-light .ovivo-pricing-page .ovivo-pricing-cta-primary,
+body.ovivo-light .ovivo-pricing-page .ovivo-pricing-cta-growth,
+body.ovivo-light .ovivo-pricing-page .ovivo-price-featured-badge {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+body.ovivo-light .ovivo-pricing-page .ovivo-pricing-hero-cta,
+body.ovivo-light .ovivo-pricing-page .ovivo-pricing-cta-growth,
+body.ovivo-light .ovivo-pricing-page .ovivo-price-featured-badge {
+  background-color: #101828 !important;
+}
+body.ovivo-light .ovivo-pricing-page .ovivo-pricing-cta-primary {
+  background-color: #2563EB !important;
+}
+body.ovivo-light .ovivo-pricing-page .ovivo-pricing-cta-secondary {
+  color: #1D4ED8 !important;
+  -webkit-text-fill-color: #1D4ED8 !important;
+  background-color: #FFFFFF !important;
+}
+body.ovivo-light .ovivo-pricing-page .ovivo-pricing-hero-cta:hover,
+body.ovivo-light .ovivo-pricing-page .ovivo-pricing-cta-growth:hover {
+  background-color: #1F2937 !important;
+}
+body.ovivo-light .ovivo-pricing-page .ovivo-pricing-cta-primary:hover {
+  background-color: #1D4ED8 !important;
+}
+body.ovivo-light .ovivo-pricing-page .ovivo-pricing-cta-secondary:hover {
+  background-color: #EFF6FF !important;
+}
+body.ovivo-light .ovivo-pricing-page .ovivo-price-featured h3 {
+  color: #101828 !important;
+}
+body.ovivo-light .ovivo-pricing-page .ovivo-price-card:hover {
+  border-color: #2563EB;
+}
+@media (prefers-reduced-motion: reduce) {
+  body.ovivo-light .ovivo-pricing-page .ovivo-price-card,
+  body.ovivo-light .ovivo-pricing-page .ovivo-pricing-cta {
+    transform: none !important;
+  }
+}
