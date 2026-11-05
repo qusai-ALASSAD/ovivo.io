@@ -57,9 +57,11 @@ export function SalesChatWidget() {
 
   const openingMessage = isEn ? OPENING_MESSAGE_EN : isAr ? OPENING_MESSAGE_AR : OPENING_MESSAGE_DE;
 
-  const widgetLabel = isEn ? 'Ask our AI assistant' : isAr ? 'اسأل مساعدنا الذكي' : 'Fragen Sie unseren KI-Assistenten';
-  const placeholderText = isEn ? 'Type your answer here...' : isAr ? 'اكتب إجابتك هنا...' : 'Schreiben Sie Ihre Antwort...';
-  const headerTitle = isEn ? 'OVIVO AI Assistant' : isAr ? 'مساعد OVIVO الذكي' : 'OVIVO KI-Assistent';
+  const widgetLabel = isEn ? 'Chat with OVIVO AI' : isAr ? 'تحدث مع OVIVO AI' : 'Mit OVIVO AI chatten';
+  const placeholderText = isEn ? 'Ask OVIVO AI a question…' : isAr ? 'اسأل OVIVO AI...' : 'Stellen Sie OVIVO AI Ihre Frage…';
+  const headerTitle = 'OVIVO AI';
+  const headerSubtitle = isEn ? 'Your automation guide' : isAr ? 'مساعدك للأتمتة الذكية' : 'Ihr digitaler Automationsberater';
+  const availabilityLabel = isEn ? 'AI demo' : isAr ? 'تجربة ذكاء اصطناعي' : 'KI-Demo';
   const errorMsg = isEn
     ? 'Sorry, something went wrong. Please try again.'
     : isAr
@@ -186,39 +188,40 @@ export function SalesChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed bottom-24 right-4 z-50 flex w-[380px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl border border-[#E0E7FF] bg-white shadow-[0_24px_70px_rgba(11,31,77,.18)] sm:right-6"
-            style={{ height: 'min(500px,calc(100dvh - 120px))' }}
+            className="ovivo-floating-chat fixed bottom-24 right-4 z-50 flex w-[400px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-[24px] border border-[#DCE5F7] bg-white shadow-[0_28px_75px_rgba(11,31,77,.18)] sm:right-6"
+            style={{ height: 'min(560px,calc(100dvh - 120px))' }}
             dir={rtl ? 'rtl' : 'ltr'}
           >
-            <div className={`flex items-center justify-between px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 flex-shrink-0 ${rtl ? 'flex-row-reverse' : ''}`}>
-              <div className={`flex items-center gap-3 ${rtl ? 'flex-row-reverse' : ''}`}>
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/20">
-                  <img src="/ovivo-favicon.svg" alt="" className="h-8 w-8 rounded-full object-contain" />
+            <div className="h-1 shrink-0 bg-gradient-to-r from-[#3B82F6] via-[#885CF6] to-[#3B82F6]" aria-hidden="true" />
+            <div className={`flex shrink-0 items-center justify-between gap-3 border-b border-[#E6ECF8] bg-white px-5 py-4 ${rtl ? 'flex-row-reverse' : ''}`}>
+              <div className={`flex min-w-0 items-center gap-3 ${rtl ? 'flex-row-reverse' : ''}`}>
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[#DCE5F7] bg-[#F4F7FB] shadow-sm">
+                  <img src="/ovivo-favicon.svg" alt="" className="h-10 w-10 object-contain" />
                 </div>
-                <div className={rtl ? 'text-right' : ''}>
-                  <p className="text-sm font-semibold text-white leading-tight">{headerTitle}</p>
-                  <div className={`flex items-center gap-1.5 ${rtl ? 'flex-row-reverse justify-end' : ''}`}>
-                    <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                    <p className="text-xs text-blue-100">Online</p>
+                <div className={`min-w-0 ${rtl ? 'text-right' : ''}`}>
+                  <p className="text-[17px] font-extrabold leading-tight tracking-tight text-[#0B1F4D]">{headerTitle}</p>
+                  <p className="mt-0.5 text-[11px] font-medium text-[#52647E]">{headerSubtitle}</p>
+                  <div className={`mt-1 flex items-center gap-1.5 ${rtl ? 'flex-row-reverse justify-end' : ''}`}>
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#3B82F6]" aria-hidden="true" />
+                    <p className="text-[10px] font-semibold text-[#4264A0]">{availabilityLabel}</p>
                   </div>
                 </div>
               </div>
-              <button
+              <button type="button"
                 onClick={() => setOpen(false)}
-                aria-label={isEn ? 'Close chat' : isAr ? 'إغلاق' : 'Chat schließen'} className="flex h-7 w-7 items-center justify-center rounded-full text-white/80 hover:text-white hover:bg-white/10 transition-colors"
-              >
-                <X className="h-4 w-4" />
-              </button>
+                aria-label={isEn ? 'Close chat' : isAr ? 'إغلاق' : 'Chat schließen'}
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#E0E7FF] bg-[#F8FAFF] text-[#52647E] transition-colors hover:border-[#BFD3F8] hover:bg-[#EAF2FF] hover:text-[#0B1F4D]"
+              ><X className="h-4 w-4" /></button>
             </div>
 
-            <div ref={messagesPaneRef} className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain bg-[#F4F7FB] px-4 py-4">
+            <div ref={messagesPaneRef} className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain bg-[#F6F8FD] px-4 py-5 sm:px-5" aria-live="polite">
               {messages.map((msg, i) => (
                 <div key={i} className={`flex ${msg.role === 'user' ? (rtl ? 'justify-start' : 'justify-end') : (rtl ? 'justify-end' : 'justify-start')}`}>
                   <div
-                    className={`max-w-[82%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
+                    className={`max-w-[88%] whitespace-pre-wrap rounded-[18px] px-4 py-3 text-[13px] leading-[1.75] shadow-sm ${
                       msg.role === 'user'
-                        ? `bg-blue-600 text-white ${rtl ? 'rounded-bl-sm' : 'rounded-br-sm'}`
-                        : `bg-white text-[#0B1F4D] ${rtl ? 'rounded-br-sm' : 'rounded-bl-sm'} border border-[#E0E7FF]`
+                        ? `ovivo-floating-user bg-[#3B82F6] text-white ${rtl ? 'rounded-bl-sm' : 'rounded-br-sm'}`
+                        : `bg-white text-[#0B1F4D] ${rtl ? 'rounded-br-sm' : 'rounded-bl-sm'} border border-[#DBE6F7]`
                     }`}
                     style={{ direction: rtl ? 'rtl' : 'ltr', textAlign: rtl ? 'right' : 'left' }}
                   >
@@ -240,8 +243,8 @@ export function SalesChatWidget() {
               
             </div>
 
-            <div className="px-3 py-3 bg-white border-t border-[#E0E7FF] flex-shrink-0">
-              <div className={`flex items-end gap-2 bg-white/5 rounded-xl border border-white/10 px-3 py-2 ${rtl ? 'flex-row-reverse' : ''}`}>
+            <div className="shrink-0 border-t border-[#E0E7FF] bg-white px-4 pb-4 pt-3">
+              <div className={`ovivo-floating-composer flex items-end gap-2 rounded-2xl border border-[#D8E4F7] bg-white px-3 py-2.5 shadow-[0_3px_14px_rgba(11,31,77,.045)] transition-colors focus-within:border-[#3B82F6] focus-within:ring-[3px] focus-within:ring-blue-500/10 ${rtl ? 'flex-row-reverse' : ''}`}>
                 <textarea
                   ref={inputRef}
                   value={input}
@@ -250,13 +253,13 @@ export function SalesChatWidget() {
                   placeholder={placeholderText}
                   rows={1}
                   dir={rtl ? 'rtl' : 'ltr'}
-                  className="flex-1 bg-transparent text-sm text-[#0B1F4D] placeholder:text-[#64748b] resize-none outline-none leading-relaxed max-h-24 overflow-y-auto"
+                  className="min-h-[34px] min-w-0 flex-1 resize-none overflow-y-auto border-0 bg-transparent px-1 py-1.5 text-sm leading-relaxed text-[#0B1F4D] placeholder:text-[#71829B] focus:outline-none"
                   style={{ scrollbarWidth: 'none' }}
                 />
                 <button
                   onClick={sendMessage}
                   disabled={!input.trim() || loading}
-                  className="flex-shrink-0 flex h-7 w-7 items-center justify-center rounded-lg bg-blue-600 text-white disabled:opacity-40 disabled:cursor-not-allowed hover:bg-blue-500 transition-colors"
+                  type="button" aria-label={isEn ? 'Send message' : isAr ? 'إرسال الرسالة' : 'Nachricht senden'} className="ovivo-floating-send flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#3B82F6] text-white shadow-[0_6px_14px_rgba(59,130,246,.20)] transition-colors hover:bg-[#2563EB] disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   {loading ? (
                     <Loader2 className="h-3.5 w-3.5 animate-spin" />
