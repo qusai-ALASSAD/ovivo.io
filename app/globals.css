@@ -285,3 +285,30 @@ body.ovivo-light main .ovivo-ai-lab input {
 body.ovivo-light main .ovivo-ai-lab input:focus-visible {
   outline: none;
 }
+
+
+/* Consultation experience: explicit text contrast and internal-only chat scrolling. */
+body.ovivo-light .ovivo-consultation-chat {
+  background: #fff;
+  border-color: #DCE5F7;
+  color: #0B1F4D;
+}
+body.ovivo-light .ovivo-consultation-transcript {
+  scrollbar-color: #C7D6F4 transparent;
+  scrollbar-width: thin;
+  overscroll-behavior: contain;
+}
+body.ovivo-light .ovivo-consultation-user,
+body.ovivo-light .ovivo-consultation-send {
+  color: #fff !important;
+}
+body.ovivo-light .ovivo-consultation-chat :is(button,input):focus-visible {
+  outline: 2px solid #3B82F6;
+  outline-offset: 2px;
+}
+body.ovivo-light .ovivo-consultation-chat input::placeholder {
+  color: #71829B;
+}
+@media (max-width:640px) {
+  .ovivo-consultation-chat { max-height: min(650px, calc(100dvh - 120px)); }
+}
