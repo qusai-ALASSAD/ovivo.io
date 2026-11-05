@@ -27,7 +27,7 @@ export function Footer() {
 
   const t = isEn
     ? {
-        desc: 'AI automation for restaurants & service businesses. We automate reservations, customer inquiries, and customer retention — fully automated.',
+        desc: 'AI automation for businesses: smart assistants, CRM integrations and automated workflows, complemented by web design and digital marketing.',
         solutions: 'Solutions',
         industries: 'Industries',
         company: 'Company',
@@ -49,7 +49,7 @@ export function Footer() {
       }
     : isAr
     ? {
-        desc: 'ذكاء اصطناعي للمطاعم وشركات الخدمات. نؤتمت الحجوزات واستفسارات العملاء والاحتفاظ بهم — بشكل تلقائي كامل.',
+        desc: 'أتمتة ذكية للشركات: مساعدين أذكياء، ربط CRM، وسير عمل تلقائي، مع تصميم المواقع والتسويق الرقمي.',
         solutions: 'الحلول',
         industries: 'القطاعات',
         company: 'الشركة',
@@ -70,7 +70,7 @@ export function Footer() {
         copyright: 'جميع الحقوق محفوظة.',
       }
     : {
-        desc: 'KI-Automation für Gastronomie & Servicebetriebe. Wir automatisieren Reservierungen, Kundenanfragen und Kundenbindung — vollautomatisch.',
+        desc: 'KI-Automation für Unternehmen: intelligente Assistenten, CRM-Integrationen und automatisierte Workflows, ergänzt durch Webdesign und Marketing.',
         solutions: 'Lösungen',
         industries: 'Branchen',
         company: 'Unternehmen',
@@ -92,15 +92,12 @@ export function Footer() {
       };
 
   return (
-    <footer className="relative border-t border-white/10 glass mt-20" dir={rtl ? 'rtl' : 'ltr'}>
+    <footer className="relative border-t border-blue-100 bg-white/95 mt-20" dir={rtl ? 'rtl' : 'ltr'}>
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div className="col-span-1">
             <Link href={prefix || '/'} className={`flex items-center gap-2 group ${rtl ? 'flex-row-reverse justify-end' : ''}`}>
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-600 to-cyan-500 group-hover:shadow-blue-500/50 transition-all duration-300">
-                <Sparkles className="h-5 w-5 text-white" />
-              </div>
-              <span className="text-xl font-bold text-gradient">Ovivo</span>
+              <img src="/ovivo-logo.svg" alt="ovivo.io — Digital Growth Partner" width={180} height={34} className="h-9 w-auto object-contain" />
             </Link>
             <p className={`mt-4 text-sm text-gray-400 leading-relaxed ${rtl ? 'text-right' : ''}`}>{t.desc}</p>
             <div className={`mt-6 flex gap-4 ${rtl ? 'flex-row-reverse' : ''}`}>
