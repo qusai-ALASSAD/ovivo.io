@@ -47,7 +47,7 @@ export function SalesChatWidget() {
   const [loading, setLoading] = useState(false);
   const [leadSaved, setLeadSaved] = useState(false);
   const [unread, setUnread] = useState(false);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const messagesPaneRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const pathname = usePathname();
   const isEn = pathname?.startsWith('/en') ?? false;
@@ -83,12 +83,13 @@ export function SalesChatWidget() {
   }, [open]);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, loading]);
+    const pane = messagesPaneRef.current;
+    if (pane && open) pane.scrollTop = pane.scrollHeight;
+  }, [messages, loading, open]);
 
   useEffect(() => {
     if (open) {
-      setTimeout(() => inputRef.current?.focus(), 300);
+      inputRef.current?.focus({ preventScroll: true });
     }
   }, [open]);
 
@@ -210,7 +211,7 @@ export function SalesChatWidget() {
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-[#F4F7FB]">
+            <div ref={messagesPaneRef} className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain bg-[#F4F7FB] px-4 py-4">
               {messages.map((msg, i) => (
                 <div key={i} className={`flex ${msg.role === 'user' ? (rtl ? 'justify-start' : 'justify-end') : (rtl ? 'justify-end' : 'justify-start')}`}>
                   <div
@@ -236,7 +237,7 @@ export function SalesChatWidget() {
                   </div>
                 </div>
               )}
-              <div ref={bottomRef} />
+              
             </div>
 
             <div className="px-3 py-3 bg-white border-t border-[#E0E7FF] flex-shrink-0">
