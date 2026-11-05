@@ -27,7 +27,7 @@ const aiResponses = {
     },
     {
       triggers: ['restaurant', 'gastronomie', 'essen', 'bistro', 'bar'],
-      response: 'Gastronomie kenne ich gut — es ist eine Branche, in der jede verpasste Reservierung echtes Geld kostet.\n\nFür Restaurants setzen wir typischerweise um:\n✓ Automatische Tischreservierungen (24/7 — auch nachts)\n✓ WhatsApp-Automation für Gästekommunikation\n✓ Erinnerungen & No-Show-Reduktion\n✓ Follow-up & Bewertungsanfragen nach dem Besuch\n\nEin Restaurant in München spart damit täglich 2 Stunden und hat 35% mehr Umsatz generiert. Wie viele Tische haben Sie, und wie kommen aktuell Ihre Reservierungen rein?',
+      response: 'Gastronomie kenne ich gut — es ist eine Branche, in der jede verpasste Reservierung echtes Geld kostet.\n\nFür Restaurants setzen wir typischerweise um:\n✓ Automatische Tischreservierungen (24/7 — auch nachts)\n✓ WhatsApp-Automation für Gästekommunikation\n✓ Erinnerungen & No-Show-Reduktion\n✓ Follow-up & Bewertungsanfragen nach dem Besuch\n\nWelche Schritte würden Sie gerne automatisieren? Wie viele Tische haben Sie, und wie kommen aktuell Ihre Reservierungen rein?',
     },
     {
       triggers: ['café', 'cafe', 'kaffee', 'bäckerei', 'konditorei'],
@@ -65,7 +65,7 @@ const aiResponses = {
     },
     {
       triggers: ['restaurant', 'hospitality', 'food', 'bistro', 'bar', 'dining'],
-      response: "I know hospitality well — it's an industry where every missed reservation is real lost money.\n\nFor restaurants we typically implement:\n✓ Automatic table reservations (24/7 — even at night)\n✓ WhatsApp automation for guest communication\n✓ Reminders & no-show reduction\n✓ Follow-up & review requests after the visit\n\nA restaurant in Munich now saves 2 hours daily and generated 35% more revenue. How many tables do you have, and how do your reservations come in currently?",
+      response: "I know hospitality well — it's an industry where every missed reservation is real lost money.\n\nFor restaurants we typically implement:\n✓ Automatic table reservations (24/7 — even at night)\n✓ WhatsApp automation for guest communication\n✓ Reminders & no-show reduction\n✓ Follow-up & review requests after the visit\n\nWhich tasks would you like to automate? How many tables do you have, and how do your reservations come in currently?",
     },
     {
       triggers: ['café', 'cafe', 'coffee', 'bakery'],
@@ -101,7 +101,7 @@ const aiResponsesAR = [
   },
   {
     triggers: ['مطعم', 'مطاعم', 'مقهى', 'مقاهي', 'كافيه', 'كافيهات', 'فندق', 'ضيافة'],
-    response: 'المطاعم والمقاهي هي الشريحة اللي نعرفها أكثر من غيرها.\n\nالمشكلة اللي نشوفها دايماً: الحجوزات تيجي من كل مكان — واتساب، انستقرام، هاتف — وما في نظام يجمعها. والموظف يضيع وقته يرد على نفس الأسئلة كل يوم.\n\nاللي نسويه للمطاعم:\n✓ حجز الطاولات تلقائي 24/7 — حتى بعد الدوام\n✓ تذكيرات للعملاء قبل الحجز عشان تقل حالات الغياب\n✓ ردود واتساب فورية على الأسئلة الشائعة\n✓ رسائل متابعة بعد الزيارة وطلب التقييم\n\nواحد من عملائنا وفّر أكثر من ساعتين يومياً ورفع إيراداته 35% في أول ثلاثة أشهر.\n\nعندك كم طاولة؟ وكيف تيجيك الحجوزات الحين؟',
+    response: 'المطاعم والمقاهي هي الشريحة اللي نعرفها أكثر من غيرها.\n\nالمشكلة اللي نشوفها دايماً: الحجوزات تيجي من كل مكان — واتساب، انستقرام، هاتف — وما في نظام يجمعها. والموظف يضيع وقته يرد على نفس الأسئلة كل يوم.\n\nاللي نسويه للمطاعم:\n✓ حجز الطاولات تلقائي 24/7 — حتى بعد الدوام\n✓ تذكيرات للعملاء قبل الحجز عشان تقل حالات الغياب\n✓ ردود واتساب فورية على الأسئلة الشائعة\n✓ رسائل متابعة بعد الزيارة وطلب التقييم\n\nيمكن للأتمتة تقليل المهام اليدوية بحسب طبيعة عملك.\n\nعندك كم طاولة؟ وكيف تيجيك الحجوزات الحين؟',
   },
   {
     triggers: ['صالون', 'تجميل', 'حلاق', 'مساج', 'سبا', 'لياقة', 'جيم'],
@@ -188,9 +188,9 @@ const tx = {
     contactDirect: 'Oder direkt Kontakt aufnehmen',
     statsTitle: 'Was unsere Kunden erreichen',
     stats: [
-      { value: '94%', label: 'Anfragen automatisch beantwortet' },
+      { value: 'KI', label: 'Intelligente Kundenkommunikation' },
       { value: '-70%', label: 'Weniger manuelle Arbeit' },
-      { value: '+35%', label: 'Mehr Umsatz im Schnitt' },
+      { value: 'CRM', label: 'Systeme verbinden' },
       { value: '5–14', label: 'Tage bis zur Livestellung' },
     ],
     benefitsTitle: 'Was Sie in der Beratung erhalten',
@@ -232,9 +232,9 @@ const tx = {
     contactDirect: 'Or contact us directly',
     statsTitle: 'What our clients achieve',
     stats: [
-      { value: '94%', label: 'Inquiries answered automatically' },
+      { value: 'AI', label: 'Smart customer communication' },
       { value: '-70%', label: 'Less manual work' },
-      { value: '+35%', label: 'More revenue on average' },
+      { value: 'CRM', label: 'Connect existing tools' },
       { value: '5–14', label: 'Days to go live' },
     ],
     benefitsTitle: 'What you get in the consultation',
@@ -276,9 +276,9 @@ const tx = {
     contactDirect: 'أو تواصل معنا مباشرة',
     statsTitle: 'نتائج حقيقية يحققها عملاؤنا',
     stats: [
-      { value: '94%', label: 'من الاستفسارات تُجاب تلقائياً' },
+      { value: 'AI', label: 'تواصل ذكي مع العملاء' },
       { value: '-70%', label: 'انخفاض في العمل اليدوي' },
-      { value: '+35%', label: 'نمو في الإيرادات بالمتوسط' },
+      { value: 'CRM', label: 'ربط أنظمة العملاء' },
       { value: '5–14', label: 'يوم فقط حتى الإطلاق' },
     ],
     benefitsTitle: 'ماذا ستحصل في استشارتك؟',
