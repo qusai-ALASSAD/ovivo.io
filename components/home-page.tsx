@@ -76,10 +76,10 @@ const testimonials = {
       result: '+2h täglich gespart',
     },
     {
-      quote: 'WhatsApp läuft jetzt vollautomatisch. Bestellungen, Rückfragen, Erinnerungen — alles ohne Mitarbeiter. Unser Umsatz ist in 3 Monaten um 35% gestiegen.',
+      quote: 'WhatsApp läuft jetzt vollautomatisch. Bestellungen, Rückfragen, Erinnerungen — alles ohne Mitarbeiter. Für unser Beispiel zeigen wir automatisierte Kommunikation.',
       name: 'Sabrina M.',
       role: 'Café-Betreiberin, Hamburg',
-      result: '+35% Umsatz in 3 Monaten',
+      result: 'Beispiel: Kundenkommunikation',
     },
     {
       quote: 'Das CRM-System hat unsere Kundenpflege komplett verändert. Stammkunden werden automatisch angeschrieben, Bewertungen kommen von selbst. Ich musste nichts lernen.',
@@ -96,10 +96,10 @@ const testimonials = {
       result: '2h saved every day',
     },
     {
-      quote: 'WhatsApp now runs fully automatically. Orders, questions, reminders — all without staff. Our revenue grew by 35% in 3 months.',
+      quote: 'WhatsApp now runs fully automatically. Orders, questions, reminders — all without staff. This demo illustrates automated customer communication.',
       name: 'Sabrina M.',
       role: 'Café Owner, Hamburg',
-      result: '+35% revenue in 3 months',
+      result: 'Example: customer communication',
     },
     {
       quote: "The CRM system completely changed how we handle customer relationships. Regular customers are contacted automatically, reviews come in by themselves. I didn't have to learn anything.",
@@ -116,10 +116,10 @@ const testimonials = {
       result: 'توفير ساعتين يومياً',
     },
     {
-      quote: 'واتساب يعمل الآن بشكل تلقائي كامل. الطلبات، الاستفسارات، التذكيرات — كلها دون موظفين. إيراداتنا ارتفعت 35% في 3 أشهر.',
+      quote: 'واتساب يعمل الآن بشكل تلقائي كامل. الطلبات، الاستفسارات، التذكيرات — كلها دون موظفين. هذا مثال توضيحي لأتمتة التواصل مع العملاء.',
       name: 'سابرينا م.',
       role: 'صاحبة مقهى، هامبورغ',
-      result: '+35% إيرادات في 3 أشهر',
+      result: 'مثال: تواصل آلي مع العملاء',
     },
     {
       quote: 'نظام CRM غيّر طريقة تعاملنا مع العملاء كلياً. العملاء الدائمون يُتابَعون تلقائياً والتقييمات تأتي من تلقاء نفسها. لم أحتج أن أتعلم شيئاً.',
@@ -207,7 +207,7 @@ const pricingData = {
         badge: 'Beliebtestes Paket',
         highlighted: true,
         ideal: 'Für Restaurants, Cafés & Dienstleister',
-        outcome: '+35% mehr Buchungen in 60 Tagen',
+        outcome: 'Buchungsanfragen automatisieren',
         features: ['Erweiterter KI-Chatbot', 'WhatsApp Automation', 'Buchungssystem', 'CRM Integration', 'Priority Support'],
       },
       {
@@ -248,7 +248,7 @@ const pricingData = {
         badge: 'Most Popular',
         highlighted: true,
         ideal: 'For restaurants, cafés & services',
-        outcome: '+35% more bookings within 60 days',
+        outcome: 'Automate booking inquiries',
         features: ['Advanced AI Chatbot', 'WhatsApp Automation', 'Booking System', 'CRM Integration', 'Priority Support'],
       },
       {
@@ -289,7 +289,7 @@ const pricingData = {
         badge: 'الأكثر طلباً',
         highlighted: true,
         ideal: 'للمطاعم والمقاهي والشركات النامية',
-        outcome: '+35% حجوزات خلال 60 يوماً',
+        outcome: 'أتمتة استفسارات الحجوزات',
         features: ['روبوت دردشة متطور', 'أتمتة واتساب كاملة', 'نظام حجز تلقائي', 'تكامل CRM', 'دعم مميز'],
       },
       {
@@ -511,7 +511,7 @@ export function HomePage({ lang }: Props) {
             <div className="inline-flex items-center gap-3 rounded-2xl border border-emerald-500/25 bg-emerald-500/8 px-6 py-3">
               <ShieldCheck className="h-5 w-5 text-emerald-400 flex-shrink-0" />
               <p className="text-sm font-semibold text-emerald-300">
-                {lang === 'de' ? '30-Tage-Garantie — messbare Ergebnisse oder kostenlose Nacharbeit' : lang === 'ar' ? 'ضمان 30 يوماً — نتائج قابلة للقياس أو نستمر مجاناً' : '30-Day Guarantee — measurable results or we keep optimizing for free'}
+                {lang === 'de' ? 'Individuelle Prozessanalyse und persönlicher Support' : lang === 'ar' ? 'تحليل مخصص للعمليات ودعم شخصي' : 'Tailored process analysis and personal support'}
               </p>
             </div>
           </RevealSection>
