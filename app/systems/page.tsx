@@ -429,7 +429,7 @@ export default function SystemsPage() {
                 Ready to Get It Built?
               </h2>
               <p className="text-lg text-gray-400 max-w-xl mx-auto mb-10">
-                Apply now — we'll review your application and reach out within 24 hours to schedule a discovery call.
+                Apply now — we&apos;ll review your application and reach out within 24 hours to schedule a discovery call.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/contact">
