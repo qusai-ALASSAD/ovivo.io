@@ -19,139 +19,23 @@ interface Message {
   content: string;
 }
 
-const aiResponses = {
-  de: [
-    {
-      triggers: ['hallo', 'hi', 'guten tag', 'guten morgen', 'hey', 'start', 'starten'],
-      response: 'Schön, dass Sie hier sind! Ich bin Ihr persönlicher Berater bei Ovivo — kein Chatbot, sondern ein KI-Assistent, der wirklich versteht, wie Betriebe wie Ihrer funktionieren.\n\nWas beschäftigt Sie gerade am meisten: zu viele manuelle Aufgaben, verpasste Buchungen, oder möchten Sie einfach mehr über unsere Lösungen erfahren?',
-    },
-    {
-      triggers: ['restaurant', 'gastronomie', 'essen', 'bistro', 'bar'],
-      response: 'Gastronomie kenne ich gut — es ist eine Branche, in der jede verpasste Reservierung echtes Geld kostet.\n\nFür Restaurants setzen wir typischerweise um:\n✓ Automatische Tischreservierungen (24/7 — auch nachts)\n✓ WhatsApp-Automation für Gästekommunikation\n✓ Erinnerungen & No-Show-Reduktion\n✓ Follow-up & Bewertungsanfragen nach dem Besuch\n\nWelche Schritte würden Sie gerne automatisieren? Wie viele Tische haben Sie, und wie kommen aktuell Ihre Reservierungen rein?',
-    },
-    {
-      triggers: ['café', 'cafe', 'kaffee', 'bäckerei', 'konditorei'],
-      response: 'Cafés und Bäckereien profitieren enorm von Automation — besonders bei den Stoßzeiten, wenn das Team sowieso ausgelastet ist.\n\nWas wir für Cafés einrichten:\n✓ Vorbestellungen automatisch verwalten\n✓ Tagesspecials per WhatsApp an Stammkunden\n✓ KI beantwortet Menü- und Öffnungszeitfragen sofort\n✓ Treue-Programm ohne zusätzlichen Aufwand\n\nEin Café in Hamburg hat die Stammkundenbesuche um 40% gesteigert — in nur 3 Monaten. Was ist bei Ihnen aktuell das größte Problem?',
-    },
-    {
-      triggers: ['friseur', 'beauty', 'salon', 'kosmetik', 'massage', 'spa'],
-      response: 'Beauty & Wellness — eine Branche, in der Terminsystem und Kundenbindung alles sind.\n\nFür Salons und Studios richten wir ein:\n✓ Online-Terminbuchung, die rund um die Uhr funktioniert\n✓ Automatische Erinnerungen (fast keine No-Shows mehr)\n✓ Follow-up nach dem Termin + Bewertungsanfrage\n✓ WhatsApp für schnelle Rückfragen und Umbuchungen\n\nUnsere Kunden berichten von 45% weniger No-Shows und deutlich mehr Neubuchungen. Wie viele Termine nehmen Sie aktuell pro Woche an?',
-    },
-    {
-      triggers: ['fitness', 'gym', 'sport', 'training', 'studio'],
-      response: 'Fitness-Studios haben oft das gleiche Problem: viele Anfragen, wenig Zeit für echte Betreuung.\n\nMit Ovivo automatisieren wir:\n✓ Probe-Training Buchungen und Erinnerungen\n✓ Mitglieder-Follow-up (Retention verbessern)\n✓ Kursplan-Kommunikation per WhatsApp\n✓ Lead Capture für Interessenten, die noch unentschlossen sind\n\nWie viele aktive Mitglieder haben Sie, und was kostet Sie aktuell die meiste Zeit?',
-    },
-    {
-      triggers: ['preis', 'kosten', 'wie viel', 'was kostet', 'preise', 'pakete', 'angebot'],
-      response: 'Gute Frage — ich bin transparent bei Preisen:\n\n🔹 Starter — ab €1.200 Setup + €120/Monat\nKI-Chatbot, Lead Capture, WhatsApp Integration\nIdeal für Einsteiger und kleinere Betriebe\n\n🔷 Business — ab €2.200 Setup + €220/Monat\nErweiterter Chatbot, Buchungssystem, CRM, Follow-up\nFür Betriebe, die alles aus einer Hand wollen\n\n🔶 Full Automation — ab €3.200 Setup + €450/Monat\nKomplettes System + Marketing Automation\nFür Betriebe mit hohem Volumen und ambitionierten Zielen\n\nDer genaue Preis hängt von Ihrer Betriebsgröße ab. In einer kostenlosen Beratung zeige ich Ihnen, welches Paket sich rechnet — und warum.',
-    },
-    {
-      triggers: ['wie lange', 'wie schnell', 'setup', 'einrichtung', 'dauer', 'wann'],
-      response: 'Schneller als die meisten erwarten:\n\n• Starter: 5–7 Werktage\n• Business: 7–10 Werktage\n• Full Automation: 10–14 Werktage\n\nSie müssen nichts selbst tun — wir übernehmen die komplette Einrichtung, Integration und Schulung. Nach dem Go-live stehen wir für Optimierungen und Support zur Seite.\n\nWann würden Sie idealerweise starten wollen?',
-    },
-    {
-      triggers: ['whatsapp', 'messaging', 'nachrichten', 'chat'],
-      response: 'WhatsApp ist der stärkste Kanal, den wir einsetzen — weil Ihre Kunden ihn bereits täglich nutzen.\n\nWir richten ein:\n✓ Automatische Antworten auf häufige Fragen (24/7)\n✓ Buchungsbestätigungen und -erinnerungen\n✓ Broadcast-Nachrichten für Angebote & Events\n✓ Lead-Qualifizierung direkt im Chat\n\nAlles Datenschutz im Fokus, auf Deutsch und vollständig automatisiert. Haben Sie aktuell schon eine WhatsApp Business-Nummer?',
-    },
-    {
-      triggers: ['beratung', 'kontakt', 'anfrage', 'besprechen', 'gespräch', 'termin', 'kennenlernen'],
-      response: 'Sehr gerne! Eine 30-minütige kostenlose Beratung ist unser bester erster Schritt.\n\nDarin analysieren wir Ihren Betrieb, zeigen Ihnen konkret welches Potenzial Sie aktuell verschenken, und entwickeln einen maßgeschneiderten Automation-Plan — ohne Verkaufsdruck.\n\nFüllen Sie einfach das Formular rechts aus — ich sorge dafür, dass Sie so bald wie möglich von einem unserer Experten kontaktiert werden.',
-    },
-  ],
-  en: [
-    {
-      triggers: ['hello', 'hi', 'good morning', 'hey', 'start'],
-      response: "Great to have you here! I'm your personal advisor at Ovivo — not a generic chatbot, but an AI assistant that genuinely understands how businesses like yours work.\n\nWhat's on your mind most right now: too many manual tasks, missed bookings, or just wanting to learn more about what we offer?",
-    },
-    {
-      triggers: ['restaurant', 'hospitality', 'food', 'bistro', 'bar', 'dining'],
-      response: "I know hospitality well — it's an industry where every missed reservation is real lost money.\n\nFor restaurants we typically implement:\n✓ Automatic table reservations (24/7 — even at night)\n✓ WhatsApp automation for guest communication\n✓ Reminders & no-show reduction\n✓ Follow-up & review requests after the visit\n\nWhich tasks would you like to automate? How many tables do you have, and how do your reservations come in currently?",
-    },
-    {
-      triggers: ['café', 'cafe', 'coffee', 'bakery'],
-      response: "Cafés and bakeries benefit enormously from automation — especially during peak hours when the team is already stretched.\n\nWhat we set up for cafés:\n✓ Manage pre-orders automatically\n✓ Daily specials via WhatsApp to regulars\n✓ AI instantly answers menu & opening hour questions\n✓ Loyalty program without extra effort\n\nA café in Hamburg increased regular customer visits by 40% in just 3 months. What's your biggest challenge right now?",
-    },
-    {
-      triggers: ['hair', 'beauty', 'salon', 'spa', 'massage', 'cosmetic'],
-      response: "Beauty & wellness — an industry where booking systems and customer retention are everything.\n\nFor salons and studios we set up:\n✓ Online booking that works around the clock\n✓ Automatic reminders (nearly no more no-shows)\n✓ Follow-up after appointment + review request\n✓ WhatsApp for quick questions and rebooking\n\nOur clients report 45% fewer no-shows and significantly more new bookings. How many appointments do you currently take per week?",
-    },
-    {
-      triggers: ['price', 'cost', 'how much', 'pricing', 'packages', 'quote'],
-      response: "Good question — I'm transparent about pricing:\n\n🔹 Starter — from €1,200 setup + €120/month\nAI chatbot, lead capture, WhatsApp integration\nIdeal for beginners and smaller businesses\n\n🔷 Business — from €2,200 setup + €220/month\nAdvanced chatbot, booking system, CRM, follow-up\nFor businesses that want everything from one source\n\n🔶 Full Automation — from €3,200 setup + €450/month\nComplete system + marketing automation\nFor high-volume businesses with ambitious goals\n\nThe exact price depends on your business size. In a free consultation I'll show you which package makes sense — and why.",
-    },
-    {
-      triggers: ['how long', 'how fast', 'setup', 'installation', 'when'],
-      response: "Faster than most expect:\n\n• Starter: 5–7 business days\n• Business: 7–10 business days\n• Full Automation: 10–14 business days\n\nYou don't have to do anything yourself — we handle the complete setup, integration, and training. After go-live, we stay available for optimizations and support.\n\nWhen would you ideally like to start?",
-    },
-    {
-      triggers: ['whatsapp', 'messaging', 'chat'],
-      response: "WhatsApp is the most powerful channel we use — because your customers already use it every day.\n\nWe set up:\n✓ Automatic replies to common questions (24/7)\n✓ Booking confirmations and reminders\n✓ Broadcast messages for offers & events\n✓ Lead qualification directly in the chat\n\nAll GDPR-compliant and fully automated. Do you already have a WhatsApp Business number?",
-    },
-    {
-      triggers: ['consultation', 'contact', 'inquiry', 'discuss', 'call', 'meeting'],
-      response: "Absolutely! A 30-minute free consultation is our best first step.\n\nIn it we analyze your business, show you exactly what potential you're currently leaving on the table, and develop a tailored automation plan — no sales pressure.\n\nJust fill in the form on the right — I'll make sure one of our experts contacts you as soon as possible.",
-    },
-  ],
-};
-
-const aiResponsesAR = [
-  {
-    triggers: ['مرحبا', 'مرحباً', 'السلام', 'هلا', 'أهلا', 'أهلاً', 'ابدأ', 'ابدا'],
-    response: 'أهلاً! سعيد بوجودك هنا.\n\nأنا هنا عشان أفهم وضعك وأشوف معك إذا كان في حل فعلي يناسب عملك — مو مجرد كلام نظري.\n\nخبرني: وين تحس إنك بتضيع أكثر وقت أو فلوس الآن؟ الحجوزات؟ الردود على العملاء؟ أو شيء ثاني؟',
-  },
-  {
-    triggers: ['مطعم', 'مطاعم', 'مقهى', 'مقاهي', 'كافيه', 'كافيهات', 'فندق', 'ضيافة'],
-    response: 'المطاعم والمقاهي هي الشريحة اللي نعرفها أكثر من غيرها.\n\nالمشكلة اللي نشوفها دايماً: الحجوزات تيجي من كل مكان — واتساب، انستقرام، هاتف — وما في نظام يجمعها. والموظف يضيع وقته يرد على نفس الأسئلة كل يوم.\n\nاللي نسويه للمطاعم:\n✓ حجز الطاولات تلقائي 24/7 — حتى بعد الدوام\n✓ تذكيرات للعملاء قبل الحجز عشان تقل حالات الغياب\n✓ ردود واتساب فورية على الأسئلة الشائعة\n✓ رسائل متابعة بعد الزيارة وطلب التقييم\n\nيمكن للأتمتة تقليل المهام اليدوية بحسب طبيعة عملك.\n\nعندك كم طاولة؟ وكيف تيجيك الحجوزات الحين؟',
-  },
-  {
-    triggers: ['صالون', 'تجميل', 'حلاق', 'مساج', 'سبا', 'لياقة', 'جيم'],
-    response: 'صالونات التجميل واللياقة — المشكلة الكبيرة فيها دايماً هي الغياب المفاجئ والحجوزات اليدوية.\n\nاللي نعمله:\n✓ نظام حجز أونلاين يشتغل حتى وأنت نايم\n✓ تذكيرات تلقائية للعميل قبل الموعد — تقلل الغياب بشكل واضح\n✓ رسائل متابعة بعد الجلسة وطلب تقييم\n✓ ردود واتساب فورية على الاستفسارات\n\nعملاؤنا يشهدون انخفاضاً واضحاً في الغياب وزيادة في الحجوزات المتكررة.\n\nكم موعد تستقبل أسبوعياً تقريباً؟',
-  },
-  {
-    triggers: ['سعر', 'تكلفة', 'كم', 'أسعار', 'باقة', 'باقات', 'عرض'],
-    response: 'خلني أكون صريح معك من البداية في موضوع الأسعار:\n\n🔹 باقة البداية — من €1,200 إعداد + €120 شهرياً\nمناسبة لمن يريد يبدأ بخطوة واحدة: شات ذكي، تسجيل عملاء محتملين، وتكامل واتساب\n\n🔷 باقة الأعمال — من €2,200 إعداد + €220 شهرياً\nالأكثر طلباً: شات متطور + نظام حجز + إدارة عملاء + متابعة تلقائية\n\n🔶 الأتمتة الكاملة — من €3,200 إعداد + €450 شهرياً\nللي عنده حجم عمل كبير ويريد نظام شامل من الألف للياء\n\nالسعر الدقيق يختلف حسب حجم عملك واحتياجاتك الفعلية. في الاستشارة المجانية، أريك بالضبط أي خيار يناسبك وكيف ترجع تكلفته خلال فترة قصيرة.',
-  },
-  {
-    triggers: ['مدة', 'وقت', 'متى', 'سرعة', 'إعداد', 'تشغيل'],
-    response: 'كثير من عملائنا يتفاجأون من السرعة:\n\n• باقة البداية: جاهزة خلال 5–7 أيام عمل\n• باقة الأعمال: جاهزة خلال 7–10 أيام\n• الأتمتة الكاملة: جاهزة خلال 10–14 يوم\n\nأنت ما تحتاج تسوي شيء من ناحيتك — نحن نتكفل بكل شيء من الإعداد والتكامل وحتى التدريب. وبعد الإطلاق نفضل معك للدعم والتحسين المستمر.\n\nمتى تبي تبدأ؟',
-  },
-  {
-    triggers: ['واتساب', 'whatsapp', 'رسائل', 'تواصل'],
-    response: 'واتساب هو أقوى أداة في ترسانتنا — والسبب بسيط: عملاءك موجودين فيه أصلاً.\n\nاللي نعده لك:\n✓ ردود تلقائية على الأسئلة الشائعة — 24 ساعة، 7 أيام\n✓ تأكيدات وتذكيرات الحجز\n✓ رسائل جماعية للعروض والمناسبات\n✓ تأهيل العملاء الجدد مباشرة من المحادثة\n\nكل شيء آمن ومتوافق مع أنظمة الخصوصية. هل عندك حساب واتساب بزنس حالياً؟',
-  },
-  {
-    triggers: ['استشارة', 'تواصل', 'موعد', 'كلام', 'اتصال', 'محادثة', 'اتحدث', 'أتكلم'],
-    response: 'بكل سرور — هذا بالضبط اللي أنا هنا من أجله.\n\nفي الاستشارة، نجلس سوا 30 دقيقة، نحلل وضعك الحالي، ونحدد أين في الهدر الفعلي، ونقدر لك عائد الاستثمار بأرقام واضحة — بدون مبالغة وبدون ضغط.\n\nاملأ النموذج على الجانب وسيتواصل معك خبير من فريقنا بأقرب فرصة.',
-  },
-  {
-    triggers: ['يميز', 'يختلف', 'غيره', 'خاص', 'مميز', 'فرق'],
-    response: 'سؤال مهم — وأنا أقدّره.\n\nالفرق الرئيسي: معظم الشركات تبيعك أداة وتتركك تشغّلها بنفسك. نحن نشتغل معك من البداية للنهاية — من الإعداد وحتى ما تصير الأتمتة جزءاً طبيعياً من يومك.\n\nوبما إننا متخصصون في قطاعات المطاعم والخدمات تحديداً، ما نبدأ من الصفر — عندنا أنظمة جاهزة تثبت نفسها في عملك بسرعة.\n\nهل عندك سؤال محدد عن آلية العمل؟',
-  },
-];
-
-const defaultResponses = {
-  de: 'Gute Frage! Für eine präzise Antwort, die wirklich auf Ihren Betrieb passt, empfehle ich ein kurzes Gespräch. Ich kann Ihnen dann gezielt zeigen, was in Ihrer Situation den größten Unterschied macht. Haben Sie noch weitere Fragen?',
-  en: "Great question! For a precise answer that truly fits your business, I recommend a quick call. I can then show you specifically what makes the biggest difference in your situation. Do you have any other questions?",
-  ar: 'سؤال كويس — وما عندي إجابة واحدة تصلح للجميع. كل عمل وضعه مختلف، ولازم نفهم وضعك أولاً قبل ما نقترح عليك أي شيء. تقدر تكتب لي أكثر عن نشاطك؟ أو اسألني عن موضوع محدد.',
-};
-
 const quickPrompts = {
   de: [
     'Was kostet eine Automation?',
     'Wie schnell ist die Einrichtung?',
-    'Für Restaurants geeignet?',
+    'Wie automatisiere ich Kundenanfragen?',
     'Was macht Ovivo anders?',
   ],
   en: [
     'What does automation cost?',
     'How fast is the setup?',
-    'Suitable for restaurants?',
+    'How do I automate inquiries?',
     'What makes Ovivo different?',
   ],
   ar: [
     'كم تكلفة الباقات؟',
     'كم وقت الإعداد؟',
-    'هل يناسب مطعمي؟',
+    'كيف أؤتمت استفسارات العملاء؟',
     'وش يميزكم عن غيركم؟',
   ],
 };
@@ -162,9 +46,9 @@ const tx = {
     headline: 'Bereit, Ihren Betrieb auf',
     headlineGradient: 'Autopilot zu setzen?',
     sub: 'Sprechen Sie zuerst mit unserem KI-Assistenten — oder füllen Sie direkt das Formular aus. Unser Team meldet sich so bald wie möglich für ein kostenloses, unverbindliches Strategiegespräch.',
-    chatTitle: 'Ovivo KI-Berater',
+    chatTitle: 'OVIVO KI-Assistent',
     chatSub: 'Fragen Sie mich alles — ich beantworte ehrlich',
-    online: 'Online',
+    online: 'KI-Demo',
     placeholder: 'Ihre Frage...',
     quickLabel: 'Häufige Fragen',
     formTitle: 'Jetzt Beratungstermin anfragen',
@@ -206,9 +90,9 @@ const tx = {
     headline: 'Ready to put your business on',
     headlineGradient: 'autopilot?',
     sub: 'Chat with our AI advisor first — or fill in the form directly. Our team will reach out as soon as possible for a free, no-obligation strategy call.',
-    chatTitle: 'Ovivo AI Advisor',
+    chatTitle: 'OVIVO AI Assistant',
     chatSub: 'Ask me anything — I answer honestly',
-    online: 'Online',
+    online: 'KI-Demo',
     placeholder: 'Your question...',
     quickLabel: 'Common questions',
     formTitle: 'Request a consultation',
@@ -250,7 +134,7 @@ const tx = {
     headline: 'حوّل عملك إلى آلة',
     headlineGradient: 'تعمل بلا توقف',
     sub: 'تحدّث مع مستشارنا الذكي — أو أرسل طلبك مباشرة. سيتواصل معك خبير من فريقنا بأقرب فرصة بخطة عملية واضحة لأعمالك.',
-    chatTitle: 'مستشار أوفيفو الذكي',
+    chatTitle: 'مساعد OVIVO الذكي',
     chatSub: 'اسألني أي شيء — إجابات صادقة وعملية',
     online: 'متاح الآن',
     placeholder: 'اكتب سؤالك هنا...',
