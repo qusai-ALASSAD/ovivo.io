@@ -37,7 +37,7 @@ const servicesData = {
           { icon: Mail, label: 'Follow-up & Bewertungen', desc: 'Automatische Nachfass-E-Mails und Bewertungsanfragen nach jedem Besuch.' },
           { icon: Users, label: 'Stammkundenpflege', desc: 'CRM mit automatischer Kundenpflege, Geburtstagsgrüßen und personalisierten Angeboten.' },
         ],
-        results: ['90% der Reservierungen automatisch bestätigt', '2 Stunden täglich gespart', '+35% mehr Online-Bewertungen'],
+        results: ['Automatische Reservierungsbestätigungen', 'Weniger manueller Aufwand', 'Automatisierte Bewertungsanfragen'],
         cta: 'Kostenlose Beratung für Restaurants',
       },
       {
@@ -109,7 +109,7 @@ const servicesData = {
           { icon: Mail, label: 'Follow-up & Reviews', desc: 'Automatic follow-up emails and review requests after every visit.' },
           { icon: Users, label: 'Loyalty Management', desc: 'CRM with automated customer care, birthday greetings, and personalized offers.' },
         ],
-        results: ['90% of reservations confirmed automatically', '2 hours saved daily', '+35% more online reviews'],
+        results: ['Automated reservation confirmations', 'Less repetitive manual work', 'Automated review requests'],
         cta: 'Free consultation for restaurants',
       },
       {
@@ -181,7 +181,7 @@ const servicesData = {
           { icon: Mail, label: 'المتابعة والتقييمات', desc: 'بعد كل زيارة، بيتم إرسال رسالة متابعة وطلب تقييم بشكل تلقائي.' },
           { icon: Users, label: 'إدارة الولاء', desc: 'نظام CRM ذكي يهتم بعملائك: عروض مخصصة، تهاني، وتواصل مستمر بدون تعب.' },
         ],
-        results: ['90% من الحجوزات تتم وتتأكد تلقائياً', 'توفر على فريقك ساعتين يومياً على الأقل', '+35% زيادة في تقييماتك أونلاين'],
+        results: ['تأكيد الحجوزات تلقائياً', 'تقليل العمل اليدوي المتكرر', 'أتمتة طلبات التقييم'],
         cta: 'احجز استشارة مجانية للمطاعم',
       },
       {
