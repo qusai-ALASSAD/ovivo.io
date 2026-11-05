@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,24 +6,30 @@
 
 @layer base {
   :root {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --ovivo-navy: #0B1F4D;
+    --ovivo-blue: #3B82F6;
+    --ovivo-purple: #885CF6;
+    --ovivo-pale: #E0E7FF;
+    --ovivo-background: #F4F7FB;
+    --ovivo-white: #FFFFFF;
+    --background: 220 43% 97%;
+    --foreground: 222 75% 17%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 75% 17%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 75% 17%;
     --primary: 217.2 91.2% 59.8%;
     --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --secondary: 220 58% 94%;
+    --secondary-foreground: 222 75% 17%;
+    --muted: 220 38% 96%;
+    --muted-foreground: 215 20% 39%;
+    --accent: 226 100% 94%;
+    --accent-foreground: 222 75% 17%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
+    --border: 219 27% 87%;
+    --input: 219 27% 87%;
     --ring: 224.3 76.3% 48%;
     --radius: 0.75rem;
   }
@@ -36,8 +42,9 @@
 
   body {
     @apply text-foreground;
-    background-color: #0a0e1a;
-    background: linear-gradient(to bottom, #0a0e1a, #0f1419, #0a0e1a);
+    color: var(--ovivo-navy);
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(180deg, #fff 0%, #F4F7FB 34%, #fff 100%);
     position: relative;
     min-height: 100vh;
   }
@@ -50,8 +57,8 @@
     width: 100%;
     height: 100%;
     background-image:
-      radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.12) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 50%);
+      radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.055) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(136, 92, 246, 0.055) 0%, transparent 50%);
     pointer-events: none;
     z-index: 0;
   }
@@ -64,11 +71,11 @@
 
 @layer utilities {
   .glass {
-    @apply bg-white/5 backdrop-blur-xl border border-white/10;
+    @apply bg-white/85 backdrop-blur-xl border border-blue-100 shadow-sm;
   }
 
   .glass-hover {
-    @apply hover:bg-white/10 hover:border-white/20 transition-all duration-300;
+    @apply hover:bg-blue-50 hover:border-blue-200 transition-all duration-300;
   }
 
   .glow {
@@ -108,4 +115,71 @@
       box-shadow: 0 0 40px rgba(59, 130, 246, 0.6);
     }
   }
+}
+
+
+/* OVIVO.IO — approved light brand token layer. Preserve brand SVGs; do not recolor logo assets. */
+body.ovivo-light {
+  --ovivo-surface: #fff;
+  --ovivo-text: #0B1F4D;
+  --ovivo-muted: #52647e;
+  background: linear-gradient(180deg, #ffffff 0%, #F4F7FB 54%, #fff 100%);
+  color: #0B1F4D;
+}
+body.ovivo-light h1,
+body.ovivo-light h2,
+body.ovivo-light h3,
+body.ovivo-light h4,
+body.ovivo-light h5,
+body.ovivo-light h6 {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  letter-spacing: -.025em;
+}
+body.ovivo-light :is(.text-gray-300,.text-gray-400,.text-gray-500) { color: #52647e; }
+body.ovivo-light .text-white:not([class*="bg-blue"]):not([class*="bg-indigo"]):not([class*="bg-violet"]):not([class*="bg-purple"]):not([class*="bg-gradient"]) {
+  color: #0B1F4D;
+}
+body.ovivo-light :is(.bg-white\/5,.bg-white\/10,.bg-white\/\[0\.04\],.bg-white\/\[0\.05\],.bg-black\/20,.bg-black\/30) {
+  background-color: rgba(255,255,255,.87);
+}
+body.ovivo-light [class*="bg-[#0a"],
+body.ovivo-light [class*="bg-[#0b"],
+body.ovivo-light [class*="bg-[#0f"],
+body.ovivo-light [class*="bg-[#11"],
+body.ovivo-light [class*="bg-[#1a"],
+body.ovivo-light [class*="bg-[#111"] {
+  background-color: #ffffff;
+}
+body.ovivo-light :is(.border-white\/10,.border-white\/15,.border-white\/20) {
+  border-color: #E0E7FF;
+}
+body.ovivo-light .glass {
+  background: rgba(255,255,255,.88);
+  border-color: #E0E7FF;
+  box-shadow: 0 8px 32px rgba(11,31,77,.05);
+}
+body.ovivo-light .text-gradient {
+  background-image: linear-gradient(100deg, #0B1F4D, #3B82F6, #885CF6);
+}
+body.ovivo-light :is(input,textarea,select) {
+  color: #0B1F4D;
+}
+body.ovivo-light :is(input,textarea,select)::placeholder {
+  color: #64748b;
+}
+body.ovivo-light :is(button,a,input,textarea,select):focus-visible {
+  outline: 2px solid #3B82F6;
+  outline-offset: 3px;
+}
+body.ovivo-light .bg-blue-600,
+body.ovivo-light .bg-blue-500,
+body.ovivo-light .bg-indigo-600 {
+  color: #fff;
+}
+@media (prefers-reduced-motion: reduce) {
+ body.ovivo-light *,body.ovivo-light *::before,body.ovivo-light *::after {
+   scroll-behavior: auto !important;
+   animation-duration: 0.01ms !important;
+   transition-duration: 0.01ms !important;
+ }
 }
