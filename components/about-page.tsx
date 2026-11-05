@@ -47,9 +47,9 @@ const t = {
       ],
     },
     stats: [
-      { value: '200+', label: 'Betriebe automatisiert' },
-      { value: '94%', label: 'Anfragen automatisch beantwortet' },
-      { value: '+35%', label: 'Mehr Umsatz im Schnitt' },
+      { value: 'KI', label: 'Individuelle KI-Automation' },
+      { value: '24/7', label: 'Automatisierte Prozesse möglich' },
+      { value: 'CRM', label: 'Integration vorhandener Systeme' },
       { value: '5–14', label: 'Tage bis zum Live-System' },
     ],
     cta: {
@@ -95,9 +95,9 @@ const t = {
       ],
     },
     stats: [
-      { value: '200+', label: 'Businesses automated' },
-      { value: '94%', label: 'Inquiries answered automatically' },
-      { value: '+35%', label: 'Average revenue increase' },
+      { value: 'AI', label: 'Tailored AI automation' },
+      { value: '24/7', label: 'Automated workflows possible' },
+      { value: 'CRM', label: 'Integrate your existing tools' },
       { value: '5–14', label: 'Days to live system' },
     ],
     cta: {
@@ -144,8 +144,8 @@ const t = {
     },
     stats: [
       { value: '+200', label: 'شركة تم أتمتتها' },
-      { value: '94%', label: 'استفسارات تُجاب تلقائياً' },
-      { value: '+35%', label: 'متوسط زيادة الإيرادات' },
+      { value: 'AI', label: 'حلول أتمتة مخصصة' },
+      { value: 'CRM', label: 'ربط أنظمة إدارة العملاء' },
       { value: '5–14', label: 'يوماً حتى التشغيل الحي' },
     ],
     cta: {
@@ -180,7 +180,7 @@ export function AboutPage({ lang }: Props) {
         { icon: '🏋️', label: 'FitLife Studio, Frankfurt', result: '-60% manual effort' },
       ]
     : [
-        { icon: '🍽️', label: 'Restaurant Bella Vista, München', result: '90% Reservierungen automatisiert' },
+        { icon: '🍽️', label: 'Beispiel Gastronomie (Demo)', result: 'Beispiel für Buchungsautomation' },
         { icon: '☕', label: 'Café am See, Hamburg', result: '+40% Stammkundenbindung' },
         { icon: '💇', label: 'Salon Elise, Berlin', result: '+45% mehr Buchungen' },
         { icon: '🏋️', label: 'FitLife Studio, Frankfurt', result: '-60% manueller Aufwand' },
