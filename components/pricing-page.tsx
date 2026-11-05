@@ -17,9 +17,9 @@ const allFeatures: Feature[] = ['chat','leads','workflow','calendar','crm','inte
 const content = {
   de: {
     badge: 'KI-AUTOMATION · PAKETE & PREISE',
-    title: 'Klare KI-Pakete für',
-    gradient: 'echtes Wachstum.',
-    intro: 'Wählen Sie das passende Automationspaket – transparent, professionell und auf Ihr Unternehmen zugeschnitten.',
+    title: 'KI-Automation.',
+    gradient: 'Klare Lösungen. Faire Preise.',
+    intro: 'Weniger manuelle Arbeit. Mehr Zeit für Ihre Kunden. Drei Pakete für den passenden Einstieg.',
     stripTitle: 'Der richtige Einstieg in KI-Automation.',
     stripText: 'Von einem smarten KI-Assistenten bis zur vernetzten Prozessautomatisierung – wir begleiten Sie vom Setup bis zur laufenden Optimierung.',
     trusts: ['Kostenloses Erstgespräch','Individuelles Angebot','Transparente Projektplanung'],
@@ -55,8 +55,8 @@ const content = {
     endTitle:'Welche Automation lohnt sich für Sie?',endText:'Wir prüfen Ihre bestehenden Abläufe und empfehlen einen sinnvollen Einstieg.',endButton:'Kostenlose KI-Erstberatung',
   },
   en: {
-    badge:'AI AUTOMATION · PLANS & PRICING',title:'Clear AI packages for',gradient:'real business growth.',
-    intro:'Choose the right automation package – clear, professional and tailored to your business.',
+    badge:'AI AUTOMATION · PLANS & PRICING',title:'AI automation.',gradient:'Clear solutions. Fair prices.',
+    intro:'Less repetitive work, more time for customers. Three plans for a practical start.',
     stripTitle:'The right start with AI automation.',stripText:'From a smart AI assistant to connected workflows, we guide you from setup to optimization.',
     trusts:['Free initial call','Tailored proposal','Clear project plan'],names:['AI Starter','AI Business','AI Growth'],
     desc:['An easy entry point for freelancers, small businesses and local services.','For teams connecting customer inquiries, bookings and existing systems.','For growing businesses with several processes and more advanced automation.'],
@@ -75,8 +75,8 @@ const content = {
     endTitle:'Which automation makes sense for you?',endText:'We review your current workflows and suggest a sensible starting point.',endButton:'Free AI consultation',
   },
   ar: {
-    badge:'أتمتة الذكاء الاصطناعي · الباقات والأسعار',title:'باقات ذكاء اصطناعي',gradient:'لنمو أعمالك.',
-    intro:'اختر باقة أتمتة تناسب شركتك، مع أسعار واضحة وخدمات محددة.',
+    badge:'أتمتة الذكاء الاصطناعي · الباقات والأسعار',title:'أتمتة أعمالك.',gradient:'حلول واضحة وأسعار مناسبة.',
+    intro:'مهام يدوية أقل ووقت أكثر للعملاء، مع ثلاث باقات تناسب احتياجاتك.',
     stripTitle:'البداية الصحيحة مع أتمتة الأعمال.',stripText:'من المساعد الذكي إلى ربط العمليات، نساعدك في الإعداد والتطوير والمتابعة.',
     trusts:['استشارة أولية مجانية','عرض مخصص','خطة تنفيذ واضحة'],names:['AI Starter','AI Business','AI Growth'],
     desc:['بداية مناسبة للأعمال الصغيرة والمستقلين والشركات المحلية.','للشركات التي تريد ربط الاستفسارات والمواعيد والأنظمة الحالية.','للشركات النامية التي تحتاج أتمتة عمليات مترابطة.'],
@@ -101,19 +101,19 @@ export function PricingPage({lang}: {lang: Lang}) {
  const rtl = lang === 'ar';
  const prefix = lang === 'de' ? '' : '/' + lang;
  return (
-  <div dir={rtl ? 'rtl' : 'ltr'} className="min-h-screen overflow-x-hidden bg-[#F5F8FF]">
+  <div dir={rtl ? 'rtl' : 'ltr'} className="ovivo-pricing-page min-h-screen overflow-x-hidden bg-[#FFFFFF]">
    <section className="relative overflow-hidden px-4 pb-24 pt-32 sm:px-6 lg:pt-36">
-    <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-[460px] bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.11),transparent_68%)]" />
+    <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-[460px] bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.04),transparent_68%)]" />
     <div className="relative mx-auto max-w-7xl">
-     <div className="mx-auto max-w-4xl text-center">
+     <div className="mx-auto max-w-3xl text-center">
       <SectionHeader badge={t.badge} title={t.title} titleGradient={t.gradient} subtitle={t.intro} />
      </div>
-     <div className="mx-auto mt-12 flex max-w-5xl flex-col items-center justify-between gap-6 rounded-[26px] border border-[#D9E4F5] bg-white p-6 shadow-[0_15px_40px_rgba(11,31,77,.06)] md:flex-row md:p-8">
+     <div className="mx-auto mt-12 flex max-w-5xl flex-col items-center justify-between gap-6 rounded-[22px] border border-[#E2E8F0] bg-[#F8FAFC] p-6 shadow-[0_12px_34px_rgba(15,23,42,.04)] md:flex-row md:p-8">
       <div className="flex items-center gap-4">
        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#EAF1FF] text-[#2563EB]"><Sparkles size={22}/></div>
        <div><h2 className="text-xl font-extrabold text-[#0B1F4D]">{t.stripTitle}</h2><p className="mt-2 max-w-xl text-sm leading-7 text-[#5B6B84]">{t.stripText}</p></div>
       </div>
-      <Link href={prefix + '/consultation'} className="ovivo-pricing-hero-cta group inline-flex min-h-[54px] shrink-0 items-center justify-center gap-2 rounded-xl bg-[#2563EB] px-6 text-center text-sm font-extrabold text-white shadow-[0_12px_30px_rgba(37,99,235,.25)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1D4ED8] hover:shadow-[0_18px_40px_rgba(37,99,235,.32)] motion-reduce:transform-none">{lang === 'de' ? 'Jetzt kostenlose Erstberatung sichern' : lang === 'en' ? 'Book a free consultation' : 'احجز استشارة مجانية'}<ArrowRight size={17} className={rtl ? 'rotate-180' : ''}/></Link>
+      <Link href={prefix + '/consultation'} className="ovivo-pricing-hero-cta group inline-flex min-h-[54px] shrink-0 items-center justify-center gap-2 rounded-xl bg-[#101828] px-6 text-center text-sm font-bold text-white shadow-[0_10px_26px_rgba(16,24,40,.16)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1F2937] hover:shadow-[0_15px_34px_rgba(16,24,40,.23)] motion-reduce:transform-none">{lang === 'de' ? 'Jetzt kostenlose Erstberatung sichern' : lang === 'en' ? 'Book a free consultation' : 'احجز استشارة مجانية'}<ArrowRight size={17} className={rtl ? 'rotate-180' : ''}/></Link>
      </div>
      <div className="mt-8 flex flex-wrap justify-center gap-3">
       {t.trusts.map((item,i)=>{
@@ -126,18 +126,18 @@ export function PricingPage({lang}: {lang: Lang}) {
        const PlanIcon = plan.id === 'starter' ? Zap : plan.id === 'business' ? Sparkles : Crown;
        return (
        <motion.article key={plan.id} whileHover={{y:plan.recommended ? -6 : -5}} transition={{duration:.25,ease:'easeOut'}}
-        className={'ovivo-price-card group relative flex h-full min-w-0 flex-col overflow-hidden rounded-[30px] border bg-white p-7 transition-all duration-300 sm:p-8 ' + (plan.recommended ? 'ovivo-price-featured border-[#8CB5FF] shadow-[0_18px_48px_rgba(37,99,235,.12)] ring-2 ring-[#E7F0FF] hover:border-[#2563EB] hover:shadow-[0_28px_65px_rgba(37,99,235,.20)]' : 'border-[#D9E4F5] shadow-[0_12px_36px_rgba(11,31,77,.06)] hover:border-[#BDD2F8] hover:shadow-[0_24px_55px_rgba(11,31,77,.12)]')}>
+        className={'ovivo-price-card group relative flex h-full min-w-0 flex-col overflow-hidden rounded-[26px] border bg-white p-7 transition-all duration-300 sm:p-8 ' + (plan.recommended ? 'ovivo-price-featured border-[#2563EB] shadow-[0_18px_48px_rgba(37,99,235,.13)] ring-1 ring-[#2563EB] hover:shadow-[0_28px_65px_rgba(37,99,235,.20)]' : 'border-[#E2E8F0] shadow-[0_12px_36px_rgba(15,23,42,.055)] hover:border-[#93C5FD] hover:shadow-[0_24px_55px_rgba(15,23,42,.12)]')}>
         <div aria-hidden="true" className="pointer-events-none absolute inset-x-8 top-0 h-[3px] rounded-b-full bg-gradient-to-r from-[#3B82F6] to-[#885CF6] opacity-0 transition-opacity duration-300 group-hover:opacity-100"/>
         <div className="mb-6 flex min-h-[54px] items-center justify-between gap-2">
-         <div className={'flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-105 ' + (plan.recommended ? 'bg-[#2563EB] text-white shadow-lg shadow-blue-500/20' : 'bg-[#EAF1FF] text-[#2563EB]')}><PlanIcon size={26}/></div>
+         <div className={'flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-105 ' + (plan.recommended ? 'bg-[#101828] text-white shadow-lg shadow-slate-900/20' : 'bg-[#EFF6FF] text-[#2563EB]')}><PlanIcon size={26}/></div>
          <div className="flex flex-wrap justify-end gap-2">
          {'original' in plan && <><span className="inline-flex items-center gap-1 rounded-full border border-[#DDD0FF] bg-[#F1EAFE] px-3 py-1.5 text-xs font-extrabold text-[#6D28D9]"><Tag size={13}/>{t.discount}</span><span className="text-xs font-semibold text-[#52647E]">{t.savings}</span></>}
-         {'recommended' in plan && <span className="ovivo-price-featured-badge rounded-full bg-[#2563EB] px-3 py-1.5 text-xs font-bold text-white shadow-sm">{t.recommended}</span>}
+         {'recommended' in plan && <span className="ovivo-price-featured-badge rounded-full bg-[#101828] px-3 py-1.5 text-xs font-bold text-white shadow-sm">{t.recommended}</span>}
          </div>
         </div>
         <h3 className="text-[32px] font-extrabold leading-tight tracking-tight text-[#0B1F4D] md:text-[36px]">{t.names[index]}</h3>
         <p className="mt-3 min-h-[74px] text-[15px] leading-7 text-[#5B6B84]">{t.desc[index]}</p>
-        <div className="mt-6 rounded-2xl border border-[#E2E9F6] bg-[#F9FBFF] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,.7)]">
+        <div className="mt-6 rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,.7)]">
          <p className="text-xs font-bold uppercase tracking-wide text-[#52647E]">{t.setup}</p>
          <div className="mt-2 flex flex-wrap items-end gap-3">
           <span className="text-xs text-[#52647E]">{t.from}</span>
@@ -148,7 +148,7 @@ export function PricingPage({lang}: {lang: Lang}) {
          <p className="text-xs font-bold uppercase tracking-wide text-[#52647E]">{t.monthly}</p>
          <p className="mt-2 text-3xl font-extrabold text-[#2563EB]"><span className="text-xs font-normal text-[#52647E]">{t.from} </span>{euro(plan.monthly)} <span className="text-xs font-medium text-[#52647E]">{t.per}</span></p>
         </div>
-        <p className="mt-5 rounded-xl border border-[#E2E9F6] bg-[#F3F6FC] px-4 py-3 text-sm font-semibold leading-6 text-[#27466D]">{t.scope[index]}</p>
+        <p className="mt-5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold leading-6 text-[#334155]">{t.scope[index]}</p>
         <ul className="mt-7 flex-1 space-y-4">
          {plan.features.map(feature=>(
           <li key={feature} className="flex items-start gap-3 text-[15px] leading-7 text-[#36547A] transition-colors duration-200 group-hover:text-[#0B1F4D]">
@@ -156,7 +156,7 @@ export function PricingPage({lang}: {lang: Lang}) {
           </li>
          ))}
         </ul>
-        <Link href={prefix + '/consultation'} className={'ovivo-pricing-cta mt-9 flex min-h-[56px] items-center justify-center gap-2 rounded-xl px-5 text-center text-sm font-extrabold transition-all duration-300 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#885CF6] motion-reduce:transform-none ' + (plan.recommended ? 'ovivo-pricing-cta-primary bg-[#2563EB] text-white shadow-[0_12px_30px_rgba(37,99,235,.25)] hover:bg-[#1D4ED8] hover:shadow-[0_18px_40px_rgba(37,99,235,.32)]' : plan.id === 'growth' ? 'ovivo-pricing-cta-growth bg-[#0B1F4D] text-white shadow-[0_10px_25px_rgba(11,31,77,.20)] hover:bg-[#173671]' : 'ovivo-pricing-cta-secondary border border-[#BFD3F8] bg-white text-[#0B1F4D] shadow-sm hover:border-[#2563EB] hover:bg-[#EEF5FF] hover:shadow-[0_12px_26px_rgba(11,31,77,.09)]')}>
+        <Link href={prefix + '/consultation'} className={'ovivo-pricing-cta mt-9 flex min-h-[56px] items-center justify-center gap-2 rounded-xl px-5 text-center text-sm font-extrabold transition-all duration-300 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#885CF6] motion-reduce:transform-none ' + (plan.recommended ? 'ovivo-pricing-cta-primary bg-[#2563EB] text-white shadow-[0_12px_30px_rgba(37,99,235,.25)] hover:bg-[#1D4ED8] hover:shadow-[0_18px_40px_rgba(37,99,235,.32)]' : plan.id === 'growth' ? 'ovivo-pricing-cta-growth bg-[#101828] text-white shadow-[0_10px_25px_rgba(16,24,40,.20)] hover:bg-[#1F2937]' : 'ovivo-pricing-cta-secondary border-2 border-[#2563EB] bg-white text-[#1D4ED8] shadow-sm hover:bg-[#EFF6FF] hover:shadow-[0_12px_26px_rgba(37,99,235,.10)]')}>
          {plan.id === 'starter' ? (lang === 'de' ? 'Mit Starter beginnen' : lang === 'en' ? 'Start with Starter' : 'ابدأ مع Starter') : plan.recommended ? (lang === 'de' ? 'Empfohlene Lösung anfragen' : lang === 'ar' ? 'اطلب الحل الموصى به' : 'Request recommended solution') : (lang === 'de' ? 'Wachstumslösung anfragen' : lang === 'en' ? 'Explore Growth' : 'استكشف Growth')}<ArrowRight size={16} className={rtl?'rotate-180':''}/>
         </Link>
        </motion.article>
