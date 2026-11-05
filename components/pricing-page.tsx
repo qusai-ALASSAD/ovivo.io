@@ -20,11 +20,11 @@ const t = {
     setupLabel: 'Setup',
     monthlyLabel: 'Monatlich',
     ctaBtn: 'Kostenlose Beratung anfragen',
-    disclaimer: 'Der endgültige Preis hängt von der Unternehmensgröße und den Anforderungen ab.',
+    disclaimer: 'Preise sind Richtwerte. API-Nutzung, Telefonie, WhatsApp, Drittanbieter und zusätzliche Integrationen können separat berechnet werden. Laufzeit und Leistungsumfang werden im Angebot festgelegt.',
     trustBadges: [
-      { icon: ShieldCheck, label: 'DSGVO-konform' },
+      { icon: ShieldCheck, label: 'Datenschutz im Fokus' },
       { icon: MessageSquare, label: 'Kostenlose Beratung' },
-      { icon: Clock, label: 'Setup 5–14 Tage' },
+      { icon: Clock, label: 'Individuelle Projektplanung' },
       { icon: Repeat, label: 'Monatlich kündbar' },
     ],
     packages: [
@@ -178,7 +178,7 @@ const t = {
     setupLabel: 'SETUP',
     monthlyLabel: 'شهرياً',
     ctaBtn: 'اطلب هذه الباقة',
-    disclaimer: 'السعر النهائي يعتمد على حجم الشركة ومتطلبات الأتمتة.',
+    disclaimer: 'الأسعار استرشادية. قد تُحسب تكاليف استخدام واجهات AI والاتصالات وواتساب والخدمات الخارجية بشكل منفصل، وتُحدد الشروط بالعقد.',
     trustBadges: [
       { icon: ShieldCheck, label: 'متوافق مع حماية البيانات' },
       { icon: MessageSquare, label: 'استشارة مجانية' },
