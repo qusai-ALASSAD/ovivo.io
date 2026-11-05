@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase-server';
-import { isAdminEmail } from '@/lib/admin';
+import { authenticateAdmin } from '@/lib/authenticate-admin';
 
 export async function GET(req: NextRequest) {
-  const adminEmail = req.headers.get('x-admin-email') || '';
-  if (!adminEmail || !isAdminEmail(adminEmail)) {
+  const adminEmail = await authenticateAdmin(req.headers.get('authorization'));
+  if (!adminEmail) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
@@ -23,8 +23,8 @@ export async function GET(req: NextRequest) {
 }
 
 export async function PATCH(req: NextRequest) {
-  const adminEmail = req.headers.get('x-admin-email') || '';
-  if (!adminEmail || !isAdminEmail(adminEmail)) {
+  const adminEmail = await authenticateAdmin(req.headers.get('authorization'));
+  if (!adminEmail) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
