@@ -18,7 +18,7 @@ const servicesData = {
       badge: 'KI-Automation für Ihren Betrieb',
       title: 'Automation für jede',
       titleGradient: 'Branche',
-      sub: 'Maßgeschneiderte KI-Automation für Restaurants, Cafés und Serviceunternehmen — genau auf Ihre Branche zugeschnitten.',
+      sub: 'KI-Automation für Unternehmen verschiedenster Branchen — von Kundenanfragen und Terminbuchungen bis zur CRM- und Workflow-Integration. Webdesign und Marketing ergänzen die Lösungen.',
     },
     services: [
       {
