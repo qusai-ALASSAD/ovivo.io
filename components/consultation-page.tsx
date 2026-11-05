@@ -231,7 +231,8 @@ export function ConsultationPage({ lang }: Props) {
       if (!response.ok || !json || typeof json !== 'object' || !('answer' in json) || typeof json.answer !== 'string') {
         throw new Error('AI unavailable');
       }
-      setMessages((prev) => [...prev, { role: 'assistant', content: json.answer.slice(0, 1500) }]);
+      const answer = (json as { answer: string }).answer;
+      setMessages((prev) => [...prev, { role: 'assistant', content: answer.slice(0, 1500) }]);
     } catch {
       setChatError(lang === 'de' ? 'Der KI-Assistent ist derzeit nicht erreichbar. Bitte nutzen Sie das Formular.' :
         lang === 'ar' ? 'المساعد الذكي غير متاح حالياً. يمكنك إرسال طلبك عبر النموذج.' :
