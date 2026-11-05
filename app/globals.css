@@ -261,3 +261,27 @@ body.ovivo-light :is(.bg-blue-600,.bg-blue-700,.bg-indigo-600,.bg-purple-600,.bg
 @media (max-width: 640px) {
   .ovivo-ai-lab .ovivo-ai-transcript { min-height: 180px; }
 }
+
+
+/* Consistent form surfaces across public marketing pages. Avoid dashboard controls. */
+body.ovivo-light main :is(input[type="email"], input[type="text"], input[type="tel"], input[type="number"], textarea, select):not(.ovivo-no-form-style) {
+  border-color: #DCE5F7;
+  border-radius: 0.8rem;
+  box-shadow: 0 1px 2px rgba(11,31,77,.025);
+}
+body.ovivo-light main :is(input[type="email"], input[type="text"], input[type="tel"], input[type="number"], textarea, select):focus-visible {
+  outline: 2px solid #3B82F6;
+  outline-offset: 2px;
+}
+body.ovivo-light main :is(input,textarea)::placeholder {
+  color: #71829B;
+}
+body.ovivo-light main .ovivo-ai-lab input {
+  border: 0 !important;
+  border-radius: 0;
+  box-shadow: none;
+  outline: none;
+}
+body.ovivo-light main .ovivo-ai-lab input:focus-visible {
+  outline: none;
+}
