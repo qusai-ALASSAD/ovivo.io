@@ -243,7 +243,7 @@ export function AboutPage({ lang }: Props) {
               <GlassCard className="p-8">
                 <div className="space-y-5">
                   {useCases.map((item) => (
-                    <div key={item.label} className="flex items-center gap-4 border-b border-white/5 pb-5 last:border-0 last:pb-0">
+                    <div key={item.label} className="flex items-center gap-4 border-b border-[#E0E7FF] pb-5 last:border-0 last:pb-0">
                       <span className="text-2xl">{item.icon}</span>
                       <div className="flex-1">
                         <p className="text-sm font-semibold text-[#0B1F4D]">{item.label}</p>
@@ -313,10 +313,10 @@ export function AboutPage({ lang }: Props) {
             <div className="relative overflow-hidden rounded-3xl glass border-blue-500/20 shadow-[0_0_80px_rgba(59,130,246,0.15)] p-12 text-center">
               <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-500/10 via-transparent to-blue-600/5" />
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
-              <h2 className="text-3xl font-bold text-white sm:text-4xl mb-4">{tx.cta.title}</h2>
-              <p className="text-lg text-gray-400 max-w-xl mx-auto mb-10">{tx.cta.sub}</p>
+              <h2 className="mb-4 text-3xl font-bold text-[#0B1F4D] sm:text-4xl">{tx.cta.title}</h2>
+              <p className="mx-auto mb-10 max-w-xl text-lg text-[#52647E]">{tx.cta.sub}</p>
               <Link href={`${prefix}/consultation`}>
-                <Button size="lg" className="group bg-blue-500 hover:bg-blue-400 text-white px-8 py-6 text-base font-semibold transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)]">
+                <Button size="lg" className="ovivo-about-cta group bg-[#3B82F6] px-8 py-6 text-base font-semibold text-white transition-all duration-300 hover:bg-[#2563EB] hover:shadow-[0_12px_28px_rgba(59,130,246,.25)]">
                   <span className="flex items-center gap-2">
                     {tx.cta.btn}
                     <ArrowRight className={`h-5 w-5 transition-transform group-hover:translate-x-1 ${rtl ? 'rotate-180' : ''}`} />
