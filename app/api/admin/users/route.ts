@@ -30,18 +30,29 @@ export async function PATCH(req: NextRequest) {
 
   try {
     const { userId, action, plan } = await req.json();
+    if (typeof userId !== 'string' || !/^[a-f0-9-]{36}$/i.test(userId)) {
+      return NextResponse.json({ error: 'Invalid user ID' }, { status: 400 });
+    }
+    if (action !== 'reset_usage' && action !== 'change_plan') {
+      return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
+    }
+    if (action === 'change_plan' && !['free', 'starter', 'pro', 'agency'].includes(plan)) {
+      return NextResponse.json({ error: 'Invalid plan' }, { status: 400 });
+    }
     const db = createServiceClient();
 
     if (action === 'reset_usage') {
       const resetAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-      await db.from('profiles').update({ message_count: 0, reset_at: resetAt }).eq('id', userId);
+      const { error } = await db.from('profiles').update({ message_count: 0, reset_at: resetAt }).eq('id', userId);
+      if (error) throw error;
       await db.from('audit_logs').insert([{
         admin_email: adminEmail,
         action: 'reset_usage',
         meta: { user_id: userId },
       }]);
     } else if (action === 'change_plan') {
-      await db.from('profiles').update({ plan }).eq('id', userId);
+      const { error } = await db.from('profiles').update({ plan }).eq('id', userId);
+      if (error) throw error;
       await db.from('audit_logs').insert([{
         admin_email: adminEmail,
         action: 'change_plan',
