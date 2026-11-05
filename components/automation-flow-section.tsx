@@ -670,7 +670,7 @@ export function AutomationFlowSection({ lang, customSteps, customCards, customTe
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative mb-12 overflow-hidden rounded-2xl border border-[#152C4E] bg-[#08101F] shadow-[0_25px_75px_rgba(11,31,77,.14)] [contain:layout_paint]"
+          className="ovivo-flow-diagram relative mb-12 overflow-hidden rounded-2xl border border-[#152C4E] bg-[#08101F] shadow-[0_25px_75px_rgba(11,31,77,.14)] [contain:layout_paint]"
         >
           {/* Top bar */}
           <div className="flex items-center justify-between px-5 py-3.5 border-b border-white/[0.07] bg-white/[0.02]">
