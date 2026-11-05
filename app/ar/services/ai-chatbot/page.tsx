@@ -39,7 +39,7 @@ const heroImage = (
     </div>
     <div className="mt-5 pt-4 border-t border-white/10 grid grid-cols-3 gap-3 text-center">
       <div>
-        <div className="text-lg font-bold text-white">94%</div>
+        <div className="text-lg font-bold text-white">KI</div>
         <div className="text-[10px] text-gray-500">ردود تلقائية</div>
       </div>
       <div>
@@ -66,12 +66,12 @@ export default function AiChatbotArPage() {
       whyTitle="لماذا يحتاج عملك روبوت ذكاء اصطناعي"
       whyItems={[
         { icon: Clock, title: 'متاح 24/7', desc: 'لا تضيع أي فرصة بيع بسبب ساعات العمل. روبوتنا يعمل حتى وأنت نائم.' },
-        { icon: MessageSquare, title: 'ردود فورية', desc: '94% من الأسئلة تُجاب في ثوانٍ. العملاء لا ينتظرون — وروبوتنا لا يجعلهم ينتظرون.' },
+        { icon: MessageSquare, title: 'ردود فورية', desc: 'KI من الأسئلة تُجاب في ثوانٍ. العملاء لا ينتظرون — وروبوتنا لا يجعلهم ينتظرون.' },
         { icon: TrendingUp, title: 'المزيد من الحجوزات', desc: 'الروبوت يوجه الزوار نحو الحجز بشكل طبيعي، مما يزيد معدلات التحويل بنسبة تصل إلى 45%.' },
         { icon: Shield, title: 'متوافق مع حماية البيانات', desc: 'نظام آمن ومتوافق مع اللوائح. بيانات عملائك محمية دائماً.' },
       ]}
       beforeAfter={[
-        { before: 'الأسئلة المتكررة تستهلك وقت فريقك', after: 'الروبوت يجيب على 94% من الأسئلة تلقائياً' },
+        { before: 'الأسئلة المتكررة تستهلك وقت فريقك', after: 'الروبوت يساعد في الرد على الأسئلة المتكررة' },
         { before: 'العملاء ينتظرون ساعات للرد', after: 'ردود فورية على مدار الساعة' },
         { before: 'فرص ضائعة خارج ساعات العمل', after: 'الروبوت يحجز المواعيد حتى منتصف الليل' },
         { before: 'تجربة عملاء غير متسقة', after: 'كل زائر يحصل على نفس الخدمة المميزة' },
