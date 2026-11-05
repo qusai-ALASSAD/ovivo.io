@@ -10,6 +10,7 @@ import { GlassCard, RevealSection, StaggerContainer, StaggerItem } from '@/compo
 import { SectionHeader } from '@/components/section-header';
 import { AutomationFlowSection } from '@/components/automation-flow-section';
 import { RoiCalculator } from '@/components/roi-calculator';
+import { AiExperienceLab } from '@/components/ai-experience-lab';
 import type { Lang } from '@/lib/i18n';
 import { content, isRTL } from '@/lib/i18n';
 
@@ -157,24 +158,24 @@ const faqs = {
 };
 
 const stats = {
-  de: [
-    { icon: Users, value: '200+', label: 'Betriebe vertrauen Ovivo' },
-    { icon: Clock, value: '24/7', label: 'Immer erreichbar' },
-    { icon: TrendingUp, value: '+35%', label: 'Mehr Umsatz im Schnitt' },
-    { icon: ShieldCheck, value: '98%', label: 'Kundenzufriedenheit' },
-  ],
-  en: [
-    { icon: Users, value: '200+', label: 'Businesses trust Ovivo' },
-    { icon: Clock, value: '24/7', label: 'Always available' },
-    { icon: TrendingUp, value: '+35%', label: 'Average revenue increase' },
-    { icon: ShieldCheck, value: '98%', label: 'Customer satisfaction' },
-  ],
-  ar: [
-    { icon: Users, value: '+200', label: 'شركة تثق بأوفيفو' },
-    { icon: Clock, value: '24/7', label: 'متاح دائماً' },
-    { icon: TrendingUp, value: '+35%', label: 'متوسط زيادة الإيرادات' },
-    { icon: ShieldCheck, value: '98%', label: 'رضا العملاء' },
-  ],
+ de: [
+ { icon: Bot, value: 'KI', label: 'Individuelle Assistenten' },
+ { icon: Clock, value: '24/7', label: 'Automatisierte Abläufe' },
+ { icon: Database, value: 'CRM', label: 'Bestehende Systeme verbinden' },
+ { icon: ShieldCheck, value: 'DSGVO', label: 'Datenschutz berücksichtigen' },
+ ],
+ en: [
+ { icon: Bot, value: 'AI', label: 'Custom AI assistants' },
+ { icon: Clock, value: '24/7', label: 'Automated workflows' },
+ { icon: Database, value: 'CRM', label: 'Connect existing tools' },
+ { icon: ShieldCheck, value: 'GDPR', label: 'Privacy by design' },
+ ],
+ ar: [
+ { icon: Bot, value: 'AI', label: 'مساعدون أذكياء' },
+ { icon: Clock, value: '24/7', label: 'عمليات مؤتمتة' },
+ { icon: Database, value: 'CRM', label: 'ربط الأنظمة' },
+ { icon: ShieldCheck, value: 'GDPR', label: 'الخصوصية أولاً' },
+ ],
 };
 
 const stepIcons = [Phone, Bot, Database, Zap];
@@ -323,12 +324,12 @@ export function HomePage({ lang }: Props) {
     return () => clearInterval(timer);
   }, [lang]);
 
-  const liveLabel = lang === 'de' ? 'Automation live — Restaurant Bella Vista' : lang === 'ar' ? 'أتمتة مباشرة — مطعم بيلا فيستا' : 'Live automation — Restaurant Bella Vista';
-  const activeLabel = lang === 'de' ? 'Aktiv' : lang === 'ar' ? 'نشط' : 'Active';
-  const automatedLabel = lang === 'de' ? 'Heute: 47 Aktionen automatisiert' : lang === 'ar' ? 'اليوم: 47 إجراء آلي' : 'Today: 47 actions automated';
-  const noManualLabel = lang === 'de' ? '0 manuelle Eingriffe' : lang === 'ar' ? '0 تدخل يدوي' : '0 manual interventions';
-  const businessesLabel = lang === 'de' ? '200+ Betriebe aktiv' : lang === 'ar' ? '+200 شركة نشطة' : '200+ businesses active';
-  const setupLabel = lang === 'de' ? 'Setup in 5–14 Tagen' : lang === 'ar' ? 'تشغيل في 5–14 يوماً' : 'Setup in 5–14 days';
+  const liveLabel = lang === 'de' ? 'Beispiel: Automatisierte Kundenanfrage' : lang === 'ar' ? 'مثال: استفسار عميل مؤتمت' : 'Example: automated inquiry';
+  const activeLabel = lang === 'de' ? 'Demo' : lang === 'ar' ? 'تجريبي' : 'Demo';
+  const automatedLabel = lang === 'de' ? 'Automationsbeispiel' : lang === 'ar' ? 'مثال توضيحي للأتمتة' : 'Automation example';
+  const noManualLabel = lang === 'de' ? 'Illustrativer Ablauf' : lang === 'ar' ? 'عرض توضيحي' : 'Illustrative flow';
+  const businessesLabel = lang === 'de' ? 'Individuell für Ihr Unternehmen' : lang === 'ar' ? 'حلول مخصصة لشركتك' : 'Tailored to your business';
+  const setupLabel = lang === 'de' ? 'Persönliche Beratung' : lang === 'ar' ? 'استشارة شخصية' : 'Personal consultation';
 
   const testimonialsLabel = lang === 'de' ? 'Kundenstimmen' : lang === 'ar' ? 'آراء العملاء' : 'Testimonials';
   const whatBusinessesSay = lang === 'de' ? 'Was echte Betriebe' : lang === 'ar' ? 'ما يقوله عملاؤنا' : 'What real businesses';
@@ -609,6 +610,8 @@ export function HomePage({ lang }: Props) {
         </div>
       </section>
 
+      <AiExperienceLab lang={lang} />
+
       {/* ── AUTOMATION FLOW ──────────────────────────────────────────────── */}
       <AutomationFlowSection lang={lang} />
 
@@ -668,72 +671,6 @@ export function HomePage({ lang }: Props) {
               );
             })}
           </StaggerContainer>
-        </div>
-      </section>
-
-      {/* ── TESTIMONIALS ─────────────────────────────────────────────────── */}
-      <section className="px-4 py-20 sm:px-6 lg:px-8 bg-white/[0.015] border-y border-white/5 overflow-hidden">
-        <div className="mx-auto max-w-7xl">
-          <RevealSection className="text-center mb-14">
-            <SectionHeader
-              badge={testimonialsLabel}
-              title={whatBusinessesSay}
-              titleGradient={aboutOvivo}
-            />
-          </RevealSection>
-          <div className="relative max-w-3xl mx-auto">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={testimonialIndex}
-                initial={{ opacity: 0, x: rtl ? -30 : 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: rtl ? 30 : -30 }}
-                transition={{ duration: 0.4, ease: 'easeOut' }}
-              >
-                <GlassCard className="p-10 text-center">
-                  <div className="flex justify-center gap-1 mb-5">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star key={i} className="h-5 w-5 text-yellow-400 fill-yellow-400" />
-                    ))}
-                  </div>
-                  <p className="text-lg text-gray-300 leading-relaxed italic mb-6">
-                    &ldquo;{testimonials[lang][testimonialIndex].quote}&rdquo;
-                  </p>
-                  <div className="mb-4">
-                    <p className="font-semibold text-white">{testimonials[lang][testimonialIndex].name}</p>
-                    <p className="text-sm text-gray-500 mt-0.5">{testimonials[lang][testimonialIndex].role}</p>
-                  </div>
-                  <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3 py-1">
-                    <TrendingUp className="h-3.5 w-3.5 text-emerald-400" />
-                    <span className="text-xs font-semibold text-emerald-400">{testimonials[lang][testimonialIndex].result}</span>
-                  </div>
-                </GlassCard>
-              </motion.div>
-            </AnimatePresence>
-            <div className="flex items-center justify-center gap-4 mt-8">
-              <button
-                onClick={() => setTestimonialIndex((i) => (i - 1 + testimonials[lang].length) % testimonials[lang].length)}
-                className="h-9 w-9 rounded-full glass border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-white/20 transition-all"
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </button>
-              <div className="flex gap-2">
-                {testimonials[lang].map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setTestimonialIndex(i)}
-                    className={`h-2 rounded-full transition-all duration-300 ${i === testimonialIndex ? 'bg-blue-500 w-6' : 'bg-white/20 w-2'}`}
-                  />
-                ))}
-              </div>
-              <button
-                onClick={() => setTestimonialIndex((i) => (i + 1) % testimonials[lang].length)}
-                className="h-9 w-9 rounded-full glass border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-white/20 transition-all"
-              >
-                <ChevronRight className="h-4 w-4" />
-              </button>
-            </div>
-          </div>
         </div>
       </section>
 
