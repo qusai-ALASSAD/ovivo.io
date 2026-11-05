@@ -412,6 +412,7 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
   const agentRef = useRef<HTMLDivElement>(null);
   const agentCircleRef = useRef<HTMLDivElement>(null);
   const [paths, setPaths] = useState<ConnPaths | null>(null);
+  const resizeFrame = useRef<number | null>(null);
 
   const measure = useCallback(() => {
     if (!containerRef.current || !agentRef.current) return;
@@ -471,10 +472,14 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
   }, []);
 
   useEffect(() => {
-    measure();
-    const ro = new ResizeObserver(measure);
+    const scheduleMeasure = () => {
+      if (resizeFrame.current !== null) cancelAnimationFrame(resizeFrame.current);
+      resizeFrame.current = requestAnimationFrame(() => { resizeFrame.current = null; measure(); });
+    };
+    scheduleMeasure();
+    const ro = new ResizeObserver(scheduleMeasure);
     if (containerRef.current) ro.observe(containerRef.current);
-    return () => ro.disconnect();
+    return () => { ro.disconnect(); if (resizeFrame.current !== null) cancelAnimationFrame(resizeFrame.current); };
   }, [measure]);
 
   function renderRow(rowSteps: FlowStep[], rowOffset: number) {
@@ -524,7 +529,7 @@ function NodeGraph({ steps, lang }: { steps: FlowStep[]; lang?: string }) {
   }
 
   return (
-    <div ref={containerRef} className="relative w-full">
+    <div ref={containerRef} className="relative w-full min-w-0">
       <div className="relative" style={{ zIndex: 10 }}>{renderRow(row0Steps, 0)}</div>
       <div style={{ height: 160 }} />
       <div className="relative" style={{ zIndex: 10 }}>{renderRow(row1Steps, COL)}</div>
@@ -643,7 +648,7 @@ export function AutomationFlowSection({ lang, customSteps, customCards, customTe
   return (
     <section
       dir={rtl ? 'rtl' : 'ltr'}
-      className="relative px-4 py-24 sm:px-6 lg:px-8 overflow-hidden"
+      className="relative isolate overflow-x-clip px-4 py-20 sm:px-6 lg:px-8"
     >
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[700px] w-[900px] rounded-full bg-blue-500/5 blur-[120px]" />
@@ -661,11 +666,11 @@ export function AutomationFlowSection({ lang, customSteps, customCards, customTe
 
         {/* Live Flow Diagram */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative rounded-2xl border border-white/10 bg-[#060a12] overflow-hidden mb-12"
+          className="relative mb-12 overflow-hidden rounded-2xl border border-[#152C4E] bg-[#08101F] shadow-[0_25px_75px_rgba(11,31,77,.14)] [contain:layout_paint]"
         >
           {/* Top bar */}
           <div className="flex items-center justify-between px-5 py-3.5 border-b border-white/[0.07] bg-white/[0.02]">
@@ -683,7 +688,7 @@ export function AutomationFlowSection({ lang, customSteps, customCards, customTe
           </div>
 
           {/* Node Graph — always LTR layout, fixed direction */}
-          <div className="px-6 pt-10 pb-10" dir="ltr">
+          <div className="min-h-[420px] overflow-hidden px-4 pb-10 pt-10 sm:min-h-[500px] sm:px-6" dir="ltr">
             <NodeGraph steps={steps} lang={lang} />
           </div>
 
@@ -696,11 +701,11 @@ export function AutomationFlowSection({ lang, customSteps, customCards, customTe
                 transition={{ duration: 1.2, repeat: Infinity }}
               />
               <span className="text-[10px] font-mono text-emerald-400 font-semibold uppercase tracking-widest">
-                {lang === 'ar' ? 'يعمل الآن' : lang === 'en' ? 'Running live' : 'Läuft live'}
+                {lang === 'ar' ? 'عرض توضيحي' : lang === 'en' ? 'Illustrative demo' : 'Beispiel-Demo'}
               </span>
             </div>
             <span className="text-[10px] font-mono text-gray-600">
-              {lang === 'ar' ? 'كل خطوة تلقائية ١٠٠٪' : lang === 'en' ? '100% automated, 0 manual steps' : '100% automatisiert, 0 manuelle Schritte'}
+              {lang === 'ar' ? 'رسم توضيحي — اختبر n8n في قسم الديمو' : lang === 'en' ? 'Visual example — try n8n in the demo' : 'Visualisierung — n8n im Demo-Bereich testen'}
             </span>
           </div>
         </motion.div>
@@ -754,15 +759,15 @@ export function AutomationFlowSection({ lang, customSteps, customCards, customTe
 }
 
 function LiveIndicator({ lang }: { lang: Lang }) {
-  const label = lang === 'ar' ? 'مباشر' : lang === 'en' ? 'Live' : 'Live';
+  const label = lang === 'ar' ? 'مثال' : lang === 'en' ? 'Demo' : 'Demo';
   return (
     <div className="flex items-center gap-2">
       <div className="flex gap-1">
         {[0, 1, 2, 3, 4, 5].map((i) => (
           <motion.div
             key={i}
-            className="w-1 rounded-full bg-blue-500/60"
-            animate={{ height: [4, 12 + Math.random() * 8, 4] }}
+            className="h-3 w-1 origin-center rounded-full bg-blue-400/80"
+            animate={{ scaleY: [0.4, 1, 0.4] }}
             transition={{
               duration: 0.7 + i * 0.1,
               repeat: Infinity,
