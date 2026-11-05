@@ -9,9 +9,9 @@ import FloatingChatWidget from '@/components/FloatingChatWidget';
 import { BrandPolish } from '@/components/brand-polish';
 
 export const metadata: Metadata = {
-  title: 'Ovivo - KI-Automation für Gastronomie & Servicebetriebe',
-  description: 'Wir automatisieren Reservierungen, Kundenanfragen und Kundenbindung für Restaurants, Cafés und Servicebetriebe in Deutschland. KI-Chatbot, WhatsApp Automation, Buchungssystem & CRM — alles aus einer Hand.',
-  keywords: ['KI Automation', 'Restaurant Automation', 'WhatsApp Chatbot', 'Gastronomie Software', 'Buchungssystem', 'CRM Gastronomie', 'KI Chatbot Deutschland', 'Automation Servicebetrieb'],
+  title: 'ovivo.io | KI-Automation für Unternehmen',
+  description: 'OVIVO.IO entwickelt KI-Chatbots, Automations-Workflows und CRM-Integrationen für Unternehmen – ergänzt durch Webdesign und digitales Marketing.',
+  keywords: ['KI Automation', 'WhatsApp Chatbot', 'Gastronomie Software', 'Buchungssystem', 'CRM Gastronomie', 'KI Chatbot Deutschland', 'Automation Servicebetrieb'],
   authors: [{ name: 'Ovivo' }],
   icons: {
     icon: '/icon.svg',
@@ -22,14 +22,14 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'de_DE',
     url: 'https://ovivo.io',
-    siteName: 'Ovivo',
+    siteName: 'ovivo.io',
     title: 'Ovivo - KI-Automation für Gastronomie & Servicebetriebe',
-    description: 'Mehr Gäste. Weniger Aufwand. Vollautomatisch. KI-Automation für Restaurants, Cafés und Servicebetriebe in Deutschland.',
+    description: 'KI-Automation, intelligente Assistenten und digitale Lösungen für Unternehmen.',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Ovivo - KI-Automation für Gastronomie & Servicebetriebe',
-    description: 'Mehr Gäste. Weniger Aufwand. Vollautomatisch.',
+    description: 'KI-Automation, Webdesign und digitales Marketing für Unternehmen.',
   },
 };
 
