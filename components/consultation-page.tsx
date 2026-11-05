@@ -319,57 +319,64 @@ export function ConsultationPage({ lang }: Props) {
   const [message, setMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const [chatError, setChatError] = useState('');
+  const [submitError, setSubmitError] = useState('');
 
+  // Scroll only within the message pane; scrollIntoView also scrolls document ancestors.
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const pane = messagesContainerRef.current;
+    if (!pane) return;
+    pane.scrollTop = pane.scrollHeight;
   }, [messages, isTyping]);
 
-  function getResponse(userMsg: string): string {
-    const lower = userMsg.toLowerCase();
-    if (lang === 'ar') {
-      for (const item of aiResponsesAR) {
-        if (item.triggers.some((trigger) => lower.includes(trigger))) {
-          return item.response;
-        }
-      }
-    } else {
-      const responses = aiResponses[lang as keyof typeof aiResponses] ?? aiResponses.de;
-      for (const item of responses) {
-        if (item.triggers.some((trigger) => lower.includes(trigger))) {
-          return item.response;
-        }
-      }
-    }
-    return defaultResponses[lang] ?? defaultResponses.de;
-  }
-
   async function sendMessage(text: string) {
-    if (!text.trim()) return;
-    const userMsg = text.trim();
+    const userMsg = text.trim().slice(0, 400);
+    if (!userMsg || isTyping) return;
+    setChatError('');
     setInput('');
     setMessages((prev) => [...prev, { role: 'user', content: userMsg }]);
     setIsTyping(true);
-    await new Promise((r) => setTimeout(r, 900 + Math.random() * 600));
-    const response = getResponse(userMsg);
-    setIsTyping(false);
-    setMessages((prev) => [...prev, { role: 'assistant', content: response }]);
+    try {
+      const response = await fetch('/api/demo-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: userMsg, lang }),
+      });
+      const json: unknown = await response.json();
+      if (!response.ok || !json || typeof json !== 'object' || !('answer' in json) || typeof json.answer !== 'string') {
+        throw new Error('AI unavailable');
+      }
+      setMessages((prev) => [...prev, { role: 'assistant', content: json.answer.slice(0, 1500) }]);
+    } catch {
+      setChatError(lang === 'de' ? 'Der KI-Assistent ist derzeit nicht erreichbar. Bitte nutzen Sie das Formular.' :
+        lang === 'ar' ? 'المساعد الذكي غير متاح حالياً. يمكنك إرسال طلبك عبر النموذج.' :
+        'The AI assistant is temporarily unavailable. Please use the form.');
+    } finally {
+      setIsTyping(false);
+    }
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!email || !email.includes('@')) return;
+    if (submitting || !email.trim()) return;
     setSubmitting(true);
+    setSubmitError('');
     try {
-      await fetch('/api/leads', {
+      const response = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, company, message: `${message}${phone ? ` | Tel: ${phone}` : ''}`, source: 'consultation' }),
+        body: JSON.stringify({ name: name.trim(), email: email.trim(), company: company.trim(), message: `${message.trim()}${phone.trim() ? ` | Tel: ${phone.trim()}` : ''}`, source: 'consultation' }),
       });
+      if (!response.ok) throw new Error('Save failed');
+      setSubmitted(true);
     } catch {
+      setSubmitError(lang === 'de' ? 'Ihre Anfrage konnte nicht gesendet werden. Bitte versuchen Sie es erneut.' :
+        lang === 'ar' ? 'تعذّر إرسال طلبك. يرجى المحاولة مجدداً.' :
+        'Your request could not be sent. Please try again.');
+    } finally {
+      setSubmitting(false);
     }
-    setSubmitted(true);
-    setSubmitting(false);
   }
 
   const prompts = quickPrompts[lang] ?? quickPrompts.de;
@@ -410,23 +417,23 @@ export function ConsultationPage({ lang }: Props) {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.15 }}
             >
-              <GlassCard className="flex flex-col h-[580px] overflow-hidden p-0">
-                <div className="flex items-center gap-3 px-5 py-4 border-b border-white/10 bg-white/[0.03]">
-                  <div className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 shadow-lg shadow-blue-500/20">
-                    <Bot className="h-5 w-5 text-white" />
-                    <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-emerald-400 border-2 border-[#0a0e1a]" />
+              <GlassCard className="ovivo-consultation-chat flex h-[min(650px,calc(100dvh-150px))] min-h-[490px] flex-col overflow-hidden rounded-[26px] border border-[#DCE5F7] bg-white p-0 shadow-[0_24px_70px_rgba(11,31,77,.08)]">
+                <div className="flex shrink-0 items-center gap-3 border-b border-[#E0E7FF] bg-white px-5 py-4">
+                  <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#E0E7FF] bg-[#F4F7FB]">
+                    <img src="/ovivo-favicon.svg" alt="" className="h-8 w-8 object-contain" />
+                    <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-emerald-400 border-2 border-white" />
                   </div>
                   <div className={rtl ? 'text-right' : ''}>
-                    <p className="text-sm font-bold text-white">{t.chatTitle}</p>
-                    <p className="text-xs text-gray-400">{t.chatSub}</p>
+                    <p className="text-sm font-bold text-[#0B1F4D]">{t.chatTitle}</p>
+                    <p className="text-xs text-[#52647E]">{t.chatSub}</p>
                   </div>
                   <div className={`${rtl ? 'mr-auto' : 'ml-auto'} flex items-center gap-1.5`}>
-                    <div className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                    <span className="text-xs text-emerald-400 font-semibold">{t.online}</span>
+                    <div className="h-2 w-2 rounded-full bg-emerald-500" />
+                    <span className="text-xs text-emerald-700 font-semibold">{t.online}</span>
                   </div>
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-5 space-y-4 scrollbar-thin">
+                <div ref={messagesContainerRef} aria-live="polite" aria-relevant="additions text" className="ovivo-consultation-transcript min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain bg-[#F6F9FF] p-4 scrollbar-thin sm:p-5">
                   {messages.map((msg, i) => (
                     <motion.div
                       key={i}
@@ -435,13 +442,13 @@ export function ConsultationPage({ lang }: Props) {
                       transition={{ duration: 0.3 }}
                       className={`flex gap-3 ${msg.role === 'user' ? (rtl ? 'flex-row' : 'flex-row-reverse') : ''}`}
                     >
-                      <div className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full ${msg.role === 'assistant' ? 'bg-blue-500/20 border border-blue-500/30' : 'bg-white/10 border border-white/10'}`}>
+                      <div className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full ${msg.role === 'assistant' ? 'border border-[#DCE5F7] bg-[#EAF2FF]' : 'border border-[#DCE5F7] bg-white'}`}>
                         {msg.role === 'assistant'
                           ? <Bot className="h-4 w-4 text-blue-400" />
-                          : <User className="h-4 w-4 text-gray-400" />
+                          : <User className="h-4 w-4 text-[#52647E]" />
                         }
                       </div>
-                      <div className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-line ${msg.role === 'assistant' ? 'bg-white/5 border border-white/10 text-gray-100' : 'bg-blue-500 text-white'} ${rtl ? 'text-right' : ''}`}>
+                      <div className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-line ${msg.role === 'assistant' ? 'border border-[#DCE5F7] bg-white text-[#233858] shadow-sm' : 'ovivo-consultation-user bg-[#2563EB] text-white'} ${rtl ? 'text-right' : ''}`}>
                         {msg.content}
                       </div>
                     </motion.div>
@@ -455,7 +462,7 @@ export function ConsultationPage({ lang }: Props) {
                       <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-blue-500/20 border border-blue-500/30">
                         <Bot className="h-4 w-4 text-blue-400" />
                       </div>
-                      <div className="bg-white/5 border border-white/10 rounded-2xl px-4 py-3 flex items-center gap-1.5">
+                      <div className="flex items-center gap-1.5 rounded-2xl border border-[#DCE5F7] bg-white px-4 py-3">
                         {[0, 1, 2].map((i) => (
                           <motion.div
                             key={i}
@@ -467,17 +474,17 @@ export function ConsultationPage({ lang }: Props) {
                       </div>
                     </motion.div>
                   )}
-                  <div ref={messagesEndRef} />
+                  {chatError && <p role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800">{chatError}</p>}
                 </div>
 
-                <div className="px-5 py-2.5 border-t border-white/5">
-                  <p className="text-xs text-gray-400 uppercase tracking-wider mb-2">{t.quickLabel}</p>
+                <div className="shrink-0 border-t border-[#E0E7FF] bg-white px-4 py-3 sm:px-5">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-[#52647E]">{t.quickLabel}</p>
                   <div className="flex flex-wrap gap-1.5">
                     {prompts.map((p) => (
                       <button
                         key={p}
                         onClick={() => sendMessage(p)}
-                        className="text-xs text-gray-400 border border-white/10 rounded-full px-2.5 py-1 hover:text-white hover:border-white/25 hover:bg-white/5 transition-all"
+                        disabled={isTyping} type="button" className="rounded-full border border-[#DCE5F7] bg-[#F8FAFF] px-3 py-1.5 text-xs font-semibold text-[#36547A] transition-colors hover:border-[#3B82F6] hover:bg-[#EEF5FF] disabled:opacity-50"
                       >
                         {p}
                       </button>
@@ -485,22 +492,22 @@ export function ConsultationPage({ lang }: Props) {
                   </div>
                 </div>
 
-                <div className="px-5 pb-5 pt-3 border-t border-white/10">
+                <div className="shrink-0 border-t border-[#E0E7FF] bg-white px-4 pb-4 pt-3 sm:px-5">
                   <form
                     onSubmit={(e) => { e.preventDefault(); sendMessage(input); }}
-                    className="flex gap-2"
+                    className="flex items-center gap-2 rounded-2xl border border-[#DCE5F7] bg-white p-2 shadow-sm focus-within:border-[#3B82F6] focus-within:ring-4 focus-within:ring-blue-500/10"
                   >
                     <Input
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
                       placeholder={t.placeholder}
-                      className="flex-1 bg-white/5 border-white/10 text-white placeholder-gray-600 focus:border-blue-500/50"
+                      className="h-11 min-w-0 flex-1 border-0 bg-transparent px-3 text-sm font-medium text-[#0B1F4D] placeholder:text-[#71829B] shadow-none focus-visible:ring-0"
                       dir={rtl ? 'rtl' : 'ltr'}
                     />
                     <Button
                       type="submit"
                       disabled={!input.trim() || isTyping}
-                      className="bg-blue-500 hover:bg-blue-400 text-white px-3 disabled:opacity-40"
+                      aria-label={lang === 'de' ? 'Nachricht senden' : lang === 'ar' ? 'إرسال الرسالة' : 'Send message'} className="ovivo-consultation-send h-11 w-11 shrink-0 rounded-xl bg-[#2563EB] p-0 text-white hover:bg-[#1D4ED8] disabled:opacity-40"
                     >
                       <Send className="h-4 w-4" />
                     </Button>
@@ -516,7 +523,7 @@ export function ConsultationPage({ lang }: Props) {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="space-y-6"
             >
-              <GlassCard className="p-8">
+              <GlassCard className="rounded-[26px] border border-[#DCE5F7] bg-white p-6 shadow-[0_24px_70px_rgba(11,31,77,.08)] sm:p-8">
                 <AnimatePresence mode="wait">
                   {submitted ? (
                     <motion.div
@@ -555,14 +562,14 @@ export function ConsultationPage({ lang }: Props) {
                       </div>
 
                       <form onSubmit={handleSubmit} className="space-y-4">
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                           <div>
                             <label className={`block text-xs font-semibold text-gray-300 mb-1.5 ${rtl ? 'text-right' : ''}`}>{t.nameLabel}</label>
                             <Input
                               value={name}
                               onChange={(e) => setName(e.target.value)}
                               placeholder={t.namePlaceholder}
-                              className="bg-white/5 border-white/10 text-white placeholder-gray-600 focus:border-blue-500/50"
+                              className="h-12 rounded-xl border-[#DCE5F7] bg-white px-4 text-[#0B1F4D] placeholder:text-[#71829B] focus-visible:border-[#3B82F6] focus-visible:ring-blue-500/20"
                               dir={rtl ? 'rtl' : 'ltr'}
                             />
                           </div>
@@ -606,7 +613,7 @@ export function ConsultationPage({ lang }: Props) {
                             onChange={(e) => setMessage(e.target.value)}
                             placeholder={t.messagePlaceholder}
                             rows={3}
-                            className="bg-white/5 border-white/10 text-white placeholder-gray-600 focus:border-blue-500/50 resize-none"
+                            className="min-h-[105px] resize-none rounded-xl border-[#DCE5F7] bg-white px-4 py-3 text-[#0B1F4D] placeholder:text-[#71829B] focus-visible:border-[#3B82F6] focus-visible:ring-blue-500/20"
                             dir={rtl ? 'rtl' : 'ltr'}
                           />
                         </div>
@@ -614,7 +621,7 @@ export function ConsultationPage({ lang }: Props) {
                         <Button
                           type="submit"
                           disabled={submitting}
-                          className="w-full relative overflow-hidden bg-blue-500 hover:bg-blue-400 text-white font-semibold py-5 text-base transition-all duration-300 hover:shadow-[0_0_28px_rgba(59,130,246,0.5)] group"
+                          className="group ovivo-consultation-send relative w-full overflow-hidden rounded-xl bg-[#2563EB] py-6 text-base font-semibold text-white shadow-[0_8px_24px_rgba(59,130,246,.18)] transition-colors hover:bg-[#1D4ED8] disabled:opacity-60"
                         >
                           {submitting ? (
                             <span className="flex items-center gap-2">
@@ -633,6 +640,7 @@ export function ConsultationPage({ lang }: Props) {
                           )}
                           <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                         </Button>
+                        {submitError && <p role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800">{submitError}</p>}
                       </form>
 
                       <div className={`mt-4 flex flex-wrap gap-3 ${rtl ? 'justify-end' : 'justify-center'}`}>
