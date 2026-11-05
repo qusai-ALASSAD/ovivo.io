@@ -312,3 +312,19 @@ body.ovivo-light .ovivo-consultation-chat input::placeholder {
 @media (max-width:640px) {
   .ovivo-consultation-chat { max-height: min(650px, calc(100dvh - 120px)); }
 }
+
+/* OVIVO pricing: strong and accessible CTA contrast across the light theme. */
+body.ovivo-light .ovivo-price-card .ovivo-pricing-cta-primary,
+body.ovivo-light .ovivo-price-card .ovivo-pricing-cta-growth,
+body.ovivo-light .ovivo-price-card .ovivo-price-featured-badge {
+  color: #FFFFFF !important;
+}
+body.ovivo-light .ovivo-price-card .ovivo-pricing-cta-secondary {
+  color: #0B1F4D !important;
+}
+body.ovivo-light .ovivo-price-card .ovivo-pricing-cta-primary:hover { background-color: #1D4ED8; }
+body.ovivo-light .ovivo-price-card .ovivo-pricing-cta-growth:hover { background-color: #173671; }
+body.ovivo-light .ovivo-price-card .ovivo-pricing-cta-secondary:hover { background-color: #EEF5FF; }
+@media (prefers-reduced-motion: reduce) {
+  .ovivo-price-card, .ovivo-pricing-cta { transition-duration: 0.01ms !important; transform: none !important; }
+}
