@@ -198,72 +198,164 @@ export function AiExperienceLab({ lang }: { lang: Lang }) {
     { mode: 'workflow', icon: Workflow, label: t.workflow },
   ];
 
+  const examples = {
+    de: ['Termine automatisch buchen', 'Wie funktioniert ein KI-Chatbot?', 'n8n mit meinem CRM verbinden'],
+    en: ['Automate appointment bookings', 'How does an AI chatbot work?', 'Connect n8n with my CRM'],
+    ar: ['أتمتة حجز المواعيد', 'كيف يعمل الشات بوت؟', 'ربط n8n مع CRM'],
+  }[lang];
+
   return (
-    <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6" dir={isRtl ? 'rtl' : 'ltr'}>
-      <p className="text-sm font-semibold tracking-widest text-blue-400">{t.eyebrow}</p>
-      <h1 className="mt-3 text-3xl font-bold text-white md:text-5xl">{t.title}</h1>
-      <p className="mt-4 max-w-3xl text-gray-400">{t.subtitle}</p>
-      <div className="mt-9 grid grid-cols-1 gap-3 sm:grid-cols-3" role="tablist" aria-label="AI demos">
-        {tabs.map((tab) => {
-          const Icon = tab.icon;
-          return (
-            <button key={tab.mode} type="button" role="tab" aria-selected={mode === tab.mode} onClick={() => setMode(tab.mode)}
-              className={'flex min-h-[56px] items-center justify-center gap-2 rounded-xl border px-4 py-3 font-semibold transition ' + (mode === tab.mode ? 'border-blue-400 bg-blue-500/15 text-white' : 'border-white/15 bg-white/5 text-gray-300 hover:border-blue-400/50')}>
-              <Icon size={20} /> {tab.label}
-            </button>
-          );
-        })}
-      </div>
-      <section className="mt-6 min-h-[340px] rounded-2xl border border-white/10 bg-white p-5 shadow-xl sm:p-7">
-        {mode === 'chat' && (
-          <div>
-            <p className="mb-5 text-sm text-gray-300">{t.description}</p>
-            <div aria-live="polite" className="mb-4 max-h-[350px] min-h-[190px] space-y-3 overflow-y-auto rounded-xl bg-black/20 p-4">
-              {messages.map((m, i) => (
-                <p key={i} className={'max-w-[90%] rounded-xl px-4 py-3 text-sm leading-relaxed ' + (m.role === 'user' ? 'ms-auto bg-blue-600 text-white' : 'bg-white/10 text-gray-100')}>{m.content}</p>
-              ))}
-              {busy && <p className="text-sm text-gray-400">...</p>}
+    <section className="ovivo-ai-lab relative isolate overflow-hidden px-4 py-20 sm:px-6 lg:py-24" dir={isRtl ? 'rtl' : 'ltr'} aria-label={t.title}>
+      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 mx-auto h-[420px] max-w-5xl rounded-full bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.10),transparent_70%)] blur-3xl" />
+      <div className="mx-auto max-w-6xl">
+        <div className="mx-auto mb-10 max-w-3xl text-center">
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#DCE7FF] bg-white px-4 py-2 text-[11px] font-extrabold tracking-[.13em] text-[#2563EB] shadow-sm">
+            <span className="h-2 w-2 rounded-full bg-[#885CF6]" />
+            {t.eyebrow}
+          </div>
+          <h2 className="text-3xl font-extrabold leading-tight tracking-tight text-[#0B1F4D] sm:text-4xl lg:text-[46px]">{t.title}</h2>
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-[#52647E] sm:text-lg">{t.subtitle}</p>
+        </div>
+
+        <div className="overflow-hidden rounded-[28px] border border-[#DCE6FF] bg-white shadow-[0_26px_80px_rgba(11,31,77,.10)]">
+          <div className="border-b border-[#E7ECFB] bg-[#F8FAFF] p-3 sm:p-4">
+            <div className="grid grid-cols-3 gap-2" role="tablist" aria-label={lang === 'ar' ? 'التجارب التفاعلية' : 'AI experiences'}>
+              {tabs.map((tab) => {
+                const Icon = tab.icon;
+                const selected = mode === tab.mode;
+                return (
+                  <button key={tab.mode} id={'ovivo-tab-' + tab.mode} type="button" role="tab"
+                    aria-selected={selected} aria-controls="ovivo-demo-panel"
+                    onClick={() => setMode(tab.mode)}
+                    className={'ovivo-ai-tab flex min-h-[64px] flex-col items-center justify-center gap-2 rounded-2xl border px-2 py-3 text-center text-xs font-bold transition-colors sm:min-h-[60px] sm:flex-row sm:gap-3 sm:text-sm ' +
+                      (selected ? 'ovivo-ai-tab-active border-[#3B82F6] bg-[#2563EB] text-white shadow-[0_8px_24px_rgba(59,130,246,.22)]' :
+                        'border-[#E0E7FF] bg-white text-[#405473] hover:border-[#9BB9FF] hover:bg-[#EDF4FF]')}>
+                    <Icon className="h-5 w-5 shrink-0" aria-hidden="true" />
+                    <span>{tab.label}</span>
+                  </button>
+                );
+              })}
             </div>
-            <form onSubmit={(e) => { e.preventDefault(); void askAI(input); }} className="flex gap-2">
-              <input aria-label={t.placeholder} value={input} onChange={(e) => setInput(e.target.value)} maxLength={400} className="min-w-0 flex-1 rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder={t.placeholder} />
-              <button type="submit" disabled={busy || !input.trim()} className="rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white disabled:opacity-50"><Send size={19} aria-label={t.send} /></button>
-            </form>
           </div>
-        )}
-        {mode === 'voice' && (
-          <div className="flex min-h-[310px] flex-col items-center justify-center gap-5 text-center">
-            <div className="rounded-full bg-blue-500/10 p-6"><Mic className="h-12 w-12 text-blue-400" /></div>
-            <h2 className="text-xl font-bold text-white">{t.voice}</h2>
-            <p className="max-w-lg text-gray-300">{voiceSupported ? t.voiceTip : t.voiceUnavailable}</p>
-            <button type="button" onClick={beginVoice} disabled={!voiceSupported || busy} className="flex items-center gap-2 rounded-xl bg-blue-600 px-7 py-3 font-semibold text-white disabled:opacity-50">
-              {listening ? <Square size={18} /> : <Mic size={18} />}{listening ? t.voiceStop : t.voiceStart}
-            </button>
-            {messages.length > 1 && <p aria-live="polite" className="max-w-xl text-sm text-gray-300">{messages[messages.length - 1].content}</p>}
-          </div>
-        )}
-        {mode === 'workflow' && (
-          <div>
-            <p className="mb-5 text-gray-300">{t.workflowTip}</p>
-            <div className="grid gap-3 sm:grid-cols-5">
-              {t.steps.map((label, i) => (
-                <div key={label} className={'rounded-xl border p-4 text-center text-sm ' + (step >= i ? 'border-blue-400/60 bg-blue-500/15 text-white' : 'border-white/10 bg-white/5 text-gray-400')}>
-                  <div className="mb-2 text-lg font-bold">{String(i + 1).padStart(2, '0')}</div>
-                  <div>{label}</div>
+
+          <div id="ovivo-demo-panel" role="tabpanel" aria-labelledby={'ovivo-tab-' + mode}
+            className="min-h-[440px] bg-white p-4 sm:p-7">
+            {mode === 'chat' && (
+              <div className="flex min-h-[415px] flex-col">
+                <div className="mb-5 flex items-center gap-3">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[#E0E7FF] bg-[#F4F7FB]">
+                    <img src="/ovivo-favicon.svg" alt="" className="h-9 w-9" />
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="text-sm font-extrabold text-[#0B1F4D]">OVIVO AI Assistant</h3>
+                    <p className="mt-0.5 text-xs leading-5 text-[#64748B]">{t.description}</p>
+                  </div>
                 </div>
-              ))}
-            </div>
-            {workflowBusy && <p role="status" className="mt-5 text-sm text-blue-600">{lang === 'ar' ? 'جاري تشغيل n8n...' : lang === 'de' ? 'n8n-Workflow wird ausgeführt...' : 'Running n8n workflow...'}</p>}
-            {workflowError && <p role="alert" className="mt-5 text-sm text-red-600">{workflowError}</p>}
-            {step === t.steps.length - 1 && workflowRunId && <p role="status" className="mt-5 text-sm text-emerald-700">{t.completed} · ID: {workflowRunId.slice(0, 8)}</p>}
-            <div className="mt-7 flex flex-wrap gap-3">
-              <button type="button" disabled={workflowBusy} onClick={runWorkflow} className="flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white"><Play size={17} />{t.workflowStart}</button>
-              <button type="button" onClick={() => { if (timer.current) clearInterval(timer.current); timer.current = null; setStep(-1); setWorkflowError(''); setWorkflowRunId(''); }} className="rounded-xl border border-white/20 px-5 py-3 text-white">{t.workflowReset}</button>
-            </div>
+
+                <div aria-live="polite" aria-relevant="additions text" className="ovivo-ai-transcript min-h-[205px] max-h-[330px] flex-1 space-y-4 overflow-y-auto rounded-2xl border border-[#E5EBFA] bg-[#F6F9FF] px-4 py-5 sm:px-6">
+                  {messages.map((message, index) => (
+                    <div key={index} className={'flex ' + (message.role === 'user' ? 'justify-end' : 'justify-start')}>
+                      <div className={'max-w-[90%] whitespace-pre-wrap rounded-2xl px-4 py-3 text-sm leading-6 sm:max-w-[80%] ' +
+                        (message.role === 'user' ? 'ovivo-ai-user-bubble rounded-br-sm bg-[#2563EB] text-white' :
+                        'rounded-bl-sm border border-[#DFE8F9] bg-white text-[#233858] shadow-sm')}>
+                        {message.content}
+                      </div>
+                    </div>
+                  ))}
+                  {busy && (
+                    <div className="flex justify-start"><div className="flex items-center gap-1.5 rounded-2xl border border-[#DFE8F9] bg-white px-4 py-3" role="status" aria-label="AI is responding">
+                      <span className="h-2 w-2 animate-pulse rounded-full bg-[#3B82F6]" />
+                      <span className="h-2 w-2 animate-pulse rounded-full bg-[#885CF6] [animation-delay:150ms]" />
+                      <span className="h-2 w-2 animate-pulse rounded-full bg-[#3B82F6] [animation-delay:300ms]" />
+                    </div></div>
+                  )}
+                </div>
+
+                <div className="mt-4 flex flex-wrap gap-2" aria-label={lang === 'ar' ? 'أسئلة مقترحة' : 'Suggested questions'}>
+                  {examples.map((example) => (
+                    <button key={example} type="button" disabled={busy}
+                      onClick={() => void askAI(example)}
+                      className="rounded-full border border-[#D7E3FF] bg-white px-3.5 py-2 text-xs font-semibold text-[#36547A] transition-colors hover:border-[#3B82F6] hover:bg-[#EFF5FF] disabled:opacity-50">
+                      {example}
+                    </button>
+                  ))}
+                </div>
+
+                <form onSubmit={(event) => { event.preventDefault(); void askAI(input); }} className="mt-5 flex items-center gap-3 rounded-2xl border border-[#D9E4FB] bg-white p-2.5 shadow-[0_4px_18px_rgba(11,31,77,.05)] focus-within:border-[#3B82F6] focus-within:ring-4 focus-within:ring-blue-500/10">
+                  <label htmlFor="ovivo-ai-chat-input" className="sr-only">{t.placeholder}</label>
+                  <input id="ovivo-ai-chat-input" autoComplete="off" value={input} maxLength={400}
+                    onChange={(event) => setInput(event.target.value)}
+                    placeholder={t.placeholder}
+                    className="h-11 min-w-0 flex-1 border-0 bg-transparent px-3 text-sm font-medium text-[#0B1F4D] placeholder:text-[#72839E] focus:outline-none focus:ring-0" />
+                  <button type="submit" aria-label={t.send} title={t.send} disabled={busy || !input.trim()}
+                    className="ovivo-ai-send flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#2563EB] text-white shadow-md shadow-blue-500/20 transition-colors hover:bg-[#1D4ED8] disabled:cursor-not-allowed disabled:bg-[#AABBDD] disabled:shadow-none">
+                    <Send className="h-5 w-5" aria-hidden="true" />
+                  </button>
+                </form>
+              </div>
+            )}
+
+            {mode === 'voice' && (
+              <div className="flex min-h-[415px] flex-col items-center justify-center gap-5 px-2 text-center">
+                <div className="relative flex h-24 w-24 items-center justify-center rounded-[28px] border border-[#DDE6FF] bg-gradient-to-br from-[#EEF5FF] to-[#F4EEFF]">
+                  {listening && <span className="absolute inset-[-9px] animate-pulse rounded-[35px] border-2 border-[#885CF6]/40" aria-hidden="true" />}
+                  <Mic className="h-10 w-10 text-[#3B82F6]" />
+                </div>
+                <h3 className="text-2xl font-bold text-[#0B1F4D]">{t.voice}</h3>
+                <p className="max-w-lg text-sm leading-7 text-[#52647E]">{voiceSupported ? t.voiceTip : t.voiceUnavailable}</p>
+                <button type="button" onClick={beginVoice} disabled={!voiceSupported || busy}
+                  className="ovivo-ai-action inline-flex min-h-[50px] items-center justify-center gap-2 rounded-xl bg-[#2563EB] px-7 text-sm font-bold text-white shadow-lg shadow-blue-500/20 transition-colors hover:bg-[#1D4ED8] disabled:opacity-50">
+                  {listening ? <Square className="h-4 w-4" /> : <Mic className="h-4 w-4" />}{listening ? t.voiceStop : t.voiceStart}
+                </button>
+                {messages.length > 1 && <p aria-live="polite" className="max-w-lg rounded-2xl border border-[#DFE8F9] bg-[#F6F9FF] p-4 text-sm leading-6 text-[#233858]">{messages[messages.length - 1].content}</p>}
+              </div>
+            )}
+
+            {mode === 'workflow' && (
+              <div className="flex min-h-[415px] flex-col justify-center">
+                <div className="mb-6 flex items-center gap-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#EEF4FF]"><Workflow className="h-6 w-6 text-[#3B82F6]" /></div>
+                  <div>
+                    <h3 className="text-lg font-bold text-[#0B1F4D]">{t.workflow}</h3>
+                    <p className="mt-1 text-sm leading-6 text-[#52647E]">{t.workflowTip}</p>
+                  </div>
+                </div>
+                <div className="grid gap-3 sm:grid-cols-5">
+                  {t.steps.map((label, index) => (
+                    <div key={label} className={'rounded-2xl border px-3 py-5 text-center transition-colors ' +
+                      (step >= index ? 'border-[#93B8FF] bg-[#EAF2FF]' : 'border-[#E2E9F6] bg-[#FAFBFE]')}>
+                      <span className={'mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-full text-sm font-extrabold ' + (step >= index ? 'bg-[#2563EB] text-white' : 'bg-[#E8ECF5] text-[#52647E]')}>{index + 1}</span>
+                      <span className="block text-xs font-semibold leading-5 text-[#0B1F4D]">{label}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-7 flex flex-wrap items-center gap-3">
+                  <button type="button" disabled={workflowBusy} onClick={runWorkflow}
+                    className="ovivo-ai-action inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-[#2563EB] px-6 text-sm font-bold text-white hover:bg-[#1D4ED8] disabled:opacity-50">
+                    <Play className="h-4 w-4" />{t.workflowStart}
+                  </button>
+                  <button type="button" onClick={() => { setStep(-1); setWorkflowRunId(''); setWorkflowError(''); }} disabled={workflowBusy}
+                    className="min-h-[48px] rounded-xl border border-[#D6E0F6] bg-white px-6 text-sm font-semibold text-[#405473] hover:bg-[#F4F7FB] disabled:opacity-50">
+                    {t.workflowReset}
+                  </button>
+                </div>
+                {workflowBusy && <p role="status" className="mt-5 text-sm text-[#2563EB]">{lang === 'de' ? 'n8n-Workflow wird ausgeführt…' : lang === 'en' ? 'Running n8n workflow…' : 'جاري تشغيل n8n…'}</p>}
+                {workflowError && <p role="alert" className="mt-5 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800">{workflowError}</p>}
+                {step === t.steps.length - 1 && workflowRunId && <p role="status" className="mt-5 rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-800">{t.completed} · ID: {workflowRunId.slice(0, 8)}</p>}
+              </div>
+            )}
           </div>
-        )}
-      </section>
-      <p className="mt-5 text-xs leading-relaxed text-gray-400">{t.privacy}</p>
-      <Link href={lang === 'de' ? '/consultation' : '/' + lang + '/consultation'} className="mt-7 inline-flex items-center gap-2 font-semibold text-blue-400 hover:text-blue-300">{t.consultancy}<ArrowRight size={18} /></Link>
-    </div>
+          <div className="border-t border-[#E9EEFA] bg-[#F8FAFF] px-5 py-4 sm:px-7">
+            <p className="text-xs leading-6 text-[#5F718C]">{t.privacy}</p>
+          </div>
+        </div>
+        <div className="mt-6 flex justify-center">
+          <Link href={lang === 'de' ? '/consultation' : '/' + lang + '/consultation'}
+            className="inline-flex min-h-[46px] items-center gap-2 rounded-xl border border-[#D7E4FF] bg-white px-5 text-sm font-bold text-[#2563EB] shadow-sm transition-colors hover:border-[#3B82F6] hover:bg-[#EFF5FF]">
+            {t.consultancy}<ArrowRight className={isRtl ? 'h-4 w-4 rotate-180' : 'h-4 w-4'} />
+          </Link>
+        </div>
+      </div>
+    </section>
   );
 }
