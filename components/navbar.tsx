@@ -54,7 +54,7 @@ export function Navbar() {
   const backgroundColor = useTransform(
     scrollY,
     [0, 100],
-    ['rgba(10, 14, 26, 0)', 'rgba(10, 14, 26, 0.9)']
+    ['rgba(255, 255, 255, 0.92)', 'rgba(255, 255, 255, 0.97)']
   );
 
   const serviceLinks = isEn ? serviceLinksEN : isAr ? serviceLinksAR : serviceLinksDE;
@@ -104,7 +104,7 @@ export function Navbar() {
     <motion.nav
       style={{ backgroundColor }}
       dir="ltr"
-      className={`fixed top-0 z-50 w-full transition-all duration-300 ${scrolled ? 'backdrop-blur-xl border-b border-white/10' : ''}`}
+      className={`fixed top-0 z-50 w-full border-b border-blue-100 bg-white/95 shadow-sm transition-all duration-300 ${scrolled ? 'backdrop-blur-xl' : ''}`}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
@@ -115,10 +115,7 @@ export function Navbar() {
             transition={{ duration: 0.5 }}
           >
             <Link href={prefix || '/'} className="flex items-center space-x-3 group">
-              <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 shadow-lg group-hover:shadow-blue-500/50 transition-all duration-300 group-hover:scale-110">
-                <Sparkles className="h-6 w-6 text-white" />
-              </div>
-              <span className="text-2xl font-bold text-gradient">Ovivo</span>
+              <img src="/ovivo-logo.svg" alt="ovivo.io — Digital Growth Partner" width={180} height={34} className="h-9 w-auto max-w-[180px] object-contain" />
             </Link>
           </motion.div>
 
@@ -130,7 +127,7 @@ export function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0 }}
             >
-              <Link href={navLinks[0].href} className="relative px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:text-white group">
+              <Link href={navLinks[0].href} className="relative px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:text-blue-600 group">
                 {navLinks[0].label}
                 <span className="absolute -bottom-0.5 left-3 right-3 h-0.5 w-0 bg-blue-500 transition-all duration-300 group-hover:w-[calc(100%-24px)]" />
               </Link>
@@ -146,7 +143,7 @@ export function Navbar() {
             >
               <button
                 onClick={() => setServicesOpen((v) => !v)}
-                className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors group"
+                className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors group"
               >
                 {servicesLabel}
                 <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`} />
@@ -167,7 +164,7 @@ export function Navbar() {
                       <Link
                         href={`${prefix}/services`}
                         onClick={() => setServicesOpen(false)}
-                        className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-white hover:bg-white/5 transition-all mb-1"
+                        className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-xs font-bold uppercase tracking-widest text-slate-600 hover:text-blue-600 hover:bg-white/5 transition-all mb-1"
                       >
                         {servicesOverview}
                       </Link>
@@ -179,7 +176,7 @@ export function Navbar() {
                             key={s.href}
                             href={s.href}
                             onClick={() => setServicesOpen(false)}
-                            className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-white/5 transition-all group"
+                            className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-700 hover:text-blue-600 hover:bg-white/5 transition-all group"
                           >
                             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/5 flex-shrink-0 group-hover:bg-white/10 transition-colors">
                               <Icon className={`h-3.5 w-3.5 ${s.color}`} />
@@ -202,7 +199,7 @@ export function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: (index + 2) * 0.07 }}
               >
-                <Link href={link.href} className="relative px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:text-white group">
+                <Link href={link.href} className="relative px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:text-blue-600 group">
                   {link.label}
                   <span className="absolute -bottom-0.5 left-3 right-3 h-0.5 w-0 bg-blue-500 transition-all duration-300 group-hover:w-[calc(100%-24px)]" />
                 </Link>
@@ -219,17 +216,17 @@ export function Navbar() {
             className="hidden md:flex items-center space-x-3"
           >
             {!isAr && (
-              <Link href="/ar" className="px-2.5 py-1.5 rounded-full glass border border-white/10 hover:border-white/20 text-xs font-bold text-gray-400 hover:text-white transition-all">
+              <Link href="/ar" className="px-2.5 py-1.5 rounded-full glass border border-white/10 hover:border-white/20 text-xs font-bold text-slate-600 hover:text-blue-600 transition-all">
                 AR
               </Link>
             )}
             {!isEn && (
-              <Link href="/en" className="px-2.5 py-1.5 rounded-full glass border border-white/10 hover:border-white/20 text-xs font-bold text-gray-400 hover:text-white transition-all">
+              <Link href="/en" className="px-2.5 py-1.5 rounded-full glass border border-white/10 hover:border-white/20 text-xs font-bold text-slate-600 hover:text-blue-600 transition-all">
                 EN
               </Link>
             )}
             {isEn || isAr ? (
-              <Link href="/" className="px-2.5 py-1.5 rounded-full glass border border-white/10 hover:border-white/20 text-xs font-bold text-gray-400 hover:text-white transition-all">
+              <Link href="/" className="px-2.5 py-1.5 rounded-full glass border border-white/10 hover:border-white/20 text-xs font-bold text-slate-600 hover:text-blue-600 transition-all">
                 DE
               </Link>
             ) : null}
@@ -284,7 +281,7 @@ export function Navbar() {
                   <div className="pl-4 mt-1 space-y-1">
                     <Link
                       href={`${prefix}/services`}
-                      className="block rounded-lg px-3 py-2 text-sm font-semibold text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
+                      className="block rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 hover:text-blue-600 hover:bg-white/5 transition-colors"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {servicesOverview}
@@ -295,7 +292,7 @@ export function Navbar() {
                         <Link
                           key={s.href}
                           href={s.href}
-                          className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
+                          className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-slate-600 hover:text-blue-600 hover:bg-white/5 transition-colors"
                           onClick={() => setMobileMenuOpen(false)}
                         >
                           <Icon className={`h-4 w-4 ${s.color}`} />
@@ -320,13 +317,13 @@ export function Navbar() {
               <div className="flex flex-col space-y-2 pt-4 border-t border-white/10">
                 <div className="flex gap-2">
                   <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex-1">
-                    <Button variant="outline" className="w-full glass border-white/10 text-gray-400 hover:text-white text-xs">DE</Button>
+                    <Button variant="outline" className="w-full glass border-white/10 text-slate-600 hover:text-blue-600 text-xs">DE</Button>
                   </Link>
                   <Link href="/en" onClick={() => setMobileMenuOpen(false)} className="flex-1">
-                    <Button variant="outline" className="w-full glass border-white/10 text-gray-400 hover:text-white text-xs">EN</Button>
+                    <Button variant="outline" className="w-full glass border-white/10 text-slate-600 hover:text-blue-600 text-xs">EN</Button>
                   </Link>
                   <Link href="/ar" onClick={() => setMobileMenuOpen(false)} className="flex-1">
-                    <Button variant="outline" className="w-full glass border-white/10 text-gray-400 hover:text-white text-xs">AR</Button>
+                    <Button variant="outline" className="w-full glass border-white/10 text-slate-600 hover:text-blue-600 text-xs">AR</Button>
                   </Link>
                 </div>
                 <Link href={`${prefix}/consultation`} onClick={() => setMobileMenuOpen(false)}>
