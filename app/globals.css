@@ -216,3 +216,48 @@ body.ovivo-light .ovivo-flow-diagram .text-gray-400 { color: #94A3B8 !important;
 body.ovivo-light .ovivo-flow-diagram .text-gray-500 { color: #94A3B8 !important; }
 body.ovivo-light .ovivo-flow-diagram .text-blue-400 { color: #60A5FA !important; }
 body.ovivo-light .ovivo-flow-diagram .text-emerald-400 { color: #34D399 !important; }
+
+
+/* OVIVO premium UI: explicitly preserve white foregrounds on branded actions.
+   Historical broad light-theme text conversion should never make an active tab illegible. */
+body.ovivo-light .ovivo-ai-lab .ovivo-ai-tab-active,
+body.ovivo-light .ovivo-ai-lab .ovivo-ai-user-bubble,
+body.ovivo-light .ovivo-ai-lab .ovivo-ai-send,
+body.ovivo-light .ovivo-ai-lab .ovivo-ai-action {
+  color: #ffffff !important;
+}
+body.ovivo-light .ovivo-ai-lab .ovivo-ai-transcript {
+  color: #0B1F4D;
+  scrollbar-color: #C6D7F7 transparent;
+  scrollbar-width: thin;
+}
+body.ovivo-light .ovivo-ai-lab input,
+body.ovivo-light .ovivo-ai-lab textarea {
+  color: #0B1F4D;
+  background: transparent;
+}
+body.ovivo-light .ovivo-ai-lab input::placeholder {
+  color: #72839E;
+}
+body.ovivo-light .ovivo-ai-lab .ovivo-ai-tab:focus-visible,
+body.ovivo-light .ovivo-ai-lab button:focus-visible {
+  outline: 3px solid #885CF6;
+  outline-offset: 3px;
+}
+body.ovivo-light .ovivo-ai-lab .ovivo-ai-send:disabled {
+  color: #ffffff !important;
+}
+
+/* Shared component design polish, without modifying the approved logo artwork. */
+body.ovivo-light .glass {
+  background-color: rgba(255,255,255,.95);
+  border: 1px solid #E0E7FF;
+  box-shadow: 0 12px 40px rgba(11,31,77,.055);
+}
+body.ovivo-light :is(.bg-blue-600,.bg-blue-700,.bg-indigo-600,.bg-purple-600,.bg-violet-600) .text-white,
+body.ovivo-light :is(.bg-blue-600,.bg-blue-700,.bg-indigo-600,.bg-purple-600,.bg-violet-600).text-white {
+  color: #fff !important;
+}
+@media (max-width: 640px) {
+  .ovivo-ai-lab .ovivo-ai-transcript { min-height: 180px; }
+}
