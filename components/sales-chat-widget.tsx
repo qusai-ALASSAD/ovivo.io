@@ -12,17 +12,17 @@ interface Message {
 
 const OPENING_MESSAGE_DE: Message = {
   role: 'assistant',
-  content: 'Hi 👋 Ich bin Ihr persönlicher Wachstumsberater bei Ovivo — kein Bot, kein Script.\n\nEine Frage, bevor ich Ihnen zeige, was für Ihren Betrieb möglich ist: Was für ein Unternehmen führen Sie?',
+  content: 'Hi 👋 Ich bin Ihr persönlicher Wachstumsberater bei Ovivo — ein KI-Assistent (Demo).\n\nEine Frage, bevor ich Ihnen zeige, was für Ihren Betrieb möglich ist: Was für ein Unternehmen führen Sie?',
 };
 
 const OPENING_MESSAGE_EN: Message = {
   role: 'assistant',
-  content: "Hi 👋 I'm your personal growth consultant at Ovivo — not a bot, not a script.\n\nBefore I show you what's possible for your business, let me understand your situation: what type of business do you run?",
+  content: "Hi 👋 I'm your personal growth consultant at Ovivo — an AI assistant (demo).\n\nBefore I show you what's possible for your business, let me understand your situation: what type of business do you run?",
 };
 
 const OPENING_MESSAGE_AR: Message = {
   role: 'assistant',
-  content: 'مرحباً 👋 أنا مستشارك الشخصي في Ovivo — لست روبوتاً ولا نصاً مبرمجاً.\n\nقبل أن أريك ما هو ممكن لعملك، أحتاج أن أفهم وضعك جيداً: ما نوع عملك؟',
+  content: 'مرحباً 👋 أنا مستشارك الشخصي في Ovivo — مساعد ذكاء اصطناعي تجريبي.\n\nقبل أن أريك ما هو ممكن لعملك، أحتاج أن أفهم وضعك جيداً: ما نوع عملك؟',
 };
 
 function extractLead(text: string): { name: string; company: string; email: string; phone: string } | null {
