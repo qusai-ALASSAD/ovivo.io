@@ -51,11 +51,11 @@ const aiResponses = {
     },
     {
       triggers: ['whatsapp', 'messaging', 'nachrichten', 'chat'],
-      response: 'WhatsApp ist der stärkste Kanal, den wir einsetzen — weil Ihre Kunden ihn bereits täglich nutzen.\n\nWir richten ein:\n✓ Automatische Antworten auf häufige Fragen (24/7)\n✓ Buchungsbestätigungen und -erinnerungen\n✓ Broadcast-Nachrichten für Angebote & Events\n✓ Lead-Qualifizierung direkt im Chat\n\nAlles DSGVO-konform, auf Deutsch und vollständig automatisiert. Haben Sie aktuell schon eine WhatsApp Business-Nummer?',
+      response: 'WhatsApp ist der stärkste Kanal, den wir einsetzen — weil Ihre Kunden ihn bereits täglich nutzen.\n\nWir richten ein:\n✓ Automatische Antworten auf häufige Fragen (24/7)\n✓ Buchungsbestätigungen und -erinnerungen\n✓ Broadcast-Nachrichten für Angebote & Events\n✓ Lead-Qualifizierung direkt im Chat\n\nAlles Datenschutz im Fokus, auf Deutsch und vollständig automatisiert. Haben Sie aktuell schon eine WhatsApp Business-Nummer?',
     },
     {
       triggers: ['beratung', 'kontakt', 'anfrage', 'besprechen', 'gespräch', 'termin', 'kennenlernen'],
-      response: 'Sehr gerne! Eine 30-minütige kostenlose Beratung ist unser bester erster Schritt.\n\nDarin analysieren wir Ihren Betrieb, zeigen Ihnen konkret welches Potenzial Sie aktuell verschenken, und entwickeln einen maßgeschneiderten Automation-Plan — ohne Verkaufsdruck.\n\nFüllen Sie einfach das Formular rechts aus — ich sorge dafür, dass Sie innerhalb von 24 Stunden von einem unserer Experten kontaktiert werden.',
+      response: 'Sehr gerne! Eine 30-minütige kostenlose Beratung ist unser bester erster Schritt.\n\nDarin analysieren wir Ihren Betrieb, zeigen Ihnen konkret welches Potenzial Sie aktuell verschenken, und entwickeln einen maßgeschneiderten Automation-Plan — ohne Verkaufsdruck.\n\nFüllen Sie einfach das Formular rechts aus — ich sorge dafür, dass Sie so bald wie möglich von einem unserer Experten kontaktiert werden.',
     },
   ],
   en: [
@@ -89,7 +89,7 @@ const aiResponses = {
     },
     {
       triggers: ['consultation', 'contact', 'inquiry', 'discuss', 'call', 'meeting'],
-      response: "Absolutely! A 30-minute free consultation is our best first step.\n\nIn it we analyze your business, show you exactly what potential you're currently leaving on the table, and develop a tailored automation plan — no sales pressure.\n\nJust fill in the form on the right — I'll make sure one of our experts contacts you within 24 hours.",
+      response: "Absolutely! A 30-minute free consultation is our best first step.\n\nIn it we analyze your business, show you exactly what potential you're currently leaving on the table, and develop a tailored automation plan — no sales pressure.\n\nJust fill in the form on the right — I'll make sure one of our experts contacts you as soon as possible.",
     },
   ],
 };
@@ -121,7 +121,7 @@ const aiResponsesAR = [
   },
   {
     triggers: ['استشارة', 'تواصل', 'موعد', 'كلام', 'اتصال', 'محادثة', 'اتحدث', 'أتكلم'],
-    response: 'بكل سرور — هذا بالضبط اللي أنا هنا من أجله.\n\nفي الاستشارة، نجلس سوا 30 دقيقة، نحلل وضعك الحالي، ونحدد أين في الهدر الفعلي، ونقدر لك عائد الاستثمار بأرقام واضحة — بدون مبالغة وبدون ضغط.\n\nاملأ النموذج على الجانب وسيتواصل معك خبير من فريقنا خلال 24 ساعة.',
+    response: 'بكل سرور — هذا بالضبط اللي أنا هنا من أجله.\n\nفي الاستشارة، نجلس سوا 30 دقيقة، نحلل وضعك الحالي، ونحدد أين في الهدر الفعلي، ونقدر لك عائد الاستثمار بأرقام واضحة — بدون مبالغة وبدون ضغط.\n\nاملأ النموذج على الجانب وسيتواصل معك خبير من فريقنا بأقرب فرصة.',
   },
   {
     triggers: ['يميز', 'يختلف', 'غيره', 'خاص', 'مميز', 'فرق'],
@@ -161,35 +161,35 @@ const tx = {
     badge: 'Kostenlose Beratung',
     headline: 'Bereit, Ihren Betrieb auf',
     headlineGradient: 'Autopilot zu setzen?',
-    sub: 'Sprechen Sie zuerst mit unserem KI-Assistenten — oder füllen Sie direkt das Formular aus. Unser Team meldet sich innerhalb von 24 Stunden für ein kostenloses, unverbindliches Strategiegespräch.',
+    sub: 'Sprechen Sie zuerst mit unserem KI-Assistenten — oder füllen Sie direkt das Formular aus. Unser Team meldet sich so bald wie möglich für ein kostenloses, unverbindliches Strategiegespräch.',
     chatTitle: 'Ovivo KI-Berater',
     chatSub: 'Fragen Sie mich alles — ich beantworte ehrlich',
     online: 'Online',
     placeholder: 'Ihre Frage...',
     quickLabel: 'Häufige Fragen',
     formTitle: 'Jetzt Beratungstermin anfragen',
-    formSub: 'Kostenlos · Unverbindlich · Antwort in 24h',
+    formSub: 'Kostenlos · Unverbindlich · Rückmeldung so bald wie möglich',
     nameLabel: 'Ihr Name',
     emailLabel: 'E-Mail Adresse',
     phoneLabel: 'Telefon (optional)',
     companyLabel: 'Unternehmen & Branche',
     messageLabel: 'Was möchten Sie automatisieren?',
     namePlaceholder: 'Max Mustermann',
-    emailPlaceholder: 'max@restaurant.de',
+    emailPlaceholder: 'name@unternehmen.de',
     phonePlaceholder: '+49 176 ...',
-    companyPlaceholder: 'Restaurant Bella Vista, Gastronomie',
+    companyPlaceholder: 'Ihr Unternehmen / Ihre Branche',
     messagePlaceholder: 'Ich betreibe ein Restaurant mit 40 Tischen und möchte Reservierungen und WhatsApp automatisieren...',
     submitBtn: 'Beratungstermin anfragen',
     submitting: 'Wird gesendet...',
     successTitle: 'Anfrage erhalten!',
-    successMsg: 'Perfekt! Wir melden uns innerhalb von 24 Stunden per E-Mail oder Telefon — mit einem konkreten Plan für Ihren Betrieb.',
+    successMsg: 'Perfekt! Wir melden uns so bald wie möglich per E-Mail oder Telefon — mit einem konkreten Plan für Ihren Betrieb.',
     viewPricing: 'Pakete & Preise ansehen',
-    trust: ['DSGVO-konform', 'Kostenlos & unverbindlich', 'Antwort in 24h'],
+    trust: ['Datenschutz im Fokus', 'Kostenlos & unverbindlich', 'Rückmeldung so bald wie möglich'],
     contactDirect: 'Oder direkt Kontakt aufnehmen',
     statsTitle: 'Was unsere Kunden erreichen',
     stats: [
       { value: 'KI', label: 'Intelligente Kundenkommunikation' },
-      { value: '-70%', label: 'Weniger manuelle Arbeit' },
+      { value: 'KI', label: 'Weniger manuelle Arbeit' },
       { value: 'CRM', label: 'Systeme verbinden' },
       { value: '5–14', label: 'Tage bis zur Livestellung' },
     ],
@@ -205,14 +205,14 @@ const tx = {
     badge: 'Free Consultation',
     headline: 'Ready to put your business on',
     headlineGradient: 'autopilot?',
-    sub: 'Chat with our AI advisor first — or fill in the form directly. Our team will reach out within 24 hours for a free, no-obligation strategy call.',
+    sub: 'Chat with our AI advisor first — or fill in the form directly. Our team will reach out as soon as possible for a free, no-obligation strategy call.',
     chatTitle: 'Ovivo AI Advisor',
     chatSub: 'Ask me anything — I answer honestly',
     online: 'Online',
     placeholder: 'Your question...',
     quickLabel: 'Common questions',
     formTitle: 'Request a consultation',
-    formSub: 'Free · No obligation · Response in 24h',
+    formSub: 'Free · No obligation · Reply as soon as possible',
     nameLabel: 'Your Name',
     emailLabel: 'Email Address',
     phoneLabel: 'Phone (optional)',
@@ -226,14 +226,14 @@ const tx = {
     submitBtn: 'Request Consultation',
     submitting: 'Sending...',
     successTitle: 'Request received!',
-    successMsg: "Perfect! We'll get back to you within 24 hours by email or phone — with a concrete plan for your business.",
+    successMsg: "Perfect! We'll get back to you as soon as possible by email or phone — with a concrete plan for your business.",
     viewPricing: 'View packages & pricing',
-    trust: ['GDPR compliant', 'Free & no obligation', 'Response in 24h'],
+    trust: ['Privacy focused', 'Free & no obligation', 'Reply as soon as possible'],
     contactDirect: 'Or contact us directly',
     statsTitle: 'What our clients achieve',
     stats: [
       { value: 'AI', label: 'Smart customer communication' },
-      { value: '-70%', label: 'Less manual work' },
+      { value: 'KI', label: 'Less manual work' },
       { value: 'CRM', label: 'Connect existing tools' },
       { value: '5–14', label: 'Days to go live' },
     ],
@@ -249,14 +249,14 @@ const tx = {
     badge: 'استشارة مجانية — بلا التزام',
     headline: 'حوّل عملك إلى آلة',
     headlineGradient: 'تعمل بلا توقف',
-    sub: 'تحدّث مع مستشارنا الذكي — أو أرسل طلبك مباشرة. سيتواصل معك خبير من فريقنا خلال 24 ساعة بخطة عملية واضحة لأعمالك.',
+    sub: 'تحدّث مع مستشارنا الذكي — أو أرسل طلبك مباشرة. سيتواصل معك خبير من فريقنا بأقرب فرصة بخطة عملية واضحة لأعمالك.',
     chatTitle: 'مستشار أوفيفو الذكي',
     chatSub: 'اسألني أي شيء — إجابات صادقة وعملية',
     online: 'متاح الآن',
     placeholder: 'اكتب سؤالك هنا...',
     quickLabel: 'أسئلة شائعة',
     formTitle: 'احجز استشارتك المجانية',
-    formSub: 'مجاني · بلا التزام · رد خلال 24 ساعة',
+    formSub: 'مجاني · بلا التزام · الرد بأقرب فرصة',
     nameLabel: 'الاسم الكامل',
     emailLabel: 'البريد الإلكتروني',
     phoneLabel: 'رقم الهاتف (اختياري)',
@@ -270,14 +270,14 @@ const tx = {
     submitBtn: 'احجز استشارتي المجانية',
     submitting: 'جارٍ الإرسال...',
     successTitle: 'تم استلام طلبك!',
-    successMsg: 'سيتواصل معك أحد خبرائنا خلال 24 ساعة عبر البريد أو الهاتف — مع خطة أتمتة مخصصة لعملك.',
+    successMsg: 'سيتواصل معك أحد خبرائنا بأقرب فرصة عبر البريد أو الهاتف — مع خطة أتمتة مخصصة لعملك.',
     viewPricing: 'استعرض الباقات والأسعار',
-    trust: ['آمن وموثوق', 'مجاني وبلا التزام', 'رد خلال 24 ساعة'],
+    trust: ['آمن وموثوق', 'مجاني وبلا التزام', 'الرد بأقرب فرصة'],
     contactDirect: 'أو تواصل معنا مباشرة',
     statsTitle: 'نتائج حقيقية يحققها عملاؤنا',
     stats: [
       { value: 'AI', label: 'تواصل ذكي مع العملاء' },
-      { value: '-70%', label: 'انخفاض في العمل اليدوي' },
+      { value: 'KI', label: 'انخفاض في العمل اليدوي' },
       { value: 'CRM', label: 'ربط أنظمة العملاء' },
       { value: '5–14', label: 'يوم فقط حتى الإطلاق' },
     ],
@@ -400,7 +400,7 @@ export function ConsultationPage({ lang }: Props) {
                 <Sparkles className="h-3.5 w-3.5" />
                 {t.badge}
               </span>
-              <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl mb-5 leading-tight">
+              <h1 className="text-4xl font-extrabold tracking-tight text-[#0B1F4D] sm:text-5xl lg:text-6xl mb-5 leading-tight">
                 {t.headline}{' '}
                 <span className="text-gradient">{t.headlineGradient}</span>
               </h1>
@@ -540,10 +540,10 @@ export function ConsultationPage({ lang }: Props) {
                       >
                         <CheckCircle className="h-10 w-10 text-emerald-400" />
                       </motion.div>
-                      <h3 className="text-2xl font-bold text-white mb-3">{t.successTitle}</h3>
-                      <p className="text-gray-400 text-sm mb-8 leading-relaxed">{t.successMsg}</p>
+                      <h3 className="text-2xl font-bold text-[#0B1F4D] mb-3">{t.successTitle}</h3>
+                      <p className="text-[#52647E] text-sm mb-8 leading-relaxed">{t.successMsg}</p>
                       <Link href={`${prefix}/pricing`}>
-                        <Button className="bg-blue-500 hover:bg-blue-400 text-white px-6">
+                        <Button className="bg-[#2563EB] hover:bg-[#1D4ED8] text-white px-6">
                           {t.viewPricing}
                           <ArrowRight className={`h-4 w-4 ${rtl ? 'mr-2 rotate-180' : 'ml-2'}`} />
                         </Button>
@@ -553,11 +553,11 @@ export function ConsultationPage({ lang }: Props) {
                     <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                       <div className={`flex items-start gap-3 mb-6 ${rtl ? 'flex-row-reverse text-right' : ''}`}>
                         <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-blue-500/20 border border-blue-500/30">
-                          <Calendar className="h-5 w-5 text-blue-400" />
+                          <Calendar className="h-5 w-5 text-[#2563EB]" />
                         </div>
                         <div>
-                          <h3 className="text-lg font-bold text-white leading-tight">{t.formTitle}</h3>
-                          <p className="text-xs text-gray-400 mt-0.5">{t.formSub}</p>
+                          <h3 className="text-lg font-bold text-[#0B1F4D] leading-tight">{t.formTitle}</h3>
+                          <p className="text-xs text-[#52647E] mt-0.5">{t.formSub}</p>
                         </div>
                       </div>
 
@@ -579,7 +579,7 @@ export function ConsultationPage({ lang }: Props) {
                               value={phone}
                               onChange={(e) => setPhone(e.target.value)}
                               placeholder={t.phonePlaceholder}
-                              className="bg-white/5 border-white/10 text-white placeholder-gray-600 focus:border-blue-500/50"
+                              className="h-12 rounded-xl border-[#DCE5F7] bg-white px-4 text-[#0B1F4D] placeholder:text-[#71829B] focus-visible:border-[#3B82F6] focus-visible:ring-blue-500/20"
                               dir="ltr"
                             />
                           </div>
@@ -592,7 +592,7 @@ export function ConsultationPage({ lang }: Props) {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder={t.emailPlaceholder}
-                            className="bg-white/5 border-white/10 text-white placeholder-gray-600 focus:border-blue-500/50"
+                            className="h-12 rounded-xl border-[#DCE5F7] bg-white px-4 text-[#0B1F4D] placeholder:text-[#71829B] focus-visible:border-[#3B82F6] focus-visible:ring-blue-500/20"
                             dir="ltr"
                           />
                         </div>
@@ -602,7 +602,7 @@ export function ConsultationPage({ lang }: Props) {
                             value={company}
                             onChange={(e) => setCompany(e.target.value)}
                             placeholder={t.companyPlaceholder}
-                            className="bg-white/5 border-white/10 text-white placeholder-gray-600 focus:border-blue-500/50"
+                            className="h-12 rounded-xl border-[#DCE5F7] bg-white px-4 text-[#0B1F4D] placeholder:text-[#71829B] focus-visible:border-[#3B82F6] focus-visible:ring-blue-500/20"
                             dir={rtl ? 'rtl' : 'ltr'}
                           />
                         </div>
@@ -675,7 +675,7 @@ export function ConsultationPage({ lang }: Props) {
                         className="glass rounded-xl p-3.5 flex flex-col items-center gap-2 border border-white/10 hover:border-white/20 hover:bg-white/5 transition-all group"
                       >
                         <Icon className={`h-5 w-5 ${item.color}`} />
-                        <span className="text-xs text-gray-400 group-hover:text-white transition-colors">{item.label}</span>
+                        <span className="text-xs font-medium text-[#52647E] group-hover:text-[#2563EB] transition-colors">{item.label}</span>
                       </a>
                     );
                   })}
@@ -698,7 +698,7 @@ export function ConsultationPage({ lang }: Props) {
                 <StaggerItem key={stat.label}>
                   <GlassCard className={`p-6 text-center hover:border-white/20 transition-all`}>
                     <p className="text-3xl font-extrabold text-gradient mb-1.5">{stat.value}</p>
-                    <p className="text-xs text-gray-400 leading-snug">{stat.label}</p>
+                    <p className="text-xs text-[#52647E] leading-snug">{stat.label}</p>
                   </GlassCard>
                 </StaggerItem>
               ))}
@@ -716,7 +716,7 @@ export function ConsultationPage({ lang }: Props) {
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/20 border border-blue-500/30">
                   <Star className="h-5 w-5 text-blue-400" />
                 </div>
-                <h2 className="text-xl font-bold text-white">{t.benefitsTitle}</h2>
+                <h2 className="text-xl font-bold text-[#0B1F4D]">{t.benefitsTitle}</h2>
               </div>
               <div className="space-y-4">
                 {t.benefits.map((benefit, i) => (
@@ -731,22 +731,22 @@ export function ConsultationPage({ lang }: Props) {
                     <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-blue-500/10 border border-blue-500/20 text-xs font-bold text-blue-400">
                       {i + 1}
                     </div>
-                    <p className={`text-gray-200 text-sm leading-relaxed ${rtl ? 'text-right' : ''}`}>{benefit}</p>
+                    <p className={`text-[#36547A] text-sm leading-relaxed ${rtl ? 'text-right' : ''}`}>{benefit}</p>
                   </motion.div>
                 ))}
               </div>
               <div className="mt-8 pt-6 border-t border-white/10 flex items-center gap-3 flex-wrap">
                 <div className="flex items-center gap-2 text-xs text-gray-400">
                   <Shield className="h-3.5 w-3.5 text-emerald-500" />
-                  {lang === 'de' ? 'DSGVO-konform' : lang === 'ar' ? 'متوافق مع حماية البيانات' : 'GDPR compliant'}
+                  {lang === 'de' ? 'Datenschutz im Fokus' : lang === 'ar' ? 'متوافق مع حماية البيانات' : 'Privacy focused'}
                 </div>
                 <div className="flex items-center gap-2 text-xs text-gray-400">
                   <Clock className="h-3.5 w-3.5 text-blue-400" />
-                  {lang === 'de' ? 'Antwort in 24h' : lang === 'ar' ? 'رد خلال 24 ساعة' : 'Response in 24h'}
+                  {lang === 'de' ? 'Rückmeldung so bald wie möglich' : lang === 'ar' ? 'الرد بأقرب فرصة' : 'Reply as soon as possible'}
                 </div>
                 <div className="flex items-center gap-2 text-xs text-gray-400">
                   <Zap className="h-3.5 w-3.5 text-amber-400" />
-                  {lang === 'de' ? 'Live in 5–14 Tagen' : lang === 'ar' ? 'تشغيل خلال 5–14 يوماً' : 'Live in 5–14 days'}
+                  {lang === 'de' ? 'Live in Individuelle Planungn' : lang === 'ar' ? 'تشغيل خلال حسب المشروع' : 'Live in Project planning'}
                 </div>
               </div>
             </GlassCard>
