@@ -31,7 +31,7 @@ export function LeadMagnet() {
     emailError: 'أدخل بريداً إلكترونياً صحيحاً.',
   } : isEn ? {
     title: 'Get Your Free AI Marketing Plan',
-    desc: 'Join 200+ businesses using AI to grow. Get instant access to our marketing plan template.',
+    desc: 'Learn how automation can simplify your business. Get instant access to our marketing plan template.',
     placeholder: 'Enter your email',
     btn: 'Get Free Template',
     loading: 'Sending...',
