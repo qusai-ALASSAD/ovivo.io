@@ -140,7 +140,7 @@ export function OpenConsultationButton({ lang = 'de' }: { lang?: 'de' | 'en' | '
     <button
       type="button"
       onClick={() => window.dispatchEvent(new Event('ovivo:open-consultation'))}
-      className="inline-flex items-center justify-center rounded-xl bg-[#3B82F6] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/15 transition-colors hover:bg-[#2563eb]"
+      className="ovivo-consultation-trigger inline-flex min-h-[50px] items-center justify-center rounded-xl bg-[#3B82F6] px-6 py-3 text-center text-sm font-bold text-white shadow-[0_10px_24px_rgba(59,130,246,.19)] transition-colors hover:bg-[#2563EB] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#885CF6]"
     >
       {content[lang].cta}
     </button>
