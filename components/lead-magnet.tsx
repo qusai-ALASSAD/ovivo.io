@@ -8,10 +8,10 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 const content = {
   de: {
     eyebrow: 'Kostenlose Erstberatung',
-    title: 'Entdecken Sie Ihr Automatisierungspotenzial.',
-    description: 'Erfahren Sie, welche Prozesse in Ihrem Unternehmen durch KI und intelligente Workflows vereinfacht werden können. Individuell, verständlich und unverbindlich.',
+    title: 'Entdecken Sie, was KI für Ihr Unternehmen automatisieren kann.',
+    description: 'Erhalten Sie eine kurze, unverbindliche Einschätzung Ihrer Automationsmöglichkeiten.',
     placeholder: 'Ihre geschäftliche E-Mail-Adresse',
-    submit: 'Kostenlose Analyse anfragen',
+    submit: 'Kostenlose KI-Analyse anfragen',
     loading: 'Wird gesendet…',
     success: 'Vielen Dank! Ihre Anfrage wurde erfolgreich übermittelt. Wir melden uns schnellstmöglich bei Ihnen.',
     error: 'Ihre Anfrage konnte leider nicht gesendet werden. Bitte versuchen Sie es erneut.',
@@ -22,10 +22,10 @@ const content = {
   },
   en: {
     eyebrow: 'Free initial consultation',
-    title: 'Discover your automation potential.',
-    description: 'Find out which business processes could be simplified with AI and intelligent workflows. Tailored to your company, clear and without obligation.',
+    title: 'Discover what AI can automate for your business.',
+    description: 'Get a brief, no-obligation assessment of your automation opportunities.',
     placeholder: 'Your business email address',
-    submit: 'Request a free analysis',
+    submit: 'Request a free AI analysis',
     loading: 'Sending…',
     success: 'Thank you! Your request has been submitted. We will contact you as soon as possible.',
     error: 'Your request could not be sent. Please try again.',
@@ -36,10 +36,10 @@ const content = {
   },
   ar: {
     eyebrow: 'استشارة أولية مجانية',
-    title: 'اكتشف إمكانات الأتمتة في شركتك.',
-    description: 'تعرّف على العمليات التي يمكن تبسيطها باستخدام الذكاء الاصطناعي وسير العمل الذكي، بما يناسب احتياجات شركتك.',
+    title: 'اكتشف ما يمكن للذكاء الاصطناعي أتمتته في شركتك.',
+    description: 'احصل على تقييم أولي مختصر ومجاني لفرص الأتمتة في شركتك.',
     placeholder: 'بريدك الإلكتروني المهني',
-    submit: 'اطلب تحليلاً مجانياً',
+    submit: 'اطلب تحليل AI مجانياً',
     loading: 'جاري الإرسال…',
     success: 'شكراً لك! تم إرسال طلبك بنجاح وسنتواصل معك بأقرب فرصة.',
     error: 'تعذر إرسال طلبك، يرجى المحاولة مرة أخرى.',
@@ -94,41 +94,41 @@ export function LeadMagnet() {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent
         dir={lang === 'ar' ? 'rtl' : 'ltr'}
-        className="w-[calc(100vw-2rem)] max-w-md overflow-hidden rounded-3xl border border-[#E0E7FF] bg-white p-6 text-[#0B1F4D] shadow-[0_28px_90px_rgba(11,31,77,.17)] sm:p-8"
+        className="ovivo-consultation-modal max-h-[calc(100dvh-2rem)] w-[calc(100vw-2rem)] max-w-[430px] overflow-y-auto rounded-[24px] border border-[#E0E7FF] bg-white p-5 text-[#0B1F4D] shadow-[0_24px_76px_rgba(11,31,77,.16)] sm:p-7"
       >
-        <DialogHeader className="space-y-3">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-[#E0E7FF] bg-[#F4F7FB]">
-            <img src="/ovivo-favicon.svg" alt="" width={48} height={48} className="h-12 w-12" />
+        <DialogHeader className="space-y-2.5">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl border border-[#E0E7FF] bg-[#F4F7FB]">
+            <img src="/ovivo-favicon.svg" alt="" width={36} height={36} className="h-9 w-9" />
           </div>
-          <span className="text-center text-xs font-bold uppercase tracking-[.12em] text-[#3B82F6]">{t.eyebrow}</span>
-          <DialogTitle className="text-center text-2xl font-bold leading-snug text-[#0B1F4D]">{t.title}</DialogTitle>
-          <DialogDescription className="text-center text-sm leading-relaxed text-[#52647e]">{t.description}</DialogDescription>
+          <span className="text-center text-[11px] font-bold uppercase tracking-[.08em] text-[#3B82F6]">{t.eyebrow}</span>
+          <DialogTitle className="mx-auto max-w-[360px] text-center text-[22px] font-extrabold leading-[1.24] tracking-tight text-[#0B1F4D] sm:text-[24px]">{t.title}</DialogTitle>
+          <DialogDescription className="mx-auto max-w-[345px] text-center text-[13px] leading-6 text-[#52647E]">{t.description}</DialogDescription>
         </DialogHeader>
         {status === 'success' ? (
           <div role="status" className="mt-5 rounded-xl border border-emerald-100 bg-emerald-50 p-4 text-sm font-medium text-emerald-900">
             {t.success}
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="mt-5 space-y-4">
+          <form onSubmit={handleSubmit} className="mt-4 space-y-3">
             <label className="sr-only" htmlFor="ovivo-consultation-email">{t.placeholder}</label>
             <input
               id="ovivo-consultation-email"
               type="email" required maxLength={254} autoComplete="email" value={email}
               onChange={(event) => setEmail(event.target.value)}
               placeholder={t.placeholder}
-              className="w-full rounded-xl border border-[#E0E7FF] bg-white px-4 py-3 text-[#0B1F4D] placeholder:text-[#64748b] focus:border-[#3B82F6] focus:outline-none focus:ring-2 focus:ring-blue-200"
+              className="h-[50px] w-full rounded-xl border border-[#D7E3F6] bg-white px-4 text-sm text-[#0B1F4D] placeholder:text-[#71829B] shadow-none outline-none focus:border-[#3B82F6] focus:outline-none focus:ring-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#3B82F6]"
             />
-            <button type="submit" disabled={loading} className="w-full rounded-xl bg-[#3B82F6] px-4 py-3 font-semibold text-white shadow-lg shadow-blue-500/20 transition-colors hover:bg-[#2563eb] disabled:opacity-60">
+            <button type="submit" disabled={loading} className="ovivo-consultation-submit flex min-h-[50px] w-full items-center justify-center rounded-xl bg-[#3B82F6] px-4 py-3 text-sm font-bold text-white shadow-[0_8px_22px_rgba(59,130,246,.18)] transition-colors hover:bg-[#2563EB] disabled:opacity-60">
               {loading ? t.loading : t.submit}
             </button>
             {status === 'error' && <p role="alert" className="text-sm text-red-700">{t.error}</p>}
-            <p className="text-center text-xs leading-relaxed text-[#52647e]">
+            <p className="text-center text-[11px] leading-[1.65] text-[#52647E]">
               {t.privacy}{' '}
               <Link href={prefix + '/privacy'} className="font-semibold text-[#2563eb] underline underline-offset-2">{t.privacyLabel}</Link>
             </p>
           </form>
         )}
-        <button type="button" onClick={() => setIsOpen(false)} className="mx-auto mt-1 text-xs font-medium text-[#52647e] underline underline-offset-2">{t.close}</button>
+        <button type="button" onClick={() => setIsOpen(false)} className="mx-auto mt-0 text-xs font-medium text-[#52647E] underline underline-offset-2 hover:text-[#0B1F4D]">{t.close}</button>
       </DialogContent>
     </Dialog>
   );
