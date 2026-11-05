@@ -207,3 +207,12 @@ body.ovivo-light .ovivo-workflow-demo {
 @media (prefers-reduced-motion: reduce) {
   .ovivo-chat-orbit { animation: none !important; will-change: auto; }
 }
+
+/* Dark diagram is an intentional contrast island in the approved light design. */
+body.ovivo-light .ovivo-flow-diagram { background: #08101F !important; color: #F8FAFC; }
+body.ovivo-light .ovivo-flow-diagram .text-white { color: #F8FAFC !important; }
+body.ovivo-light .ovivo-flow-diagram .text-gray-300 { color: #CBD5E1 !important; }
+body.ovivo-light .ovivo-flow-diagram .text-gray-400 { color: #94A3B8 !important; }
+body.ovivo-light .ovivo-flow-diagram .text-gray-500 { color: #94A3B8 !important; }
+body.ovivo-light .ovivo-flow-diagram .text-blue-400 { color: #60A5FA !important; }
+body.ovivo-light .ovivo-flow-diagram .text-emerald-400 { color: #34D399 !important; }
