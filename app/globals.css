@@ -362,3 +362,42 @@ body.ovivo-light .ovivo-pricing-page .ovivo-price-card:hover { border-color: #3B
   body.ovivo-light .ovivo-pricing-page .ovivo-price-card,
   body.ovivo-light .ovivo-pricing-page .ovivo-pricing-cta { transform: none !important; }
 }
+
+
+/* OVIVO AI: premium light chat, explicit contrast unaffected by legacy light-theme rules. */
+body.ovivo-light .ovivo-floating-chat {
+  background-color: #FFFFFF;
+  color: #0B1F4D;
+  border-color: #DCE5F7;
+}
+body.ovivo-light .ovivo-floating-chat .ovivo-floating-user,
+body.ovivo-light .ovivo-floating-chat .ovivo-floating-send {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+body.ovivo-light .ovivo-floating-chat .ovivo-floating-send {
+  background-color: #3B82F6 !important;
+}
+body.ovivo-light .ovivo-floating-chat .ovivo-floating-send:hover {
+  background-color: #2563EB !important;
+}
+body.ovivo-light .ovivo-floating-chat .ovivo-floating-composer:focus-within {
+  border-color: #3B82F6;
+}
+body.ovivo-light .ovivo-floating-chat textarea {
+  color: #0B1F4D !important;
+  -webkit-text-fill-color: #0B1F4D;
+}
+body.ovivo-light .ovivo-floating-chat textarea::placeholder {
+  color: #71829B !important;
+  -webkit-text-fill-color: #71829B;
+}
+body.ovivo-light .ovivo-floating-chat :is(button,textarea):focus-visible {
+  outline: 2px solid #885CF6;
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  body.ovivo-light .ovivo-floating-chat * {
+    animation-duration: 0.01ms !important;
+  }
+}
