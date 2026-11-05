@@ -3,8 +3,8 @@ export type Lang = 'de' | 'en' | 'ar';
 export const content = {
   de: {
     meta: {
-      title: 'Ovivo – KI-Automatisierung, die Ihren Betrieb transformiert',
-      description: 'Ovivo automatisiert Ihre Kundenkommunikation, Reservierungen und Marketing mit modernster KI — damit Sie mehr verdienen und weniger arbeiten.',
+      title: 'ovivo.io – KI-Automation für Unternehmen',
+      description: 'ovivo.io automatisiert Kundenanfragen und Prozesse mit KI, ergänzt durch Webdesign und digitales Marketing.',
     },
     nav: {
       home: 'Startseite',
@@ -132,8 +132,8 @@ export const content = {
   },
   en: {
     meta: {
-      title: 'Ovivo – AI Automation That Transforms Your Business',
-      description: 'Ovivo automates your customer communication, reservations, and marketing with cutting-edge AI — so you earn more and work less.',
+      title: 'ovivo.io – AI Automation for Businesses',
+      description: 'ovivo.io helps businesses automate workflows and customer inquiries with AI, supported by web design and digital marketing.',
     },
     nav: {
       home: 'Home',
@@ -261,8 +261,8 @@ export const content = {
   },
   ar: {
     meta: {
-      title: 'أوفيفو – ذكاء اصطناعي يحوّل أعمالك ويرفع إيراداتك',
-      description: 'أوفيفو يؤتمت تواصلك مع العملاء والحجوزات والتسويق بأحدث تقنيات الذكاء الاصطناعي — لتربح أكثر وتجهد أقل.',
+      title: 'ovivo.io – أتمتة الذكاء الاصطناعي للشركات',
+      description: 'ovivo.io تقدم أتمتة للعمليات ومساعدين أذكياء وربط CRM للشركات، بالإضافة إلى تصميم المواقع والتسويق الرقمي.',
     },
     nav: {
       home: 'الرئيسية',
@@ -280,23 +280,23 @@ export const content = {
     },
     hero: {
       badge: 'أتمتة ذكية للشركات',
-      headline1: 'اجذب المزيد من العملاء',
-      headline2: 'بدون أي جهد يدوي.',
-      sub: 'اجذب المزيد من العملاء بدون أي جهد يدوي. مع Ovivo يتم الرد على جميع الاستفسارات وتأكيد الحجوزات تلقائياً على مدار الساعة. وفّر وقتك وركّز على تطوير عملك.',
+      headline1: 'عمل متكرر أقل.',
+      headline2: 'نمو أكبر مع الذكاء الاصطناعي.',
+      sub: 'نساعد الشركات على أتمتة استفسارات العملاء وحجوزات المواعيد وسير العمل، مع خدمات تصميم المواقع والتسويق الرقمي المكمّلة.',
       cta: 'احصل على تحليل نمو مجاني',
       ctaSecondary: 'شاهد كيف يعمل',
       trust: ['حلول مخصصة', 'ربط أنظمتك الحالية', 'استشارة شخصية'],
     },
     offer: {
-      badge: 'ضمان أوفيفو',
+      badge: 'حلول أتمتة مخصصة',
       title: 'عمليات يدوية أقل',
       titleGradient: 'ووقت أكثر لنمو شركتك',
-      sub: 'نحن لا نبيع برمجيات. نبني لك نظام إيرادات مخصص لعملك — ونضمن نتائج قابلة للقياس خلال 30 يوماً أو نواصل التحسين مجاناً.',
+      sub: 'نحلل العمليات المتكررة في شركتك ونبني حلول أتمتة عملية تناسب احتياجاتك وأنظمتك الحالية، بدون وعود بأرقام غير مثبتة.',
       items: [
         { stat: 'AI', label: 'ردود ذكية على الاستفسارات' },
-        { stat: '-3س', label: 'توفير يومي في العمل اليدوي' },
+        { stat: 'CRM', label: 'تنظيم بيانات العملاء' },
         { stat: '24/7', label: 'أتمتة على مدار الساعة' },
-        { stat: '48س', label: 'حتى يعمل نظامك بشكل كامل' },
+        { stat: 'API', label: 'ربط أنظمتك الحالية' },
       ],
     },
     problems: {
