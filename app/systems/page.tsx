@@ -172,7 +172,7 @@ export default function SystemsPage() {
                   'Our team builds everything — you just approve and launch',
                   'Every system is custom-built to your business, not templated',
                   'AI, automation, CRM, ads, and website all connected and working together',
-                  'Fixed price. No hidden fees. Results guaranteed.',
+                  'Transparent scope and pricing. Outcomes depend on the individual project.',
                 ].map((point) => (
                   <div key={point} className="flex items-start gap-2.5 text-sm text-gray-300">
                     <CheckCircle className="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0" />
