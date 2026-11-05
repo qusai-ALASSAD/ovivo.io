@@ -35,4 +35,9 @@
 - Vercel generated a successful branch preview, visible from PR #4. No domain switch, `main` merge or live VPS deployment has occurred.
 - n8n domain `https://n8n.ovivo.io` is a previously configured service, but currently accessible n8n workflow/auth credentials have NOT been confirmed.
 - `npm ci` reports 21 dependency vulnerabilities (including one critical): audit and update dependencies before production approval.
-- The originally approved visual reference file must be visually checked against the included supplied SVG kit before final use.
+- The exact latest user-uploaded OVIVO SVG is now the source for the full mark and the cropped icon.
+
+## November 5 — approved logo confirmation
+- User supplied `ovivo-logo-light.svg` as the definitive logo.
+- `public/ovivo-logo.svg` now contains its exact original SVG markup; `public/ovivo-favicon.svg` is the same source with a cropped icon-only viewBox, not a re-drawn mark.
+- Header, footer, consultation dialog and animated chat button reference these files.
