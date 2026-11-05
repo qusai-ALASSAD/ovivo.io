@@ -12,18 +12,18 @@ export const metadata: Metadata = {
   title: 'ovivo.io | KI-Automation für Unternehmen',
   description: 'OVIVO.IO entwickelt KI-Chatbots, Automations-Workflows und CRM-Integrationen für Unternehmen – ergänzt durch Webdesign und digitales Marketing.',
   keywords: ['KI Automation', 'WhatsApp Chatbot', 'Gastronomie Software', 'Buchungssystem', 'CRM Gastronomie', 'KI Chatbot Deutschland', 'Automation Servicebetrieb'],
-  authors: [{ name: 'Ovivo' }],
+  authors: [{ name: 'ovivo.io' }],
   icons: {
-    icon: '/icon.svg',
-    shortcut: '/icon.svg',
-    apple: '/icon.svg',
+    icon: '/ovivo-favicon.svg',
+    shortcut: '/ovivo-favicon.svg',
+    apple: '/ovivo-favicon.svg',
   },
   openGraph: {
     type: 'website',
     locale: 'de_DE',
     url: 'https://ovivo.io',
     siteName: 'ovivo.io',
-    title: 'Ovivo - KI-Automation für Gastronomie & Servicebetriebe',
+    title: 'ovivo.io – KI-Automation für Unternehmen',
     description: 'KI-Automation, intelligente Assistenten und digitale Lösungen für Unternehmen.',
   },
   twitter: {
@@ -40,7 +40,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="de">
-      <body style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif' }}>
+      <body className="ovivo-light">
         <BrandPolish />
         <Navbar />
         <main className="min-h-screen pt-20">{children}</main>
@@ -48,7 +48,7 @@ export default function RootLayout({
         <LeadMagnet />
         <ScrollToTop />
         <FloatingChatWidget />
-        <Toaster position="bottom-right" theme="dark" />
+        <Toaster position="bottom-right" theme="light" />
       </body>
     </html>
   );
