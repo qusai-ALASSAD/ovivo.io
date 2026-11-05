@@ -136,7 +136,7 @@ export function PricingPage({lang}: {lang: Lang}) {
          <div className="mt-2 flex flex-wrap items-end gap-3">
           <span className="text-xs text-[#52647E]">{t.from}</span>
           <span className="text-3xl font-extrabold tracking-tight text-[#0B1F4D]">{euro(plan.setup)}</span>
-          {'original' in plan && <span className="pb-1 text-sm text-[#52647E] line-through">{euro(plan.original)}</span>}
+          {'original' in plan && typeof plan.original === 'number' && <span className="pb-1 text-sm text-[#52647E] line-through">{euro(plan.original)}</span>}
          </div>
          <div className="my-4 h-px bg-[#DFE7FA]"/>
          <p className="text-xs font-bold uppercase tracking-wide text-[#52647E]">{t.monthly}</p>
