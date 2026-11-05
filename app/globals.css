@@ -71,7 +71,7 @@
 
 @layer utilities {
   .glass {
-    @apply bg-white/85 backdrop-blur-xl border border-blue-100 shadow-sm;
+    @apply bg-white backdrop-blur-xl border border-blue-100 shadow-sm;
   }
 
   .glass-hover {
