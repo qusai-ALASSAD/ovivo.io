@@ -1,10 +1,6 @@
-import { ConsultationPage } from '@/components/consultation-page';
+import { redirect } from 'next/navigation';
 
-export const metadata = {
-  title: 'Kostenlose Beratung – Ovivo KI-Automation',
-  description: 'Jetzt kostenlose Beratung anfragen. Wir analysieren Ihren Betrieb und erstellen eine maßgeschneiderte KI-Automation-Strategie — unverbindlich und kostenlos.',
-};
-
+// Keep old links working, but do not show a second embedded chatbot beside a form.
 export default function Page() {
-  return <ConsultationPage lang="de" />;
+  redirect('/request?service=other');
 }
