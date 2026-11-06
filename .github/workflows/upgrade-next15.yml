@@ -30,6 +30,8 @@ jobs:
         run: npm ci
       - name: Upgrade to supported patched Next.js and React
         run: npm install --save-exact next@15.5.28 eslint-config-next@15.5.28 react@19.3.1 react-dom@19.3.1 @types/react@19 @types/react-dom@19 cmdk@1.1.1
+      - name: Apply compatible transitive dependency security fixes
+        run: npm audit fix --legacy-peer-deps
       - name: Check types
         run: npm run typecheck
       - name: Run linter
