@@ -64,6 +64,7 @@ export function Navbar() {
         { label: 'Home', href: '/en' },
         { label: 'Services', href: '/en/services' },
         { label: 'Pricing', href: '/en/pricing' },
+        { label: 'Software & Apps', href: '/en/software' },
         { label: 'About', href: '/en/about' },
       ]
     : isAr
@@ -71,12 +72,14 @@ export function Navbar() {
         { label: 'الرئيسية', href: '/ar' },
         { label: 'الخدمات', href: '/ar/services' },
         { label: 'الأسعار', href: '/ar/pricing' },
+        { label: 'البرامج والتطبيقات', href: '/ar/software' },
         { label: 'من نحن', href: '/ar/about' },
       ]
     : [
         { label: 'Startseite', href: '/' },
         { label: 'Leistungen', href: '/services' },
         { label: 'Preise', href: '/pricing' },
+        { label: 'Software & Apps', href: '/software' },
         { label: 'Über uns', href: '/about' },
       ];
 
