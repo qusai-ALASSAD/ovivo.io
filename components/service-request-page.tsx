@@ -45,7 +45,7 @@ export function ServiceRequestPage({lang}:{lang:Lang}) {
         name:name.trim().slice(0,120),email:email.trim().slice(0,254),
         company:company.trim().slice(0,160),
         message:['Service: '+service,'Phone: '+phone.trim().slice(0,45),'Request: '+message.trim().slice(0,2500)].join('\n'),
-        source:'service_request',
+        source:'other',
       })});
       if(!response.ok)throw new Error('Failed');
       setSent(true);
