@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -64,69 +63,6 @@ const industries = {
     { icon: '🏠', label: 'الخدمات والحرف' },
     { icon: '🛒', label: 'تجارة التجزئة' },
     { icon: '🏨', label: 'الفنادق والإقامة' },
-  ],
-};
-
-const testimonials = {
-  de: [
-    {
-      quote: 'Seit wir den KI-Chatbot haben, werden 90% der Tischreservierungen automatisch bestätigt. Wir sparen täglich 2 Stunden — und die Gäste sind begeistert.',
-      name: 'Thomas K.',
-      role: 'Restaurant-Inhaber, München',
-      result: '+2h täglich gespart',
-    },
-    {
-      quote: 'WhatsApp läuft jetzt vollautomatisch. Bestellungen, Rückfragen, Erinnerungen — alles ohne Mitarbeiter. Für unser Beispiel zeigen wir automatisierte Kommunikation.',
-      name: 'Sabrina M.',
-      role: 'Café-Betreiberin, Hamburg',
-      result: 'Beispiel: Kundenkommunikation',
-    },
-    {
-      quote: 'Das CRM-System hat unsere Kundenpflege komplett verändert. Stammkunden werden automatisch angeschrieben, Bewertungen kommen von selbst. Ich musste nichts lernen.',
-      name: 'Michael R.',
-      role: 'Inhaber Friseursalon, Berlin',
-      result: '+40% mehr Stammkunden',
-    },
-  ],
-  en: [
-    {
-      quote: 'Since we got the AI chatbot, 90% of table reservations are confirmed automatically. We save 2 hours every day — and guests love it.',
-      name: 'Thomas K.',
-      role: 'Restaurant Owner, Munich',
-      result: '2h saved every day',
-    },
-    {
-      quote: 'WhatsApp now runs fully automatically. Orders, questions, reminders — all without staff. This demo illustrates automated customer communication.',
-      name: 'Sabrina M.',
-      role: 'Café Owner, Hamburg',
-      result: 'Example: customer communication',
-    },
-    {
-      quote: "The CRM system completely changed how we handle customer relationships. Regular customers are contacted automatically, reviews come in by themselves. I didn't have to learn anything.",
-      name: 'Michael R.',
-      role: 'Hair Salon Owner, Berlin',
-      result: '+40% more returning customers',
-    },
-  ],
-  ar: [
-    {
-      quote: 'منذ تركيب روبوت الذكاء الاصطناعي، تأكد 90% من حجوزات الطاولات تلقائياً. نوفر ساعتين يومياً — والضيوف سعداء جداً.',
-      name: 'توماس ك.',
-      role: 'صاحب مطعم، ميونخ',
-      result: 'توفير ساعتين يومياً',
-    },
-    {
-      quote: 'واتساب يعمل الآن بشكل تلقائي كامل. الطلبات، الاستفسارات، التذكيرات — كلها دون موظفين. هذا مثال توضيحي لأتمتة التواصل مع العملاء.',
-      name: 'سابرينا م.',
-      role: 'صاحبة مقهى، هامبورغ',
-      result: 'مثال: تواصل آلي مع العملاء',
-    },
-    {
-      quote: 'نظام CRM غيّر طريقة تعاملنا مع العملاء كلياً. العملاء الدائمون يُتابَعون تلقائياً والتقييمات تأتي من تلقاء نفسها. لم أحتج أن أتعلم شيئاً.',
-      name: 'مايكل ر.',
-      role: 'صاحب صالون تجميل، برلين',
-      result: '+40% عملاء متكررون',
-    },
   ],
 };
 
@@ -313,16 +249,8 @@ interface Props {
 export function HomePage({ lang }: Props) {
   const t = content[lang];
   const rtl = isRTL(lang);
-  const [testimonialIndex, setTestimonialIndex] = useState(0);
   const prefix = lang === 'en' ? '/en' : lang === 'ar' ? '/ar' : '';
   const pd = pricingData[lang];
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTestimonialIndex((i) => (i + 1) % testimonials[lang].length);
-    }, 6000);
-    return () => clearInterval(timer);
-  }, [lang]);
 
   const liveLabel = lang === 'de' ? 'Beispiel: Automatisierte Kundenanfrage' : lang === 'ar' ? 'مثال: استفسار عميل مؤتمت' : 'Example: automated inquiry';
   const activeLabel = lang === 'de' ? 'Demo' : lang === 'ar' ? 'تجريبي' : 'Demo';
@@ -331,9 +259,6 @@ export function HomePage({ lang }: Props) {
   const businessesLabel = lang === 'de' ? 'Individuell für Ihr Unternehmen' : lang === 'ar' ? 'حلول مخصصة لشركتك' : 'Tailored to your business';
   const setupLabel = lang === 'de' ? 'Persönliche Beratung' : lang === 'ar' ? 'استشارة شخصية' : 'Personal consultation';
 
-  const testimonialsLabel = lang === 'de' ? 'Kundenstimmen' : lang === 'ar' ? 'آراء العملاء' : 'Testimonials';
-  const whatBusinessesSay = lang === 'de' ? 'Was echte Betriebe' : lang === 'ar' ? 'ما يقوله عملاؤنا' : 'What real businesses';
-  const aboutOvivo = lang === 'de' ? 'über Ovivo sagen' : lang === 'ar' ? 'عن أوفيفو' : 'say about Ovivo';
   const faqBadge = lang === 'de' ? 'Häufige Fragen' : lang === 'ar' ? 'الأسئلة الشائعة' : 'FAQ';
   const industriesLabel = lang === 'de' ? 'Wir bauen KI-Automation für diese Branchen' : lang === 'ar' ? 'القطاعات التي نبني لها الأتمتة الذكية' : 'We build AI automation for these industries';
 
