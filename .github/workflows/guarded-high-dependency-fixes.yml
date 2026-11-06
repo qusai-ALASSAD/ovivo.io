@@ -1,0 +1,47 @@
+name: OVIVO guarded remaining high-severity fixes
+
+on:
+  push:
+    branches: [feature/ai-first-three-demos]
+    paths: ['.github/workflows/guarded-high-dependency-fixes.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch-and-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/ai-first-three-demos
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Patch remaining high severity packages
+        run: |
+          npm pkg set 'overrides.postcss=^8.5.23'
+          npm install --save-exact zod@4.6.7
+          npm install
+          npm audit fix || true
+      - name: TypeScript
+        run: npm run typecheck
+      - name: Lint
+        run: npm run lint
+      - name: Production build
+        run: npm run build
+      - name: Security gate - do not commit while high or critical issues remain
+        run: npm audit --omit=dev --audit-level=high
+      - name: Commit only after tests and audit pass
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json
+          if ! git diff --cached --quiet; then
+            git commit -m "security: patch PostCSS override and Zod with tested locked dependencies"
+            git push origin HEAD:feature/ai-first-three-demos
+          fi
