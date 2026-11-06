@@ -19,11 +19,11 @@ const methods=[
 
 export function ContactPage({lang}:{lang:Lang}){
  const t=copy[lang];const prefix=lang==='de'?'':'/'+lang;
- const [name,setName]=useState('');const [email,setEmail]=useState('');const [company,setCompany]=useState('');const [message,setMessage]=useState('');
+ const [name,setName]=useState('');const [email,setEmail]=useState('');const [website,setWebsite]=useState('');const [company,setCompany]=useState('');const [message,setMessage]=useState('');
  const [sending,setSending]=useState(false);const [sent,setSent]=useState(false);const [error,setError]=useState(false);
  async function sendContact(e:React.FormEvent<HTMLFormElement>){
   e.preventDefault(); if(sending)return;setSending(true);setError(false);
-  try {const response=await fetch('/api/leads',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name.trim(),email:email.trim(),company:company.trim(),message:message.trim(),source:'contact'})});
+  try {const response=await fetch('/api/leads',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name.trim(),email:email.trim(),company:company.trim(),message:message.trim(),website:website.trim(),source:'contact'})});
   if(!response.ok)throw new Error('Contact failed');setSent(true);setName('');setEmail('');setCompany('');setMessage('');
   }catch{setError(true);}finally{setSending(false);}
  }
@@ -50,6 +50,7 @@ export function ContactPage({lang}:{lang:Lang}){
       <p className="mt-2 text-sm leading-7 text-[#52647E]">{t.formIntro}</p>
       {sent?<div role="status" className="mt-6 flex items-center gap-3 rounded-xl bg-emerald-50 p-5 text-sm font-bold text-emerald-800"><CheckCircle2 size={20}/>{t.formSuccess}</div>:
         <form onSubmit={sendContact} className="mt-6 space-y-4">
+          <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden"><label htmlFor="ovivo-company-website">Website (bitte leer lassen)</label><input id="ovivo-company-website" name="website" tabIndex={-1} autoComplete="off" value={website} onChange={e=>setWebsite(e.target.value)}/></div>
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="block text-sm font-semibold text-[#0B1F4D]">{t.formName} *
               <input required maxLength={120} autoComplete="name" value={name} onChange={e=>setName(e.target.value)} className="mt-2 h-12 w-full rounded-xl border border-[#CBD7EA] bg-white px-4 text-sm text-[#0B1F4D] outline-none focus:border-[#3B82F6] focus:ring-2 focus:ring-blue-100"/>
