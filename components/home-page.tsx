@@ -287,9 +287,9 @@ export function HomePage({ lang }: Props) {
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden px-4 py-24 sm:px-6 lg:px-8 lg:py-36">
         <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[800px] w-[1100px] rounded-full bg-blue-500/12 blur-[140px]" />
-          <div className="absolute bottom-0 right-1/4 h-[500px] w-[700px] rounded-full bg-cyan-500/6 blur-[110px]" />
-          <div className="absolute top-1/3 left-0 h-[300px] w-[400px] rounded-full bg-blue-600/5 blur-[90px]" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[420px] w-[460px] sm:h-[800px] sm:w-[1100px] rounded-full bg-blue-500/12 blur-[64px] sm:blur-[140px]" />
+          <div className="absolute bottom-0 right-1/4 hidden sm:block h-[500px] w-[700px] rounded-full bg-cyan-500/6 blur-[110px]" />
+          <div className="absolute top-1/3 left-0 hidden sm:block h-[300px] w-[400px] rounded-full bg-blue-600/5 blur-[90px]" />
         </div>
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
@@ -336,7 +336,7 @@ export function HomePage({ lang }: Props) {
               <div className="glass rounded-2xl overflow-hidden border-white/10 shadow-2xl">
                 <div className="border-b border-white/10 bg-white/[0.03] px-4 py-3 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <div className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <div className="h-2 w-2 rounded-full bg-emerald-400" />
                     <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
                       {liveLabel}
                     </span>
@@ -370,7 +370,7 @@ export function HomePage({ lang }: Props) {
                 </div>
               </div>
               <div className="absolute -top-4 -right-4 glass rounded-xl px-3 py-2 text-xs font-semibold text-emerald-400 border-emerald-500/30 shadow-lg hidden sm:flex items-center gap-1.5 animate-float">
-                <div className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                <div className="h-2 w-2 rounded-full bg-emerald-400" />
                 {businessesLabel}
               </div>
               <div className="absolute -bottom-4 -left-4 glass rounded-xl px-3 py-2 text-xs font-semibold text-blue-400 border-blue-500/30 shadow-lg hidden sm:flex items-center gap-1.5">
