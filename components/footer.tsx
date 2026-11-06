@@ -99,53 +99,53 @@ export function Footer() {
             <Link href={prefix || '/'} className={`flex items-center gap-2 group ${rtl ? 'flex-row-reverse justify-end' : ''}`}>
               <img src="/ovivo-logo.svg" alt="ovivo.io — Digital Growth Partner" width={180} height={34} className="h-9 w-auto object-contain" />
             </Link>
-            <p className={`mt-4 text-sm text-gray-400 leading-relaxed ${rtl ? 'text-right' : ''}`}>{t.desc}</p>
+            <p className={`mt-4 text-sm text-[#52647E] leading-relaxed ${rtl ? 'text-right' : ''}`}>{t.desc}</p>
             <div className={`mt-6 flex gap-4 ${rtl ? 'flex-row-reverse' : ''}`}>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
+              <a href="https://facebook.com" aria-label="Facebook" target="_blank" rel="noopener noreferrer" className="text-[#52647E] hover:text-[#1D4ED8] transition-colors">
                 <Facebook className="h-5 w-5" />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-pink-400 transition-colors">
+              <a href="https://instagram.com" aria-label="Instagram" target="_blank" rel="noopener noreferrer" className="text-[#52647E] hover:text-[#A21CAF] transition-colors">
                 <Instagram className="h-5 w-5" />
               </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
+              <a href="https://twitter.com" aria-label="Twitter" target="_blank" rel="noopener noreferrer" className="text-[#52647E] hover:text-[#1D4ED8] transition-colors">
                 <Twitter className="h-5 w-5" />
               </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-500 transition-colors">
+              <a href="https://linkedin.com" aria-label="Linkedin" target="_blank" rel="noopener noreferrer" className="text-[#52647E] hover:text-[#1D4ED8] transition-colors">
                 <Linkedin className="h-5 w-5" />
               </a>
             </div>
           </div>
 
           <div>
-            <h3 className={`text-sm font-semibold text-white ${rtl ? 'text-right' : ''}`}>{t.solutions}</h3>
+            <h3 className={`text-sm font-semibold text-[#0B1F4D] ${rtl ? 'text-right' : ''}`}>{t.solutions}</h3>
             <ul className={`mt-4 space-y-3 ${rtl ? 'text-right' : ''}`}>
-              <li><Link href={`${prefix}/pricing`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.pricing}</Link></li>
+              <li><Link href={`${prefix}/pricing`} className="text-sm text-[#52647E] hover:text-[#1D4ED8] transition-colors">{t.pricing}</Link></li>
               <li><Link href={`${prefix}/software`} className="text-sm text-[#52647E] transition-colors hover:text-[#3B82F6]">{isEn ? 'Software & Apps' : isAr ? 'البرامج والتطبيقات' : 'Software & Apps'}</Link></li>
-              <li><Link href={`${sPrefix}/automation`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.automation}</Link></li>
-              <li><Link href={`${sPrefix}/ai-chatbot`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.chatbot}</Link></li>
-              <li><Link href={`${sPrefix}/crm-email`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.crm}</Link></li>
-              <li><Link href={`${sPrefix}/funnels`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.funnels}</Link></li>
+              <li><Link href={`${sPrefix}/automation`} className="text-sm text-[#52647E] hover:text-[#1D4ED8] transition-colors">{t.automation}</Link></li>
+              <li><Link href={`${sPrefix}/ai-chatbot`} className="text-sm text-[#52647E] hover:text-[#1D4ED8] transition-colors">{t.chatbot}</Link></li>
+              <li><Link href={`${sPrefix}/crm-email`} className="text-sm text-[#52647E] hover:text-[#1D4ED8] transition-colors">{t.crm}</Link></li>
+              <li><Link href={`${sPrefix}/funnels`} className="text-sm text-[#52647E] hover:text-[#1D4ED8] transition-colors">{t.funnels}</Link></li>
             </ul>
           </div>
 
           <div>
-            <h3 className={`text-sm font-semibold text-white ${rtl ? 'text-right' : ''}`}>{t.industries}</h3>
+            <h3 className={`text-sm font-semibold text-[#0B1F4D] ${rtl ? 'text-right' : ''}`}>{t.industries}</h3>
             <ul className={`mt-4 space-y-3 ${rtl ? 'text-right' : ''}`}>
-              <li><Link href={`${prefix}/services`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.restaurants}</Link></li>
-              <li><Link href={`${prefix}/services`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.hair}</Link></li>
-              <li><Link href={`${prefix}/services`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.fitness}</Link></li>
-              <li><Link href={`${prefix}/services`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.hotels}</Link></li>
-              <li><Link href={`${prefix}/services`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.trades}</Link></li>
+              <li><Link href={`${prefix}/services`} className="text-sm text-[#52647E] hover:text-[#1D4ED8] transition-colors">{t.restaurants}</Link></li>
+              <li><Link href={`${prefix}/services`} className="text-sm text-[#52647E] hover:text-[#1D4ED8] transition-colors">{t.hair}</Link></li>
+              <li><Link href={`${prefix}/services`} className="text-sm text-[#52647E] hover:text-[#1D4ED8] transition-colors">{t.fitness}</Link></li>
+              <li><Link href={`${prefix}/services`} className="text-sm text-[#52647E] hover:text-[#1D4ED8] transition-colors">{t.hotels}</Link></li>
+              <li><Link href={`${prefix}/services`} className="text-sm text-[#52647E] hover:text-[#1D4ED8] transition-colors">{t.trades}</Link></li>
             </ul>
           </div>
 
           <div>
-            <h3 className={`text-sm font-semibold text-white ${rtl ? 'text-right' : ''}`}>{t.company}</h3>
+            <h3 className={`text-sm font-semibold text-[#0B1F4D] ${rtl ? 'text-right' : ''}`}>{t.company}</h3>
             <ul className={`mt-4 space-y-3 ${rtl ? 'text-right' : ''}`}>
-              <li><Link href={`${prefix}/about`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.about}</Link></li>
-              <li><Link href={`${prefix}/consultation`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.contact}</Link></li>
-              <li><Link href={`${prefix}/privacy`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.privacy}</Link></li>
-              <li><Link href={`${prefix}/imprint`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.imprint}</Link></li>
+              <li><Link href={`${prefix}/about`} className="text-sm text-[#52647E] hover:text-[#1D4ED8] transition-colors">{t.about}</Link></li>
+              <li><Link href={`${prefix}/consultation`} className="text-sm text-[#52647E] hover:text-[#1D4ED8] transition-colors">{t.contact}</Link></li>
+              <li><Link href={`${prefix}/privacy`} className="text-sm text-[#52647E] hover:text-[#1D4ED8] transition-colors">{t.privacy}</Link></li>
+              <li><Link href={`${prefix}/imprint`} className="text-sm text-[#52647E] hover:text-[#1D4ED8] transition-colors">{t.imprint}</Link></li>
               {showAdmin && (
                 <li>
                   <Link href="/admin" className="inline-flex items-center gap-1.5 text-sm text-blue-500 hover:text-blue-400 transition-colors">
@@ -158,8 +158,8 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 border-t border-white/10 pt-8">
-          <p className="text-center text-sm text-gray-400">
+        <div className="mt-12 border-t border-blue-100 pt-8">
+          <p className="text-center text-sm text-[#52647E]">
             &copy; {new Date().getFullYear()} Ovivo.io. {t.copyright}
           </p>
         </div>
