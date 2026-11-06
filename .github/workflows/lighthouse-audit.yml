@@ -50,6 +50,8 @@ jobs:
           for(const name of ['home','automation','contact']){
             const r=JSON.parse(fs.readFileSync('lighthouse-reports/'+name+'-mobile.json','utf8'));
             console.log(name, Object.fromEntries(Object.entries(r.categories).map(([k,v])=>[k,Math.round((v.score||0)*100)])), {LCP:r.audits['largest-contentful-paint']?.displayValue,CLS:r.audits['cumulative-layout-shift']?.displayValue});
+            const top=Object.entries(r.audits).filter(([id,a])=>a.score!==null&&a.score<0.9&&a.scoreDisplayMode!=='informative'&&a.title).slice(0,12).map(([id,a])=>({id,title:a.title,score:Math.round(a.score*100),value:a.displayValue||''}));
+            console.log('OPPORTUNITIES', name, JSON.stringify(top));
           }
           NODE
       - uses: actions/upload-artifact@v4
