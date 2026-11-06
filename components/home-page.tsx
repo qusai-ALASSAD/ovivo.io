@@ -387,7 +387,7 @@ export function HomePage({ lang }: Props) {
                 {t.hero.sub}
               </p>
               <div className="mt-10 flex flex-col sm:flex-row gap-3">
-                <Link href={`${prefix}/consultation`}>
+                <Link href={`${prefix}/request?service=other`}>
                   <Button size="lg" className="group relative overflow-hidden bg-blue-500 hover:bg-blue-400 text-white px-8 py-7 text-base font-semibold transition-all duration-300 hover:shadow-[0_0_40px_rgba(59,130,246,0.6)] rounded-xl w-full sm:w-auto">
                     <span className="relative z-10 flex items-center gap-2">
                       {t.hero.cta}
@@ -526,7 +526,7 @@ export function HomePage({ lang }: Props) {
             ))}
           </StaggerContainer>
           <RevealSection className="mt-10 text-center">
-            <Link href={`${prefix}/consultation`}>
+            <Link href={`${prefix}/request?service=other`}>
               <Button size="lg" className="group relative overflow-hidden bg-blue-500 hover:bg-blue-400 text-white px-10 py-6 text-base font-semibold transition-all duration-300 hover:shadow-[0_0_35px_rgba(59,130,246,0.5)] rounded-xl">
                 <span className="relative z-10 flex items-center gap-2">
                   {lang === 'de' ? 'Kostenlose Wachstumsanalyse anfragen' : lang === 'ar' ? 'احصل على تحليل نمو مجاني' : 'Get Your Free Growth Analysis'}
@@ -738,7 +738,7 @@ export function HomePage({ lang }: Props) {
                       </li>
                     ))}
                   </ul>
-                  <Link href={`${prefix}/consultation`}>
+                  <Link href={`${prefix}/request?service=other`}>
                     <Button className={`w-full font-semibold transition-all duration-300 py-5 ${plan.highlighted ? 'bg-blue-500 hover:bg-blue-400 text-white hover:shadow-[0_0_24px_rgba(59,130,246,0.5)]' : 'bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20'}`}>
                       {pd.cta}
                       <ArrowRight className={`ml-2 h-4 w-4 ${rtl ? 'rotate-180 mr-2 ml-0' : ''}`} />
@@ -796,7 +796,7 @@ export function HomePage({ lang }: Props) {
               <h2 className="text-3xl font-bold text-white sm:text-4xl mb-4">{t.cta.title}</h2>
               <p className="text-lg text-gray-400 max-w-xl mx-auto mb-10">{t.cta.sub}</p>
               <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <Link href={`${prefix}/consultation`}>
+                <Link href={`${prefix}/request?service=other`}>
                   <Button size="lg" className="group relative overflow-hidden bg-blue-500 hover:bg-blue-400 text-white px-8 py-6 text-base font-semibold transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)]">
                     <span className="relative z-10 flex items-center gap-2">
                       {t.cta.btn}
