@@ -430,3 +430,16 @@ body.ovivo-light .ovivo-consultation-trigger {
 body.ovivo-light .ovivo-consultation-trigger:hover {
   background-color: #2563EB !important;
 }
+
+
+/* Dedicated project request and contact CTAs in the approved OVIVO light identity. */
+body.ovivo-light .ovivo-service-request-submit,
+body.ovivo-light .ovivo-contact-request {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  background: #3B82F6 !important;
+}
+body.ovivo-light .ovivo-service-request-submit:hover,
+body.ovivo-light .ovivo-contact-request:hover {
+  background: #2563EB !important;
+}
