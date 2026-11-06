@@ -1,0 +1,47 @@
+name: Test supported Next.js 15 security upgrade
+
+on:
+  pull_request:
+    branches:
+      - feature/ai-first-three-demos
+
+permissions:
+  contents: write
+
+jobs:
+  upgrade-and-test:
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'security/upgrade-next15'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - name: Checkout isolated security branch
+        uses: actions/checkout@v4
+        with:
+          ref: security/upgrade-next15
+          persist-credentials: true
+      - name: Configure Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install current lockfile
+        run: npm ci
+      - name: Upgrade to supported patched Next.js and React
+        run: npm install --save-exact next@15.5.28 eslint-config-next@15.5.28 react@19.3.1 react-dom@19.3.1 @types/react@19 @types/react-dom@19
+      - name: Check types
+        run: npm run typecheck
+      - name: Run linter
+        run: npm run lint
+      - name: Verify production build
+        run: npm run build
+      - name: Test patched dependency tree
+        run: npm audit --omit=dev --audit-level=high
+      - name: Commit and push verified upgrade
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json
+          git diff --staged --quiet || git commit -m "security: upgrade to patched Next.js 15 and React 19"
+          git push origin HEAD:security/upgrade-next15
