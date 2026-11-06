@@ -9,6 +9,10 @@ import FloatingChatWidget from '@/components/FloatingChatWidget';
 import { BrandPolish } from '@/components/brand-polish';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://ovivo.io'),
+  alternates: { canonical: '/', languages: { 'de-DE': '/', 'en': '/en/', 'ar': '/ar/', 'x-default': '/' } },
+  robots: { index: true, follow: true },
+  applicationName: 'OVIVO.IO',
   title: 'ovivo.io | KI-Automation für Unternehmen',
   description: 'OVIVO.IO entwickelt KI-Chatbots, Automations-Workflows und CRM-Integrationen für Unternehmen – ergänzt durch Webdesign und digitales Marketing.',
   keywords: ['KI Automation', 'WhatsApp Chatbot', 'Gastronomie Software', 'Buchungssystem', 'CRM Gastronomie', 'KI Chatbot Deutschland', 'Automation Servicebetrieb'],
@@ -27,8 +31,8 @@ export const metadata: Metadata = {
     description: 'KI-Automation, intelligente Assistenten und digitale Lösungen für Unternehmen.',
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Ovivo - KI-Automation für Gastronomie & Servicebetriebe',
+    card: 'summary',
+    title: 'OVIVO.IO – KI-Automation, n8n & intelligente Workflows',
     description: 'KI-Automation, Webdesign und digitales Marketing für Unternehmen.',
   },
 };
