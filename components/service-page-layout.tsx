@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -80,6 +81,9 @@ export function ServicePageLayout({
   extraSection,
 }: ServicePageProps) {
   const prefix = lang === 'en' ? '/en' : lang === 'ar' ? '/ar' : '';
+  const pathname = usePathname();
+  const serviceId = pathname?.split('/').filter(Boolean).pop() || 'other';
+  const requestHref = prefix + '/request?service=' + encodeURIComponent(serviceId);
   const sPrefix = lang === 'en' ? '/en/services' : lang === 'ar' ? '/ar/services' : '/services';
 
   const t = lang === 'ar' ? {
@@ -201,7 +205,7 @@ export function ServicePageLayout({
                 {heroSubtitle}
               </p>
               <div className="flex flex-col gap-4 sm:flex-row">
-                <Link href={`${prefix}/consultation`}>
+                <Link href={requestHref}>
                   <Button size="lg" className="group relative overflow-hidden bg-blue-500 hover:bg-blue-400 text-white px-8 py-6 text-base font-semibold transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)]">
                     <span className="relative z-10 flex items-center gap-2">
                       {t.requestQuote}
@@ -210,7 +214,7 @@ export function ServicePageLayout({
                     <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                   </Button>
                 </Link>
-                <Link href={`${prefix}/consultation`}>
+                <Link href={requestHref}>
                   <Button size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/5 hover:border-white/30 px-8 py-6 text-base">
                     {t.bookCall}
                   </Button>
@@ -396,7 +400,7 @@ export function ServicePageLayout({
                         </li>
                       ))}
                     </ul>
-                    <Link href={`${prefix}/consultation`}>
+                    <Link href={requestHref}>
                       <Button className={`w-full font-semibold transition-all duration-300 ${pkg.highlighted ? 'bg-blue-500 hover:bg-blue-400 text-white hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]' : 'bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20'}`}>
                         {t.applyNow}
                         <ArrowRight className="ml-2 h-4 w-4" />
