@@ -10,7 +10,6 @@ import { BrandPolish } from '@/components/brand-polish';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://ovivo.io'),
-  alternates: { canonical: '/', languages: { 'de-DE': '/', 'en': '/en/', 'ar': '/ar/', 'x-default': '/' } },
   robots: { index: true, follow: true },
   applicationName: 'OVIVO.IO',
   title: 'ovivo.io | KI-Automation für Unternehmen',
