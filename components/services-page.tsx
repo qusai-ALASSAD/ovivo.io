@@ -288,7 +288,7 @@ export function ServicesPage({ lang }: Props) {
                     </div>
 
                     <div className="mt-8">
-                      <Link href={`${prefix}/consultation`}>
+                      <Link href={`${prefix}/request?service=${service.id}`}>
                         <Button className="bg-blue-500 hover:bg-blue-400 text-white font-semibold transition-all duration-300 hover:shadow-[0_0_24px_rgba(59,130,246,0.5)]">
                           {service.cta}
                           <ArrowRight className={`ml-2 h-4 w-4 ${rtl ? 'rotate-180 mr-2 ml-0' : ''}`} />
