@@ -108,7 +108,7 @@ export default function CrmEmailEnPage() {
       packages={[
         {
           name: 'CRM Starter',
-          price: 'from €1,000',
+          price: 'Price on request',
           timeline: 'Delivery in 7 days',
           badge: 'Starter',
           badgeClass: 'bg-white/10 text-gray-300 border-white/20',
@@ -122,7 +122,7 @@ export default function CrmEmailEnPage() {
         },
         {
           name: 'CRM Growth',
-          price: 'from €2,200',
+          price: 'Price on request',
           timeline: 'Delivery in 10 days',
           badge: 'Most Popular',
           badgeClass: 'bg-cyan-500 text-white border-transparent',
@@ -139,7 +139,7 @@ export default function CrmEmailEnPage() {
         },
         {
           name: 'CRM Scale',
-          price: 'from €4,000',
+          price: 'Price on request',
           timeline: 'Delivery in 14 days',
           badge: 'Full System',
           badgeClass: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
