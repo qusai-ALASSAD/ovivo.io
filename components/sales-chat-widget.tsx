@@ -97,14 +97,17 @@ export function SalesChatWidget() {
 
   const saveLead = useCallback(async (lead: { name: string; company: string; email: string; phone: string }) => {
     if (leadSaved) return;
-    setLeadSaved(true);
     try {
-      await fetch('/api/leads', {
+      const response = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...lead, message: '', source: 'sales_chat' }),
+        body: JSON.stringify({ name: lead.name, email: lead.email, company: [lead.company, lead.phone].filter(Boolean).join(' | ').slice(0,200), message: '', source: 'sales_chat' }),
       });
-    } catch {}
+      if (!response.ok) throw new Error('Lead was not saved');
+      setLeadSaved(true);
+    } catch {
+      // Keep the lead eligible for a later retry; never report a failed save as complete.
+    }
   }, [leadSaved]);
 
   const sendMessage = useCallback(async () => {
