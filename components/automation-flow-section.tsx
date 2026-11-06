@@ -316,7 +316,7 @@ export interface FlowSectionText {
 
 const PULSE = 1.8;
 
-function AgentNode({ lang, circleRef }: { lang?: string; circleRef?: React.RefObject<HTMLDivElement> }) {
+function AgentNode({ lang, circleRef }: { lang?: string; circleRef?: React.RefObject<HTMLDivElement | null> }) {
   const label = lang === 'ar' ? 'AI Agent' : 'AI Agent';
   const sub = lang === 'ar' ? 'يحلل ويقرر' : lang === 'en' ? 'Thinks & decides' : 'Denkt & entscheidet';
   return (
