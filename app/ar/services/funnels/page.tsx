@@ -98,7 +98,7 @@ export default function FunnelsArPage() {
       packages={[
         {
           name: 'موقع أساسي',
-          price: 'من €1,500',
+          price: 'السعر حسب الطلب',
           timeline: 'تسليم خلال 10 أيام',
           badge: 'مبتدئ',
           badgeClass: 'bg-white/10 text-gray-300 border-white/20',
@@ -112,7 +112,7 @@ export default function FunnelsArPage() {
         },
         {
           name: 'موقع + قمع',
-          price: 'من €3,000',
+          price: 'السعر حسب الطلب',
           timeline: 'تسليم خلال 14 يوماً',
           badge: 'الأكثر طلباً',
           badgeClass: 'bg-blue-500 text-white border-transparent',
@@ -129,7 +129,7 @@ export default function FunnelsArPage() {
         },
         {
           name: 'نظام مبيعات كامل',
-          price: 'من €6,000',
+          price: 'السعر حسب الطلب',
           timeline: 'تسليم خلال 21 يوماً',
           badge: 'النظام الكامل',
           badgeClass: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
