@@ -110,7 +110,7 @@ export default function AIChatbotPage() {
       packages={[
         {
           name: 'AI Chatbot Starter',
-          price: 'from €1,200',
+          price: 'Preis auf Anfrage',
           timeline: 'Delivery in 7 days',
           badge: 'Starter',
           badgeClass: 'bg-white/10 text-gray-300 border-white/20',
@@ -124,7 +124,7 @@ export default function AIChatbotPage() {
         },
         {
           name: 'AI Chatbot Growth',
-          price: 'from €2,500',
+          price: 'Preis auf Anfrage',
           timeline: 'Delivery in 10 days',
           badge: 'Most Popular',
           badgeClass: 'bg-emerald-500 text-white border-transparent',
@@ -141,7 +141,7 @@ export default function AIChatbotPage() {
         },
         {
           name: 'AI Chatbot Scale',
-          price: 'from €4,500',
+          price: 'Preis auf Anfrage',
           timeline: 'Delivery in 14 days',
           badge: 'Full System',
           badgeClass: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
