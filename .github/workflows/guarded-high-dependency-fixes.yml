@@ -24,7 +24,8 @@ jobs:
           cache: npm
       - name: Patch remaining high severity packages
         run: |
-          npm pkg set 'overrides.postcss=^8.5.23'
+          npm install --save-exact postcss@8.5.23
+          npm pkg set 'overrides.postcss=$postcss'
           npm install --save-exact zod@4.6.7
           npm install
           npm audit fix || true
