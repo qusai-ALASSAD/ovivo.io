@@ -145,7 +145,7 @@ const pricingData = {
         features: ['Erweiterter KI-Chatbot', 'WhatsApp Automation', 'Buchungssystem', 'CRM Integration', 'Priority Support'],
       },
       {
-        name: 'Full',
+        name: 'Growth',
         setup: 'Preis auf Anfrage',
         monthly: 'Nach Leistungsumfang',
         badge: 'Maximale Leistung',
@@ -186,7 +186,7 @@ const pricingData = {
         features: ['Advanced AI Chatbot', 'WhatsApp Automation', 'Booking System', 'CRM Integration', 'Priority Support'],
       },
       {
-        name: 'Full',
+        name: 'Growth',
         setup: 'Price on request',
         monthly: 'Based on scope',
         badge: 'Maximum Power',
