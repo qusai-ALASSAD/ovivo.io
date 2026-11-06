@@ -118,7 +118,7 @@ export default function FunnelsPage() {
       packages={[
         {
           name: 'Funnel Starter',
-          price: 'from €2,000',
+          price: 'Preis auf Anfrage',
           timeline: 'Delivery in 10 days',
           badge: 'Starter',
           badgeClass: 'bg-white/10 text-gray-300 border-white/20',
@@ -132,7 +132,7 @@ export default function FunnelsPage() {
         },
         {
           name: 'Funnel Growth',
-          price: 'from €4,000',
+          price: 'Preis auf Anfrage',
           timeline: 'Delivery in 14 days',
           badge: 'Most Popular',
           badgeClass: 'bg-orange-500 text-white border-transparent',
@@ -149,7 +149,7 @@ export default function FunnelsPage() {
         },
         {
           name: 'Funnel Scale',
-          price: 'from €7,000',
+          price: 'Preis auf Anfrage',
           timeline: 'Delivery in 14 days',
           badge: 'Full System',
           badgeClass: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
