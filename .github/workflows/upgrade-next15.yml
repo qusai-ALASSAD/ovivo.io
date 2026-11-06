@@ -1,0 +1,70 @@
+name: Test supported Next.js 15 security upgrade
+
+on:
+  push:
+    branches: [security/upgrade-next15]
+  pull_request:
+    branches:
+      - feature/ai-first-three-demos
+
+permissions:
+  contents: write
+
+jobs:
+  upgrade-and-test:
+    if: github.event_name == 'push' || (github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'security/upgrade-next15')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - name: Checkout isolated security branch
+        uses: actions/checkout@v4
+        with:
+          ref: security/upgrade-next15
+          persist-credentials: true
+      - name: Configure Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install current lockfile
+        run: npm ci
+      - name: Upgrade to supported patched Next.js and React
+        run: npm install --save-exact next@15.5.28 eslint-config-next@15.5.28 react@19.3.1 react-dom@19.3.1 @types/react@19 @types/react-dom@19 cmdk@1.1.1
+      - name: Patch PostCSS and Zod security advisories
+        run: |
+          npm install --save-exact zod@4.6.7 postcss@8.5.23 --legacy-peer-deps
+          npm pkg set 'overrides.postcss=$postcss'
+          npm install --legacy-peer-deps
+          npm audit fix --legacy-peer-deps || true
+      - name: Check types
+        run: npm run typecheck
+      - name: Run linter
+        run: npm run lint
+      - name: Verify production build
+        run: npm run build
+      - name: Test patched dependency tree
+        run: npm audit --omit=dev --audit-level=high
+      - name: Verify clean npm ci from patched lockfile
+        run: npm ci
+      - name: Smoke-test patched app and search metadata
+        run: |
+          npm run start > /tmp/ovivo-upgrade.log 2>&1 &
+          APP_PID=$!
+          trap 'kill "$APP_PID" 2>/dev/null || true' EXIT
+          for i in $(seq 1 40); do
+            if curl -fsS http://127.0.0.1:3000/contact/ -o /tmp/ovivo-upgraded-contact.html; then break; fi
+            sleep 1
+          done
+          grep -q 'Schreiben Sie uns direkt' /tmp/ovivo-upgraded-contact.html
+          curl -fsS http://127.0.0.1:3000/services/automation/ | grep -q 'n8n'
+          curl -fsS http://127.0.0.1:3000/sitemap.xml | grep -q 'services/automation'
+          curl -fsSI http://127.0.0.1:3000/ | grep -qi 'x-frame-options: DENY'
+      - name: Commit and push verified upgrade
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json
+          git diff --staged --quiet || git commit -m "security: upgrade to patched Next.js 15 and React 19"
+          git push origin HEAD:security/upgrade-next15

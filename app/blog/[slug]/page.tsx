@@ -17,7 +17,8 @@ export function generateStaticParams() {
   return blogSlugs.map((slug) => ({ slug }));
 }
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   return (
     <div className="flex flex-col">
       <section className="bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
@@ -32,7 +33,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           <div className="mt-8">
             <Badge>AI Tools</Badge>
             <h1 className="mt-4 text-4xl font-bold text-gray-900">
-              {params.slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+              {slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
             </h1>
             <div className="mt-4 flex items-center gap-4 text-sm text-gray-600">
               <span>February 15, 2024</span>
