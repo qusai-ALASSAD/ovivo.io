@@ -120,6 +120,7 @@ export function Footer() {
             <h3 className={`text-sm font-semibold text-white ${rtl ? 'text-right' : ''}`}>{t.solutions}</h3>
             <ul className={`mt-4 space-y-3 ${rtl ? 'text-right' : ''}`}>
               <li><Link href={`${prefix}/pricing`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.pricing}</Link></li>
+              <li><Link href={`${prefix}/software`} className="text-sm text-[#52647E] transition-colors hover:text-[#3B82F6]">{isEn ? 'Software & Apps' : isAr ? 'البرامج والتطبيقات' : 'Software & Apps'}</Link></li>
               <li><Link href={`${sPrefix}/automation`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.automation}</Link></li>
               <li><Link href={`${sPrefix}/ai-chatbot`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.chatbot}</Link></li>
               <li><Link href={`${sPrefix}/crm-email`} className="text-sm text-gray-400 hover:text-white transition-colors">{t.crm}</Link></li>
