@@ -364,10 +364,15 @@ export function ServicePageLayout({
                   ? 'Every business is different. We prepare a tailored proposal based on your goals, integrations and required scope. No fixed packages or price lists.'
                   : 'كل مشروع مختلف. نقدم عرضاً مخصصاً حسب أهدافك والأنظمة التي تريد ربطها ونطاق العمل المطلوب، بدون أسعار أو باقات ثابتة.'}
             />
-            <Link href={requestHref} className="mt-8 inline-flex min-h-[52px] items-center justify-center gap-2 rounded-xl bg-blue-500 px-8 font-semibold text-white transition-colors hover:bg-blue-400">
-              {t.requestQuote}
-              <ArrowRight className="h-4 w-4" />
-            </Link>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+              <Link href={requestHref} className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-xl bg-blue-500 px-8 font-semibold text-white transition-colors hover:bg-blue-400">
+                {t.requestQuote}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link href={prefix + '/contact'} className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-xl border border-blue-400/40 px-8 font-semibold text-white transition-colors hover:border-blue-400 hover:bg-blue-500/10">
+                {lang === 'de' ? 'Kontakt aufnehmen' : lang === 'en' ? 'Contact us' : 'تواصل معنا'}
+              </Link>
+            </div>
           </RevealSection>
         </div>
       </section>
