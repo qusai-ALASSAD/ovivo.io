@@ -10,7 +10,7 @@ export function middleware(req: NextRequest) {
   // Never index preview hosts or internal application areas.
   const host = (req.headers.get('host') || '').split(':')[0].toLowerCase();
   const preview = host !== 'ovivo.io' && host !== 'www.ovivo.io';
-  const internal = /^\/(?:api|admin|login|request|chat|business-plan|marketing-plan)(?:\/|$)/.test(req.nextUrl.pathname)
+  const internal = /^\/(?:api|admin|login|request|chat|business-plan|marketing-plan|case-studies|blog)(?:\/|$)/.test(req.nextUrl.pathname)
     || /^\/(?:en|ar)\/request(?:\/|$)/.test(req.nextUrl.pathname);
   if (preview || internal) res.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive');
   return res;
