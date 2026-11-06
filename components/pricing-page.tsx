@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, Check, Tag, ShieldCheck, MessagesSquare, Settings2, Sparkles, Zap, Crown, Headphones } from 'lucide-react';
 import { SectionHeader } from '@/components/section-header';
-import { OpenConsultationButton } from '@/components/lead-magnet';
 import type { Lang } from '@/lib/i18n';
 
 type Feature = 'chat' | 'leads' | 'workflow' | 'calendar' | 'crm' | 'integration' | 'analytics' | 'support' | 'marketing';
@@ -113,7 +112,7 @@ export function PricingPage({lang}: {lang: Lang}) {
        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#EAF1FF] text-[#2563EB]"><Sparkles size={22}/></div>
        <div><h2 className="text-xl font-extrabold text-[#0B1F4D]">{t.stripTitle}</h2><p className="mt-2 max-w-xl text-sm leading-7 text-[#5B6B84]">{t.stripText}</p></div>
       </div>
-      <Link href={prefix + '/consultation'} className="ovivo-pricing-hero-cta group inline-flex min-h-[54px] shrink-0 items-center justify-center gap-2 rounded-xl bg-[#3B82F6] px-6 text-center text-sm font-bold text-white shadow-[0_10px_26px_rgba(59,130,246,.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#2563EB] hover:shadow-[0_15px_34px_rgba(59,130,246,.24)] motion-reduce:transform-none">{lang === 'de' ? 'Jetzt kostenlose Erstberatung sichern' : lang === 'en' ? 'Book a free consultation' : 'احجز استشارة مجانية'}<ArrowRight size={17} className={rtl ? 'rotate-180' : ''}/></Link>
+      <Link href={prefix + '/request?service=other'} className="ovivo-pricing-hero-cta group inline-flex min-h-[54px] shrink-0 items-center justify-center gap-2 rounded-xl bg-[#3B82F6] px-6 text-center text-sm font-bold text-white shadow-[0_10px_26px_rgba(59,130,246,.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#2563EB] hover:shadow-[0_15px_34px_rgba(59,130,246,.24)] motion-reduce:transform-none">{lang === 'de' ? 'Jetzt kostenlose Erstberatung sichern' : lang === 'en' ? 'Book a free consultation' : 'احجز استشارة مجانية'}<ArrowRight size={17} className={rtl ? 'rotate-180' : ''}/></Link>
      </div>
      <div className="mt-8 flex flex-wrap justify-center gap-3">
       {t.trusts.map((item,i)=>{
@@ -186,7 +185,7 @@ export function PricingPage({lang}: {lang: Lang}) {
      <section className="mx-auto mt-24 max-w-4xl rounded-[30px] border border-[#D9E4F5] bg-white p-8 text-center shadow-[0_20px_60px_rgba(11,31,77,.07)] sm:p-12">
       <h2 className="text-2xl font-extrabold text-[#0B1F4D] sm:text-3xl">{t.endTitle}</h2>
       <p className="mx-auto mt-4 max-w-xl text-[#52647E]">{t.endText}</p>
-      <div className="mt-7"><OpenConsultationButton lang={lang}/></div>
+      <div className="mt-7"><Link href={prefix + '/request?service=other'} className="ovivo-consultation-trigger inline-flex min-h-[52px] items-center justify-center rounded-xl bg-[#3B82F6] px-6 text-sm font-bold text-white hover:bg-[#2563EB]">{t.endButton}</Link></div>
      </section>
     </div>
    </section>
