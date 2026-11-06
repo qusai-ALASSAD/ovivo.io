@@ -205,7 +205,7 @@ export function ServicePageLayout({
                 {heroSubtitle}
               </p>
               <div className="flex flex-col gap-4 sm:flex-row">
-                <Link href={requestHref + '&package=' + encodeURIComponent(pkg.name)}>
+                <Link href={requestHref}>
                   <Button size="lg" className="group relative overflow-hidden bg-blue-500 hover:bg-blue-400 text-white px-8 py-6 text-base font-semibold transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)]">
                     <span className="relative z-10 flex items-center gap-2">
                       {t.requestQuote}
@@ -400,7 +400,7 @@ export function ServicePageLayout({
                         </li>
                       ))}
                     </ul>
-                    <Link href={requestHref}>
+                    <Link href={requestHref + '&package=' + encodeURIComponent(pkg.name)}>
                       <Button className={`w-full font-semibold transition-all duration-300 ${pkg.highlighted ? 'bg-blue-500 hover:bg-blue-400 text-white hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]' : 'bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20'}`}>
                         {t.applyNow}
                         <ArrowRight className="ml-2 h-4 w-4" />
