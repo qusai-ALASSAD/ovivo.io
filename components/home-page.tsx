@@ -1,8 +1,5 @@
-'use client';
-
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Sparkles, Zap, ArrowRight, CircleCheck as CheckCircle, Star, ChevronLeft, ChevronRight, Bot, Target, ChartBar as BarChart3, Users, Clock, TrendingUp, MessageSquare, Mail, Calendar, Phone, Settings, CircleAlert as AlertCircle, Circle as XCircle, ShieldCheck, Repeat, Database, Award } from 'lucide-react';
@@ -335,12 +332,7 @@ export function HomePage({ lang }: Props) {
             </div>
 
             {/* Hero Visual */}
-            <motion.div
-              initial={{ opacity: 0, x: rtl ? -40 : 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 0.15, ease: [0.21, 1.11, 0.81, 0.99] }}
-              className="relative"
-            >
+            <div className="relative">
               <div className="glass rounded-2xl overflow-hidden border-white/10 shadow-2xl">
                 <div className="border-b border-white/10 bg-white/[0.03] px-4 py-3 flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -377,23 +369,15 @@ export function HomePage({ lang }: Props) {
                   </div>
                 </div>
               </div>
-              <motion.div
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -top-4 -right-4 glass rounded-xl px-3 py-2 text-xs font-semibold text-emerald-400 border-emerald-500/30 shadow-lg hidden sm:flex items-center gap-1.5"
-              >
+              <div className="absolute -top-4 -right-4 glass rounded-xl px-3 py-2 text-xs font-semibold text-emerald-400 border-emerald-500/30 shadow-lg hidden sm:flex items-center gap-1.5 animate-float">
                 <div className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
                 {businessesLabel}
-              </motion.div>
-              <motion.div
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -bottom-4 -left-4 glass rounded-xl px-3 py-2 text-xs font-semibold text-blue-400 border-blue-500/30 shadow-lg hidden sm:flex items-center gap-1.5"
-              >
+              </div>
+              <div className="absolute -bottom-4 -left-4 glass rounded-xl px-3 py-2 text-xs font-semibold text-blue-400 border-blue-500/30 shadow-lg hidden sm:flex items-center gap-1.5">
                 <Zap className="h-3 w-3" />
                 {setupLabel}
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -611,20 +595,11 @@ export function HomePage({ lang }: Props) {
           <StaggerContainer className="grid gap-6 sm:grid-cols-3">
             {pd.plans.map((plan) => (
               <StaggerItem key={plan.name}>
-                <motion.div
-                  whileHover={{ y: -6 }}
-                  transition={{ duration: 0.3 }}
-                  className={`relative rounded-2xl flex flex-col glass h-full p-8 ${plan.highlighted ? 'border border-blue-500/40 shadow-[0_0_60px_rgba(59,130,246,0.2)]' : 'border border-white/10'}`}
-                >
+                <div className={`relative rounded-2xl flex flex-col glass h-full p-8 transition-transform duration-300 hover:-translate-y-1.5 ${plan.highlighted ? 'border border-blue-500/40 shadow-[0_0_60px_rgba(59,130,246,0.2)]' : 'border border-white/10'}`}>
                   {plan.highlighted && (
                     <>
                       <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
-                      <motion.div
-                        className="absolute inset-0 -z-10 rounded-2xl"
-                        animate={{ opacity: [0.2, 0.4, 0.2] }}
-                        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                        style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(59,130,246,0.15) 0%, transparent 65%)' }}
-                      />
+                      <div className="absolute inset-0 -z-10 rounded-2xl" style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(59,130,246,0.15) 0%, transparent 65%)' }} />
                     </>
                   )}
                   {plan.badge && (
@@ -666,7 +641,7 @@ export function HomePage({ lang }: Props) {
                       <ArrowRight className={`ml-2 h-4 w-4 ${rtl ? 'rotate-180 mr-2 ml-0' : ''}`} />
                     </Button>
                   </Link>
-                </motion.div>
+                </div>
               </StaggerItem>
             ))}
           </StaggerContainer>
