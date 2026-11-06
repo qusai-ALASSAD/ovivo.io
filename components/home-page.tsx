@@ -119,8 +119,8 @@ const pricingData = {
     badge: 'Individuelle Automationspakete',
     title: 'Transparent.',
     titleGradient: 'Leistungsstark.',
-    sub: 'Drei Pakete für jeden Bedarf. Einmaliger Setup + monatliche Betreuung.',
-    monthly: 'Betreuung',
+    sub: 'Drei mögliche Leistungsumfänge. Wir kalkulieren jede Lösung passend zu Ihren Abläufen, Integrationen und Ihrem Betreuungsbedarf.',
+    monthly: 'Leistungsumfang',
     cta: 'Paket anfragen',
     note: 'Endpreis abhängig von Betriebsgröße und Automatisierungsumfang.',
     plans: [
@@ -161,7 +161,7 @@ const pricingData = {
     title: 'Transparent.',
     titleGradient: 'Powerful.',
     sub: 'Three example packages, each individually quoted based on your business needs.',
-    monthly: 'Support',
+    monthly: 'Service scope',
     cta: 'Request this plan',
     note: 'Final price depends on business size and automation requirements.',
     plans: [
@@ -201,8 +201,8 @@ const pricingData = {
     badge: 'باقات أتمتة مخصصة',
     title: 'شفاف.',
     titleGradient: 'قوي.',
-    sub: '3 باقات تناسب كل مرحلة. إعداد لمرة واحدة + رعاية شهرية.',
-    monthly: 'المتابعة',
+    sub: 'ثلاث باقات مرنة، ويتم تحديد تكلفة كل مشروع حسب الخدمات المطلوبة والتكاملات والدعم.',
+    monthly: 'نطاق الخدمة',
     cta: 'اطلب هذه الباقة',
     note: 'السعر النهائي يعتمد على حجم الشركة ومتطلبات الأتمتة.',
     plans: [
@@ -635,7 +635,7 @@ export function HomePage({ lang }: Props) {
                       </li>
                     ))}
                   </ul>
-                  <Link href={`${prefix}/request?service=other`}>
+                  <Link href={`${prefix}/request?service=${plan.name === 'Starter' || plan.name === 'الأساسية' ? 'starter' : plan.name === 'Business' || plan.name === 'الأعمال' ? 'business' : 'growth'}`}>
                     <Button className={`w-full font-semibold transition-all duration-300 py-5 ${plan.highlighted ? 'bg-blue-500 hover:bg-blue-400 text-white hover:shadow-[0_0_24px_rgba(59,130,246,0.5)]' : 'bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20'}`}>
                       {pd.cta}
                       <ArrowRight className={`ml-2 h-4 w-4 ${rtl ? 'rotate-180 mr-2 ml-0' : ''}`} />
