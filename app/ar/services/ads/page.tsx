@@ -96,7 +96,7 @@ export default function AdsArPage() {
       packages={[
         {
           name: 'إعلانات أساسية',
-          price: 'من €800/شهر',
+          price: 'السعر حسب الطلب',
           timeline: 'إطلاق خلال 5 أيام',
           badge: 'مبتدئ',
           badgeClass: 'bg-white/10 text-gray-300 border-white/20',
@@ -110,7 +110,7 @@ export default function AdsArPage() {
         },
         {
           name: 'إعلانات نمو',
-          price: 'من €1,500/شهر',
+          price: 'السعر حسب الطلب',
           timeline: 'إطلاق خلال 7 أيام',
           badge: 'الأكثر طلباً',
           badgeClass: 'bg-blue-500 text-white border-transparent',
@@ -127,7 +127,7 @@ export default function AdsArPage() {
         },
         {
           name: 'إعلانات شاملة',
-          price: 'من €3,000/شهر',
+          price: 'السعر حسب الطلب',
           timeline: 'إطلاق خلال 10 أيام',
           badge: 'النظام الكامل',
           badgeClass: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
