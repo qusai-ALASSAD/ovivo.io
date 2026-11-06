@@ -44,5 +44,5 @@ jobs:
           curl -fsS http://127.0.0.1:3000/services/automation/ | grep -q 'n8n'
           curl -fsS http://127.0.0.1:3000/sitemap.xml -o /tmp/ovivo-sitemap.xml
           grep -q 'services/automation' /tmp/ovivo-sitemap.xml
-          curl -fsS http://127.0.0.1:3000/robots.txt | grep -q 'sitemap'
+          curl -fsS http://127.0.0.1:3000/robots.txt | grep -qi 'sitemap'
           curl -fsSI http://127.0.0.1:3000/ | grep -qi 'x-frame-options: DENY'
