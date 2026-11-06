@@ -1,4 +1,8 @@
 import './globals.css';
+import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
+
+const interFont = Inter({ subsets: ['latin'], display: 'swap', variable: '--font-inter' });
+const jakartaFont = Plus_Jakarta_Sans({ subsets: ['latin'], display: 'swap', variable: '--font-jakarta' });
 import type { Metadata } from 'next';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
@@ -52,7 +56,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="de">
-      <body className="ovivo-light">
+      <body className={`ovivo-light ${interFont.variable} ${jakartaFont.variable}`}>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteStructuredData).replace(/</g, '\\u003c') }} />
         <BrandPolish />
         <Navbar />
