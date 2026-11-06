@@ -106,7 +106,7 @@ export default function AdsPage() {
       packages={[
         {
           name: 'Ads Starter',
-          price: 'from €1,500/mo',
+          price: 'Preis auf Anfrage',
           timeline: 'Launch in 5 days',
           badge: 'Starter',
           badgeClass: 'bg-white/10 text-gray-300 border-white/20',
@@ -120,7 +120,7 @@ export default function AdsPage() {
         },
         {
           name: 'Ads Growth',
-          price: 'from €2,500/mo',
+          price: 'Preis auf Anfrage',
           timeline: 'Launch in 5 days',
           badge: 'Most Popular',
           badgeClass: 'bg-rose-500 text-white border-transparent',
@@ -137,7 +137,7 @@ export default function AdsPage() {
         },
         {
           name: 'Ads Scale',
-          price: 'from €4,500/mo',
+          price: 'Preis auf Anfrage',
           timeline: 'Launch in 7 days',
           badge: 'Full Management',
           badgeClass: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
