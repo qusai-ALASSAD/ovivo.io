@@ -7,7 +7,6 @@ const nextConfig = {
     ignoreBuildErrors: false,
   },
   images: { unoptimized: true },
-  optimizeFonts: false,
   trailingSlash: true,
 };
 
