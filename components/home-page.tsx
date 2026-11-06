@@ -1,15 +1,16 @@
 'use client';
 
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Sparkles, Zap, ArrowRight, CircleCheck as CheckCircle, Star, ChevronLeft, ChevronRight, Bot, Target, ChartBar as BarChart3, Users, Clock, TrendingUp, MessageSquare, Mail, Calendar, Phone, Settings, CircleAlert as AlertCircle, Circle as XCircle, ShieldCheck, Repeat, Database, Award } from 'lucide-react';
 import { GlassCard, RevealSection, StaggerContainer, StaggerItem } from '@/components/ui/motion';
 import { SectionHeader } from '@/components/section-header';
-import { AutomationFlowSection } from '@/components/automation-flow-section';
-import { RoiCalculator } from '@/components/roi-calculator';
-import { AiExperienceLab } from '@/components/ai-experience-lab';
+const AutomationFlowSection = dynamic(() => import('@/components/automation-flow-section').then(m => m.AutomationFlowSection));
+const RoiCalculator = dynamic(() => import('@/components/roi-calculator').then(m => m.RoiCalculator));
+const AiExperienceLab = dynamic(() => import('@/components/ai-experience-lab').then(m => m.AiExperienceLab));
 import type { Lang } from '@/lib/i18n';
 import { content, isRTL } from '@/lib/i18n';
 
