@@ -106,7 +106,7 @@ export function ServicePageLayout({
     packagesBadge: 'الباقات',
     packagesTitle: 'اختر',
     packagesGradient: 'باقتك',
-    packagesSubtitle: 'باقات مصممة لتناسب مرحلتك وطموحاتك.',
+    packagesSubtitle: 'نحدد سعر كل باقة حسب خدمات المشروع واحتياجات شركتك.',
     faqBadge: 'أسئلة شائعة',
     faqTitle: 'الأسئلة',
     faqGradient: 'المتكررة',
@@ -123,7 +123,7 @@ export function ServicePageLayout({
     deliverablesBadge: 'Deliverables',
     deliverablesTitle: 'What You',
     deliverablesGradient: 'Get',
-    deliverablesSubtitle: 'Everything included — no hidden extras.',
+    deliverablesSubtitle: 'Der genaue Umfang wird im individuellen Angebot festgelegt.',
     useCasesBadge: 'Use Cases',
     useCasesTitle: 'Works For',
     useCasesGradient: 'Every Industry',
@@ -205,7 +205,7 @@ export function ServicePageLayout({
                 {heroSubtitle}
               </p>
               <div className="flex flex-col gap-4 sm:flex-row">
-                <Link href={requestHref}>
+                <Link href={requestHref + '&package=' + encodeURIComponent(pkg.name)}>
                   <Button size="lg" className="group relative overflow-hidden bg-blue-500 hover:bg-blue-400 text-white px-8 py-6 text-base font-semibold transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)]">
                     <span className="relative z-10 flex items-center gap-2">
                       {t.requestQuote}
@@ -387,7 +387,7 @@ export function ServicePageLayout({
                   <div className="p-8 flex flex-col h-full">
                     <Badge className={`w-fit text-xs border mb-4 ${pkg.badgeClass}`}>{pkg.badge}</Badge>
                     <h3 className="text-2xl font-bold text-white mb-1">{pkg.name}</h3>
-                    <div className="text-4xl font-bold text-white my-4">{pkg.price}</div>
+                    <div className="my-4 text-xl font-bold text-[#0B1F4D]">{lang==='de'?'Preis auf Anfrage':lang==='en'?'Price on request':'السعر حسب الطلب'}</div>
                     <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-6">
                       <Clock className="h-3 w-3" />
                       {pkg.timeline}
