@@ -296,11 +296,7 @@ export function HomePage({ lang }: Props) {
         </div>
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
-            <motion.div
-              initial={{ opacity: 0, x: rtl ? 40 : -40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, ease: [0.21, 1.11, 0.81, 0.99] }}
-            >
+            <div>
               <span className="inline-flex items-center rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-blue-400 mb-6">
                 <Sparkles className="mr-2 h-3 w-3 rtl:ml-2 rtl:mr-0" />
                 {t.hero.badge}
@@ -336,7 +332,7 @@ export function HomePage({ lang }: Props) {
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </div>
 
             {/* Hero Visual */}
             <motion.div
