@@ -45,7 +45,7 @@ const content = {
     note:'10 % Rabatt ausschließlich auf die einmalige Starter-Einrichtung (990 € → 891 €). Der Monatspreis bleibt unverändert.',
     button:'Jetzt Beratung anfragen', included:'Leistungen im Überblick',
     compare:'Leistungen vergleichen', compareSub:'Wählen Sie den Umfang, der zu Ihrem Unternehmen passt.',
-    fine:'Unverbindliche B2B-Einstiegspreise, netto (ggf. zzgl. gesetzlicher Umsatzsteuer). Einrichtung und monatliche Betreuung werden separat berechnet. API-, KI-Modell-, WhatsApp-, Telefonie-, Hosting- und Drittanbietergebühren können zusätzlich anfallen. Leistungsumfang, Nutzungsgrenzen, Laufzeit und Kündigungsbedingungen werden im individuellen Angebot festgelegt.',
+    fine:'AI Starter: unverbindlicher B2B-Einstiegspreis netto, ggf. zzgl. Umsatzsteuer. Business und Growth: individuelles Angebot nach Prüfung. API-, KI-, WhatsApp-, Telefonie-, Hosting- und Drittanbietergebühren können zusätzlich anfallen. Leistungsumfang und Vertragsbedingungen werden schriftlich festgelegt.',
     questions:'Häufige Fragen', faqs:[
       ['Was bedeutet „ab“ beim Preis?','Der Preis gilt für den beschriebenen grundlegenden Leistungsumfang. Individuelle Zusatzfunktionen und Sonderintegrationen werden vorab kalkuliert.'],
       ['Wofür gelten die 10 % Rabatt?','Nur für die einmalige Einrichtung von AI Starter: ab 891 € statt ab 990 €. Der Monatspreis bleibt bei ab 99 €.'],
@@ -65,7 +65,7 @@ const content = {
     setup:'One-time setup',monthly:'Monthly support',from:'from',per:'/ month',discount:'10% introductory discount',savings:'Save €99',recommended:'Recommended',
     note:'10% off the one-time AI Starter setup only (€990 → €891). Monthly support remains unchanged.',
     button:'Request a consultation',included:'Included services',compare:'Compare packages',compareSub:'Choose the scope that suits your business.',
-    fine:'Non-binding B2B starting prices, net (VAT may apply). Setup and monthly support are charged separately. Usage-based AI/API, WhatsApp, phone, hosting and third-party fees may apply. Final scope, usage limits, duration and cancellation are specified in the individual proposal.',
+    fine:'AI Starter is a non-binding B2B starting price, net (VAT may apply). Business and Growth are individually quoted. AI, API, hosting and third-party charges may apply. Final scope and terms are agreed in writing.',
     questions:'Frequently asked questions',faqs:[
       ['What does “from” mean?','Prices cover the stated basic scope. Extra features and custom integrations are quoted separately.'],
       ['What does the 10% offer cover?','AI Starter one-time setup only: from €891 instead of €990. Monthly support stays from €99.'],
@@ -85,7 +85,7 @@ const content = {
     setup:'رسوم إعداد لمرة واحدة',monthly:'متابعة شهرية',from:'ابتداءً من',per:'/ شهرياً',discount:'خصم 10% على البداية',savings:'وفّر 99€',recommended:'الباقة الموصى بها',
     note:'خصم 10% على رسوم تأسيس AI Starter فقط (990€ ← 891€)، دون تغيير الاشتراك الشهري.',
     button:'اطلب استشارة الآن',included:'الخدمات',compare:'مقارنة الباقات',compareSub:'اختر الخدمات التي تناسب طريقة عملك.',
-    fine:'أسعار استرشادية للشركات، صافية (قد تُضاف ضريبة القيمة المضافة). رسوم التأسيس منفصلة عن المتابعة الشهرية. تكاليف AI وAPI وواتساب والاتصالات والاستضافة والخدمات الخارجية قد تُحسب بشكل إضافي. يحدد العرض المكتوب نطاق الخدمة وحدود الاستخدام ومدة العقد والإلغاء.',
+    fine:'Starter سعر مبدئي للشركات قبل الضريبة المحتملة. باقتا Business وGrowth بسعر مخصص بعد دراسة الطلب. قد تُضاف تكاليف API والذكاء الاصطناعي والاستضافة والخدمات الخارجية. تُحدد التفاصيل والشروط في العرض المكتوب.',
     questions:'الأسئلة الشائعة',faqs:[
       ['ماذا يعني «ابتداءً من»؟','السعر يشمل نطاقاً أساسياً محدداً، ويُسعّر العمل الإضافي مسبقاً.'],
       ['ما الذي يشمله خصم 10%؟','رسوم تأسيس AI Starter فقط: ابتداءً من 891€ بدلاً من 990€. الاشتراك الشهري يبدأ من 99€.'],
@@ -138,15 +138,14 @@ export function PricingPage({lang}: {lang: Lang}) {
         <h3 className="text-[32px] font-extrabold leading-tight tracking-tight text-[#0B1F4D] md:text-[36px]">{t.names[index]}</h3>
         <p className="mt-3 min-h-[74px] text-[15px] leading-7 text-[#5B6B84]">{t.desc[index]}</p>
         <div className="mt-6 rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,.7)]">
-         <p className="text-xs font-bold uppercase tracking-wide text-[#52647E]">{t.setup}</p>
+         <p className="text-xs font-bold uppercase tracking-wide text-[#52647E]">{plan.id==='starter'?t.setup:(lang==='de'?'Individuelles Angebot':lang==='en'?'Tailored quote':'عرض سعر مخصص')}</p>
          <div className="mt-2 flex flex-wrap items-end gap-3">
-          <span className="text-xs text-[#52647E]">{t.from}</span>
-          <span className="text-4xl font-extrabold tracking-tight text-[#0B1F4D]">{euro(plan.setup)}</span>
+          {plan.id==='starter' ? <><span className="text-xs text-[#52647E]">{t.from}</span><span className="text-4xl font-extrabold tracking-tight text-[#0B1F4D]">{euro(plan.setup)}</span></> : <span className="text-xl font-extrabold leading-7 text-[#0B1F4D]">{lang==='de'?'Preis auf Anfrage':lang==='en'?'Price on request':'السعر بعد دراسة الطلب'}</span>}
           {'original' in plan && typeof plan.original === 'number' && <span className="pb-1 text-sm text-[#52647E] line-through">{euro(plan.original)}</span>}
          </div>
          <div className="my-4 h-px bg-[#DFE7FA]"/>
          <p className="text-xs font-bold uppercase tracking-wide text-[#52647E]">{t.monthly}</p>
-         <p className="mt-2 text-3xl font-extrabold text-[#2563EB]"><span className="text-xs font-normal text-[#52647E]">{t.from} </span>{euro(plan.monthly)} <span className="text-xs font-medium text-[#52647E]">{t.per}</span></p>
+         {plan.id==='starter' ? <p className="mt-2 text-3xl font-extrabold text-[#2563EB]"><span className="text-xs font-normal text-[#52647E]">{t.from} </span>{euro(plan.monthly)} <span className="text-xs font-medium text-[#52647E]">{t.per}</span></p> : <p className="mt-2 text-base font-bold text-[#52647E]">{lang==='de'?'Nach Leistungsumfang':lang==='en'?'Based on service scope':'بحسب نطاق الخدمة'}</p>}
         </div>
         <p className="mt-5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold leading-6 text-[#334155]">{t.scope[index]}</p>
         <ul className="mt-7 flex-1 space-y-4">
@@ -156,7 +155,7 @@ export function PricingPage({lang}: {lang: Lang}) {
           </li>
          ))}
         </ul>
-        <Link href={prefix + '/consultation'} className={'ovivo-pricing-cta mt-9 flex min-h-[56px] items-center justify-center gap-2 rounded-xl px-5 text-center text-sm font-extrabold transition-all duration-300 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#885CF6] motion-reduce:transform-none ' + (plan.recommended ? 'ovivo-pricing-cta-primary bg-[#3B82F6] text-white shadow-[0_12px_30px_rgba(37,99,235,.25)] hover:bg-[#1D4ED8] hover:shadow-[0_18px_40px_rgba(37,99,235,.32)]' : plan.id === 'growth' ? 'ovivo-pricing-cta-growth border border-[#0B1F4D] bg-white text-white shadow-[0_10px_25px_rgba(16,24,40,.20)] hover:bg-[#E0E7FF]' : 'ovivo-pricing-cta-secondary border-2 border-[#0B1F4D] bg-white text-[#1D4ED8] shadow-sm hover:bg-[#EFF6FF] hover:shadow-[0_12px_26px_rgba(37,99,235,.10)]')}>
+        <Link href={prefix + '/request?service=' + plan.id} className={'ovivo-pricing-cta mt-9 flex min-h-[56px] items-center justify-center gap-2 rounded-xl px-5 text-center text-sm font-extrabold transition-all duration-300 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#885CF6] motion-reduce:transform-none ' + (plan.recommended ? 'ovivo-pricing-cta-primary bg-[#3B82F6] text-white shadow-[0_12px_30px_rgba(37,99,235,.25)] hover:bg-[#1D4ED8] hover:shadow-[0_18px_40px_rgba(37,99,235,.32)]' : plan.id === 'growth' ? 'ovivo-pricing-cta-growth border border-[#0B1F4D] bg-white text-[#0B1F4D] shadow-[0_10px_25px_rgba(16,24,40,.20)] hover:bg-[#E0E7FF]' : 'ovivo-pricing-cta-secondary border-2 border-[#0B1F4D] bg-white text-[#1D4ED8] shadow-sm hover:bg-[#EFF6FF] hover:shadow-[0_12px_26px_rgba(37,99,235,.10)]')}>
          {plan.id === 'starter' ? (lang === 'de' ? 'Mit Starter beginnen' : lang === 'en' ? 'Start with Starter' : 'ابدأ مع Starter') : plan.recommended ? (lang === 'de' ? 'Empfohlene Lösung anfragen' : lang === 'ar' ? 'اطلب الحل الموصى به' : 'Request recommended solution') : (lang === 'de' ? 'Wachstumslösung anfragen' : lang === 'en' ? 'Explore Growth' : 'استكشف Growth')}<ArrowRight size={16} className={rtl?'rotate-180':''}/>
         </Link>
        </motion.article>
