@@ -230,7 +230,7 @@ export function Navbar() {
                 DE
               </Link>
             ) : null}
-            <Link href={`${prefix}/consultation`}>
+            <Link href={`${prefix}/request?service=other`}>
               <Button className="bg-blue-500 hover:bg-blue-400 text-white border-0 shadow-lg hover:shadow-blue-500/40 transition-all duration-300 font-semibold">
                 {ctaLabel}
               </Button>
@@ -326,7 +326,7 @@ export function Navbar() {
                     <Button variant="outline" className="w-full glass border-white/10 text-slate-600 hover:text-blue-600 text-xs">AR</Button>
                   </Link>
                 </div>
-                <Link href={`${prefix}/consultation`} onClick={() => setMobileMenuOpen(false)}>
+                <Link href={`${prefix}/request?service=other`} onClick={() => setMobileMenuOpen(false)}>
                   <Button className="w-full bg-blue-500 hover:bg-blue-400 text-white border-0 font-semibold">
                     {ctaLabel}
                   </Button>
