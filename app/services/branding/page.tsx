@@ -116,7 +116,7 @@ export default function BrandingPage() {
       packages={[
         {
           name: 'Brand Starter',
-          price: 'from €1,500',
+          price: 'Preis auf Anfrage',
           timeline: 'Delivery in 10 days',
           badge: 'Starter',
           badgeClass: 'bg-white/10 text-gray-300 border-white/20',
@@ -130,7 +130,7 @@ export default function BrandingPage() {
         },
         {
           name: 'Brand Growth',
-          price: 'from €3,000',
+          price: 'Preis auf Anfrage',
           timeline: 'Delivery in 14 days',
           badge: 'Most Popular',
           badgeClass: 'bg-amber-500 text-white border-transparent',
@@ -147,7 +147,7 @@ export default function BrandingPage() {
         },
         {
           name: 'Brand Scale',
-          price: 'from €5,500',
+          price: 'Preis auf Anfrage',
           timeline: 'Delivery in 21 days',
           badge: 'Premium',
           badgeClass: 'bg-rose-500/20 text-rose-400 border-rose-500/30',
