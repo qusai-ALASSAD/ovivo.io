@@ -75,10 +75,10 @@ const faqs = {
   ],
   en: [
     { q: 'Which industries is Ovivo suitable for?', a: 'Ovivo is designed specifically for hospitality (restaurants, cafés, bars), service businesses (hair, beauty, fitness), and local service providers — anywhere customer inquiries and bookings happen daily.' },
-    { q: 'How long does setup take?', a: 'Depending on the package, full implementation takes 5–14 business days. We handle everything — from technical setup to team training.' },
+    { q: 'How long does setup take?', a: 'Implementation time depends on the complexity of your processes and integrations. We agree a timeline before starting.' },
     { q: 'Do I need technical knowledge?', a: 'No. We handle all the technical setup. You receive a ready-to-use system that you can operate without any IT knowledge.' },
-    { q: "What's included in monthly support?", a: 'Monthly support includes maintenance, updates, technical support, and monthly optimizations of your system.' },
-    { q: 'Can I cancel monthly?', a: 'Yes, monthly support is cancelable on a monthly basis. The one-time setup fee is non-refundable.' },
+    { q: "What's included in ongoing support?", a: 'We agree maintenance, updates, technical support, and optimization in your tailored offer.' },
+    { q: 'How do contract terms work?', a: 'Support terms and cancellation conditions are set out in the individual proposal.' },
     { q: 'What happens after the consultation?', a: "After the free consultation, you'll receive a concrete proposal. If you agree, we start implementation within 48 hours." },
   ],
   ar: [
@@ -116,18 +116,18 @@ const stepIcons = [Phone, Bot, Database, Zap];
 
 const pricingData = {
   de: {
-    badge: 'Pakete & Preise',
+    badge: 'Individuelle Automationspakete',
     title: 'Transparent.',
     titleGradient: 'Leistungsstark.',
     sub: 'Drei Pakete für jeden Bedarf. Einmaliger Setup + monatliche Betreuung.',
-    monthly: 'Monatlich',
+    monthly: 'Betreuung',
     cta: 'Paket anfragen',
     note: 'Endpreis abhängig von Betriebsgröße und Automatisierungsumfang.',
     plans: [
       {
         name: 'Starter',
-        setup: 'ab €891 (10 % Rabatt)',
-        monthly: 'ab €99 / Monat',
+        setup: 'Preis auf Anfrage',
+        monthly: 'Nach Leistungsumfang',
         badge: null,
         highlighted: false,
         ideal: 'Für Einzelbetriebe & Einsteiger',
@@ -157,18 +157,18 @@ const pricingData = {
     ],
   },
   en: {
-    badge: 'Packages & Pricing',
+    badge: 'Tailored automation plans',
     title: 'Transparent.',
     titleGradient: 'Powerful.',
-    sub: 'Three packages for every stage. One-time setup + monthly support.',
-    monthly: 'Monthly',
+    sub: 'Three example packages, each individually quoted based on your business needs.',
+    monthly: 'Support',
     cta: 'Request this plan',
     note: 'Final price depends on business size and automation requirements.',
     plans: [
       {
         name: 'Starter',
-        setup: 'from €891 (10% off)',
-        monthly: 'from €99 / mo',
+        setup: 'Price on request',
+        monthly: 'Based on scope',
         badge: null,
         highlighted: false,
         ideal: 'For sole traders & beginners',
@@ -198,18 +198,18 @@ const pricingData = {
     ],
   },
   ar: {
-    badge: 'الباقات والأسعار',
+    badge: 'باقات أتمتة مخصصة',
     title: 'شفاف.',
     titleGradient: 'قوي.',
     sub: '3 باقات تناسب كل مرحلة. إعداد لمرة واحدة + رعاية شهرية.',
-    monthly: 'شهرياً',
+    monthly: 'المتابعة',
     cta: 'اطلب هذه الباقة',
     note: 'السعر النهائي يعتمد على حجم الشركة ومتطلبات الأتمتة.',
     plans: [
       {
         name: 'الأساسية',
-        setup: 'من €891 (خصم 10%)',
-        monthly: 'من €99 / شهر',
+        setup: 'السعر حسب الطلب',
+        monthly: 'بحسب نطاق الخدمة',
         badge: null,
         highlighted: false,
         ideal: 'لأصحاب الأعمال الفردية والبدايات',
