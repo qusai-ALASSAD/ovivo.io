@@ -2,22 +2,22 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, Check, Tag, ShieldCheck, MessagesSquare, Settings2, Sparkles, Zap, Crown, Headphones } from 'lucide-react';
+import { ArrowRight, Check, ShieldCheck, MessagesSquare, Settings2, Sparkles, Zap, Crown, Headphones } from 'lucide-react';
 import { SectionHeader } from '@/components/section-header';
 import type { Lang } from '@/lib/i18n';
 
 type Feature = 'chat' | 'leads' | 'workflow' | 'calendar' | 'crm' | 'integration' | 'analytics' | 'support' | 'marketing';
 const offers = [
-  { id: 'starter', setup: 891, original: 990, monthly: 99, features: ['chat', 'leads', 'support'] as Feature[] },
-  { id: 'business', setup: 2490, monthly: 249, recommended: true, features: ['chat', 'leads', 'workflow', 'calendar', 'crm', 'integration', 'support'] as Feature[] },
-  { id: 'growth', setup: 4990, monthly: 449, features: ['chat', 'leads', 'workflow', 'calendar', 'crm', 'integration', 'analytics', 'support', 'marketing'] as Feature[] },
+  { id: 'starter', features: ['chat', 'leads', 'support'] as Feature[] },
+  { id: 'business', recommended: true, features: ['chat', 'leads', 'workflow', 'calendar', 'crm', 'integration', 'support'] as Feature[] },
+  { id: 'growth', features: ['chat', 'leads', 'workflow', 'calendar', 'crm', 'integration', 'analytics', 'support', 'marketing'] as Feature[] },
 ];
 const allFeatures: Feature[] = ['chat','leads','workflow','calendar','crm','integration','analytics','support','marketing'];
 const content = {
   de: {
-    badge: 'KI-AUTOMATION · PAKETE & PREISE',
+    badge: 'KI-AUTOMATION · INDIVIDUELLE PAKETE',
     title: 'KI-Automation.',
-    gradient: 'Klare Lösungen. Faire Preise.',
+    gradient: 'Individuell kalkuliert.',
     intro: 'Weniger manuelle Arbeit. Mehr Zeit für Ihre Kunden. Drei Pakete für den passenden Einstieg.',
     stripTitle: 'Der richtige Einstieg in KI-Automation.',
     stripText: 'Von einem smarten KI-Assistenten bis zur vernetzten Prozessautomatisierung – wir begleiten Sie vom Setup bis zur laufenden Optimierung.',
@@ -39,62 +39,61 @@ const content = {
       integration:'Anbindung vorhandener Systeme',analytics:'Basis-Reporting der Automationen',
       support:'Einrichtung, Tests & vereinbarte Betreuung',marketing:'Marketing-Automation-Basis',
     },
-    setup:'Einmalige Einrichtung', monthly:'Monatliche Betreuung', from:'ab', per:'/ Monat',
-    discount:'10 % Einführungsrabatt', savings:'99 € sparen', recommended:'Unsere Empfehlung',
-    note:'10 % Rabatt ausschließlich auf die einmalige Starter-Einrichtung (990 € → 891 €). Der Monatspreis bleibt unverändert.',
+    
+     recommended:'Unsere Empfehlung',
+    note:'Alle Pakete werden nach einer kostenlosen Erstberatung individuell kalkuliert.',
     button:'Jetzt Beratung anfragen', included:'Leistungen im Überblick',
     compare:'Leistungen vergleichen', compareSub:'Wählen Sie den Umfang, der zu Ihrem Unternehmen passt.',
-    fine:'AI Starter: unverbindlicher B2B-Einstiegspreis netto, ggf. zzgl. Umsatzsteuer. Business und Growth: individuelles Angebot nach Prüfung. API-, KI-, WhatsApp-, Telefonie-, Hosting- und Drittanbietergebühren können zusätzlich anfallen. Leistungsumfang und Vertragsbedingungen werden schriftlich festgelegt.',
+    fine:'Die Kosten für Einrichtung, laufende Betreuung, API-, KI-Modell-, WhatsApp-, Telefonie-, Hosting- und Drittanbietergebühren hängen vom Projekt ab und werden vor der Beauftragung transparent vereinbart.',
     questions:'Häufige Fragen', faqs:[
-      ['Was bedeutet „ab“ beim Preis?','Der Preis gilt für den beschriebenen grundlegenden Leistungsumfang. Individuelle Zusatzfunktionen und Sonderintegrationen werden vorab kalkuliert.'],
-      ['Wofür gelten die 10 % Rabatt?','Nur für die einmalige Einrichtung von AI Starter: ab 891 € statt ab 990 €. Der Monatspreis bleibt bei ab 99 €.'],
+      ['Wie wird der Preis berechnet?','Wir kalkulieren nach Aufgaben, Anzahl der Integrationen, Nutzungsvolumen und benötigter Betreuung. Sie erhalten ein individuelles Angebot.'],
+      ['Gibt es feste Paketpreise?','Nein. Die Pakete beschreiben mögliche Leistungen, der tatsächliche Umfang und Preis werden projektbezogen vereinbart.'],
       ['Sind KI- und n8n-Kosten inklusive?','Verbrauchsabhängige API-Kosten, Hosting und Drittanbieterleistungen sind nicht automatisch enthalten. Wir informieren vor Vertragsabschluss.'],
       ['Wie lange läuft der Vertrag?','Laufzeit und Kündigungsbedingungen stehen transparent im schriftlichen Angebot.'],
     ],
     endTitle:'Welche Automation lohnt sich für Sie?',endText:'Wir prüfen Ihre bestehenden Abläufe und empfehlen einen sinnvollen Einstieg.',endButton:'Kostenlose KI-Erstberatung',
   },
   en: {
-    badge:'AI AUTOMATION · PLANS & PRICING',title:'AI automation.',gradient:'Clear solutions. Fair prices.',
+    badge:'AI AUTOMATION · CUSTOM PACKAGES',title:'AI automation.',gradient:'Tailored to your needs.',
     intro:'Less repetitive work, more time for customers. Three plans for a practical start.',
     stripTitle:'The right start with AI automation.',stripText:'From a smart AI assistant to connected workflows, we guide you from setup to optimization.',
     trusts:['Free initial call','Tailored proposal','Clear project plan'],names:['AI Starter','AI Business','AI Growth'],
     desc:['An easy entry point for freelancers, small businesses and local services.','For teams connecting customer inquiries, bookings and existing systems.','For growing businesses with several processes and more advanced automation.'],
     scope:['1 website AI assistant with FAQ knowledge and contact forwarding','Up to 2 agreed n8n workflows with 1 standard integration','Up to 4 agreed workflows with 2 standard integrations'],
     features:{chat:'AI assistant for frequent questions',leads:'Capture customer inquiries',workflow:'n8n workflow automation',calendar:'Calendar & booking inquiries',crm:'CRM connection within agreed scope',integration:'Connect existing tools',analytics:'Basic automation reporting',support:'Setup, testing & agreed support',marketing:'Marketing automation basics'},
-    setup:'One-time setup',monthly:'Monthly support',from:'from',per:'/ month',discount:'10% introductory discount',savings:'Save €99',recommended:'Recommended',
-    note:'10% off the one-time AI Starter setup only (€990 → €891). Monthly support remains unchanged.',
+    recommended:'Recommended',
+    note:'All plans are quoted individually after a free initial consultation.',
     button:'Request a consultation',included:'Included services',compare:'Compare packages',compareSub:'Choose the scope that suits your business.',
-    fine:'AI Starter is a non-binding B2B starting price, net (VAT may apply). Business and Growth are individually quoted. AI, API, hosting and third-party charges may apply. Final scope and terms are agreed in writing.',
+    fine:'Setup, maintenance, AI/API, hosting and third-party charges depend on your project and will be explained in your written quotation.',
     questions:'Frequently asked questions',faqs:[
-      ['What does “from” mean?','Prices cover the stated basic scope. Extra features and custom integrations are quoted separately.'],
-      ['What does the 10% offer cover?','AI Starter one-time setup only: from €891 instead of €990. Monthly support stays from €99.'],
+      ['How are prices calculated?','We quote each project based on required workflows, integrations, usage and support.'],
+      ['Are there fixed package prices?','No. The packages outline options; scope and cost are agreed in a custom proposal.'],
       ['Are AI and n8n costs included?','Usage-based API, hosting and third-party costs are not automatically included.'],
       ['Is there a contract term?','Duration and cancellation terms are set out in your written offer.'],
     ],
     endTitle:'Which automation makes sense for you?',endText:'We review your current workflows and suggest a sensible starting point.',endButton:'Free AI consultation',
   },
   ar: {
-    badge:'أتمتة الذكاء الاصطناعي · الباقات والأسعار',title:'أتمتة أعمالك.',gradient:'حلول واضحة وأسعار مناسبة.',
+    badge:'أتمتة الذكاء الاصطناعي · حلول مخصصة',title:'أتمتة أعمالك.',gradient:'عرض يناسب متطلباتك.',
     intro:'مهام يدوية أقل ووقت أكثر للعملاء، مع ثلاث باقات تناسب احتياجاتك.',
     stripTitle:'البداية الصحيحة مع أتمتة الأعمال.',stripText:'من المساعد الذكي إلى ربط العمليات، نساعدك في الإعداد والتطوير والمتابعة.',
     trusts:['استشارة أولية مجانية','عرض مخصص','خطة تنفيذ واضحة'],names:['AI Starter','AI Business','AI Growth'],
     desc:['بداية مناسبة للأعمال الصغيرة والمستقلين والشركات المحلية.','للشركات التي تريد ربط الاستفسارات والمواعيد والأنظمة الحالية.','للشركات النامية التي تحتاج أتمتة عمليات مترابطة.'],
     scope:['مساعد AI واحد للموقع مع أسئلة شائعة وتحويل طلبات التواصل','حتى عمليتي n8n متفق عليهما مع تكامل قياسي واحد','حتى 4 عمليات أتمتة وتكاملين قياسيين بحسب الاتفاق'],
     features:{chat:'مساعد AI للأسئلة الشائعة',leads:'تنظيم طلبات العملاء',workflow:'أتمتة العمليات عبر n8n',calendar:'المواعيد والتقويم',crm:'ربط CRM حسب نطاق الاتفاق',integration:'ربط الأدوات الحالية',analytics:'تقارير مبسطة للأتمتة',support:'الإعداد والاختبار والمتابعة',marketing:'أساسيات أتمتة التسويق'},
-    setup:'رسوم إعداد لمرة واحدة',monthly:'متابعة شهرية',from:'ابتداءً من',per:'/ شهرياً',discount:'خصم 10% على البداية',savings:'وفّر 99€',recommended:'الباقة الموصى بها',
-    note:'خصم 10% على رسوم تأسيس AI Starter فقط (990€ ← 891€)، دون تغيير الاشتراك الشهري.',
+    recommended:'الباقة الموصى بها',
+    note:'جميع الباقات تُسعّر بشكل فردي بعد الاستشارة الأولية المجانية.',
     button:'اطلب استشارة الآن',included:'الخدمات',compare:'مقارنة الباقات',compareSub:'اختر الخدمات التي تناسب طريقة عملك.',
-    fine:'Starter سعر مبدئي للشركات قبل الضريبة المحتملة. باقتا Business وGrowth بسعر مخصص بعد دراسة الطلب. قد تُضاف تكاليف API والذكاء الاصطناعي والاستضافة والخدمات الخارجية. تُحدد التفاصيل والشروط في العرض المكتوب.',
+    fine:'تحدد تكاليف التأسيس والمتابعة وواجهات API والذكاء الاصطناعي والاستضافة والخدمات الخارجية في عرض مكتوب حسب المشروع.',
     questions:'الأسئلة الشائعة',faqs:[
-      ['ماذا يعني «ابتداءً من»؟','السعر يشمل نطاقاً أساسياً محدداً، ويُسعّر العمل الإضافي مسبقاً.'],
-      ['ما الذي يشمله خصم 10%؟','رسوم تأسيس AI Starter فقط: ابتداءً من 891€ بدلاً من 990€. الاشتراك الشهري يبدأ من 99€.'],
+      ['كيف يُحسب السعر؟','بحسب عدد العمليات والتكاملات وحجم الاستخدام والدعم المطلوب.'],
+      ['هل الباقات لها سعر ثابت؟','لا، تعرض الباقات أمثلة على الخدمات ويُحدد السعر النهائي بعرض مخصص.'],
       ['هل تكاليف AI وn8n مشمولة؟','تكاليف الاستهلاك والـAPI والاستضافة والخدمات الخارجية غير مشمولة تلقائياً.'],
       ['هل هناك مدة عقد ملزمة؟','مدة العقد وشروط الإلغاء تُحدد بوضوح في العرض المكتوب.'],
     ],
     endTitle:'أي أتمتة تناسب شركتك؟',endText:'نراجع خطوات العمل ونقترح حلاً يناسب الاحتياج.',endButton:'استشارة AI مجانية',
   },
 };
-const euro = (x: number) => '€' + new Intl.NumberFormat('de-DE').format(x);
 export function PricingPage({lang}: {lang: Lang}) {
  const t = content[lang];
  const rtl = lang === 'ar';
@@ -130,21 +129,16 @@ export function PricingPage({lang}: {lang: Lang}) {
         <div className="mb-6 flex min-h-[54px] items-center justify-between gap-2">
          <div className={'flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-105 ' + (plan.recommended ? 'bg-[#3B82F6] text-white shadow-lg shadow-blue-500/20' : 'bg-[#EFF6FF] text-[#2563EB]')}><PlanIcon size={26}/></div>
          <div className="flex flex-wrap justify-end gap-2">
-         {'original' in plan && <><span className="inline-flex items-center gap-1 rounded-full border border-[#DDD0FF] bg-[#F1EAFE] px-3 py-1.5 text-xs font-extrabold text-[#6D28D9]"><Tag size={13}/>{t.discount}</span><span className="text-xs font-semibold text-[#52647E]">{t.savings}</span></>}
+
          {'recommended' in plan && <span className="ovivo-price-featured-badge rounded-full bg-[#3B82F6] px-3 py-1.5 text-xs font-bold text-white shadow-sm">{t.recommended}</span>}
          </div>
         </div>
         <h3 className="text-[32px] font-extrabold leading-tight tracking-tight text-[#0B1F4D] md:text-[36px]">{t.names[index]}</h3>
         <p className="mt-3 min-h-[74px] text-[15px] leading-7 text-[#5B6B84]">{t.desc[index]}</p>
         <div className="mt-6 rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,.7)]">
-         <p className="text-xs font-bold uppercase tracking-wide text-[#52647E]">{plan.id==='starter'?t.setup:(lang==='de'?'Individuelles Angebot':lang==='en'?'Tailored quote':'عرض سعر مخصص')}</p>
-         <div className="mt-2 flex flex-wrap items-end gap-3">
-          {plan.id==='starter' ? <><span className="text-xs text-[#52647E]">{t.from}</span><span className="text-4xl font-extrabold tracking-tight text-[#0B1F4D]">{euro(plan.setup)}</span></> : <span className="text-xl font-extrabold leading-7 text-[#0B1F4D]">{lang==='de'?'Preis auf Anfrage':lang==='en'?'Price on request':'السعر بعد دراسة الطلب'}</span>}
-          {'original' in plan && typeof plan.original === 'number' && <span className="pb-1 text-sm text-[#52647E] line-through">{euro(plan.original)}</span>}
-         </div>
-         <div className="my-4 h-px bg-[#DFE7FA]"/>
-         <p className="text-xs font-bold uppercase tracking-wide text-[#52647E]">{t.monthly}</p>
-         {plan.id==='starter' ? <p className="mt-2 text-3xl font-extrabold text-[#2563EB]"><span className="text-xs font-normal text-[#52647E]">{t.from} </span>{euro(plan.monthly)} <span className="text-xs font-medium text-[#52647E]">{t.per}</span></p> : <p className="mt-2 text-base font-bold text-[#52647E]">{lang==='de'?'Nach Leistungsumfang':lang==='en'?'Based on service scope':'بحسب نطاق الخدمة'}</p>}
+         <p className="text-xs font-bold uppercase tracking-wide text-[#52647E]">{lang==='de'?'Individuelles Angebot':lang==='en'?'Custom quotation':'عرض سعر مخصص'}</p>
+         <p className="mt-2 text-xl font-extrabold leading-7 text-[#0B1F4D]">{lang==='de'?'Preis auf Anfrage':lang==='en'?'Price on request':'السعر عند الطلب'}</p>
+         <p className="mt-2 text-xs leading-6 text-[#52647E]">{lang==='de'?'Abhängig von Anforderungen, Integrationen und Betreuungsumfang.':lang==='en'?'Based on requirements, integrations and support scope.':'بحسب متطلبات المشروع والتكاملات والدعم.'}</p>
         </div>
         <p className="mt-5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold leading-6 text-[#334155]">{t.scope[index]}</p>
         <ul className="mt-7 flex-1 space-y-4">
@@ -155,7 +149,7 @@ export function PricingPage({lang}: {lang: Lang}) {
          ))}
         </ul>
         <Link href={prefix + '/request?service=' + plan.id} className={'ovivo-pricing-cta mt-9 flex min-h-[56px] items-center justify-center gap-2 rounded-xl px-5 text-center text-sm font-extrabold transition-all duration-300 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#885CF6] motion-reduce:transform-none ' + (plan.recommended ? 'ovivo-pricing-cta-primary bg-[#3B82F6] text-white shadow-[0_12px_30px_rgba(37,99,235,.25)] hover:bg-[#1D4ED8] hover:shadow-[0_18px_40px_rgba(37,99,235,.32)]' : plan.id === 'growth' ? 'ovivo-pricing-cta-growth border border-[#0B1F4D] bg-white text-[#0B1F4D] shadow-[0_10px_25px_rgba(16,24,40,.20)] hover:bg-[#E0E7FF]' : 'ovivo-pricing-cta-secondary border-2 border-[#0B1F4D] bg-white text-[#1D4ED8] shadow-sm hover:bg-[#EFF6FF] hover:shadow-[0_12px_26px_rgba(37,99,235,.10)]')}>
-         {plan.id === 'starter' ? (lang === 'de' ? 'Mit Starter beginnen' : lang === 'en' ? 'Start with Starter' : 'ابدأ مع Starter') : plan.recommended ? (lang === 'de' ? 'Empfohlene Lösung anfragen' : lang === 'ar' ? 'اطلب الحل الموصى به' : 'Request recommended solution') : (lang === 'de' ? 'Wachstumslösung anfragen' : lang === 'en' ? 'Explore Growth' : 'استكشف Growth')}<ArrowRight size={16} className={rtl?'rotate-180':''}/>
+         {lang==='de'?'Angebot anfordern':lang==='en'?'Request a quote':'اطلب عرض سعر'}<ArrowRight size={16} className={rtl?'rotate-180':''}/>
         </Link>
        </motion.article>
        );
