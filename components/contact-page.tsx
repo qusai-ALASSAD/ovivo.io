@@ -1,315 +1,56 @@
 'use client';
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { ArrowRight, CircleCheck as CheckCircle, Mail, Phone, MessageSquare, MapPin, Clock } from 'lucide-react';
-import { GlassCard, RevealSection, StaggerContainer, StaggerItem } from '@/components/ui/motion';
+import Link from 'next/link';
+import { ArrowRight, Mail, Phone, MessageCircle, Sparkles } from 'lucide-react';
 import { SectionHeader } from '@/components/section-header';
 import type { Lang } from '@/lib/i18n';
-import { isRTL } from '@/lib/i18n';
 
-const t = {
-  de: {
-    badge: 'Kontakt',
-    title: 'Sprechen wir',
-    titleGradient: 'über Ihr Projekt',
-    sub: 'Füllen Sie das Formular aus oder kontaktieren Sie uns direkt — wir antworten so schnell wie möglich.',
-    formTitle: 'Kostenlose Beratung anfragen',
-    formSub: 'Unverbindlich. Kostenlos. Antwort nach Möglichkeit zeitnah.',
-    nameLabel: 'Ihr Name',
-    emailLabel: 'E-Mail Adresse',
-    phoneLabel: 'Telefon (optional)',
-    companyLabel: 'Unternehmen & Branche',
-    messageLabel: 'Was möchten Sie automatisieren?',
-    namePlaceholder: 'Ihr Name',
-    emailPlaceholder: 'max@restaurant.de',
-    phonePlaceholder: '+49 ...',
-    companyPlaceholder: 'Ihr Unternehmen — Branche',
-    messagePlaceholder: 'Wir betreiben ein Restaurant mit 80 Plätzen und möchten Reservierungen, WhatsApp-Anfragen und Stammkundenpflege automatisieren...',
-    submitBtn: 'Anfrage senden',
-    successTitle: 'Anfrage gesendet!',
-    successMsg: 'Vielen Dank! Wir melden uns so bald wie möglich per E-Mail oder Telefon.',
-    trust: ['DSGVO-konform', 'Kostenlos & unverbindlich', 'Persönliche Rückmeldung'],
-    contactTitle: 'Direkter Kontakt',
-    whatsappLabel: 'WhatsApp',
-    whatsappDesc: 'Schreiben Sie uns direkt auf WhatsApp — schnellste Antwortzeit.',
-    whatsappBtn: 'WhatsApp öffnen',
-    emailAddr: 'hello@ovivo.io',
-    emailDesc: 'Für detaillierte Anfragen und Dokumente.',
-    phoneDesc: 'Mo–Fr, 9–18 Uhr',
-    location: 'Deutschland',
-    responseTime: 'Persönliche Rückmeldung',
-    responseDesc: 'Wir antworten auf alle Anfragen so bald wie möglich.',
-    faqTitle: 'Häufige Fragen',
-    faqs: [
-      { q: 'Was passiert nach meiner Anfrage?', a: 'Wir melden uns so bald wie möglich und vereinbaren ein kostenloses 30-Minuten-Gespräch, um Ihren Betrieb zu analysieren.' },
-      { q: 'Muss ich technisches Wissen mitbringen?', a: 'Nein. Wir kümmern uns um alles Technische. Sie müssen nur wissen, was Sie automatisieren möchten.' },
-      { q: 'Gibt es eine Mindestlaufzeit?', a: 'Der monatliche Support ist monatlich kündbar. Wir vertrauen auf die Qualität unserer Arbeit.' },
-    ],
-  },
-  en: {
-    badge: 'Contact',
-    title: "Let's talk",
-    titleGradient: 'about your project',
-    sub: 'Fill out the form or contact us directly — we\'ll get back to you as soon as possible.',
-    formTitle: 'Request Free Consultation',
-    formSub: 'No obligation. Free. Response as soon as possible.',
-    nameLabel: 'Your Name',
-    emailLabel: 'Email Address',
-    phoneLabel: 'Phone (optional)',
-    companyLabel: 'Business & Industry',
-    messageLabel: 'What would you like to automate?',
-    namePlaceholder: 'John Smith',
-    emailPlaceholder: 'john@restaurant.com',
-    phonePlaceholder: '+49 ...',
-    companyPlaceholder: 'Restaurant Bella Vista — Hospitality',
-    messagePlaceholder: 'We run a restaurant with 80 seats and want to automate reservations, WhatsApp inquiries, and customer retention...',
-    submitBtn: 'Send inquiry',
-    successTitle: 'Inquiry sent!',
-    successMsg: 'Thank you! We\'ll get back to you as soon as possible by email or phone.',
-    trust: ['GDPR compliant', 'Free & no obligation', '24h response time'],
-    contactTitle: 'Direct Contact',
-    whatsappLabel: 'WhatsApp',
-    whatsappDesc: 'Message us directly on WhatsApp — fastest response time.',
-    whatsappBtn: 'Open WhatsApp',
-    emailAddr: 'hello@ovivo.io',
-    emailDesc: 'For detailed inquiries and documents.',
-    phoneDesc: 'Mon–Fri, 9am–6pm',
-    location: 'Hamburg, Germany',
-    responseTime: 'Response in < 24h',
-    responseDesc: 'We respond to all inquiries as soon as possible.',
-    faqTitle: 'Common Questions',
-    faqs: [
-      { q: 'What happens after my inquiry?', a: 'We\'ll get back to you as soon as possible and schedule a free 30-minute call to analyze your business.' },
-      { q: 'Do I need technical knowledge?', a: 'No. We handle all the technical aspects. You just need to know what you want to automate.' },
-      { q: 'Is there a minimum contract period?', a: 'Monthly support is cancelable monthly. We trust the quality of our work.' },
-    ],
-  },
-  ar: {
-    badge: 'تواصل معنا',
-    title: 'دعنا نتحدث',
-    titleGradient: 'عن مشروعك',
-    sub: 'املأ النموذج أو تواصل معنا مباشرة — سنرد عليك خلال 24 ساعة.',
-    formTitle: 'اطلب استشارة مجانية',
-    formSub: 'بدون التزام. مجاناً. رد خلال 24 ساعة.',
-    nameLabel: 'اسمك',
-    emailLabel: 'البريد الإلكتروني',
-    phoneLabel: 'الهاتف (اختياري)',
-    companyLabel: 'الشركة والقطاع',
-    messageLabel: 'ما الذي تريد أتمتته؟',
-    namePlaceholder: 'محمد أحمد',
-    emailPlaceholder: 'mohammed@restaurant.com',
-    phonePlaceholder: '+49 ...',
-    companyPlaceholder: 'مطعم بيلا فيستا — ضيافة',
-    messagePlaceholder: 'ندير مطعماً بـ 80 مقعداً ونريد أتمتة الحجوزات واستفسارات واتساب والاحتفاظ بالعملاء...',
-    submitBtn: 'إرسال الطلب',
-    successTitle: 'تم إرسال الطلب!',
-    successMsg: 'شكراً لك! سنتواصل معك خلال 24 ساعة عبر البريد الإلكتروني أو الهاتف.',
-    trust: ['متوافق مع حماية البيانات', 'مجاني وبدون التزام', 'رد خلال 24 ساعة'],
-    contactTitle: 'تواصل مباشر',
-    whatsappLabel: 'واتساب',
-    whatsappDesc: 'راسلنا مباشرة على واتساب — أسرع وقت استجابة.',
-    whatsappBtn: 'فتح واتساب',
-    emailAddr: 'hello@ovivo.io',
-    emailDesc: 'للاستفسارات التفصيلية والوثائق.',
-    phoneDesc: 'الاثنين–الجمعة، 9 صباحاً–6 مساءً',
-    location: 'هامبورغ، ألمانيا',
-    responseTime: 'رد خلال 24 ساعة',
-    responseDesc: 'نرد على جميع الاستفسارات خلال 24 ساعة.',
-    faqTitle: 'الأسئلة الشائعة',
-    faqs: [
-      { q: 'ماذا يحدث بعد طلبي؟', a: 'سنتواصل معك خلال 24 ساعة ونجدول مكالمة مجانية لمدة 30 دقيقة لتحليل أعمالك.' },
-      { q: 'هل أحتاج إلى معرفة تقنية؟', a: 'لا. نحن نتولى جميع الجوانب التقنية. تحتاج فقط أن تعرف ما تريد أتمتته.' },
-      { q: 'هل هناك حد أدنى لمدة العقد؟', a: 'الدعم الشهري قابل للإلغاء شهرياً. نثق بجودة عملنا.' },
-    ],
-  },
+const copy={
+  de:{badge:'KONTAKT',title:'Sprechen wir über',gradient:'Ihre Ideen.',sub:'Sie haben eine Frage? Kontaktieren Sie uns direkt oder nutzen Sie unseren OVIVO AI Chat unten rechts. Für konkrete Leistungen können Sie eine individuelle Projektanfrage stellen.',direct:'Kontaktieren Sie uns direkt',whatsapp:'Per WhatsApp schreiben',phone:'Jetzt anrufen',email:'E-Mail senden',requestTitle:'Sie möchten eine Lösung beauftragen?',requestText:'Beschreiben Sie Ihr Vorhaben in unserem Projektformular – passend zu Ihrer gewünschten Leistung.',request:'Projektanfrage starten',chat:'Für schnelle Fragen: OVIVO AI über das schwebende Chat-Symbol öffnen.',privacy:'Ihre Nachrichten werden entsprechend unserer Datenschutzerklärung verarbeitet.',privacyLink:'Datenschutzerklärung'},
+  en:{badge:'CONTACT',title:'Let’s talk about',gradient:'your ideas.',sub:'Have a question? Contact us directly or use OVIVO AI in the floating chat icon at the bottom right. For a specific solution, start a project request.',direct:'Get in touch',whatsapp:'Message on WhatsApp',phone:'Call us',email:'Send an email',requestTitle:'Ready to request a solution?',requestText:'Describe your needs using our dedicated project request form.',request:'Start a project request',chat:'For quick questions: open OVIVO AI using the floating chat icon.',privacy:'Your messages are handled in accordance with our privacy policy.',privacyLink:'Privacy policy'},
+  ar:{badge:'تواصل معنا',title:'خلينا نحكي عن',gradient:'فكرتك.',sub:'عندك سؤال؟ تواصل معنا مباشرة أو استخدم أيقونة OVIVO AI العائمة أسفل الصفحة. إذا بدك خدمة محددة استخدم صفحة طلب المشروع.',direct:'تواصل مباشر',whatsapp:'راسلنا على واتساب',phone:'اتصل بنا',email:'أرسل إيميل',requestTitle:'جاهز تطلب خدمة؟',requestText:'اكتب تفاصيل مشروعك في نموذج الطلب المخصص للخدمة.',request:'ابدأ طلب المشروع',chat:'للأسئلة السريعة: افتح OVIVO AI من أيقونة الشات العائمة.',privacy:'تُعالج رسائلك وفق سياسة الخصوصية.',privacyLink:'سياسة الخصوصية'},
 };
+const methods=[
+  {id:'whatsapp',icon:MessageCircle,href:'https://wa.me/4917656565322',detail:'WhatsApp',external:true},
+  {id:'phone',icon:Phone,href:'tel:+4917656565322',detail:'+49 176 56565322',external:false},
+  {id:'email',icon:Mail,href:'mailto:hello@ovivo.io',detail:'hello@ovivo.io',external:false},
+] as const;
 
-interface Props {
-  lang: Lang;
-}
-
-export function ContactPage({ lang }: Props) {
-  const tx = t[lang] ?? t['de'];
-  const rtl = isRTL(lang);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [company, setCompany] = useState('');
-  const [message, setMessage] = useState('');
-  const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!email || !email.includes('@')) return;
-    setSubmitting(true);
-    try {
-      await fetch('/api/leads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, company: `${company} | Tel: ${phone}`, message, source: 'contact' }),
-      });
-      setSubmitted(true);
-    } catch {
-      setSubmitted(true);
-    }
-    setSubmitting(false);
-  }
-
-  return (
-    <div className="flex flex-col" dir={rtl ? 'rtl' : 'ltr'}>
-      <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8">
-        <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[500px] w-[800px] rounded-full bg-blue-500/8 blur-[120px]" />
-        </div>
-        <div className="mx-auto max-w-7xl">
-          <RevealSection className="text-center mb-14">
-            <SectionHeader badge={tx.badge} title={tx.title} titleGradient={tx.titleGradient} subtitle={tx.sub} />
-          </RevealSection>
-
-          <div className="grid gap-8 lg:grid-cols-5">
-            {/* Form */}
-            <div className="lg:col-span-3">
-              <GlassCard className="p-8">
-                <AnimatePresence mode="wait">
-                  {submitted ? (
-                    <motion.div
-                      key="success"
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="text-center py-12"
-                    >
-                      <div className="flex h-20 w-20 items-center justify-center rounded-full bg-emerald-500/20 border border-emerald-500/30 mx-auto mb-6">
-                        <CheckCircle className="h-10 w-10 text-emerald-400" />
-                      </div>
-                      <h3 className="text-2xl font-bold text-white mb-3">{tx.successTitle}</h3>
-                      <p className="text-gray-400">{tx.successMsg}</p>
-                    </motion.div>
-                  ) : (
-                    <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                      <h2 className="text-xl font-bold text-white mb-1">{tx.formTitle}</h2>
-                      <p className="text-sm text-gray-500 mb-7">{tx.formSub}</p>
-                      <form onSubmit={handleSubmit} className="space-y-5">
-                        <div className="grid gap-5 sm:grid-cols-2">
-                          <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-1.5">{tx.nameLabel}</label>
-                            <Input value={name} onChange={(e) => setName(e.target.value)} placeholder={tx.namePlaceholder} className="bg-white/5 border-white/10 text-white placeholder-gray-600 focus:border-blue-500/50" />
-                          </div>
-                          <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-1.5">{tx.emailLabel} *</label>
-                            <Input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder={tx.emailPlaceholder} className="bg-white/5 border-white/10 text-white placeholder-gray-600 focus:border-blue-500/50" />
-                          </div>
-                        </div>
-                        <div className="grid gap-5 sm:grid-cols-2">
-                          <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-1.5">{tx.phoneLabel}</label>
-                            <Input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder={tx.phonePlaceholder} className="bg-white/5 border-white/10 text-white placeholder-gray-600 focus:border-blue-500/50" />
-                          </div>
-                          <div>
-                            <label className="block text-xs font-semibold text-gray-400 mb-1.5">{tx.companyLabel}</label>
-                            <Input value={company} onChange={(e) => setCompany(e.target.value)} placeholder={tx.companyPlaceholder} className="bg-white/5 border-white/10 text-white placeholder-gray-600 focus:border-blue-500/50" />
-                          </div>
-                        </div>
-                        <div>
-                          <label className="block text-xs font-semibold text-gray-400 mb-1.5">{tx.messageLabel}</label>
-                          <Textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder={tx.messagePlaceholder} rows={5} className="bg-white/5 border-white/10 text-white placeholder-gray-600 focus:border-blue-500/50 resize-none" />
-                        </div>
-                        <Button type="submit" disabled={submitting} className="w-full bg-blue-500 hover:bg-blue-400 text-white font-semibold py-5 text-base transition-all duration-300 hover:shadow-[0_0_24px_rgba(59,130,246,0.5)]">
-                          {submitting ? (
-                            <span className="flex items-center gap-2">
-                              <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full" />
-                              {lang === 'de' ? 'Wird gesendet...' : lang === 'ar' ? 'جارٍ الإرسال...' : 'Sending...'}
-                            </span>
-                          ) : (
-                            <span className="flex items-center gap-2">
-                              {tx.submitBtn}
-                              <ArrowRight className="h-4 w-4" />
-                            </span>
-                          )}
-                        </Button>
-                        <div className="flex flex-wrap gap-4 justify-center">
-                          {tx.trust.map((item) => (
-                            <div key={item} className="flex items-center gap-1.5 text-xs text-gray-500">
-                              <CheckCircle className="h-3.5 w-3.5 text-emerald-500" />
-                              {item}
-                            </div>
-                          ))}
-                        </div>
-                      </form>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </GlassCard>
-            </div>
-
-            {/* Contact sidebar */}
-            <div className="lg:col-span-2 space-y-5">
-              <GlassCard className="p-6">
-                <h3 className="text-base font-bold text-white mb-5">{tx.contactTitle}</h3>
-                <div className="space-y-4">
-                  {/* WhatsApp CTA */}
-                  <a
-                    href="https://wa.me/4917656565322"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-4 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/15 transition-all group"
-                  >
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-500/20 flex-shrink-0">
-                      <MessageSquare className="h-5 w-5 text-emerald-400" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-sm font-bold text-white">{tx.whatsappLabel}</p>
-                      <p className="text-xs text-gray-400">{tx.whatsappDesc}</p>
-                    </div>
-                    <ArrowRight className="h-4 w-4 text-emerald-400 group-hover:translate-x-1 transition-transform" />
-                  </a>
-
-                  {[
-                    { icon: Mail, label: tx.emailAddr, desc: tx.emailDesc, href: `mailto:${tx.emailAddr}`, color: 'text-blue-400' },
-                    { icon: Phone, label: '+49 176 56565322', desc: tx.phoneDesc, href: 'tel:+4917656565322', color: 'text-gray-400' },
-                    { icon: MapPin, label: tx.location, desc: '', href: '#', color: 'text-gray-400' },
-                    { icon: Clock, label: tx.responseTime, desc: tx.responseDesc, href: '#', color: 'text-amber-400' },
-                  ].map((item) => {
-                    const Icon = item.icon;
-                    return (
-                      <a
-                        key={item.label}
-                        href={item.href}
-                        className="flex items-start gap-3 group"
-                      >
-                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/5 flex-shrink-0 mt-0.5">
-                          <Icon className={`h-4 w-4 ${item.color}`} />
-                        </div>
-                        <div>
-                          <p className="text-sm font-medium text-white">{item.label}</p>
-                          {item.desc && <p className="text-xs text-gray-500">{item.desc}</p>}
-                        </div>
-                      </a>
-                    );
-                  })}
-                </div>
-              </GlassCard>
-
-              {/* FAQ */}
-              <GlassCard className="p-6">
-                <h3 className="text-base font-bold text-white mb-4">{tx.faqTitle}</h3>
-                <div className="space-y-4">
-                  {tx.faqs.map((faq) => (
-                    <div key={faq.q} className="border-b border-white/5 pb-4 last:border-0 last:pb-0">
-                      <p className="text-sm font-semibold text-white mb-1">{faq.q}</p>
-                      <p className="text-xs text-gray-400 leading-relaxed">{faq.a}</p>
-                    </div>
-                  ))}
-                </div>
-              </GlassCard>
-            </div>
-          </div>
-        </div>
-      </section>
+export function ContactPage({lang}:{lang:Lang}){
+ const t=copy[lang];const prefix=lang==='de'?'':'/'+lang;
+ return <div dir={lang==='ar'?'rtl':'ltr'} className="min-h-[75vh] bg-[#F4F7FB] px-4 pb-24 pt-20 sm:px-6">
+   <div className="mx-auto max-w-6xl">
+    <div className="mx-auto mb-12 max-w-3xl">
+      <SectionHeader badge={t.badge} title={t.title} titleGradient={t.gradient} subtitle={t.sub}/>
     </div>
-  );
+    <div className="grid gap-6 lg:grid-cols-3">
+      {methods.map((method)=>{
+        const Icon=method.icon;
+        return <a key={method.id} href={method.href} {...(method.external?{target:'_blank',rel:'noopener noreferrer'}:{})}
+          className="group flex flex-col items-start gap-4 rounded-[24px] border border-[#DCE5F7] bg-white p-7 shadow-[0_14px_40px_rgba(11,31,77,.05)] transition-all duration-200 hover:-translate-y-1 hover:border-[#93B9FF] hover:shadow-[0_22px_48px_rgba(59,130,246,.12)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#885CF6]">
+          <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#EEF4FF] text-[#3B82F6]"><Icon size={25}/></span>
+          <span className="text-xl font-extrabold text-[#0B1F4D]">{t[method.id]}</span>
+          <span className="text-sm text-[#52647E]">{method.detail}</span>
+          <ArrowRight size={19} className="mt-1 text-[#3B82F6] transition-transform group-hover:translate-x-1"/>
+        </a>;
+      })}
+    </div>
+    <div className="mt-8 rounded-[26px] border border-[#DCE5F7] bg-white p-7 shadow-[0_14px_40px_rgba(11,31,77,.05)] sm:p-10">
+      <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-center">
+        <div className="max-w-2xl">
+          <h2 className="text-2xl font-extrabold text-[#0B1F4D]">{t.requestTitle}</h2>
+          <p className="mt-2 text-sm leading-7 text-[#52647E]">{t.requestText}</p>
+        </div>
+        <Link href={prefix+'/request?service=other'} className="ovivo-contact-request inline-flex min-h-[50px] shrink-0 items-center justify-center gap-2 rounded-xl bg-[#3B82F6] px-6 text-sm font-bold text-white shadow-[0_10px_24px_rgba(59,130,246,.18)] transition-colors hover:bg-[#2563EB]">
+          {t.request}<ArrowRight size={17}/>
+        </Link>
+      </div>
+    </div>
+    <div className="mt-8 flex items-center gap-3 rounded-2xl border border-[#E0E7FF] bg-white px-6 py-5">
+      <Sparkles size={19} className="shrink-0 text-[#885CF6]"/>
+      <p className="text-sm font-medium leading-6 text-[#36547A]">{t.chat}</p>
+    </div>
+    <p className="mt-8 text-center text-xs text-[#52647E]">{t.privacy}{' '}<Link className="font-semibold text-[#3B82F6] underline" href={prefix+'/privacy'}>{t.privacyLink}</Link></p>
+   </div>
+ </div>;
 }
