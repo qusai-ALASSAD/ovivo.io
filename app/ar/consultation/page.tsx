@@ -1,10 +1,6 @@
-import { ConsultationPage } from '@/components/consultation-page';
+import { redirect } from 'next/navigation';
 
-export const metadata = {
-  title: 'استشارة مجانية – أوفيفو للأتمتة الذكية',
-  description: 'اطلب استشارتك المجانية الآن. نحلل عملك ونضع استراتيجية أتمتة مخصصة — بدون أي التزام وبالكامل مجاناً.',
-};
-
+// Keep old links working, but do not show a second embedded chatbot beside a form.
 export default function Page() {
-  return <ConsultationPage lang="ar" />;
+  redirect('/ar/request?service=other');
 }
