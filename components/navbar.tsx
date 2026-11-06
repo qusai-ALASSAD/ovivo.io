@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Menu, X, Sparkles, Zap, Bot, Globe, ChartBar as BarChart3, Mail, Palette, ChevronDown } from 'lucide-react';
 
@@ -48,14 +47,7 @@ export function Navbar() {
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const servicesRef = useRef<HTMLDivElement>(null);
-  const { scrollY } = useScroll();
   const { isEn, isAr, prefix } = useLanguage();
-
-  const backgroundColor = useTransform(
-    scrollY,
-    [0, 100],
-    ['rgba(255, 255, 255, 0.92)', 'rgba(255, 255, 255, 0.97)']
-  );
 
   const serviceLinks = isEn ? serviceLinksEN : isAr ? serviceLinksAR : serviceLinksDE;
 
@@ -104,48 +96,41 @@ export function Navbar() {
   const servicesOverview = isEn ? 'All Services' : isAr ? 'جميع الخدمات' : 'Alle Leistungen';
 
   return (
-    <motion.nav
-      style={{ backgroundColor }}
+    <nav
       dir="ltr"
       className={`fixed top-0 z-50 w-full border-b border-blue-100 bg-white/95 shadow-sm transition-all duration-300 ${scrolled ? 'backdrop-blur-xl' : ''}`}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
           {/* Logo - always on the left */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
+          <div
           >
             <Link href={prefix || '/'} className="flex items-center space-x-3 group">
               <img src="/ovivo-logo.svg" alt="ovivo.io — Digital Growth Partner" width={180} height={34} className="h-9 w-auto max-w-[180px] object-contain" />
             </Link>
-          </motion.div>
+          </div>
 
           {/* Desktop Nav */}
           <div dir={isAr ? 'rtl' : 'ltr'} className={`hidden md:flex items-center ${isAr ? 'space-x-reverse space-x-1' : 'space-x-1'}`}>
             {/* Home link */}
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0 }}
+            <div
             >
               <Link href={navLinks[0].href} className="relative px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:text-blue-600 group">
                 {navLinks[0].label}
                 <span className="absolute -bottom-0.5 left-3 right-3 h-0.5 w-0 bg-blue-500 transition-all duration-300 group-hover:w-[calc(100%-24px)]" />
               </Link>
-            </motion.div>
+            </div>
 
             {/* Services Dropdown */}
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.07 }}
+            <div
               ref={servicesRef}
               className="relative"
             >
               <button
                 onClick={() => setServicesOpen((v) => !v)}
+                aria-expanded={servicesOpen}
+                aria-haspopup="menu"
+                aria-label={servicesLabel}
                 className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors group"
               >
                 {servicesLabel}
@@ -153,13 +138,9 @@ export function Navbar() {
                 <span className="absolute -bottom-0.5 left-3 right-3 h-0.5 w-0 bg-blue-500 transition-all duration-300 group-hover:w-[calc(100%-24px)]" />
               </button>
 
-              <AnimatePresence>
+              
                 {servicesOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 8, scale: 0.96 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                    transition={{ duration: 0.18, ease: 'easeOut' }}
+                  <div
                     className={`absolute top-full ${isAr ? 'right-1/2 translate-x-1/2' : 'left-1/2 -translate-x-1/2'} mt-3 w-72 rounded-2xl glass border border-white/15 shadow-[0_20px_60px_rgba(0,0,0,0.5)] overflow-hidden`}
                     dir={isAr ? 'rtl' : 'ltr'}
                   >
@@ -189,33 +170,27 @@ export function Navbar() {
                         );
                       })}
                     </div>
-                  </motion.div>
+                  </div>
                 )}
-              </AnimatePresence>
-            </motion.div>
+              
+            </div>
 
             {/* Pricing + About links */}
             {navLinks.slice(2, 4).map((link, index) => (
-              <motion.div
+              <div
                 key={link.label}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: (index + 2) * 0.07 }}
               >
                 <Link href={link.href} className="relative px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:text-blue-600 group">
                   {link.label}
                   <span className="absolute -bottom-0.5 left-3 right-3 h-0.5 w-0 bg-blue-500 transition-all duration-300 group-hover:w-[calc(100%-24px)]" />
                 </Link>
-              </motion.div>
+              </div>
             ))}
 
           </div>
 
           {/* CTA Buttons + Lang Switcher */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
+          <div
             className="hidden md:flex items-center space-x-3"
           >
             {!isAr && (
@@ -238,12 +213,14 @@ export function Navbar() {
                 {ctaLabel}
               </Button>
             </Link>
-          </motion.div>
+          </div>
 
           {/* Mobile toggle - always on the right */}
           <div className="md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label={mobileMenuOpen ? (isAr ? "إغلاق القائمة" : isEn ? "Close navigation" : "Menü schließen") : (isAr ? "فتح القائمة" : isEn ? "Open navigation" : "Menü öffnen")}
+              aria-expanded={mobileMenuOpen}
               className="inline-flex items-center justify-center rounded-lg p-2 text-gray-300 hover:bg-white/10 transition-colors"
             >
               {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -253,12 +230,9 @@ export function Navbar() {
       </div>
 
       {/* Mobile Menu */}
-      <AnimatePresence>
+      
         {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
+          <div
             className="md:hidden border-t border-white/10 glass overflow-hidden"
             dir={isAr ? 'rtl' : 'ltr'}
           >
@@ -275,6 +249,7 @@ export function Navbar() {
               <div>
                 <button
                   onClick={() => setMobileServicesOpen((v) => !v)}
+                  aria-expanded={mobileServicesOpen}
                   className="w-full flex items-center justify-between rounded-lg px-3 py-2.5 text-base font-medium text-gray-300 hover:bg-white/10 hover:text-white transition-colors"
                 >
                   {servicesLabel}
@@ -336,9 +311,9 @@ export function Navbar() {
                 </Link>
               </div>
             </div>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
-    </motion.nav>
+      
+    </nav>
   );
 }
