@@ -33,6 +33,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
   }
   const body = data as Record<string, unknown>;
+  // Quietly discard basic bot submissions that fill the off-screen website field.
+  if (typeof body.website === 'string' && body.website.trim()) {
+    return NextResponse.json({ success: true }, { headers: { 'Cache-Control': 'no-store' } });
+  }
   const fields = ['name', 'email', 'company', 'message', 'source'];
   if (fields.some(k => body[k] !== undefined && typeof body[k] !== 'string')) {
     return NextResponse.json({ error: 'Invalid field type' }, { status: 400 });
