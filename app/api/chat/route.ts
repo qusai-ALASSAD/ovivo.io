@@ -4,7 +4,11 @@ import { buildSystemPrompt } from '@/lib/plan-prompts';
 import type { Plan } from '@/lib/chat-usage';
 
 export async function POST(req: NextRequest) {
-  const ip = req.headers.get('x-forwarded-for') ?? req.headers.get('x-real-ip') ?? 'unknown';
+  const origin = req.headers.get('origin');
+  if (origin && origin !== new URL(req.url).origin) return new Response(JSON.stringify({ error: 'Invalid origin' }), { status: 403, headers: { 'Content-Type': 'application/json' } });
+  if (!String(req.headers.get('content-type') || '').includes('application/json')) return new Response(JSON.stringify({ error: 'JSON required' }), { status: 415 });
+  if (Number(req.headers.get('content-length') || 0) > 20000) return new Response(JSON.stringify({ error: 'Request too large' }), { status: 413 });
+  const ip = (req.headers.get('x-forwarded-for') ?? req.headers.get('x-real-ip') ?? 'unknown').split(',')[0].trim();
   const { allowed } = rateLimit(`chat:${ip}`, 30, 60_000);
 
   if (!allowed) {
@@ -16,9 +20,18 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
+    if (!body || typeof body !== 'object' || Array.isArray(body)) return new Response(JSON.stringify({ error: 'Invalid request' }), { status: 400 });
     const messages: { role: string; content: string }[] = body.messages ?? [];
-    const mode: string = body.mode ?? 'general';
-    const plan: Plan = body.plan ?? 'free';
+    if (!Array.isArray(messages) || messages.length < 1 || messages.length > 20 ||
+      messages.some((m: unknown) => !m || typeof m !== 'object' ||
+        !['user', 'assistant'].includes(String((m as Record<string, unknown>).role)) ||
+        typeof (m as Record<string, unknown>).content !== 'string' ||
+        (m as { content: string }).content.length > 1800)) {
+      return new Response(JSON.stringify({ error: 'Invalid messages' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+    }
+    const mode: string = typeof body.mode === 'string' && ['sales', 'general'].includes(body.mode) ? body.mode : 'general';
+    // Public endpoint: do not trust a client-supplied paid plan to raise token limits.
+    const plan: Plan = 'free';
 
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {
@@ -29,7 +42,7 @@ export async function POST(req: NextRequest) {
     }
 
     const systemPrompt = buildSystemPrompt(mode, plan);
-    const maxTokens = plan === 'agency' ? 4096 : plan === 'pro' ? 3072 : 2048;
+    const maxTokens = mode === 'sales' ? 700 : 1100;
 
     const openAIMessages = [
       { role: 'system', content: systemPrompt },
