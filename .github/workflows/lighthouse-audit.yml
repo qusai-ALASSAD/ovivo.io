@@ -41,7 +41,7 @@ jobs:
               automation) endpoint="/services/automation/" ;;
               contact) endpoint="/contact/" ;;
             esac
-            npx --yes lighthouse@12.8.2 "http://127.0.0.1:3000$endpoint" --quiet --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --only-categories=performance,accessibility,best-practices --output=json --output-path="lighthouse-reports/${route}-mobile.json"
+            npx --yes lighthouse@12.8.2 "http://127.0.0.1:3000$endpoint" --quiet --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --only-categories=performance,accessibility,best-practices,seo --output=json --output-path="lighthouse-reports/${route}-mobile.json"
           done
       - name: Print mobile lab scores
         run: |
