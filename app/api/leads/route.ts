@@ -4,7 +4,7 @@ import { rateLimit } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
 
-const emailPattern = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const allowedSources = new Set(['popup', 'contact', 'other']);
 const sourceLabels = new Set(['consultation_modal', 'sales_chat', 'service_request', 'contact', 'popup', 'other']);
 
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
 
   // Preserve the precise UI source while respecting the current DB check constraint.
   const dbSource = allowedSources.has(source) ? source : 'other';
-  const sourceNote = dbSource === 'other' && source !== 'other' ? 'Form source: ' + source + '\\n' : '';
+  const sourceNote = dbSource === 'other' && source !== 'other' ? 'Form source: ' + source + '\n' : '';
   try {
     const db = createServiceClient();
     const { error } = await db.from('leads').insert([{
