@@ -443,3 +443,14 @@ body.ovivo-light .ovivo-service-request-submit:hover,
 body.ovivo-light .ovivo-contact-request:hover {
   background: #2563EB !important;
 }
+
+
+/* OVIVO Software & Apps cards: brand-approved button contrast on light theme. */
+body.ovivo-light .ovivo-software-primary {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  background-color: #3B82F6 !important;
+}
+body.ovivo-light .ovivo-software-primary:hover {
+  background-color: #2563EB !important;
+}
