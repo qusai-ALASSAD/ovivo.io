@@ -94,7 +94,7 @@ export function ServicePageLayout({
     deliverablesBadge: 'ما تحصل عليه',
     deliverablesTitle: 'كل ما',
     deliverablesGradient: 'تحصل عليه',
-    deliverablesSubtitle: 'كل شيء مشمول — بدون تكاليف خفية.',
+    deliverablesSubtitle: 'تُحدد الوظائف النهائية والتكاليف في عرض مشروع مخصص.',
     useCasesBadge: 'حالات الاستخدام',
     useCasesTitle: 'يناسب',
     useCasesGradient: 'كل القطاعات',
@@ -123,7 +123,7 @@ export function ServicePageLayout({
     deliverablesBadge: 'Deliverables',
     deliverablesTitle: 'What You',
     deliverablesGradient: 'Get',
-    deliverablesSubtitle: 'Der genaue Umfang wird im individuellen Angebot festgelegt.',
+    deliverablesSubtitle: 'The final scope and any third-party charges are detailed in your individual proposal.',
     useCasesBadge: 'Use Cases',
     useCasesTitle: 'Works For',
     useCasesGradient: 'Every Industry',
@@ -135,7 +135,7 @@ export function ServicePageLayout({
     packagesBadge: 'Packages',
     packagesTitle: 'Choose Your',
     packagesGradient: 'Investment Level',
-    packagesSubtitle: 'Tailored packages to match your stage and ambitions.',
+    packagesSubtitle: 'Each package is priced to match your actual requirements and integrations.',
     faqBadge: 'FAQ',
     faqTitle: 'Frequently Asked',
     faqGradient: 'Questions',
@@ -152,7 +152,7 @@ export function ServicePageLayout({
     deliverablesBadge: 'Leistungsumfang',
     deliverablesTitle: 'Was Sie',
     deliverablesGradient: 'erhalten',
-    deliverablesSubtitle: 'Alles inklusive — keine versteckten Kosten.',
+    deliverablesSubtitle: 'Der genaue Umfang und mögliche Drittkosten stehen im individuellen Angebot.',
     useCasesBadge: 'Anwendungsfälle',
     useCasesTitle: 'Funktioniert für',
     useCasesGradient: 'jede Branche',
@@ -164,7 +164,7 @@ export function ServicePageLayout({
     packagesBadge: 'Pakete',
     packagesTitle: 'Wählen Sie Ihr',
     packagesGradient: 'Investitionsniveau',
-    packagesSubtitle: 'Maßgeschneiderte Pakete für Ihre Ziele und Ihr Budget.',
+    packagesSubtitle: 'Jedes Paket wird nach Ihren Anforderungen, Integrationen und dem Betreuungsumfang individuell kalkuliert.',
     faqBadge: 'FAQ',
     faqTitle: 'Häufig gestellte',
     faqGradient: 'Fragen',
@@ -387,7 +387,7 @@ export function ServicePageLayout({
                   <div className="p-8 flex flex-col h-full">
                     <Badge className={`w-fit text-xs border mb-4 ${pkg.badgeClass}`}>{pkg.badge}</Badge>
                     <h3 className="text-2xl font-bold text-white mb-1">{pkg.name}</h3>
-                    <div className="my-4 text-xl font-bold text-[#0B1F4D]">{lang==='de'?'Preis auf Anfrage':lang==='en'?'Price on request':'السعر حسب الطلب'}</div>
+                    <div className="my-4 rounded-xl border border-[#E0E7FF] bg-[#F4F7FB] px-4 py-3 text-lg font-bold text-[#0B1F4D]">{lang==='de'?'Preis auf Anfrage':lang==='en'?'Price on request':'السعر حسب الطلب'}</div>
                     <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-6">
                       <Clock className="h-3 w-3" />
                       {pkg.timeline}
