@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, Loader as Loader2, Bot, Sparkles } from 'lucide-react';
+import { X, Send, Loader as Loader2 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 interface Message {
@@ -12,17 +12,17 @@ interface Message {
 
 const OPENING_MESSAGE_DE: Message = {
   role: 'assistant',
-  content: 'Hi 👋 Ich bin Ihr persönlicher Wachstumsberater bei Ovivo — kein Bot, kein Script.\n\nEine Frage, bevor ich Ihnen zeige, was für Ihren Betrieb möglich ist: Was für ein Unternehmen führen Sie?',
+  content: 'Hallo! 👋 Willkommen bei OVIVO.IO. Ich zeige Ihnen gerne, wie KI-Automation Ihr Unternehmen unterstützen kann. Was möchten Sie automatisieren?',
 };
 
 const OPENING_MESSAGE_EN: Message = {
   role: 'assistant',
-  content: "Hi 👋 I'm your personal growth consultant at Ovivo — not a bot, not a script.\n\nBefore I show you what's possible for your business, let me understand your situation: what type of business do you run?",
+  content: "Hello! 👋 Welcome to OVIVO.IO. I can show you how AI automation may help your business. What would you like to automate?",
 };
 
 const OPENING_MESSAGE_AR: Message = {
   role: 'assistant',
-  content: 'مرحباً 👋 أنا مستشارك الشخصي في Ovivo — لست روبوتاً ولا نصاً مبرمجاً.\n\nقبل أن أريك ما هو ممكن لعملك، أحتاج أن أفهم وضعك جيداً: ما نوع عملك؟',
+  content: 'مرحباً 👋 أهلاً بك في OVIVO.IO. يمكنني مساعدتك في استكشاف أتمتة أعمالك. ما العمليات التي ترغب بأتمتتها؟',
 };
 
 function extractLead(text: string): { name: string; company: string; email: string; phone: string } | null {
@@ -47,7 +47,7 @@ export function SalesChatWidget() {
   const [loading, setLoading] = useState(false);
   const [leadSaved, setLeadSaved] = useState(false);
   const [unread, setUnread] = useState(false);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const messagesPaneRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const pathname = usePathname();
   const isEn = pathname?.startsWith('/en') ?? false;
@@ -57,9 +57,11 @@ export function SalesChatWidget() {
 
   const openingMessage = isEn ? OPENING_MESSAGE_EN : isAr ? OPENING_MESSAGE_AR : OPENING_MESSAGE_DE;
 
-  const widgetLabel = isEn ? 'Talk to a Growth Expert' : isAr ? 'تحدث مع خبير النمو' : 'Kostenlos mit Berater sprechen';
-  const placeholderText = isEn ? 'Type your answer here...' : isAr ? 'اكتب إجابتك هنا...' : 'Schreiben Sie Ihre Antwort...';
-  const headerTitle = isEn ? 'Ovivo Growth Consultant' : isAr ? 'مستشار النمو — Ovivo' : 'Ovivo Wachstumsberater';
+  const widgetLabel = isEn ? 'Chat with OVIVO AI' : isAr ? 'تحدث مع OVIVO AI' : 'Mit OVIVO AI chatten';
+  const placeholderText = isEn ? 'Ask OVIVO AI a question…' : isAr ? 'اسأل OVIVO AI...' : 'Stellen Sie OVIVO AI Ihre Frage…';
+  const headerTitle = 'OVIVO AI';
+  const headerSubtitle = isEn ? 'Your automation guide' : isAr ? 'مساعدك للأتمتة الذكية' : 'Ihr digitaler Automationsberater';
+  const availabilityLabel = isEn ? 'AI demo' : isAr ? 'تجربة ذكاء اصطناعي' : 'KI-Demo';
   const errorMsg = isEn
     ? 'Sorry, something went wrong. Please try again.'
     : isAr
@@ -83,25 +85,29 @@ export function SalesChatWidget() {
   }, [open]);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, loading]);
+    const pane = messagesPaneRef.current;
+    if (pane && open) pane.scrollTop = pane.scrollHeight;
+  }, [messages, loading, open]);
 
   useEffect(() => {
     if (open) {
-      setTimeout(() => inputRef.current?.focus(), 300);
+      inputRef.current?.focus({ preventScroll: true });
     }
   }, [open]);
 
   const saveLead = useCallback(async (lead: { name: string; company: string; email: string; phone: string }) => {
     if (leadSaved) return;
-    setLeadSaved(true);
     try {
-      await fetch('/api/leads', {
+      const response = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...lead, message: '', source: 'sales_chat' }),
+        body: JSON.stringify({ name: lead.name, email: lead.email, company: [lead.company, lead.phone].filter(Boolean).join(' | ').slice(0,200), message: '', source: 'sales_chat' }),
       });
-    } catch {}
+      if (!response.ok) throw new Error('Lead was not saved');
+      setLeadSaved(true);
+    } catch {
+      // Keep the lead eligible for a later retry; never report a failed save as complete.
+    }
   }, [leadSaved]);
 
   const sendMessage = useCallback(async () => {
@@ -185,39 +191,40 @@ export function SalesChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed bottom-24 right-6 z-50 w-[380px] max-w-[calc(100vw-24px)] flex flex-col rounded-2xl overflow-hidden shadow-2xl border border-white/10"
-            style={{ height: '500px' }}
+            className="ovivo-floating-chat fixed bottom-24 right-4 z-50 flex w-[400px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-[24px] border border-[#DCE5F7] bg-white shadow-[0_28px_75px_rgba(11,31,77,.18)] sm:right-6"
+            style={{ height: 'min(560px,calc(100dvh - 120px))' }}
             dir={rtl ? 'rtl' : 'ltr'}
           >
-            <div className={`flex items-center justify-between px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 flex-shrink-0 ${rtl ? 'flex-row-reverse' : ''}`}>
-              <div className={`flex items-center gap-3 ${rtl ? 'flex-row-reverse' : ''}`}>
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/20">
-                  <Bot className="h-5 w-5 text-white" />
+            <div className="h-1 shrink-0 bg-gradient-to-r from-[#3B82F6] via-[#885CF6] to-[#3B82F6]" aria-hidden="true" />
+            <div className={`flex shrink-0 items-center justify-between gap-3 border-b border-[#E6ECF8] bg-white px-5 py-4 ${rtl ? 'flex-row-reverse' : ''}`}>
+              <div className={`flex min-w-0 items-center gap-3 ${rtl ? 'flex-row-reverse' : ''}`}>
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[#DCE5F7] bg-[#F4F7FB] shadow-sm">
+                  <img src="/ovivo-favicon.svg" alt="" className="h-10 w-10 object-contain" />
                 </div>
-                <div className={rtl ? 'text-right' : ''}>
-                  <p className="text-sm font-semibold text-white leading-tight">{headerTitle}</p>
-                  <div className={`flex items-center gap-1.5 ${rtl ? 'flex-row-reverse justify-end' : ''}`}>
-                    <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                    <p className="text-xs text-blue-100">Online</p>
+                <div className={`min-w-0 ${rtl ? 'text-right' : ''}`}>
+                  <p className="text-[17px] font-extrabold leading-tight tracking-tight text-[#0B1F4D]">{headerTitle}</p>
+                  <p className="mt-0.5 text-[11px] font-medium text-[#52647E]">{headerSubtitle}</p>
+                  <div className={`mt-1 flex items-center gap-1.5 ${rtl ? 'flex-row-reverse justify-end' : ''}`}>
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#3B82F6]" aria-hidden="true" />
+                    <p className="text-[10px] font-semibold text-[#4264A0]">{availabilityLabel}</p>
                   </div>
                 </div>
               </div>
-              <button
+              <button type="button"
                 onClick={() => setOpen(false)}
-                className="flex h-7 w-7 items-center justify-center rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors"
-              >
-                <X className="h-4 w-4" />
-              </button>
+                aria-label={isEn ? 'Close chat' : isAr ? 'إغلاق' : 'Chat schließen'}
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#E0E7FF] bg-[#F8FAFF] text-[#52647E] transition-colors hover:border-[#BFD3F8] hover:bg-[#EAF2FF] hover:text-[#0B1F4D]"
+              ><X className="h-4 w-4" /></button>
             </div>
 
-            <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-[#0f1117]">
+            <div ref={messagesPaneRef} className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain bg-[#F6F8FD] px-4 py-5 sm:px-5" aria-live="polite">
               {messages.map((msg, i) => (
                 <div key={i} className={`flex ${msg.role === 'user' ? (rtl ? 'justify-start' : 'justify-end') : (rtl ? 'justify-end' : 'justify-start')}`}>
                   <div
-                    className={`max-w-[82%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
+                    className={`max-w-[88%] whitespace-pre-wrap rounded-[18px] px-4 py-3 text-[13px] leading-[1.75] shadow-sm ${
                       msg.role === 'user'
-                        ? `bg-blue-600 text-white ${rtl ? 'rounded-bl-sm' : 'rounded-br-sm'}`
-                        : `bg-white/8 text-gray-100 ${rtl ? 'rounded-br-sm' : 'rounded-bl-sm'} border border-white/10`
+                        ? `ovivo-floating-user bg-[#3B82F6] text-white ${rtl ? 'rounded-bl-sm' : 'rounded-br-sm'}`
+                        : `bg-white text-[#0B1F4D] ${rtl ? 'rounded-br-sm' : 'rounded-bl-sm'} border border-[#DBE6F7]`
                     }`}
                     style={{ direction: rtl ? 'rtl' : 'ltr', textAlign: rtl ? 'right' : 'left' }}
                   >
@@ -227,7 +234,7 @@ export function SalesChatWidget() {
               ))}
               {loading && messages[messages.length - 1]?.role !== 'assistant' && (
                 <div className={`flex ${rtl ? 'justify-end' : 'justify-start'}`}>
-                  <div className="bg-white/8 border border-white/10 rounded-2xl rounded-bl-sm px-4 py-3">
+                  <div className="bg-white border border-[#E0E7FF] rounded-2xl rounded-bl-sm px-4 py-3">
                     <div className="flex gap-1.5">
                       <span className="h-2 w-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '0ms' }} />
                       <span className="h-2 w-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '150ms' }} />
@@ -236,11 +243,11 @@ export function SalesChatWidget() {
                   </div>
                 </div>
               )}
-              <div ref={bottomRef} />
+              
             </div>
 
-            <div className="px-3 py-3 bg-[#0f1117] border-t border-white/10 flex-shrink-0">
-              <div className={`flex items-end gap-2 bg-white/5 rounded-xl border border-white/10 px-3 py-2 ${rtl ? 'flex-row-reverse' : ''}`}>
+            <div className="shrink-0 border-t border-[#E0E7FF] bg-white px-4 pb-4 pt-3">
+              <div className={`ovivo-floating-composer flex items-end gap-2 rounded-2xl border border-[#D8E4F7] bg-white px-3 py-2.5 shadow-[0_3px_14px_rgba(11,31,77,.045)] transition-colors focus-within:border-[#3B82F6] focus-within:ring-[3px] focus-within:ring-blue-500/10 ${rtl ? 'flex-row-reverse' : ''}`}>
                 <textarea
                   ref={inputRef}
                   value={input}
@@ -249,13 +256,13 @@ export function SalesChatWidget() {
                   placeholder={placeholderText}
                   rows={1}
                   dir={rtl ? 'rtl' : 'ltr'}
-                  className="flex-1 bg-transparent text-sm text-white placeholder:text-gray-400 resize-none outline-none leading-relaxed max-h-24 overflow-y-auto"
+                  className="min-h-[34px] min-w-0 flex-1 resize-none overflow-y-auto border-0 bg-transparent px-1 py-1.5 text-sm leading-relaxed text-[#0B1F4D] placeholder:text-[#71829B] focus:outline-none"
                   style={{ scrollbarWidth: 'none' }}
                 />
                 <button
                   onClick={sendMessage}
                   disabled={!input.trim() || loading}
-                  className="flex-shrink-0 flex h-7 w-7 items-center justify-center rounded-lg bg-blue-600 text-white disabled:opacity-40 disabled:cursor-not-allowed hover:bg-blue-500 transition-colors"
+                  type="button" aria-label={isEn ? 'Send message' : isAr ? 'إرسال الرسالة' : 'Nachricht senden'} className="ovivo-floating-send flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#3B82F6] text-white shadow-[0_6px_14px_rgba(59,130,246,.20)] transition-colors hover:bg-[#2563EB] disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   {loading ? (
                     <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -278,32 +285,26 @@ export function SalesChatWidget() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.15 }}
-            className="fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 border border-white/20 hover:bg-white/15 active:scale-95 transition-all shadow-lg"
+            className="fixed bottom-5 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-white border border-[#E0E7FF] hover:bg-[#F4F7FB] transition-all shadow-lg sm:bottom-6 sm:right-6" aria-label={isEn ? 'Close AI chat' : isAr ? 'إغلاق المحادثة' : 'KI-Chat schließen'}
           >
-            <X className="h-5 w-5 text-white" />
+            <X className="h-5 w-5 text-[#0B1F4D]" />
           </motion.button>
         ) : (
           <motion.button
             key="open-btn"
+            type="button"
             onClick={() => setOpen(true)}
+            aria-label={widgetLabel}
+            title={widgetLabel}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 12 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 rounded-full bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-3.5 shadow-2xl shadow-blue-500/40 hover:shadow-blue-500/60 hover:from-blue-500 hover:to-blue-600 active:scale-95 transition-all"
+            className="group fixed bottom-5 right-4 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-[0_12px_32px_rgba(59,130,246,.25)] ring-1 ring-[#E0E7FF] transition-shadow hover:shadow-[0_14px_40px_rgba(136,92,246,.32)] sm:bottom-6 sm:right-6"
           >
-            <motion.div
-              animate={{ rotate: [0, 15, -15, 10, -10, 0] }}
-              transition={{ duration: 3, repeat: Infinity, repeatDelay: 4, ease: 'easeInOut' }}
-            >
-              <Sparkles className="h-4 w-4 text-white flex-shrink-0" />
-            </motion.div>
-            <span className="text-sm font-semibold text-white whitespace-nowrap">
-              {widgetLabel}
-            </span>
-            {unread && (
-              <span className="h-2.5 w-2.5 rounded-full bg-red-400 flex-shrink-0" />
-            )}
+            <span className="ovivo-chat-orbit pointer-events-none absolute inset-[-4px] rounded-full" aria-hidden="true" />
+            <img src="/ovivo-favicon.svg" alt="" className="relative z-10 h-12 w-12 rounded-full object-contain" />
+            {unread && <span className="absolute right-0 top-0 z-20 h-3 w-3 rounded-full border-2 border-white bg-[#885CF6]" aria-hidden="true" />}
           </motion.button>
         )}
       </AnimatePresence>

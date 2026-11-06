@@ -14,12 +14,12 @@ const heroImage = (
           <Bot className="h-4 w-4 text-emerald-400" />
         </div>
         <div className="glass rounded-xl rounded-tl-none p-3 text-xs text-gray-300 leading-relaxed flex-1">
-          Hi! I'm your AI assistant. I can help with bookings, questions, and pricing. What brings you in today?
+          Hi! I&apos;m your AI assistant. I can help with bookings, questions, and pricing. What brings you in today?
         </div>
       </div>
       <div className="flex justify-end">
         <div className="bg-emerald-500/20 border border-emerald-500/30 rounded-xl rounded-tr-none p-3 text-xs text-gray-200 max-w-[80%]">
-          I'd like to book a consultation
+          I&apos;d like to book a consultation
         </div>
       </div>
       <div className="flex gap-3">
@@ -110,7 +110,7 @@ export default function AIChatbotPage() {
       packages={[
         {
           name: 'AI Chatbot Starter',
-          price: 'from €1,200',
+          price: 'Preis auf Anfrage',
           timeline: 'Delivery in 7 days',
           badge: 'Starter',
           badgeClass: 'bg-white/10 text-gray-300 border-white/20',
@@ -124,7 +124,7 @@ export default function AIChatbotPage() {
         },
         {
           name: 'AI Chatbot Growth',
-          price: 'from €2,500',
+          price: 'Preis auf Anfrage',
           timeline: 'Delivery in 10 days',
           badge: 'Most Popular',
           badgeClass: 'bg-emerald-500 text-white border-transparent',
@@ -141,7 +141,7 @@ export default function AIChatbotPage() {
         },
         {
           name: 'AI Chatbot Scale',
-          price: 'from €4,500',
+          price: 'Preis auf Anfrage',
           timeline: 'Delivery in 14 days',
           badge: 'Full System',
           badgeClass: 'bg-orange-500/20 text-orange-400 border-orange-500/30',

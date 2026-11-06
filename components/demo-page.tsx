@@ -28,7 +28,7 @@ const demoResponses = {
     },
     {
       triggers: ['restaurant', 'gastronomie', 'essen'],
-      response: 'Perfekt! Für Restaurants bieten wir:\n\n✓ Automatische Tischreservierungen (24/7)\n✓ WhatsApp-Automation für Gästekommunikation\n✓ Event-Promotion an Stammgäste\n✓ CRM & Follow-up System\n\nUnsere Restaurant-Kunden sparen durchschnittlich 2 Stunden täglich und steigern ihren Umsatz um 35%. Soll ich Ihnen ein konkretes Angebot erstellen?',
+      response: 'Perfekt! Für Restaurants bieten wir:\n\n✓ Automatische Tischreservierungen (24/7)\n✓ WhatsApp-Automation für Gästekommunikation\n✓ Event-Promotion an Stammgäste\n✓ CRM & Follow-up System\n\nDas ist ein Beispiel für mögliche Abläufe, keine Zusage bestimmter Ergebnisse. Soll ich Ihnen ein konkretes Angebot erstellen?',
     },
     {
       triggers: ['café', 'cafe', 'kaffee', 'bäckerei'],
@@ -62,7 +62,7 @@ const demoResponses = {
     },
     {
       triggers: ['restaurant', 'hospitality', 'food'],
-      response: "Perfect! For restaurants we offer:\n\n✓ Automatic table reservations (24/7)\n✓ WhatsApp automation for guest communication\n✓ Event promotion to regular guests\n✓ CRM & follow-up system\n\nOur restaurant clients save an average of 2 hours daily and increase revenue by 35%. Want me to put together a concrete proposal?",
+      response: "Perfect! For restaurants we offer:\n\n✓ Automatic table reservations (24/7)\n✓ WhatsApp automation for guest communication\n✓ Event promotion to regular guests\n✓ CRM & follow-up system\n\nThis example illustrates possible workflows, not guaranteed results. Want me to put together a concrete proposal?",
     },
     {
       triggers: ['café', 'cafe', 'coffee', 'bakery'],

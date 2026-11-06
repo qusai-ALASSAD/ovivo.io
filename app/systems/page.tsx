@@ -15,10 +15,10 @@ const packages = [
   {
     id: 'launch',
     name: 'Launch System',
-    tagline: 'Your professional foundation, live in 14 days.',
-    price: 'From €1,490',
-    priceNote: 'One-time investment',
-    timeline: '14–18 days',
+    tagline: 'Your tailored professional digital foundation.',
+    price: 'Price on request',
+    priceNote: 'Tailored project scope',
+    timeline: 'Agreed per project',
     badge: 'Foundation',
     badgeClass: 'bg-white/10 text-gray-300 border-white/20',
     highlighted: false,
@@ -43,9 +43,9 @@ const packages = [
     id: 'growth',
     name: 'Growth System',
     tagline: 'Funnels, automation, and ads working as one system.',
-    price: 'From €2,990',
-    priceNote: 'One-time + 60 days support',
-    timeline: '21–25 days',
+    price: 'Price on request',
+    priceNote: 'Tailored build and support',
+    timeline: 'Agreed per project',
     badge: 'Most Applied',
     badgeClass: 'bg-blue-500 text-white border-transparent',
     highlighted: true,
@@ -72,9 +72,9 @@ const packages = [
     id: 'scale',
     name: 'Scale System',
     tagline: 'Full-stack AI-integrated growth machine.',
-    price: 'From €5,900',
-    priceNote: 'One-time + 90 days management',
-    timeline: '30 days + ongoing optimisation',
+    price: 'Price on request',
+    priceNote: 'Tailored support proposal',
+    timeline: 'Agreed per project',
     badge: 'Full Arsenal',
     badgeClass: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
     highlighted: false,
@@ -111,7 +111,7 @@ const process = [
 const faqs = [
   { q: 'How is this different from the SaaS plan?', a: 'Ovivo SaaS (Starter/Pro/Agency) is a self-serve platform you use to generate AI plans and run automations yourself. Implementation Systems are done-for-you — our team builds everything from scratch, including your website, funnels, CRM, chatbot, and ad campaigns.' },
   { q: 'Do I need to be on the SaaS plan too?', a: 'The Growth and Scale Systems include access to the Ovivo Pro SaaS plan as part of the build. The Launch System includes a 30-day trial. You can continue your SaaS subscription independently after the build is complete.' },
-  { q: 'Is this a one-time fee or recurring?', a: 'The system build is a one-time investment. Support periods are included. After the support period, you can continue independently or move to a monthly maintenance retainer.' },
+  { q: 'How are the costs calculated?', a: 'We quote setup, integrations, optional maintenance and third-party costs individually after reviewing your requirements.' },
   { q: 'How do you handle revisions?', a: 'All packages include unlimited revisions during the build phase. After launch, revisions are covered during the support period.' },
   { q: 'What if I\'m not happy with the result?', a: 'We present a full strategy and wireframes for approval before building anything. If the final delivery doesn\'t match what was agreed, we fix it — no questions asked.' },
   { q: 'Can I upgrade from Launch to Growth later?', a: 'Yes. If you start with the Launch System and want to add funnels, automation, and ads later, we apply a credit from your Launch investment toward the Growth System.' },
@@ -172,7 +172,7 @@ export default function SystemsPage() {
                   'Our team builds everything — you just approve and launch',
                   'Every system is custom-built to your business, not templated',
                   'AI, automation, CRM, ads, and website all connected and working together',
-                  'Fixed price. No hidden fees. Results guaranteed.',
+                  'Transparent scope and pricing. Outcomes depend on the individual project.',
                 ].map((point) => (
                   <div key={point} className="flex items-start gap-2.5 text-sm text-gray-300">
                     <CheckCircle className="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0" />
@@ -429,7 +429,7 @@ export default function SystemsPage() {
                 Ready to Get It Built?
               </h2>
               <p className="text-lg text-gray-400 max-w-xl mx-auto mb-10">
-                Apply now — we'll review your application and reach out within 24 hours to schedule a discovery call.
+                Apply now — we&apos;ll review your application and reach out within 24 hours to schedule a discovery call.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/contact">
@@ -441,7 +441,7 @@ export default function SystemsPage() {
                     <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                   </Button>
                 </Link>
-                <Link href="/pricing">
+                <Link href="/request?service=automation">
                   <Button size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/5 px-8 py-6 text-base">
                     Or try the SaaS platform
                   </Button>

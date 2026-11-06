@@ -1,0 +1,66 @@
+name: OVIVO mobile performance and accessibility audit
+
+on:
+  push:
+    branches: [feature/ai-first-three-demos]
+    paths: ['.github/workflows/lighthouse-audit.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Start local production server
+        run: |
+          nohup npm run start -- -p 3000 > /tmp/ovivo-next.log 2>&1 &
+          for i in $(seq 1 50); do
+            if curl -fsS http://127.0.0.1:3000/ > /dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/ovivo-next.log
+          exit 1
+      - name: Lighthouse mobile audit for critical pages
+        run: |
+          mkdir -p lighthouse-reports
+          for route in home automation contact; do
+            case "$route" in
+              home) endpoint="/" ;;
+              automation) endpoint="/services/automation/" ;;
+              contact) endpoint="/contact/" ;;
+            esac
+            npx --yes lighthouse@12.8.2 "http://127.0.0.1:3000$endpoint" --quiet --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --only-categories=performance,accessibility,best-practices,seo --output=json --output-path="lighthouse-reports/${route}-mobile.json"
+          done
+      - name: Print mobile lab scores
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          for(const name of ['home','automation','contact']){
+            const r=JSON.parse(fs.readFileSync('lighthouse-reports/'+name+'-mobile.json','utf8'));
+            console.log(name, Object.fromEntries(Object.entries(r.categories).map(([k,v])=>[k,Math.round((v.score||0)*100)])), {LCP:r.audits['largest-contentful-paint']?.displayValue,CLS:r.audits['cumulative-layout-shift']?.displayValue});
+            const top=Object.entries(r.audits).filter(([id,a])=>a.score!==null&&a.score<0.9&&a.scoreDisplayMode!=='informative'&&a.title).slice(0,12).map(([id,a])=>({id,title:a.title,score:Math.round(a.score*100),value:a.displayValue||''}));
+            console.log('OPPORTUNITIES', name, JSON.stringify(top));
+            for (const id of ['button-name','link-name','color-contrast']) {
+              const audit=r.audits[id];
+              if(audit?.details?.items?.length) console.log('A11Y',name,id,JSON.stringify(audit.details.items.slice(0,8).map(x=>({node:x.node?.snippet,selector:x.node?.selector,summary:x.node?.nodeLabel||x.node?.explanation}))));
+            }
+          }
+          NODE
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ovivo-lighthouse-mobile-reports
+          path: lighthouse-reports/
+          if-no-files-found: ignore

@@ -17,7 +17,8 @@ export function generateStaticParams() {
   return blogSlugs.map((slug) => ({ slug }));
 }
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   return (
     <div className="flex flex-col">
       <section className="bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
@@ -32,7 +33,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           <div className="mt-8">
             <Badge>AI Tools</Badge>
             <h1 className="mt-4 text-4xl font-bold text-gray-900">
-              {params.slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+              {slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
             </h1>
             <div className="mt-4 flex items-center gap-4 text-sm text-gray-600">
               <span>February 15, 2024</span>
@@ -58,12 +59,12 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 
           <div className="prose max-w-none">
             <p className="text-xl text-gray-600 leading-relaxed">
-              In today's fast-paced business environment, automation and AI tools have become essential for growth and efficiency. This guide explores the key strategies and tools you need to succeed.
+              In today&apos;s fast-paced business environment, automation and AI tools have become essential for growth and efficiency. This guide explores the key strategies and tools you need to succeed.
             </p>
 
             <h2 className="mt-8 text-2xl font-bold text-gray-900">Introduction</h2>
             <p className="mt-4 text-gray-600 leading-relaxed">
-              Whether you're running a small business or managing a large enterprise, the right tools can make all the difference. AI and automation have revolutionized how we approach business planning, marketing, and operations.
+              Whether you&apos;re running a small business or managing a large enterprise, the right tools can make all the difference. AI and automation have revolutionized how we approach business planning, marketing, and operations.
             </p>
 
             <h2 className="mt-8 text-2xl font-bold text-gray-900">Key Benefits</h2>
@@ -77,7 +78,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 
             <h2 className="mt-8 text-2xl font-bold text-gray-900">Step-by-Step Implementation</h2>
             <p className="mt-4 text-gray-600 leading-relaxed">
-              Let's walk through how to implement these strategies in your business:
+              Let&apos;s walk through how to implement these strategies in your business:
             </p>
 
             <h3 className="mt-6 text-xl font-bold text-gray-900">Step 1: Audit Your Current Process</h3>
@@ -109,7 +110,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 
             <h2 className="mt-8 text-2xl font-bold text-gray-900">Conclusion</h2>
             <p className="mt-4 text-gray-600 leading-relaxed">
-              Implementing AI and automation in your business doesn't have to be complicated. Start with the basics, focus on high-impact areas, and scale gradually. The businesses that thrive in the coming years will be those that embrace these technologies while maintaining a customer-centric approach.
+              Implementing AI and automation in your business doesn&apos;t have to be complicated. Start with the basics, focus on high-impact areas, and scale gradually. The businesses that thrive in the coming years will be those that embrace these technologies while maintaining a customer-centric approach.
             </p>
           </div>
 

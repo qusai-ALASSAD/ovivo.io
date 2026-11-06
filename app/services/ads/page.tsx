@@ -106,7 +106,7 @@ export default function AdsPage() {
       packages={[
         {
           name: 'Ads Starter',
-          price: 'from €1,500/mo',
+          price: 'Preis auf Anfrage',
           timeline: 'Launch in 5 days',
           badge: 'Starter',
           badgeClass: 'bg-white/10 text-gray-300 border-white/20',
@@ -120,7 +120,7 @@ export default function AdsPage() {
         },
         {
           name: 'Ads Growth',
-          price: 'from €2,500/mo',
+          price: 'Preis auf Anfrage',
           timeline: 'Launch in 5 days',
           badge: 'Most Popular',
           badgeClass: 'bg-rose-500 text-white border-transparent',
@@ -137,7 +137,7 @@ export default function AdsPage() {
         },
         {
           name: 'Ads Scale',
-          price: 'from €4,500/mo',
+          price: 'Preis auf Anfrage',
           timeline: 'Launch in 7 days',
           badge: 'Full Management',
           badgeClass: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
@@ -153,7 +153,7 @@ export default function AdsPage() {
         },
       ]}
       faqs={[
-        { q: 'What ad spend budget do I need separately?', a: 'Ad spend (the budget you give to Meta/Google) is separate from our management fee. We recommend a minimum of €500/month ad spend for Starter, €1,500+ for Growth, and €3,000+ for Scale packages.' },
+        { q: 'What ad spend budget do I need separately?', a: 'Ad spend (the budget you give to Meta/Google) is separate from our management fee. We discuss the right advertising budget individually for your goals and industry. Media spend is separate from our service fee.' },
         { q: 'How quickly will I see results?', a: 'Most clients see their first leads within 48–72 hours of going live. Optimal results typically come after 30–60 days as the algorithm learns and we optimise based on data.' },
         { q: 'Do you create the ad images and videos?', a: 'We write all ad copy and creative briefs. For images and videos, we work with your existing assets or guide you on what to shoot. Full creative production is available as an add-on.' },
         { q: 'Can you take over existing campaigns?', a: 'Yes. We\'ll audit your existing campaigns, fix structural issues, and improve performance — typically within the first 30 days.' },

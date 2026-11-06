@@ -1,15 +1,13 @@
-'use client';
-
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
+import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Sparkles, Zap, ArrowRight, CircleCheck as CheckCircle, Star, ChevronLeft, ChevronRight, Bot, Target, ChartBar as BarChart3, Users, Clock, TrendingUp, MessageSquare, Mail, Calendar, Phone, Settings, CircleAlert as AlertCircle, Circle as XCircle, ShieldCheck, Repeat, Database, Award } from 'lucide-react';
 import { GlassCard, RevealSection, StaggerContainer, StaggerItem } from '@/components/ui/motion';
 import { SectionHeader } from '@/components/section-header';
-import { AutomationFlowSection } from '@/components/automation-flow-section';
-import { RoiCalculator } from '@/components/roi-calculator';
+const AutomationFlowSection = dynamic(() => import('@/components/automation-flow-section').then(m => m.AutomationFlowSection));
+const RoiCalculator = dynamic(() => import('@/components/roi-calculator').then(m => m.RoiCalculator));
+const AiExperienceLab = dynamic(() => import('@/components/ai-experience-lab').then(m => m.AiExperienceLab));
 import type { Lang } from '@/lib/i18n';
 import { content, isRTL } from '@/lib/i18n';
 
@@ -66,69 +64,6 @@ const industries = {
   ],
 };
 
-const testimonials = {
-  de: [
-    {
-      quote: 'Seit wir den KI-Chatbot haben, werden 90% der Tischreservierungen automatisch bestätigt. Wir sparen täglich 2 Stunden — und die Gäste sind begeistert.',
-      name: 'Thomas K.',
-      role: 'Restaurant-Inhaber, München',
-      result: '+2h täglich gespart',
-    },
-    {
-      quote: 'WhatsApp läuft jetzt vollautomatisch. Bestellungen, Rückfragen, Erinnerungen — alles ohne Mitarbeiter. Unser Umsatz ist in 3 Monaten um 35% gestiegen.',
-      name: 'Sabrina M.',
-      role: 'Café-Betreiberin, Hamburg',
-      result: '+35% Umsatz in 3 Monaten',
-    },
-    {
-      quote: 'Das CRM-System hat unsere Kundenpflege komplett verändert. Stammkunden werden automatisch angeschrieben, Bewertungen kommen von selbst. Ich musste nichts lernen.',
-      name: 'Michael R.',
-      role: 'Inhaber Friseursalon, Berlin',
-      result: '+40% mehr Stammkunden',
-    },
-  ],
-  en: [
-    {
-      quote: 'Since we got the AI chatbot, 90% of table reservations are confirmed automatically. We save 2 hours every day — and guests love it.',
-      name: 'Thomas K.',
-      role: 'Restaurant Owner, Munich',
-      result: '2h saved every day',
-    },
-    {
-      quote: 'WhatsApp now runs fully automatically. Orders, questions, reminders — all without staff. Our revenue grew by 35% in 3 months.',
-      name: 'Sabrina M.',
-      role: 'Café Owner, Hamburg',
-      result: '+35% revenue in 3 months',
-    },
-    {
-      quote: "The CRM system completely changed how we handle customer relationships. Regular customers are contacted automatically, reviews come in by themselves. I didn't have to learn anything.",
-      name: 'Michael R.',
-      role: 'Hair Salon Owner, Berlin',
-      result: '+40% more returning customers',
-    },
-  ],
-  ar: [
-    {
-      quote: 'منذ تركيب روبوت الذكاء الاصطناعي، تأكد 90% من حجوزات الطاولات تلقائياً. نوفر ساعتين يومياً — والضيوف سعداء جداً.',
-      name: 'توماس ك.',
-      role: 'صاحب مطعم، ميونخ',
-      result: 'توفير ساعتين يومياً',
-    },
-    {
-      quote: 'واتساب يعمل الآن بشكل تلقائي كامل. الطلبات، الاستفسارات، التذكيرات — كلها دون موظفين. إيراداتنا ارتفعت 35% في 3 أشهر.',
-      name: 'سابرينا م.',
-      role: 'صاحبة مقهى، هامبورغ',
-      result: '+35% إيرادات في 3 أشهر',
-    },
-    {
-      quote: 'نظام CRM غيّر طريقة تعاملنا مع العملاء كلياً. العملاء الدائمون يُتابَعون تلقائياً والتقييمات تأتي من تلقاء نفسها. لم أحتج أن أتعلم شيئاً.',
-      name: 'مايكل ر.',
-      role: 'صاحب صالون تجميل، برلين',
-      result: '+40% عملاء متكررون',
-    },
-  ],
-};
-
 const faqs = {
   de: [
     { q: 'Für welche Branchen ist Ovivo geeignet?', a: 'Ovivo ist speziell für Gastronomie (Restaurants, Cafés, Bars), Service-Unternehmen (Friseure, Beauty, Fitness) und lokale Dienstleister konzipiert — überall dort, wo Kundenanfragen und Buchungen täglich anfallen.' },
@@ -140,10 +75,10 @@ const faqs = {
   ],
   en: [
     { q: 'Which industries is Ovivo suitable for?', a: 'Ovivo is designed specifically for hospitality (restaurants, cafés, bars), service businesses (hair, beauty, fitness), and local service providers — anywhere customer inquiries and bookings happen daily.' },
-    { q: 'How long does setup take?', a: 'Depending on the package, full implementation takes 5–14 business days. We handle everything — from technical setup to team training.' },
+    { q: 'How long does setup take?', a: 'Implementation time depends on the complexity of your processes and integrations. We agree a timeline before starting.' },
     { q: 'Do I need technical knowledge?', a: 'No. We handle all the technical setup. You receive a ready-to-use system that you can operate without any IT knowledge.' },
-    { q: "What's included in monthly support?", a: 'Monthly support includes maintenance, updates, technical support, and monthly optimizations of your system.' },
-    { q: 'Can I cancel monthly?', a: 'Yes, monthly support is cancelable on a monthly basis. The one-time setup fee is non-refundable.' },
+    { q: "What's included in ongoing support?", a: 'We agree maintenance, updates, technical support, and optimization in your tailored offer.' },
+    { q: 'How do contract terms work?', a: 'Support terms and cancellation conditions are set out in the individual proposal.' },
     { q: 'What happens after the consultation?', a: "After the free consultation, you'll receive a concrete proposal. If you agree, we start implementation within 48 hours." },
   ],
   ar: [
@@ -157,42 +92,42 @@ const faqs = {
 };
 
 const stats = {
-  de: [
-    { icon: Users, value: '200+', label: 'Betriebe vertrauen Ovivo' },
-    { icon: Clock, value: '24/7', label: 'Immer erreichbar' },
-    { icon: TrendingUp, value: '+35%', label: 'Mehr Umsatz im Schnitt' },
-    { icon: ShieldCheck, value: '98%', label: 'Kundenzufriedenheit' },
-  ],
-  en: [
-    { icon: Users, value: '200+', label: 'Businesses trust Ovivo' },
-    { icon: Clock, value: '24/7', label: 'Always available' },
-    { icon: TrendingUp, value: '+35%', label: 'Average revenue increase' },
-    { icon: ShieldCheck, value: '98%', label: 'Customer satisfaction' },
-  ],
-  ar: [
-    { icon: Users, value: '+200', label: 'شركة تثق بأوفيفو' },
-    { icon: Clock, value: '24/7', label: 'متاح دائماً' },
-    { icon: TrendingUp, value: '+35%', label: 'متوسط زيادة الإيرادات' },
-    { icon: ShieldCheck, value: '98%', label: 'رضا العملاء' },
-  ],
+ de: [
+ { icon: Bot, value: 'KI', label: 'Individuelle Assistenten' },
+ { icon: Clock, value: '24/7', label: 'Automatisierte Abläufe' },
+ { icon: Database, value: 'CRM', label: 'Bestehende Systeme verbinden' },
+ { icon: ShieldCheck, value: 'DSGVO', label: 'Datenschutz berücksichtigen' },
+ ],
+ en: [
+ { icon: Bot, value: 'AI', label: 'Custom AI assistants' },
+ { icon: Clock, value: '24/7', label: 'Automated workflows' },
+ { icon: Database, value: 'CRM', label: 'Connect existing tools' },
+ { icon: ShieldCheck, value: 'GDPR', label: 'Privacy by design' },
+ ],
+ ar: [
+ { icon: Bot, value: 'AI', label: 'مساعدون أذكياء' },
+ { icon: Clock, value: '24/7', label: 'عمليات مؤتمتة' },
+ { icon: Database, value: 'CRM', label: 'ربط الأنظمة' },
+ { icon: ShieldCheck, value: 'GDPR', label: 'الخصوصية أولاً' },
+ ],
 };
 
 const stepIcons = [Phone, Bot, Database, Zap];
 
 const pricingData = {
   de: {
-    badge: 'Pakete & Preise',
+    badge: 'Individuelle Automationspakete',
     title: 'Transparent.',
     titleGradient: 'Leistungsstark.',
-    sub: 'Drei Pakete für jeden Bedarf. Einmaliger Setup + monatliche Betreuung.',
-    monthly: 'Monatlich',
+    sub: 'Drei mögliche Leistungsumfänge. Wir kalkulieren jede Lösung passend zu Ihren Abläufen, Integrationen und Ihrem Betreuungsbedarf.',
+    monthly: 'Leistungsumfang',
     cta: 'Paket anfragen',
     note: 'Endpreis abhängig von Betriebsgröße und Automatisierungsumfang.',
     plans: [
       {
         name: 'Starter',
-        setup: 'ab €1.200',
-        monthly: 'ab €120 / Monat',
+        setup: 'Preis auf Anfrage',
+        monthly: 'Nach Leistungsumfang',
         badge: null,
         highlighted: false,
         ideal: 'Für Einzelbetriebe & Einsteiger',
@@ -201,18 +136,18 @@ const pricingData = {
       },
       {
         name: 'Business',
-        setup: 'ab €2.200',
-        monthly: 'ab €220 / Monat',
+        setup: 'Individuelles Angebot',
+        monthly: 'Nach Leistungsumfang',
         badge: 'Beliebtestes Paket',
         highlighted: true,
         ideal: 'Für Restaurants, Cafés & Dienstleister',
-        outcome: '+35% mehr Buchungen in 60 Tagen',
+        outcome: 'Buchungsanfragen automatisieren',
         features: ['Erweiterter KI-Chatbot', 'WhatsApp Automation', 'Buchungssystem', 'CRM Integration', 'Priority Support'],
       },
       {
-        name: 'Full',
-        setup: 'ab €3.200',
-        monthly: 'ab €450 / Monat',
+        name: 'Growth',
+        setup: 'Preis auf Anfrage',
+        monthly: 'Nach Leistungsumfang',
         badge: 'Maximale Leistung',
         highlighted: false,
         ideal: 'Für wachsende Betriebe & Ketten',
@@ -222,18 +157,18 @@ const pricingData = {
     ],
   },
   en: {
-    badge: 'Packages & Pricing',
+    badge: 'Tailored automation plans',
     title: 'Transparent.',
     titleGradient: 'Powerful.',
-    sub: 'Three packages for every stage. One-time setup + monthly support.',
-    monthly: 'Monthly',
+    sub: 'Three example packages, each individually quoted based on your business needs.',
+    monthly: 'Service scope',
     cta: 'Request this plan',
     note: 'Final price depends on business size and automation requirements.',
     plans: [
       {
         name: 'Starter',
-        setup: 'from €1,200',
-        monthly: 'from €120 / mo',
+        setup: 'Price on request',
+        monthly: 'Based on scope',
         badge: null,
         highlighted: false,
         ideal: 'For sole traders & beginners',
@@ -242,18 +177,18 @@ const pricingData = {
       },
       {
         name: 'Business',
-        setup: 'from €2,200',
-        monthly: 'from €220 / mo',
+        setup: 'Tailored quote',
+        monthly: 'Based on scope',
         badge: 'Most Popular',
         highlighted: true,
         ideal: 'For restaurants, cafés & services',
-        outcome: '+35% more bookings within 60 days',
+        outcome: 'Automate booking inquiries',
         features: ['Advanced AI Chatbot', 'WhatsApp Automation', 'Booking System', 'CRM Integration', 'Priority Support'],
       },
       {
-        name: 'Full',
-        setup: 'from €3,200',
-        monthly: 'from €450 / mo',
+        name: 'Growth',
+        setup: 'Price on request',
+        monthly: 'Based on scope',
         badge: 'Maximum Power',
         highlighted: false,
         ideal: 'For growing businesses & chains',
@@ -263,18 +198,18 @@ const pricingData = {
     ],
   },
   ar: {
-    badge: 'الباقات والأسعار',
+    badge: 'باقات أتمتة مخصصة',
     title: 'شفاف.',
     titleGradient: 'قوي.',
-    sub: '3 باقات تناسب كل مرحلة. إعداد لمرة واحدة + رعاية شهرية.',
-    monthly: 'شهرياً',
+    sub: 'ثلاث باقات مرنة، ويتم تحديد تكلفة كل مشروع حسب الخدمات المطلوبة والتكاملات والدعم.',
+    monthly: 'نطاق الخدمة',
     cta: 'اطلب هذه الباقة',
     note: 'السعر النهائي يعتمد على حجم الشركة ومتطلبات الأتمتة.',
     plans: [
       {
         name: 'الأساسية',
-        setup: 'من €1,200',
-        monthly: 'من €120 / شهر',
+        setup: 'السعر حسب الطلب',
+        monthly: 'بحسب نطاق الخدمة',
         badge: null,
         highlighted: false,
         ideal: 'لأصحاب الأعمال الفردية والبدايات',
@@ -283,18 +218,18 @@ const pricingData = {
       },
       {
         name: 'الأعمال',
-        setup: 'من €2,200',
-        monthly: 'من €220 / شهر',
+        setup: 'عرض سعر مخصص',
+        monthly: 'بحسب نطاق الخدمة',
         badge: 'الأكثر طلباً',
         highlighted: true,
         ideal: 'للمطاعم والمقاهي والشركات النامية',
-        outcome: '+35% حجوزات خلال 60 يوماً',
+        outcome: 'أتمتة استفسارات الحجوزات',
         features: ['روبوت دردشة متطور', 'أتمتة واتساب كاملة', 'نظام حجز تلقائي', 'تكامل CRM', 'دعم مميز'],
       },
       {
         name: 'المتقدمة',
-        setup: 'من €3,500',
-        monthly: 'من €350 / شهر',
+        setup: 'السعر عند الطلب',
+        monthly: 'بحسب نطاق الخدمة',
         badge: 'أقصى أداء',
         highlighted: false,
         ideal: 'للشركات التي تريد التوسع بسرعة',
@@ -312,27 +247,16 @@ interface Props {
 export function HomePage({ lang }: Props) {
   const t = content[lang];
   const rtl = isRTL(lang);
-  const [testimonialIndex, setTestimonialIndex] = useState(0);
   const prefix = lang === 'en' ? '/en' : lang === 'ar' ? '/ar' : '';
   const pd = pricingData[lang];
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTestimonialIndex((i) => (i + 1) % testimonials[lang].length);
-    }, 6000);
-    return () => clearInterval(timer);
-  }, [lang]);
+  const liveLabel = lang === 'de' ? 'Beispiel: Automatisierte Kundenanfrage' : lang === 'ar' ? 'مثال: استفسار عميل مؤتمت' : 'Example: automated inquiry';
+  const activeLabel = lang === 'de' ? 'Demo' : lang === 'ar' ? 'تجريبي' : 'Demo';
+  const automatedLabel = lang === 'de' ? 'Automationsbeispiel' : lang === 'ar' ? 'مثال توضيحي للأتمتة' : 'Automation example';
+  const noManualLabel = lang === 'de' ? 'Illustrativer Ablauf' : lang === 'ar' ? 'عرض توضيحي' : 'Illustrative flow';
+  const businessesLabel = lang === 'de' ? 'Individuell für Ihr Unternehmen' : lang === 'ar' ? 'حلول مخصصة لشركتك' : 'Tailored to your business';
+  const setupLabel = lang === 'de' ? 'Persönliche Beratung' : lang === 'ar' ? 'استشارة شخصية' : 'Personal consultation';
 
-  const liveLabel = lang === 'de' ? 'Automation live — Restaurant Bella Vista' : lang === 'ar' ? 'أتمتة مباشرة — مطعم بيلا فيستا' : 'Live automation — Restaurant Bella Vista';
-  const activeLabel = lang === 'de' ? 'Aktiv' : lang === 'ar' ? 'نشط' : 'Active';
-  const automatedLabel = lang === 'de' ? 'Heute: 47 Aktionen automatisiert' : lang === 'ar' ? 'اليوم: 47 إجراء آلي' : 'Today: 47 actions automated';
-  const noManualLabel = lang === 'de' ? '0 manuelle Eingriffe' : lang === 'ar' ? '0 تدخل يدوي' : '0 manual interventions';
-  const businessesLabel = lang === 'de' ? '200+ Betriebe aktiv' : lang === 'ar' ? '+200 شركة نشطة' : '200+ businesses active';
-  const setupLabel = lang === 'de' ? 'Setup in 5–14 Tagen' : lang === 'ar' ? 'تشغيل في 5–14 يوماً' : 'Setup in 5–14 days';
-
-  const testimonialsLabel = lang === 'de' ? 'Kundenstimmen' : lang === 'ar' ? 'آراء العملاء' : 'Testimonials';
-  const whatBusinessesSay = lang === 'de' ? 'Was echte Betriebe' : lang === 'ar' ? 'ما يقوله عملاؤنا' : 'What real businesses';
-  const aboutOvivo = lang === 'de' ? 'über Ovivo sagen' : lang === 'ar' ? 'عن أوفيفو' : 'say about Ovivo';
   const faqBadge = lang === 'de' ? 'Häufige Fragen' : lang === 'ar' ? 'الأسئلة الشائعة' : 'FAQ';
   const industriesLabel = lang === 'de' ? 'Wir bauen KI-Automation für diese Branchen' : lang === 'ar' ? 'القطاعات التي نبني لها الأتمتة الذكية' : 'We build AI automation for these industries';
 
@@ -363,17 +287,13 @@ export function HomePage({ lang }: Props) {
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden px-4 py-24 sm:px-6 lg:px-8 lg:py-36">
         <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[800px] w-[1100px] rounded-full bg-blue-500/12 blur-[140px]" />
-          <div className="absolute bottom-0 right-1/4 h-[500px] w-[700px] rounded-full bg-cyan-500/6 blur-[110px]" />
-          <div className="absolute top-1/3 left-0 h-[300px] w-[400px] rounded-full bg-blue-600/5 blur-[90px]" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[420px] w-[460px] sm:h-[800px] sm:w-[1100px] rounded-full bg-blue-500/12 blur-[64px] sm:blur-[140px]" />
+          <div className="absolute bottom-0 right-1/4 hidden sm:block h-[500px] w-[700px] rounded-full bg-cyan-500/6 blur-[110px]" />
+          <div className="absolute top-1/3 left-0 hidden sm:block h-[300px] w-[400px] rounded-full bg-blue-600/5 blur-[90px]" />
         </div>
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
-            <motion.div
-              initial={{ opacity: 0, x: rtl ? 40 : -40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, ease: [0.21, 1.11, 0.81, 0.99] }}
-            >
+            <div>
               <span className="inline-flex items-center rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-blue-400 mb-6">
                 <Sparkles className="mr-2 h-3 w-3 rtl:ml-2 rtl:mr-0" />
                 {t.hero.badge}
@@ -386,7 +306,7 @@ export function HomePage({ lang }: Props) {
                 {t.hero.sub}
               </p>
               <div className="mt-10 flex flex-col sm:flex-row gap-3">
-                <Link href={`${prefix}/consultation`}>
+                <Link href={`${prefix}/request?service=other`}>
                   <Button size="lg" className="group relative overflow-hidden bg-blue-500 hover:bg-blue-400 text-white px-8 py-7 text-base font-semibold transition-all duration-300 hover:shadow-[0_0_40px_rgba(59,130,246,0.6)] rounded-xl w-full sm:w-auto">
                     <span className="relative z-10 flex items-center gap-2">
                       {t.hero.cta}
@@ -409,19 +329,14 @@ export function HomePage({ lang }: Props) {
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </div>
 
             {/* Hero Visual */}
-            <motion.div
-              initial={{ opacity: 0, x: rtl ? -40 : 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 0.15, ease: [0.21, 1.11, 0.81, 0.99] }}
-              className="relative"
-            >
+            <div className="relative">
               <div className="glass rounded-2xl overflow-hidden border-white/10 shadow-2xl">
                 <div className="border-b border-white/10 bg-white/[0.03] px-4 py-3 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <div className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <div className="h-2 w-2 rounded-full bg-emerald-400" />
                     <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
                       {liveLabel}
                     </span>
@@ -454,23 +369,15 @@ export function HomePage({ lang }: Props) {
                   </div>
                 </div>
               </div>
-              <motion.div
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -top-4 -right-4 glass rounded-xl px-3 py-2 text-xs font-semibold text-emerald-400 border-emerald-500/30 shadow-lg hidden sm:flex items-center gap-1.5"
-              >
-                <div className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+              <div className="absolute -top-4 -right-4 glass rounded-xl px-3 py-2 text-xs font-semibold text-emerald-400 border-emerald-500/30 shadow-lg hidden sm:flex items-center gap-1.5 animate-float">
+                <div className="h-2 w-2 rounded-full bg-emerald-400" />
                 {businessesLabel}
-              </motion.div>
-              <motion.div
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -bottom-4 -left-4 glass rounded-xl px-3 py-2 text-xs font-semibold text-blue-400 border-blue-500/30 shadow-lg hidden sm:flex items-center gap-1.5"
-              >
+              </div>
+              <div className="absolute -bottom-4 -left-4 glass rounded-xl px-3 py-2 text-xs font-semibold text-blue-400 border-blue-500/30 shadow-lg hidden sm:flex items-center gap-1.5">
                 <Zap className="h-3 w-3" />
                 {setupLabel}
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -510,7 +417,7 @@ export function HomePage({ lang }: Props) {
             <div className="inline-flex items-center gap-3 rounded-2xl border border-emerald-500/25 bg-emerald-500/8 px-6 py-3">
               <ShieldCheck className="h-5 w-5 text-emerald-400 flex-shrink-0" />
               <p className="text-sm font-semibold text-emerald-300">
-                {lang === 'de' ? '30-Tage-Garantie — messbare Ergebnisse oder kostenlose Nacharbeit' : lang === 'ar' ? 'ضمان 30 يوماً — نتائج قابلة للقياس أو نستمر مجاناً' : '30-Day Guarantee — measurable results or we keep optimizing for free'}
+                {lang === 'de' ? 'Individuelle Prozessanalyse und persönlicher Support' : lang === 'ar' ? 'تحليل مخصص للعمليات ودعم شخصي' : 'Tailored process analysis and personal support'}
               </p>
             </div>
           </RevealSection>
@@ -525,7 +432,7 @@ export function HomePage({ lang }: Props) {
             ))}
           </StaggerContainer>
           <RevealSection className="mt-10 text-center">
-            <Link href={`${prefix}/consultation`}>
+            <Link href={`${prefix}/request?service=other`}>
               <Button size="lg" className="group relative overflow-hidden bg-blue-500 hover:bg-blue-400 text-white px-10 py-6 text-base font-semibold transition-all duration-300 hover:shadow-[0_0_35px_rgba(59,130,246,0.5)] rounded-xl">
                 <span className="relative z-10 flex items-center gap-2">
                   {lang === 'de' ? 'Kostenlose Wachstumsanalyse anfragen' : lang === 'ar' ? 'احصل على تحليل نمو مجاني' : 'Get Your Free Growth Analysis'}
@@ -609,6 +516,8 @@ export function HomePage({ lang }: Props) {
         </div>
       </section>
 
+      <AiExperienceLab lang={lang} />
+
       {/* ── AUTOMATION FLOW ──────────────────────────────────────────────── */}
       <AutomationFlowSection lang={lang} />
 
@@ -671,72 +580,6 @@ export function HomePage({ lang }: Props) {
         </div>
       </section>
 
-      {/* ── TESTIMONIALS ─────────────────────────────────────────────────── */}
-      <section className="px-4 py-20 sm:px-6 lg:px-8 bg-white/[0.015] border-y border-white/5 overflow-hidden">
-        <div className="mx-auto max-w-7xl">
-          <RevealSection className="text-center mb-14">
-            <SectionHeader
-              badge={testimonialsLabel}
-              title={whatBusinessesSay}
-              titleGradient={aboutOvivo}
-            />
-          </RevealSection>
-          <div className="relative max-w-3xl mx-auto">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={testimonialIndex}
-                initial={{ opacity: 0, x: rtl ? -30 : 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: rtl ? 30 : -30 }}
-                transition={{ duration: 0.4, ease: 'easeOut' }}
-              >
-                <GlassCard className="p-10 text-center">
-                  <div className="flex justify-center gap-1 mb-5">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star key={i} className="h-5 w-5 text-yellow-400 fill-yellow-400" />
-                    ))}
-                  </div>
-                  <p className="text-lg text-gray-300 leading-relaxed italic mb-6">
-                    &ldquo;{testimonials[lang][testimonialIndex].quote}&rdquo;
-                  </p>
-                  <div className="mb-4">
-                    <p className="font-semibold text-white">{testimonials[lang][testimonialIndex].name}</p>
-                    <p className="text-sm text-gray-500 mt-0.5">{testimonials[lang][testimonialIndex].role}</p>
-                  </div>
-                  <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3 py-1">
-                    <TrendingUp className="h-3.5 w-3.5 text-emerald-400" />
-                    <span className="text-xs font-semibold text-emerald-400">{testimonials[lang][testimonialIndex].result}</span>
-                  </div>
-                </GlassCard>
-              </motion.div>
-            </AnimatePresence>
-            <div className="flex items-center justify-center gap-4 mt-8">
-              <button
-                onClick={() => setTestimonialIndex((i) => (i - 1 + testimonials[lang].length) % testimonials[lang].length)}
-                className="h-9 w-9 rounded-full glass border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-white/20 transition-all"
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </button>
-              <div className="flex gap-2">
-                {testimonials[lang].map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setTestimonialIndex(i)}
-                    className={`h-2 rounded-full transition-all duration-300 ${i === testimonialIndex ? 'bg-blue-500 w-6' : 'bg-white/20 w-2'}`}
-                  />
-                ))}
-              </div>
-              <button
-                onClick={() => setTestimonialIndex((i) => (i + 1) % testimonials[lang].length)}
-                className="h-9 w-9 rounded-full glass border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-white/20 transition-all"
-              >
-                <ChevronRight className="h-4 w-4" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ── PRICING PREVIEW ──────────────────────────────────────────────── */}
       <section className="px-4 py-24 sm:px-6 lg:px-8" id="pakete">
         <div className="mx-auto max-w-7xl">
@@ -752,20 +595,11 @@ export function HomePage({ lang }: Props) {
           <StaggerContainer className="grid gap-6 sm:grid-cols-3">
             {pd.plans.map((plan) => (
               <StaggerItem key={plan.name}>
-                <motion.div
-                  whileHover={{ y: -6 }}
-                  transition={{ duration: 0.3 }}
-                  className={`relative rounded-2xl flex flex-col glass h-full p-8 ${plan.highlighted ? 'border border-blue-500/40 shadow-[0_0_60px_rgba(59,130,246,0.2)]' : 'border border-white/10'}`}
-                >
+                <div className={`relative rounded-2xl flex flex-col glass h-full p-8 transition-transform duration-300 hover:-translate-y-1.5 ${plan.highlighted ? 'border border-blue-500/40 shadow-[0_0_60px_rgba(59,130,246,0.2)]' : 'border border-white/10'}`}>
                   {plan.highlighted && (
                     <>
                       <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
-                      <motion.div
-                        className="absolute inset-0 -z-10 rounded-2xl"
-                        animate={{ opacity: [0.2, 0.4, 0.2] }}
-                        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                        style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(59,130,246,0.15) 0%, transparent 65%)' }}
-                      />
+                      <div className="absolute inset-0 -z-10 rounded-2xl" style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(59,130,246,0.15) 0%, transparent 65%)' }} />
                     </>
                   )}
                   {plan.badge && (
@@ -801,13 +635,13 @@ export function HomePage({ lang }: Props) {
                       </li>
                     ))}
                   </ul>
-                  <Link href={`${prefix}/consultation`}>
+                  <Link href={`${prefix}/request?service=${plan.name === 'Starter' || plan.name === 'الأساسية' ? 'starter' : plan.name === 'Business' || plan.name === 'الأعمال' ? 'business' : 'growth'}`}>
                     <Button className={`w-full font-semibold transition-all duration-300 py-5 ${plan.highlighted ? 'bg-blue-500 hover:bg-blue-400 text-white hover:shadow-[0_0_24px_rgba(59,130,246,0.5)]' : 'bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20'}`}>
                       {pd.cta}
                       <ArrowRight className={`ml-2 h-4 w-4 ${rtl ? 'rotate-180 mr-2 ml-0' : ''}`} />
                     </Button>
                   </Link>
-                </motion.div>
+                </div>
               </StaggerItem>
             ))}
           </StaggerContainer>
@@ -859,7 +693,7 @@ export function HomePage({ lang }: Props) {
               <h2 className="text-3xl font-bold text-white sm:text-4xl mb-4">{t.cta.title}</h2>
               <p className="text-lg text-gray-400 max-w-xl mx-auto mb-10">{t.cta.sub}</p>
               <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <Link href={`${prefix}/consultation`}>
+                <Link href={`${prefix}/request?service=other`}>
                   <Button size="lg" className="group relative overflow-hidden bg-blue-500 hover:bg-blue-400 text-white px-8 py-6 text-base font-semibold transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)]">
                     <span className="relative z-10 flex items-center gap-2">
                       {t.cta.btn}

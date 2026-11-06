@@ -1,10 +1,6 @@
-import { ConsultationPage } from '@/components/consultation-page';
+import { redirect } from 'next/navigation';
 
-export const metadata = {
-  title: 'Free Consultation – Ovivo AI Automation',
-  description: 'Request your free consultation now. We analyze your business and create a tailored AI automation strategy — no obligation, completely free.',
-};
-
+// Keep old links working, but do not show a second embedded chatbot beside a form.
 export default function Page() {
-  return <ConsultationPage lang="en" />;
+  redirect('/en/request?service=other');
 }

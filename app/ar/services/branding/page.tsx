@@ -105,7 +105,7 @@ export default function BrandingArPage() {
       packages={[
         {
           name: 'هوية أساسية',
-          price: 'من €800',
+          price: 'السعر حسب الطلب',
           timeline: 'تسليم خلال 7 أيام',
           badge: 'مبتدئ',
           badgeClass: 'bg-white/10 text-gray-300 border-white/20',
@@ -119,7 +119,7 @@ export default function BrandingArPage() {
         },
         {
           name: 'هوية متكاملة',
-          price: 'من €1,800',
+          price: 'السعر حسب الطلب',
           timeline: 'تسليم خلال 12 يوماً',
           badge: 'الأكثر طلباً',
           badgeClass: 'bg-blue-500 text-white border-transparent',
@@ -135,7 +135,7 @@ export default function BrandingArPage() {
         },
         {
           name: 'هوية شاملة',
-          price: 'من €3,500',
+          price: 'السعر حسب الطلب',
           timeline: 'تسليم خلال 18 يوماً',
           badge: 'النظام الكامل',
           badgeClass: 'bg-orange-500/20 text-orange-400 border-orange-500/30',

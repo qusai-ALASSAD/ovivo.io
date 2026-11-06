@@ -1,4 +1,8 @@
 import './globals.css';
+import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
+
+const interFont = Inter({ subsets: ['latin'], display: 'swap', variable: '--font-inter' });
+const jakartaFont = Plus_Jakarta_Sans({ subsets: ['latin'], display: 'swap', variable: '--font-jakarta' });
 import type { Metadata } from 'next';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
@@ -9,28 +13,40 @@ import FloatingChatWidget from '@/components/FloatingChatWidget';
 import { BrandPolish } from '@/components/brand-polish';
 
 export const metadata: Metadata = {
-  title: 'Ovivo - KI-Automation für Gastronomie & Servicebetriebe',
-  description: 'Wir automatisieren Reservierungen, Kundenanfragen und Kundenbindung für Restaurants, Cafés und Servicebetriebe in Deutschland. KI-Chatbot, WhatsApp Automation, Buchungssystem & CRM — alles aus einer Hand.',
-  keywords: ['KI Automation', 'Restaurant Automation', 'WhatsApp Chatbot', 'Gastronomie Software', 'Buchungssystem', 'CRM Gastronomie', 'KI Chatbot Deutschland', 'Automation Servicebetrieb'],
-  authors: [{ name: 'Ovivo' }],
+  metadataBase: new URL('https://ovivo.io'),
+  robots: { index: true, follow: true },
+  applicationName: 'OVIVO.IO',
+  title: 'ovivo.io | KI-Automation für Unternehmen',
+  description: 'OVIVO.IO entwickelt KI-Chatbots, Automations-Workflows und CRM-Integrationen für Unternehmen – ergänzt durch Webdesign und digitales Marketing.',
+  keywords: ['KI Automation', 'WhatsApp Chatbot', 'Gastronomie Software', 'Buchungssystem', 'CRM Gastronomie', 'KI Chatbot Deutschland', 'Automation Servicebetrieb'],
+  authors: [{ name: 'ovivo.io' }],
   icons: {
-    icon: '/icon.svg',
-    shortcut: '/icon.svg',
-    apple: '/icon.svg',
+    icon: '/ovivo-favicon.svg',
+    shortcut: '/ovivo-favicon.svg',
+    apple: '/ovivo-favicon.svg',
   },
   openGraph: {
     type: 'website',
     locale: 'de_DE',
     url: 'https://ovivo.io',
-    siteName: 'Ovivo',
-    title: 'Ovivo - KI-Automation für Gastronomie & Servicebetriebe',
-    description: 'Mehr Gäste. Weniger Aufwand. Vollautomatisch. KI-Automation für Restaurants, Cafés und Servicebetriebe in Deutschland.',
+    siteName: 'ovivo.io',
+    title: 'ovivo.io – KI-Automation für Unternehmen',
+    description: 'KI-Automation, intelligente Assistenten und digitale Lösungen für Unternehmen.',
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Ovivo - KI-Automation für Gastronomie & Servicebetriebe',
-    description: 'Mehr Gäste. Weniger Aufwand. Vollautomatisch.',
+    card: 'summary',
+    title: 'OVIVO.IO – KI-Automation, n8n & intelligente Workflows',
+    description: 'KI-Automation, Webdesign und digitales Marketing für Unternehmen.',
   },
+};
+
+const websiteStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'OVIVO.IO',
+  url: 'https://ovivo.io/',
+  inLanguage: ['de', 'en', 'ar'],
+  description: 'KI-Automation, n8n Workflows, CRM-Integration und individuelle Software für Unternehmen.',
 };
 
 export default function RootLayout({
@@ -40,7 +56,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="de">
-      <body style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif' }}>
+      <body className={`ovivo-light ${interFont.variable} ${jakartaFont.variable}`}>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteStructuredData).replace(/</g, '\\u003c') }} />
         <BrandPolish />
         <Navbar />
         <main className="min-h-screen pt-20">{children}</main>
@@ -48,7 +65,7 @@ export default function RootLayout({
         <LeadMagnet />
         <ScrollToTop />
         <FloatingChatWidget />
-        <Toaster position="bottom-right" theme="dark" />
+        <Toaster position="bottom-right" theme="light" />
       </body>
     </html>
   );

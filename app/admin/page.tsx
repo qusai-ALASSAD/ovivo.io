@@ -90,21 +90,25 @@ export default function AdminPage() {
     loadStats(email);
   };
 
-  const authHeaders = useCallback((email: string) => ({
-    'Content-Type': 'application/json',
-    'x-admin-email': email,
-  }), []);
+  const authHeaders = useCallback(async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.access_token) throw new Error('Not authenticated');
+    return {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${session.access_token}`,
+    };
+  }, []);
 
   const loadStats = async (email: string) => {
     try {
-      const res = await fetch('/api/admin/stats', { headers: authHeaders(email) });
+      const res = await fetch('/api/admin/stats', { headers: await authHeaders() });
       if (res.ok) setStats(await res.json());
     } catch {}
   };
 
   const loadUsers = async () => {
     if (!adminEmail) return;
-    const res = await fetch('/api/admin/users', { headers: authHeaders(adminEmail) });
+    const res = await fetch('/api/admin/users', { headers: await authHeaders() });
     if (res.ok) {
       const { users: data } = await res.json();
       setUsers(data || []);
@@ -113,7 +117,7 @@ export default function AdminPage() {
 
   const loadLeads = async () => {
     if (!adminEmail) return;
-    const res = await fetch('/api/admin/leads', { headers: authHeaders(adminEmail) });
+    const res = await fetch('/api/admin/leads', { headers: await authHeaders() });
     if (res.ok) {
       const { leads: data } = await res.json();
       setLeads(data || []);
@@ -132,7 +136,7 @@ export default function AdminPage() {
     try {
       const res = await fetch('/api/admin/users', {
         method: 'PATCH',
-        headers: authHeaders(adminEmail),
+        headers: await authHeaders(),
         body: JSON.stringify({ userId, action: 'reset_usage' }),
       });
       if (res.ok) {
@@ -156,7 +160,7 @@ export default function AdminPage() {
     try {
       const res = await fetch('/api/admin/users', {
         method: 'PATCH',
-        headers: authHeaders(adminEmail),
+        headers: await authHeaders(),
         body: JSON.stringify({ userId, action: 'change_plan', plan }),
       });
       if (res.ok) {

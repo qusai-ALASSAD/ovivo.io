@@ -1,134 +1,148 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Gift, X } from 'lucide-react';
-import { toast } from 'sonner';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
-const LEAD_MAGNET_SHOWN_KEY = 'ovivo_lead_magnet_shown';
+const content = {
+  de: {
+    eyebrow: 'Kostenlose Erstberatung',
+    title: 'Entdecken Sie, was KI für Ihr Unternehmen automatisieren kann.',
+    description: 'Erhalten Sie eine kurze, unverbindliche Einschätzung Ihrer Automationsmöglichkeiten.',
+    placeholder: 'Ihre geschäftliche E-Mail-Adresse',
+    submit: 'Kostenlose KI-Analyse anfragen',
+    loading: 'Wird gesendet…',
+    success: 'Vielen Dank! Ihre Anfrage wurde erfolgreich übermittelt. Wir melden uns schnellstmöglich bei Ihnen.',
+    error: 'Ihre Anfrage konnte leider nicht gesendet werden. Bitte versuchen Sie es erneut.',
+    privacy: 'Wir verwenden Ihre Angaben ausschließlich zur Bearbeitung Ihrer Anfrage.',
+    privacyLabel: 'Datenschutzerklärung',
+    close: 'Schließen',
+    cta: 'Kostenlose KI-Analyse anfragen',
+  },
+  en: {
+    eyebrow: 'Free initial consultation',
+    title: 'Discover what AI can automate for your business.',
+    description: 'Get a brief, no-obligation assessment of your automation opportunities.',
+    placeholder: 'Your business email address',
+    submit: 'Request a free AI analysis',
+    loading: 'Sending…',
+    success: 'Thank you! Your request has been submitted. We will contact you as soon as possible.',
+    error: 'Your request could not be sent. Please try again.',
+    privacy: 'We use your details only to respond to your inquiry.',
+    privacyLabel: 'Privacy policy',
+    close: 'Close',
+    cta: 'Request a free AI analysis',
+  },
+  ar: {
+    eyebrow: 'استشارة أولية مجانية',
+    title: 'اكتشف ما يمكن للذكاء الاصطناعي أتمتته في شركتك.',
+    description: 'احصل على تقييم أولي مختصر ومجاني لفرص الأتمتة في شركتك.',
+    placeholder: 'بريدك الإلكتروني المهني',
+    submit: 'اطلب تحليل AI مجانياً',
+    loading: 'جاري الإرسال…',
+    success: 'شكراً لك! تم إرسال طلبك بنجاح وسنتواصل معك بأقرب فرصة.',
+    error: 'تعذر إرسال طلبك، يرجى المحاولة مرة أخرى.',
+    privacy: 'نستخدم بياناتك فقط للرد على طلبك.',
+    privacyLabel: 'سياسة الخصوصية',
+    close: 'إغلاق',
+    cta: 'اطلب تحليل أتمتة مجاني',
+  },
+};
 
 export function LeadMagnet() {
+  const pathname = usePathname();
+  const lang = pathname?.startsWith('/ar') ? 'ar' : pathname?.startsWith('/en') ? 'en' : 'de';
+  const t = content[lang];
+  const prefix = lang === 'de' ? '' : '/' + lang;
   const [isOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
-  const pathname = usePathname();
-
-  const isAr = pathname?.startsWith('/ar');
-  const isEn = pathname?.startsWith('/en');
-
-  const t = isAr ? {
-    title: 'احصل على خطة تسويق مجانية',
-    desc: 'انضم إلى أكثر من 200 شركة تستخدم الذكاء الاصطناعي لتنمية أعمالها.',
-    placeholder: 'أدخل بريدك الإلكتروني',
-    btn: 'احصل عليها مجاناً',
-    loading: 'جاري الإرسال...',
-    privacy: 'نحترم خصوصيتك. يمكنك إلغاء الاشتراك في أي وقت.',
-    success: 'تم! تحقق من بريدك الإلكتروني.',
-    error: 'حدث خطأ. حاول مرة أخرى.',
-    emailError: 'أدخل بريداً إلكترونياً صحيحاً.',
-  } : isEn ? {
-    title: 'Get Your Free AI Marketing Plan',
-    desc: 'Join 200+ businesses using AI to grow. Get instant access to our marketing plan template.',
-    placeholder: 'Enter your email',
-    btn: 'Get Free Template',
-    loading: 'Sending...',
-    privacy: 'We respect your privacy. Unsubscribe at any time.',
-    success: 'Success! Check your email.',
-    error: 'Something went wrong. Please try again.',
-    emailError: 'Please enter a valid email address.',
-  } : {
-    title: 'Kostenlosen KI-Marketing-Plan sichern',
-    desc: 'Über 200 Betriebe nutzen KI zum Wachsen. Holen Sie sich jetzt Ihr kostenloses Template.',
-    placeholder: 'Ihre E-Mail-Adresse',
-    btn: 'Kostenlos anfordern',
-    loading: 'Wird gesendet...',
-    privacy: 'Wir respektieren Ihre Privatsphäre. Jederzeit abmeldbar.',
-    success: 'Erfolg! Prüfen Sie Ihre E-Mails.',
-    error: 'Etwas ist schiefgelaufen. Bitte erneut versuchen.',
-    emailError: 'Bitte gültige E-Mail-Adresse eingeben.',
-  };
+  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   useEffect(() => {
-    const hasSeenPopup = localStorage.getItem(LEAD_MAGNET_SHOWN_KEY);
-    if (hasSeenPopup) return;
-
-    const timer = setTimeout(() => {
-      localStorage.setItem(LEAD_MAGNET_SHOWN_KEY, 'true');
+    const openDialog = () => {
+      setStatus('idle');
       setIsOpen(true);
-    }, 25000);
-
-    return () => clearTimeout(timer);
+    };
+    window.addEventListener('ovivo:open-consultation', openDialog);
+    return () => window.removeEventListener('ovivo:open-consultation', openDialog);
   }, []);
 
-  const markAsSeen = () => {
-    localStorage.setItem(LEAD_MAGNET_SHOWN_KEY, 'true');
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email || !email.includes('@')) { toast.error(t.emailError); return; }
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (loading) return;
     setLoading(true);
+    setStatus('idle');
     try {
-      await fetch('/api/leads', {
+      const response = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, source: 'popup_lead_magnet' }),
+        body: JSON.stringify({ email: email.trim(), name: '', company: '', message: 'Request for a free AI automation analysis', source: 'consultation_modal' }),
       });
-      toast.success(t.success);
-      markAsSeen();
-      setIsOpen(false);
+      if (!response.ok) throw new Error('Submission failed');
+      setStatus('success');
       setEmail('');
     } catch {
-      toast.error(t.error);
+      setStatus('error');
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleClose = () => {
-    markAsSeen();
-    setIsOpen(false);
-  };
-
-  const handleOpenChange = (open: boolean) => {
-    if (!open) markAsSeen();
-    setIsOpen(open);
-  };
+  }
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent
-        dir={isAr ? 'rtl' : 'ltr'}
-        className="sm:max-w-sm border border-white/10 bg-[#0d1117] shadow-2xl rounded-2xl p-6"
+        dir={lang === 'ar' ? 'rtl' : 'ltr'}
+        className="ovivo-consultation-modal max-h-[calc(100dvh-2rem)] w-[calc(100vw-2rem)] max-w-[430px] overflow-y-auto rounded-[24px] border border-[#E0E7FF] bg-white p-5 text-[#0B1F4D] shadow-[0_24px_76px_rgba(11,31,77,.16)] sm:p-7"
       >
-        <button onClick={handleClose} className="absolute right-4 top-4 text-gray-500 hover:text-white transition-colors">
-          <X className="h-4 w-4" />
-        </button>
-        <DialogHeader className="space-y-3">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600">
-            <Gift className="h-7 w-7 text-white" />
+        <DialogHeader className="space-y-2.5">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl border border-[#E0E7FF] bg-[#F4F7FB]">
+            <img src="/ovivo-favicon.svg" alt="" width={36} height={36} className="h-9 w-9" />
           </div>
-          <DialogTitle className="text-center text-xl font-bold text-white">{t.title}</DialogTitle>
-          <DialogDescription className="text-center text-sm text-gray-400 leading-relaxed">{t.desc}</DialogDescription>
+          <span className="text-center text-[11px] font-bold uppercase tracking-[.08em] text-[#3B82F6]">{t.eyebrow}</span>
+          <DialogTitle className="mx-auto max-w-[360px] text-center text-[22px] font-extrabold leading-[1.24] tracking-tight text-[#0B1F4D] sm:text-[24px]">{t.title}</DialogTitle>
+          <DialogDescription className="mx-auto max-w-[345px] text-center text-[13px] leading-6 text-[#52647E]">{t.description}</DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="mt-4 space-y-3">
-          <Input
-            type="email" placeholder={t.placeholder} value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:border-blue-500"
-            required dir={isAr ? 'rtl' : 'ltr'}
-          />
-          <Button type="submit"
-            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 font-semibold"
-            disabled={loading}>
-            {loading ? t.loading : t.btn}
-          </Button>
-          <p className="text-center text-xs text-gray-500">{t.privacy}</p>
-        </form>
+        {status === 'success' ? (
+          <div role="status" className="mt-5 rounded-xl border border-emerald-100 bg-emerald-50 p-4 text-sm font-medium text-emerald-900">
+            {t.success}
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="mt-4 space-y-3">
+            <label className="sr-only" htmlFor="ovivo-consultation-email">{t.placeholder}</label>
+            <input
+              id="ovivo-consultation-email"
+              type="email" required maxLength={254} autoComplete="email" value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              placeholder={t.placeholder}
+              className="h-[50px] w-full rounded-xl border border-[#D7E3F6] bg-white px-4 text-sm text-[#0B1F4D] placeholder:text-[#71829B] shadow-none outline-none focus:border-[#3B82F6] focus:outline-none focus:ring-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#3B82F6]"
+            />
+            <button type="submit" disabled={loading} className="ovivo-consultation-submit flex min-h-[50px] w-full items-center justify-center rounded-xl bg-[#3B82F6] px-4 py-3 text-sm font-bold text-white shadow-[0_8px_22px_rgba(59,130,246,.18)] transition-colors hover:bg-[#2563EB] disabled:opacity-60">
+              {loading ? t.loading : t.submit}
+            </button>
+            {status === 'error' && <p role="alert" className="text-sm text-red-700">{t.error}</p>}
+            <p className="text-center text-[11px] leading-[1.65] text-[#52647E]">
+              {t.privacy}{' '}
+              <Link href={prefix + '/privacy'} className="font-semibold text-[#2563eb] underline underline-offset-2">{t.privacyLabel}</Link>
+            </p>
+          </form>
+        )}
+        <button type="button" onClick={() => setIsOpen(false)} className="mx-auto mt-0 text-xs font-medium text-[#52647E] underline underline-offset-2 hover:text-[#0B1F4D]">{t.close}</button>
       </DialogContent>
     </Dialog>
+  );
+}
+
+// User-initiated trigger for the consultation dialog. No timed popup or auto-open on scroll.
+export function OpenConsultationButton({ lang = 'de' }: { lang?: 'de' | 'en' | 'ar' }) {
+  return (
+    <button
+      type="button"
+      onClick={() => window.dispatchEvent(new Event('ovivo:open-consultation'))}
+      className="ovivo-consultation-trigger inline-flex min-h-[50px] items-center justify-center rounded-xl bg-[#3B82F6] px-6 py-3 text-center text-sm font-bold text-white shadow-[0_10px_24px_rgba(59,130,246,.19)] transition-colors hover:bg-[#2563EB] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#885CF6]"
+    >
+      {content[lang].cta}
+    </button>
   );
 }

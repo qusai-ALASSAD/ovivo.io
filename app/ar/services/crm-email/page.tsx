@@ -53,7 +53,7 @@ export default function CrmEmailArPage() {
       whyItems={[
         { icon: Users, title: 'لا عميل يضيع', desc: 'كل عميل محتمل يدخل نظامك ويُتابع تلقائياً حتى يشتري.' },
         { icon: Mail, title: 'تواصل شخصي على نطاق واسع', desc: 'رسائل تبدو شخصية تصل لآلاف العملاء في وقت واحد.' },
-        { icon: TrendingUp, title: 'زيادة الإيرادات', desc: 'عملاؤنا يحققون زيادة تصل إلى 35% في الإيرادات خلال 90 يوماً.' },
+        { icon: TrendingUp, title: 'زيادة الإيرادات', desc: 'نساعد الشركات على تحسين متابعة العملاء وفرص المبيعات دون ضمان نسبة محددة.' },
         { icon: Repeat, title: 'عملاء يعودون دائماً', desc: 'تسلسلات إعادة الاستهداف تجعل عملاءك يعودون ويشترون مجدداً.' },
       ]}
       beforeAfter={[
@@ -97,7 +97,7 @@ export default function CrmEmailArPage() {
       packages={[
         {
           name: 'CRM أساسي',
-          price: 'من €1,200',
+          price: 'السعر حسب الطلب',
           timeline: 'تسليم خلال 7 أيام',
           badge: 'مبتدئ',
           badgeClass: 'bg-white/10 text-gray-300 border-white/20',
@@ -111,7 +111,7 @@ export default function CrmEmailArPage() {
         },
         {
           name: 'CRM نمو',
-          price: 'من €2,500',
+          price: 'السعر حسب الطلب',
           timeline: 'تسليم خلال 10 أيام',
           badge: 'الأكثر طلباً',
           badgeClass: 'bg-blue-500 text-white border-transparent',
@@ -128,7 +128,7 @@ export default function CrmEmailArPage() {
         },
         {
           name: 'CRM متكامل',
-          price: 'من €4,500',
+          price: 'السعر حسب الطلب',
           timeline: 'تسليم خلال 14 يوماً',
           badge: 'النظام الكامل',
           badgeClass: 'bg-orange-500/20 text-orange-400 border-orange-500/30',

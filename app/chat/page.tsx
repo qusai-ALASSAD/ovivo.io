@@ -772,7 +772,7 @@ export default function ChatPage() {
                 </div>
                 <h3 className="text-lg font-bold text-white mb-2">Monthly Limit Reached</h3>
                 <p className="text-sm text-gray-400">
-                  You've used all {usageInfo.limit} messages on your{' '}
+                  You&apos;ve used all {usageInfo.limit} messages on your{' '}
                   <span className="text-white font-medium capitalize">{usageInfo.plan}</span> plan this month.
                   Upgrade to keep building.
                 </p>

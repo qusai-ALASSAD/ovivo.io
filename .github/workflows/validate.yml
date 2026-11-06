@@ -1,0 +1,48 @@
+name: OVIVO code validation
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Lint, TypeScript and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: TypeScript validation
+        run: npm run typecheck
+      - name: Lint validation
+        run: npm run lint
+      - name: Next.js production build
+        run: npm run build
+      - name: Smoke-test SEO pages and security headers
+        run: |
+          npm run start > /tmp/ovivo-next.log 2>&1 &
+          APP_PID=$!
+          trap 'kill "$APP_PID" 2>/dev/null || true' EXIT
+          for i in $(seq 1 40); do
+            if curl -fsS http://127.0.0.1:3000/contact/ -o /tmp/ovivo-contact.html; then break; fi
+            sleep 1
+          done
+          grep -q 'Schreiben Sie uns direkt' /tmp/ovivo-contact.html
+          curl -fsS http://127.0.0.1:3000/services/automation/ | grep -q 'n8n'
+          curl -fsS http://127.0.0.1:3000/sitemap.xml -o /tmp/ovivo-sitemap.xml
+          grep -q 'services/automation' /tmp/ovivo-sitemap.xml
+          curl -fsS http://127.0.0.1:3000/robots.txt | grep -qi 'sitemap'
+          curl -fsSI http://127.0.0.1:3000/ | grep -qi 'x-frame-options: DENY'

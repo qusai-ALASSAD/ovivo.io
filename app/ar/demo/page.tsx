@@ -1,5 +1,3 @@
-import { DemoPage } from '@/components/demo-page';
+import { AiExperienceLab } from '@/components/ai-experience-lab';
 
-export default function Page() {
-  return <DemoPage lang="ar" />;
-}
+export default function Page() { return <AiExperienceLab lang="ar" />; }

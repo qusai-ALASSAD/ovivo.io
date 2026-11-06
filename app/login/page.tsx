@@ -29,8 +29,10 @@ export default function LoginPage() {
       return;
     }
 
-    const redirectTo = new URLSearchParams(window.location.search).get('redirect') || '/admin';
-    router.push(redirectTo);
+    const requested = new URLSearchParams(window.location.search).get('redirect');
+    // Prevent external redirects, protocol-relative URLs and unexpected in-app locations.
+    const redirectTo = requested === '/admin' || requested?.startsWith('/admin/') ? requested : '/admin';
+    router.replace(redirectTo);
   };
 
   return (
