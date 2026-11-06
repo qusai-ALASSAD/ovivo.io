@@ -8,4 +8,20 @@ export const metadata: Metadata = {
   openGraph: { type: 'website', url: 'https://ovivo.io/services/automation/', title: "KI-Automation & n8n | OVIVO.IO" },
 };
 
-export default function Page(){return <AutomationLanding lang="de"/>;}
+const automationServiceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'KI-Automatisierung & n8n Workflows für Unternehmen',
+  serviceType: ['KI-Automatisierung', 'n8n Workflow-Automation', 'CRM-Automation', 'KI-Chatbots'],
+  description: 'Individuelle Automatisierung von Geschäftsprozessen, KI-Assistenten und Integration vorhandener Systeme für Unternehmen.',
+  areaServed: { '@type': 'Country', name: 'Deutschland' },
+  provider: { '@type': 'Organization', name: 'OVIVO.IO', url: 'https://ovivo.io/' },
+  url: 'https://ovivo.io/services/automation/',
+};
+
+export default function Page(){
+ return <>
+  <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(automationServiceSchema).replace(/</g, '\\u003c') }} />
+  <AutomationLanding lang="de"/>
+ </>;
+}
