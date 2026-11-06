@@ -4,9 +4,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { CircleCheck as CheckCircle, ArrowRight, Clock, ChevronRight } from 'lucide-react';
+import { CircleCheck as CheckCircle, ArrowRight, ChevronRight } from 'lucide-react';
 import { RevealSection, StaggerContainer, StaggerItem, GlassCard } from '@/components/ui/motion';
 import { SectionHeader } from '@/components/section-header';
 import type { LucideIcon } from 'lucide-react';
@@ -75,7 +74,6 @@ export function ServicePageLayout({
   deliverables,
   useCases,
   process,
-  packages,
   faqs,
   relatedServices,
   extraSection,
@@ -103,17 +101,12 @@ export function ServicePageLayout({
     processTitle: 'كيف',
     processGradient: 'نعمل معاً',
     processSubtitle: 'عملية منظمة من 5 خطوات من البداية حتى النتائج.',
-    packagesBadge: 'الباقات',
-    packagesTitle: 'اختر',
-    packagesGradient: 'باقتك',
-    packagesSubtitle: 'نحدد سعر كل باقة حسب خدمات المشروع واحتياجات شركتك.',
     faqBadge: 'أسئلة شائعة',
     faqTitle: 'الأسئلة',
     faqGradient: 'المتكررة',
     relatedLabel: 'خدمات ذات صلة',
     requestQuote: 'اطلب عرض سعر',
     bookCall: 'احجز مكالمة',
-    applyNow: 'ابدأ الآن',
     strategyCall: 'احجز استشارة مجانية',
   } : lang === 'en' ? {
     services: 'Services',
@@ -132,17 +125,12 @@ export function ServicePageLayout({
     processTitle: 'How We',
     processGradient: 'Work Together',
     processSubtitle: 'A structured 5-step process from kickoff to results.',
-    packagesBadge: 'Packages',
-    packagesTitle: 'Choose Your',
-    packagesGradient: 'Investment Level',
-    packagesSubtitle: 'Each package is priced to match your actual requirements and integrations.',
     faqBadge: 'FAQ',
     faqTitle: 'Frequently Asked',
     faqGradient: 'Questions',
     relatedLabel: 'Related Services',
     requestQuote: 'Request a Quote',
     bookCall: 'Book a Call',
-    applyNow: 'Apply Now',
     strategyCall: 'Book a Free Strategy Call',
   } : {
     services: 'Leistungen',
@@ -161,17 +149,12 @@ export function ServicePageLayout({
     processTitle: 'So arbeiten',
     processGradient: 'wir zusammen',
     processSubtitle: 'Ein strukturierter 5-Schritte-Prozess vom Kickoff bis zu Ergebnissen.',
-    packagesBadge: 'Pakete',
-    packagesTitle: 'Wählen Sie Ihr',
-    packagesGradient: 'Investitionsniveau',
-    packagesSubtitle: 'Jedes Paket wird nach Ihren Anforderungen, Integrationen und dem Betreuungsumfang individuell kalkuliert.',
     faqBadge: 'FAQ',
     faqTitle: 'Häufig gestellte',
     faqGradient: 'Fragen',
     relatedLabel: 'Weitere Leistungen',
     requestQuote: 'Angebot anfragen',
     bookCall: 'Termin buchen',
-    applyNow: 'Jetzt starten',
     strategyCall: 'Kostenloses Strategiegespräch buchen',
   };
 
@@ -367,50 +350,25 @@ export function ServicePageLayout({
         </div>
       </section>
 
-      {/* Packages */}
-      <section className="px-4 py-20 sm:px-6 lg:px-8 bg-white/[0.02]" id="packages">
-        <div className="mx-auto max-w-7xl">
-          <RevealSection className="text-center mb-14">
-            <SectionHeader badge={t.packagesBadge} title={t.packagesTitle} titleGradient={t.packagesGradient} subtitle={t.packagesSubtitle} />
+      {/* Tailored service inquiry — no fixed prices or packages */}
+      <section className="px-4 py-20 sm:px-6 lg:px-8 bg-white/[0.02]" id="request-quote">
+        <div className="mx-auto max-w-4xl text-center">
+          <RevealSection>
+            <SectionHeader
+              badge={lang === 'de' ? 'INDIVIDUELLES ANGEBOT' : lang === 'en' ? 'TAILORED PROPOSAL' : 'عرض مخصص'}
+              title={lang === 'de' ? 'Ihre Anforderungen.' : lang === 'en' ? 'Your requirements.' : 'احتياجات مشروعك.'}
+              titleGradient={lang === 'de' ? 'Unsere Lösung.' : lang === 'en' ? 'Our solution.' : 'حل مناسب لك.'}
+              subtitle={lang === 'de'
+                ? 'Jedes Unternehmen ist anders. Wir erstellen ein individuelles Angebot auf Basis Ihrer Ziele, Integrationen und des gewünschten Leistungsumfangs. Keine festen Pakete oder Preislisten.'
+                : lang === 'en'
+                  ? 'Every business is different. We prepare a tailored proposal based on your goals, integrations and required scope. No fixed packages or price lists.'
+                  : 'كل مشروع مختلف. نقدم عرضاً مخصصاً حسب أهدافك والأنظمة التي تريد ربطها ونطاق العمل المطلوب، بدون أسعار أو باقات ثابتة.'}
+            />
+            <Link href={requestHref} className="mt-8 inline-flex min-h-[52px] items-center justify-center gap-2 rounded-xl bg-blue-500 px-8 font-semibold text-white transition-colors hover:bg-blue-400">
+              {t.requestQuote}
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </RevealSection>
-          <StaggerContainer className="grid gap-8 lg:grid-cols-3">
-            {packages.map((pkg) => (
-              <StaggerItem key={pkg.name}>
-                <motion.div
-                  whileHover={{ y: -6 }}
-                  transition={{ duration: 0.3 }}
-                  className={`relative rounded-2xl flex flex-col glass h-full ${pkg.highlighted ? 'border-blue-500/40 shadow-[0_0_60px_rgba(59,130,246,0.2)]' : 'border-white/10'}`}
-                >
-                  {pkg.highlighted && (
-                    <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
-                  )}
-                  <div className="p-8 flex flex-col h-full">
-                    <Badge className={`w-fit text-xs border mb-4 ${pkg.badgeClass}`}>{pkg.badge}</Badge>
-                    <h3 className="text-2xl font-bold text-white mb-1">{pkg.name}</h3>
-                    <div className="my-4 rounded-xl border border-[#E0E7FF] bg-[#F4F7FB] px-4 py-3 text-lg font-bold text-[#0B1F4D]">{lang==='de'?'Preis auf Anfrage':lang==='en'?'Price on request':'السعر حسب الطلب'}</div>
-                    <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-6">
-                      <Clock className="h-3 w-3" />
-                      {pkg.timeline}
-                    </div>
-                    <ul className="space-y-2.5 mb-8 flex-1">
-                      {pkg.deliverables.map((d) => (
-                        <li key={d} className="flex items-start gap-2.5 text-sm text-gray-300">
-                          <CheckCircle className="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0" />
-                          {d}
-                        </li>
-                      ))}
-                    </ul>
-                    <Link href={requestHref + '&package=' + encodeURIComponent(pkg.name)}>
-                      <Button className={`w-full font-semibold transition-all duration-300 ${pkg.highlighted ? 'bg-blue-500 hover:bg-blue-400 text-white hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]' : 'bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20'}`}>
-                        {t.applyNow}
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Button>
-                    </Link>
-                  </div>
-                </motion.div>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
         </div>
       </section>
 
