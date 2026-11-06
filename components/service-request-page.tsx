@@ -32,6 +32,7 @@ export function ServiceRequestPage({lang}:{lang:Lang}) {
   const t=copy[lang];const params=useSearchParams();const prefix=lang==='de'?'':'/'+lang;
   const requested=params?.get('service')||'other';
   const referencedProject=(params?.get('project')||'').slice(0,100);
+  const referencedPackage=(params?.get('package')||'').slice(0,100);
   const selected=options.find(o=>o.id===requested)?.id||'other';
   const [service,setService]=useState<string>(selected);
   const [name,setName]=useState('');const [email,setEmail]=useState('');const [phone,setPhone]=useState('');const [company,setCompany]=useState('');const [message,setMessage]=useState('');
@@ -45,7 +46,7 @@ export function ServiceRequestPage({lang}:{lang:Lang}) {
       const response=await fetch('/api/leads',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
         name:name.trim().slice(0,120),email:email.trim().slice(0,254),
         company:company.trim().slice(0,160),
-        message:['Service: '+service,referencedProject?'Reference project: '+referencedProject:'','Phone: '+phone.trim().slice(0,45),'Request: '+message.trim().slice(0,2500)].join('\n'),
+        message:['Service: '+service,referencedProject?'Reference project: '+referencedProject:'',referencedPackage?'Selected package: '+referencedPackage:'','Phone: '+phone.trim().slice(0,45),'Request: '+message.trim().slice(0,2500)].join('\n'),
         source:'other',
       })});
       if(!response.ok)throw new Error('Failed');
@@ -65,6 +66,7 @@ export function ServiceRequestPage({lang}:{lang:Lang}) {
         {sent?<div role="status" className="flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-sm font-bold text-emerald-800"><CheckCircle2 size={22}/>{t.success}</div>:
         <form onSubmit={submit} className="space-y-5">
           {referencedProject&&<p className="rounded-xl border border-[#E0E7FF] bg-[#F4F7FB] px-4 py-3 text-sm font-semibold text-[#0B1F4D]">{lang==='de'?'Referenzprojekt:':lang==='en'?'Reference project:':'البرنامج المرجعي:'} {referencedProject}</p>}
+          {referencedPackage&&<p className="rounded-xl border border-[#E0E7FF] bg-[#F4F7FB] px-4 py-3 text-sm font-semibold text-[#0B1F4D]">{lang==='de'?'Gewähltes Paket:':lang==='en'?'Selected package:':'الباقة المختارة:'} {referencedPackage}</p>}
           <label className="block text-sm font-semibold text-[#0B1F4D]">{t.chosen}
             <select value={service} onChange={e=>setService(e.target.value)} className="mt-2 h-12 w-full rounded-xl border border-[#CBD7EA] bg-white px-4 text-sm text-[#0B1F4D] outline-none focus:border-[#3B82F6] focus:ring-2 focus:ring-blue-100">
               {options.map(item=><option key={item.id} value={item.id}>{item[lang]}</option>)}
