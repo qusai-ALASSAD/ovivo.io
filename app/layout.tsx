@@ -36,6 +36,15 @@ export const metadata: Metadata = {
   },
 };
 
+const websiteStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'OVIVO.IO',
+  url: 'https://ovivo.io/',
+  inLanguage: ['de', 'en', 'ar'],
+  description: 'KI-Automation, n8n Workflows, CRM-Integration und individuelle Software für Unternehmen.',
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -44,6 +53,7 @@ export default function RootLayout({
   return (
     <html lang="de">
       <body className="ovivo-light">
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteStructuredData).replace(/</g, '\\u003c') }} />
         <BrandPolish />
         <Navbar />
         <main className="min-h-screen pt-20">{children}</main>
