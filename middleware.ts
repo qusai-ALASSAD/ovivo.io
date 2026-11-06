@@ -10,6 +10,8 @@ export function middleware(req: NextRequest) {
   // Never index preview hosts or internal application areas.
   const host = (req.headers.get('host') || '').split(':')[0].toLowerCase();
   const preview = host !== 'ovivo.io' && host !== 'www.ovivo.io';
+  const forwardedProto = (req.headers.get('x-forwarded-proto') || req.nextUrl.protocol.replace(':', '')).toLowerCase();
+  if (!preview && forwardedProto === 'https') res.headers.set('Strict-Transport-Security', 'max-age=31536000');
   const internal = /^\/(?:api|admin|login|request|chat|business-plan|marketing-plan|case-studies|blog)(?:\/|$)/.test(req.nextUrl.pathname)
     || /^\/(?:en|ar)\/(?:request|blog)(?:\/|$)/.test(req.nextUrl.pathname);
   if (preview || internal) res.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive');
